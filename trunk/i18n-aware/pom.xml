@@ -7,9 +7,9 @@
 	<name>i18n-aware</name>
 
 	<scm>
-		<connection>scm:svn:http://aws.opnworks.com/svn/dev/vaadin-dev/trunk/i18n-aware</connection>
-		<developerConnection>scm:svn:http://aws.opnworks.com/svn/dev/vaadin-dev/trunk/i18n-aware</developerConnection>
-		<url>scm:svn:http://aws.opnworks.com/svn/dev/vaadin-dev/trunk/i18n-aware</url>
+		<connection>scm:svn:https://i18n-aware-vaadin-addon.googlecode.com/svn/trunk</connection>
+		<developerConnection>scm:svn:https://i18n-aware-vaadin-addon.googlecode.com/svn/trunk</developerConnection>
+		<url>scm:svn:https://i18n-aware-vaadin-addon.googlecode.com/svn/trunk</url>
 	</scm>
 
 	<distributionManagement>
