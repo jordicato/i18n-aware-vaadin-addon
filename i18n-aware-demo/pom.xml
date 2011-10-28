@@ -35,7 +35,7 @@
 		<dependency>
 			<groupId>com.opnworks.vaadin</groupId>
 			<artifactId>i18n-aware</artifactId>
-			<version>0.0.4-SNAPSHOT</version>
+			<version>0.0.5-SNAPSHOT</version>
 		</dependency>
 
 		<!-- Vaadin -->
