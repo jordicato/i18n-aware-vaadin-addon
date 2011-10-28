@@ -1,0 +1,58 @@
+package com.opnworks.vaadin.i18n.ui;
+
+import org.junit.Test;
+
+import com.opnworks.vaadin.i18n.AbstractI18NTest;
+import com.opnworks.vaadin.i18n.ui.I18NButton;
+import com.opnworks.vaadin.i18n.ui.I18NTabSheet;
+import com.opnworks.vaadin.i18n.ui.I18NTabSheet.I18NTab;
+
+/**
+ * The I18NTabSheet Unit Tests
+ * 
+ * @author Pedro Rodriguez ( OpnWorks )
+ */
+public class I18NTabSheetTest extends AbstractI18NTest {
+
+	@Test
+	public void testAddI18NTab() {
+
+		final I18NTabSheet i18NTabSheet = new I18NTabSheet();
+
+		final I18NButton component = new I18NButton(TEST_KEY_1);
+
+		final I18NTab i18NTab = i18NTabSheet.addI18NTab(component);
+
+		i18NTab.setCaptionKey(TEST_KEY_2);
+
+		performTest(i18NTabSheet, new I18NAwareTest() {
+
+			public String getActualValue() {
+				return component.getCaption();
+			}
+
+			public String getKey() {
+				return TEST_KEY_1;
+			}
+
+			public Object[] getParams() {
+				return null;
+			}
+		}, new I18NAwareTest() {
+
+			public String getActualValue() {
+				return i18NTab.getCaption();
+			}
+
+			public String getKey() {
+				return TEST_KEY_2;
+			}
+
+			public Object[] getParams() {
+				return null;
+			}
+		});
+
+	}
+
+}
