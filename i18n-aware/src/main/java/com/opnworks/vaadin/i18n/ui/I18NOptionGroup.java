@@ -11,7 +11,7 @@ import com.vaadin.ui.OptionGroup;
 
 /**
  * The I18NOptionGroup
- * 
+ *
  * @author Pedro Rodriguez ( OpnWorks )
  */
 public class I18NOptionGroup extends OptionGroup implements I18NAwareField {
@@ -57,7 +57,7 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareField {
 	}
 
 	@Override
-	public synchronized void i18NUpdate(I18NService i18N) {
+	public void i18NUpdate(I18NService i18N) {
 		i18NAwareFieldSupport.updateLabels(i18N);
 		Collection<?> itemIds = getItemIds();
 		Map<Object, String> updatedItemCaptionKeys = new HashMap<Object, String>();
