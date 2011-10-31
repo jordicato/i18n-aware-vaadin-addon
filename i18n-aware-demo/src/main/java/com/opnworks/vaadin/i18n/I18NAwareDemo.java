@@ -2,6 +2,8 @@ package com.opnworks.vaadin.i18n;
 
 import java.util.Locale;
 
+import com.opnworks.vaadin.i18n.data.validator.I18NEmailValidator;
+import com.opnworks.vaadin.i18n.data.validator.I18NStringLengthValidator;
 import com.opnworks.vaadin.i18n.service_impl.I18NAwareFactory;
 import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 import com.opnworks.vaadin.i18n.service_impl.ResourceBundleI18NMessageProvider;
@@ -11,6 +13,7 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -52,8 +55,23 @@ public class I18NAwareDemo extends Application {
 		tab1Content.addComponent(I18NAwareFactory
 				.newTextField("tab1.textfield.caption"));
 
-		tab1Content.addComponent(I18NAwareFactory
-				.newButton("tab1.button.caption"));
+		TextField tfemail=I18NAwareFactory.newTextField("tab1.textfield-emailvalidated.caption");
+		
+		tab1Content.addComponent(tfemail);
+		
+		I18NEmailValidator emailValidator=new I18NEmailValidator("tab1.textfield-emailvalidated.error","");
+		
+		tfemail.addValidator(emailValidator);
+		
+		TextField tfvalidated=I18NAwareFactory.newTextField("tab1.textfield-stringvalidated.caption");
+		
+		tab1Content.addComponent(tfvalidated);
+		
+		I18NStringLengthValidator stringval=new I18NStringLengthValidator("tab1.textfield-stringvalidated.error","",3, 6,false);
+		
+		tfvalidated.addValidator(stringval);
+
+		tab1Content.addComponent(I18NAwareFactory.newButton("tab1.button.caption"));
 
 		Tab tab1 = tabSheet.addTab(tab1Content);
 		I18NAwareFactory.setCaptionKey(tab1, "tab1.name");
@@ -89,7 +107,7 @@ public class I18NAwareDemo extends Application {
 		languageSelector.setItemCaption(Locale.ENGLISH, "English");
 
 		languageSelector.addItem(Locale.FRENCH);
-		languageSelector.setItemCaption(Locale.FRENCH, "Français");
+		languageSelector.setItemCaption(Locale.FRENCH, "FranÃ§ais");
 
 		languageSelector.setValue(DEFAULT_LOCALE);
 
