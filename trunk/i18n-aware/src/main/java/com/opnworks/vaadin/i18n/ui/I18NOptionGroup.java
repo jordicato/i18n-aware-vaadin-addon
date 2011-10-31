@@ -32,8 +32,8 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareField {
 		i18NAwareFieldSupport.setCaptionKey(captionKey);
 	}
 
-	public void setItemCaptionKey(Object itemId, String caption) {
-		itemCaptionKeys.put(itemId, caption);
+	public void setItemCaptionKey(Object itemId, String captionKey) {
+		itemCaptionKeys.put(itemId, captionKey);
 	}
 
 	@Override
