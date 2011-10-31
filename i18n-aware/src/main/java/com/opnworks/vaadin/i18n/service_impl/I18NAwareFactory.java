@@ -4,6 +4,8 @@ import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NAwareValue;
 import com.opnworks.vaadin.i18n.data.util.I18NIndexedContainer;
+import com.opnworks.vaadin.i18n.data.validator.I18NEmailValidator;
+import com.opnworks.vaadin.i18n.data.validator.I18NStringLengthValidator;
 import com.opnworks.vaadin.i18n.event.I18NAction;
 import com.opnworks.vaadin.i18n.ui.I18NButton;
 import com.opnworks.vaadin.i18n.ui.I18NCheckBox;
@@ -30,6 +32,8 @@ import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.opnworks.vaadin.i18n.ui.I18NWindow;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.Action;
 import com.vaadin.terminal.Resource;
 import com.vaadin.ui.Button;
@@ -67,78 +71,177 @@ public class I18NAwareFactory {
 
 	// Components
 
+	/**
+	 * Creates a Button
+	 * 
+	 * @return new i18n-aware Button
+	 */
 	public static Button newButton() {
 		return new I18NButton();
 	}
 
+	/**
+	 * Creates a Button
+	 * 
+	 * @param captionKey key for the Button caption
+	 * @return new i18n-aware Button
+	 */
 	public static Button newButton(String captionKey) {
 		return new I18NButton(captionKey);
 	}
 
+	/**
+	 * Creates a Button
+	 * 
+	 * @param captionKey key for the Button caption
+	 * @param listener ClickListener for the Button
+	 * @return new i18n-aware Button
+	 */
 	public Button newButton(String captionKey, ClickListener listener) {
 		return new I18NButton(captionKey, listener);
 	}
 
+	/**
+	 * Creates an Embedded
+	 * 
+	 * @return new i18n-aware Embedded
+	 */
 	public static Embedded newEmbedded() {
 		return new I18NEmbedded();
 	}
 
+	/**
+	 * Creates an Embedded
+	 * 
+	 * @param captionKey key for the Embedded caption
+	 * @return new i18n-aware Embedded
+	 */
 	public static Embedded newEmbedded(String captionKey) {
 		return new I18NEmbedded(captionKey);
 	}
 
+	/**
+	 * Creates an Embedded
+	 * 
+	 * @param captionKey key for the Embedded caption
+	 * @param resource Resource to embed
+	 * @return new i18n-aware Embedded
+	 */
 	public Embedded newEmbedded(String captionKey, Resource resource) {
 		return new I18NEmbedded(captionKey, resource);
 	}
 
+	/**
+	 * Creates a Label
+	 * 
+	 * @return new i18n-aware Label
+	 */
 	public static Label newLabel() {
 		return new I18NLabel();
 	}
 
+	/**
+	 * Creates a Label
+	 * 
+	 * @param valueKey key for the Label value
+	 * @return new i18n-aware Label
+	 */
 	public static Label newLabel(String valueKey) {
 		return new I18NLabel(valueKey);
 	}
 
+	/**
+	 * Creates a Link
+	 * 
+	 * @return new i18n-aware Link
+	 */
 	public static Link newLink() {
 		return new I18NLink();
 	}
 
+	/**
+	 * Creates a Link
+	 * 
+	 * @param captionKey key for the Link caption
+	 * @param resource Resource for the Link
+	 * @return new i18n-aware Link 
+	 */
 	public static Link newLink(String captionKey, Resource resource) {
 		return new I18NLink(captionKey, resource);
 	}
 
-	public static Link newLink(String captionKey, Resource resource,
-			String targetName, int width, int height, int border) {
-		return new I18NLink(captionKey, resource, targetName, width, height,
-				border);
+	/**
+	 * Creates a Link
+	 * 
+	 * @param captionKey key for the Link caption
+	 * @param resource Resource for the Link
+	 * @param targetName target for the Link
+	 * @param width width of the Link
+	 * @param height height of the Link
+	 * @param border border of the Link
+	 * @return new i18n-aware Link
+	 */
+	public static Link newLink(String captionKey, Resource resource, String targetName, int width, int height, int border) {
+		return new I18NLink(captionKey, resource, targetName, width, height, border);
 	}
 
+	/**
+	 * Creates a ProgressIndicator
+	 * 
+	 * @return new i18n-aware ProgressIndicator
+	 */
 	public static ProgressIndicator newProgressIndicator() {
 		return new I18NProgressIndicator();
 	}
 
+	/**
+	 * Creates a TabSheet
+	 * 
+	 * @return new i18n-aware TabSheet 
+	 */
 	public static TabSheet newTabSheet() {
 		return new I18NTabSheet();
 	}
 
+	/**
+	 * Creates an Upload
+	 * 
+	 * @return new i18n-aware Upload 
+	 */
 	public static Upload newUpload() {
 		return new I18NUpload();
 	}
 
+	/**
+	 * Creates an Upload 
+	 * @param captionKey key for the Upload caption
+	 * @param receiver for the Upload
+	 * @return new i18n-aware Upload 
+	 */
 	public static Upload newUpload(String captionKey, Receiver receiver) {
 		return new I18NUpload(captionKey, receiver);
 	}
 
-	public static void setButtonCaptionKey(Upload upload,
-			String buttonCaptionKey) {
+	/**
+	 * Sets caption key for an Upload
+	 * 
+	 * @param Upload component to be set
+	 * @param buttonCaptionKey key for the Button caption
+	 */
+	public static void setButtonCaptionKey(Upload upload, String buttonCaptionKey) {
 		if (!(upload instanceof I18NUpload)) {
 			throw new IllegalArgumentException("Expecting a I18NUpload");
 		}
 		((I18NUpload) upload).setButtonCaptionKey(buttonCaptionKey);
 	}
 
-	public static void setButtonCaptionParams(Upload upload,
-			Object[] buttonCaptionParams) {
+	/**
+	 * Sets params for the button caption of an Upload component
+	 * 
+	 * @param Upload component to be set
+	 * @param buttonCaptionParams params for the Button caption key
+	 */
+	public static void setButtonCaptionParams(Upload upload, Object[] buttonCaptionParams) {
 		if (!(upload instanceof I18NUpload)) {
 			throw new IllegalArgumentException("Expecting a I18NUpload");
 		}
@@ -147,153 +250,345 @@ public class I18NAwareFactory {
 
 	// Containers
 
+	/**
+	 * Creates a GridLayout
+	 * 
+	 * @param columns number of columns
+	 * @param rows number of rows
+	 * @return new i18n-aware GridLayout 
+	 */
 	public static GridLayout newGridLayout(int columns, int rows) {
 		return new I18NGridLayout(columns, rows);
 	}
 
+	/**
+	 * Creates an HorizontalLayout
+	 * 
+	 * @return new i18n-aware HorizontalLayout 
+	 */
 	public static HorizontalLayout newHorizontalLayout() {
 		return new I18NHorizontalLayout();
 	}
 
+	/**
+	 * Creates a VerticalLayout
+	 * 
+	 * @return new i18n-aware VerticalLayout
+	 */
 	public static VerticalLayout newVerticalLayout() {
 		return new I18NVerticalLayout();
 	}
 
+	/**
+	 * Creates a FormLayout
+	 * 
+	 * @return new i18n-aware FormLayout 
+	 */
 	public static FormLayout newFormLayout() {
 		return new I18NFormLayout();
 	}
 
+	/**
+	 * Creates a Panel
+	 * 
+	 * @return new i18n-aware Panel 
+	 */
 	public static Panel newPanel() {
 		return new I18NPanel();
 	}
 
+	/**
+	 * Sets caption key for a Panel
+	 * 
+	 * @param captionKey key for the Panel caption
+	 * @return new i18n-aware 
+	 */
 	public static Panel newPanel(String captionKey) {
 		return new I18NPanel(captionKey);
 	}
 
+	/**
+	 * Creates a Window
+	 * 
+	 * @return new i18n-aware Window
+	 */
 	public static Window newWindow() {
 		return new I18NWindow();
 	}
 
+	/**
+	 * Creates a Window
+	 * 
+	 * @param captionKey key for the Window caption
+	 * @return new i18n-aware Window 
+	 */
 	public static Window newWindow(String captionKey) {
 		return new I18NWindow(captionKey);
 	}
 
 	// Events
 
+	/**
+	 * Creates an Action
+	 * 
+	 * @param captionKey key for the Action caption
+	 * @return new i18n-aware Action 
+	 */
 	public static Action newAction(String captionKey) {
 		return new I18NAction(captionKey);
 	}
 
+	/**
+	 * Creates an Action
+	 * 
+	 * @param captionKey key for the Action caption
+	 * @param icon resource for the icon
+	 * @return new i18n-aware Action 
+	 */
 	public static Action newAction(String captionKey, Resource icon) {
 		return new I18NAction(captionKey, icon);
 	}
 
 	// Fields
 
+	/**
+	 * Creates a CheckBox
+	 * @return new i18n-aware CheckBox 
+	 */
 	public static CheckBox newCheckBox() {
 		return new I18NCheckBox();
 	}
 
+	/**
+	 * Creates a CheckBox
+	 * 
+	 * @param captionKey key for the CheckBox caption
+	 * @return new i18n-aware CheckBox
+	 */
 	public static CheckBox newCheckBox(String captionKey) {
 		return new I18NCheckBox(captionKey);
 	}
 
+	/**
+	 * Creates a CheckBox
+	 * 
+	 * @param captionKey key for the CheckBox caption
+	 * @param listener listener for the CheckBox
+	 * @return new i18n-aware CheckBox
+	 */
 	public static CheckBox newCheckBox(String captionKey, ClickListener listener) {
 		return new I18NCheckBox(captionKey, listener);
 	}
 
+	/**
+	 * Creates a ComboBox
+	 * 
+	 * @return new i18n-aware ComboBox 
+	 */
 	public static ComboBox newComboBox() {
 		return new I18NComboBox();
 	}
 
+	/**
+	 * Creates a ComboBox
+	 * 
+	 * @param captionKey key for the ComboBox caption
+	 * @return new i18n-aware ComboBox 
+	 */
 	public static ComboBox newComboBox(String captionKey) {
 		return new I18NComboBox(captionKey);
 	}
 
+	/**
+	 * Creates a DateField
+	 * 
+	 * @return new i18n-aware DateField 
+	 */
 	public static DateField newDateField() {
 		return new I18NDateField();
 	}
 
+	/**
+	 * Creates a  DateField
+	 * 
+	 * @param captionKey key for the  DateField caption
+	 * @return new i18n-aware  DateField 
+	 */
 	public static DateField newDateField(String captionKey) {
 		return new I18NDateField(captionKey);
 	}
 
+	/**
+	 * Creates a NativeSelect
+	 * 
+	 * @return new i18n-aware NativeSelect 
+	 */
 	public static NativeSelect newNativeSelect() {
 		return new I18NNativeSelect();
 	}
 
+	/**
+	 * Creates a  NativeSelect
+	 * 
+	 * @param captionKey key for the NativeSelect caption
+	 * @return new i18n-aware NativeSelect 
+	 */
 	public static NativeSelect newNativeSelect(String captionKey) {
 		return new I18NNativeSelect(captionKey);
 	}
 
+	/**
+	 * Creates an OptionGroup
+	 * 
+	 * @return new i18n-aware OptionGroup 
+	 */
 	public static OptionGroup newOptionGroup() {
 		return new I18NOptionGroup();
 	}
 
+	/**
+	 * Creates an OptionGroup
+	 * 
+	 * @param captionKey key for the OptionGroup caption
+	 * @return new i18n-aware OptionGroup 
+	 */
 	public static OptionGroup newOptionGroup(String captionKey) {
 		return new I18NOptionGroup(captionKey);
 	}
 
-	public static TextArea newTextArea() {
-		return new I18NTextArea();
-	}
-
-	public static TextArea newTextArea(String captionKey) {
-		return new I18NTextArea(captionKey);
-	}
-
-	public static TextField newTextField() {
-		return new I18NTextField();
-	}
-
-	public static TextField newTextField(String captionKey) {
-		return new I18NTextField(captionKey);
-	}
-
-	public static TextField newTextField(String captionKey, String value) {
-		return new I18NTextField(captionKey, value);
-	}
-
-	public static void setItemCaptionKey(OptionGroup optionGroup,
-			Object itemId, String caption) {
+	/**
+	 * Sets caption key for OptionGroup
+	 * 
+	 * @param optionGroup OptionGroup to be set
+	 * @param itemId itemid in the form
+	 * @param captionKey key for the OptionGroup caption 
+	 */
+	public static void setItemCaptionKey(OptionGroup optionGroup, Object itemId, String captionKey) {
 		if (!(optionGroup instanceof I18NOptionGroup)) {
 			throw new IllegalArgumentException("Expecting a OptionGroup");
 		}
 
-		((I18NOptionGroup) optionGroup).setItemCaptionKey(itemId, caption);
+		((I18NOptionGroup) optionGroup).setItemCaptionKey(itemId, captionKey);
+	}
+
+	/**
+	 * Creates a TextArea
+	 * 
+	 * @return new i18n-aware TextArea 
+	 */
+	public static TextArea newTextArea() {
+		return new I18NTextArea();
+	}
+
+	/**
+	 * Creates a TextArea
+	 * 
+	 * @param captionKey key for the TextArea caption
+	 * @return new i18n-aware TextArea 
+	 */
+	public static TextArea newTextArea(String captionKey) {
+		return new I18NTextArea(captionKey);
+	}
+
+	/**
+	 * Creates a TextField
+	 * 
+	 * @return new i18n-aware TextField 
+	 */
+	public static TextField newTextField() {
+		return new I18NTextField();
+	}
+
+	/**
+	 * Creates a TextField
+	 * 
+	 * @param captionKey key for the TextField caption
+	 * @return new i18n-aware TextField 
+	 */
+	public static TextField newTextField(String captionKey) {
+		return new I18NTextField(captionKey);
+	}
+
+	/**
+	 * Creates a TextField
+	 * 
+	 * @param captionKey key for the TextField caption
+	 * @param value value for the TextField
+	 * @return new i18n-aware TextField
+	 */
+	public static TextField newTextField(String captionKey, String value) {
+		return new I18NTextField(captionKey, value);
 	}
 
 	// Form
 
+	/**
+	 * Creates a I18NDefaultFieldFactory
+	 * 
+	 * @return new i18n-aware I18NDefaultFieldFactory
+	 */
 	public static I18NDefaultFieldFactory newDefaultFieldFactory() {
 		return new I18NDefaultFieldFactory();
 	}
 
+	/**
+	 * Creates a Form
+	 * 
+	 * @return new i18n-aware Form
+	 */
 	public static Form newForm() {
 		return new I18NForm();
 	}
 
 	// Table
 
+	/**
+	 * Creates an IndexedContainer
+	 * 
+	 * @return new i18n-aware IndexedContainer
+	 */
 	public static IndexedContainer newIndexedContainer() {
 		return new I18NIndexedContainer();
 	}
 
+	/**
+	 * Creates a Table
+	 * 
+	 * @return new i18n-aware Table
+	 */
 	public static Table newTable() {
 		return new I18NTable();
 	}
 
+	/**
+	 * Creates a Table
+	 * 
+	 * @param captionKey key for the table caption
+	 * @return new i18n-aware Table
+	 */
 	public static Table newTable(String captionKey) {
 		return new I18NTable(captionKey);
 	}
 
+	/**
+	 * Creates a Table
+	 * 
+	 * @param captionKey key for the table caption
+	 * @param dataSource data source for the Table
+	 * @return new i18n-aware Table
+	 */
 	public static Table newTable(String captionKey, Container dataSource) {
 		return new I18NTable(captionKey, dataSource);
 	}
 
-	public static void setColumnHeadersKeys(Table table,
-			String[] columnHeadersKeys) {
+	/**
+	 * Creates a Table
+	 * 
+	 * @param table Table type I18NTable
+	 * @param columnHeadersKeys key array for column header names
+	 * @see I18NTable
+	 */
+	public static void setColumnHeadersKeys(Table table, String[] columnHeadersKeys) {
 
 		if (!(table instanceof I18NTable)) {
 			throw new IllegalArgumentException("Expecting a I18NTable");
@@ -303,9 +598,60 @@ public class I18NAwareFactory {
 	}
 
 	// Validators
+	/**
+	 * Creates an EmailValidator
+	 * 
+	 * @param errorMessageKey key for error message
+	 * @param fieldNameKey key for field name
+	 * @return new i18n-aware EmailValidator
+	 */
+	public static EmailValidator newEmailValidator(String errorMessageKey, String fieldNameKey) {
+		return new I18NEmailValidator(errorMessageKey, fieldNameKey);
+	}
+
+	/**
+	 * Sets error message key for emailValidator
+	 * 
+	 * @param emailValidator validator to update
+	 * @param errorMessageKey new error message key
+	 */
+	public static void setErrorMessageKey(EmailValidator emailValidator, String errorMessageKey) {
+		emailValidator.setErrorMessage(errorMessageKey);
+	}
+
+	/**
+	 * Creates a StringValidatoe
+	 * 
+	 * @param errorMessageKey key for error message
+	 * @param fieldNameKey key for field name
+	 * @param minLength minimum string length
+	 * @param maxLength maximum string length
+	 * @param allowNull null allowed
+	 * @return new i18n-aware StringLengthValidator
+	 */
+	public static StringLengthValidator newStringLengthValidator(String errorMessageKey, String fieldNameKey, int minLength, int maxLength, boolean allowNull){
+		return new I18NStringLengthValidator(  errorMessageKey,  fieldNameKey,   minLength,   maxLength,   allowNull);
+	}
+	
+	/**
+	 * Sets error message key for StringValidator
+	 * 
+	 * @param stringLengthValidator validator to update
+	 * @param errorMessageKey new error message key
+	 */
+	public static void setErrorMessageKey(StringLengthValidator stringLengthValidator, String errorMessageKey) {
+		stringLengthValidator.setErrorMessage(errorMessageKey);
+	}
 
 	// Helpers
 
+	/**
+	 * Sets caption key
+	 * 
+	 * @param item Item to be updated type I18NAwareCaption
+	 * @param captionKey new caption key
+	 * @see I18NAwareCaption
+	 */
 	public static <T> void setCaptionKey(T item, String captionKey) {
 
 		if (!(item instanceof I18NAwareCaption)) {
@@ -315,6 +661,13 @@ public class I18NAwareFactory {
 		((I18NAwareCaption) item).setCaptionKey(captionKey);
 	}
 
+	/**
+	 * Set caption key params
+	 * 
+	 * @param item Item to be updated type I18NAwareCaption
+	 * @param params parameters for the caption
+	 * @see I18NAwareCaption
+	 */
 	public static <T> void setCaptionParams(T item, Object... params) {
 
 		if (!(item instanceof I18NAwareCaption)) {
@@ -324,6 +677,13 @@ public class I18NAwareFactory {
 		((I18NAwareCaption) item).setCaptionParams(params);
 	}
 
+	/**
+	 * Set value key
+	 * 
+	 * @param item Item to be updated type I18NAwareValue
+	 * @param valueKey new value
+	 * @see I18NAwareValue
+	 */
 	public static <T> void setValueKey(T item, String valueKey) {
 
 		if (!(item instanceof I18NAwareValue)) {
@@ -333,6 +693,13 @@ public class I18NAwareFactory {
 		((I18NAwareValue) item).setValueKey(valueKey);
 	}
 
+	/**
+	 * Set params for the value
+	 * 
+	 * @param item Item to be updated I18NAwareValue
+	 * @param valueParams parameters for the value
+	 * @see I18NAwareValue
+	 */
 	public static <T> void setValueParams(T item, Object... valueParams) {
 
 		if (!(item instanceof I18NAwareValue)) {
@@ -342,6 +709,13 @@ public class I18NAwareFactory {
 		((I18NAwareValue) item).setValueParams(valueParams);
 	}
 
+	/**
+	 * Set key for error required message
+	 * 
+	 * @param item Item to be updated type I18NAwareValue
+	 * @param requiredErrorKey key for required error message
+	 * @see I18NAwareValue
+	 */
 	public static <T> void setRequiredErrorKey(T item, String requiredErrorKey) {
 
 		if (!(item instanceof I18NAwareField)) {
@@ -351,8 +725,14 @@ public class I18NAwareFactory {
 		((I18NAwareField) item).setRequiredErrorKey(requiredErrorKey);
 	}
 
-	public static <T> void setRequiredErrorParams(T item,
-			Object... requiredErrorParams) {
+	/**
+	 * Set params for error required message
+	 * 
+	 * @param item Item to be updated type I18NAwareField
+	 * @param requiredErrorParams params for required error message
+	 * @see I18NAwareField
+	 */
+	public static <T> void setRequiredErrorParams(T item, Object... requiredErrorParams) {
 
 		if (!(item instanceof I18NAwareField)) {
 			throw new IllegalArgumentException("Expecting a I18NAwareField");
