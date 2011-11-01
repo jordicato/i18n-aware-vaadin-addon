@@ -4,24 +4,24 @@ import com.opnworks.vaadin.i18n.I18NAwareContainer;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.VerticalSplitPanel;
 
 /**
- * The I18NVerticalLayout
+ * The I18N VerticalSplitPanel
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public class I18NVerticalLayout extends VerticalLayout implements
-		I18NAwareContainer {
+public class I18NVerticalSplitPanel extends VerticalSplitPanel
+		implements I18NAwareContainer {
 
-	private static final long serialVersionUID = 1060456585902319374L;
+	private static final long serialVersionUID = -8899641796596962022L;
 
 	private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();
 
 	/**
-	 * Creates a new i18n VerticalLayout.
+	 * Creates a new i18n VerticalSplitPanel.
 	 */
-	public I18NVerticalLayout() {
+	public I18NVerticalSplitPanel() {
 		super();
 	}
 	
@@ -30,7 +30,7 @@ public class I18NVerticalLayout extends VerticalLayout implements
 		super.addComponent(c);
 		i18nAwareSupport.add(c);
 	}
-	
+
 	@Override
 	public void removeComponent(Component c) {
 		super.removeComponent(c);

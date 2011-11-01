@@ -4,33 +4,37 @@ import com.opnworks.vaadin.i18n.I18NAwareContainer;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.OrderedLayout;
 
 /**
- * The I18NVerticalLayout
+ * The I18N OrderedLayout
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public class I18NVerticalLayout extends VerticalLayout implements
+@Deprecated
+public class I18NOrderedLayout extends OrderedLayout implements
 		I18NAwareContainer {
 
-	private static final long serialVersionUID = 1060456585902319374L;
+	private static final long serialVersionUID = -4162410642504114947L;
 
 	private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();
 
-	/**
-	 * Creates a new i18n VerticalLayout.
-	 */
-	public I18NVerticalLayout() {
+    /**
+     * Creates a new i18n ordered layout. The order of the layout is
+     * <code>ORIENTATION_VERTICAL</code>.
+     * 
+     * @deprecated Use I18NVerticalLayout instead.
+     */
+	public I18NOrderedLayout() {
 		super();
 	}
-	
+
 	@Override
 	public void addComponent(Component c) {
 		super.addComponent(c);
 		i18nAwareSupport.add(c);
 	}
-	
+
 	@Override
 	public void removeComponent(Component c) {
 		super.removeComponent(c);

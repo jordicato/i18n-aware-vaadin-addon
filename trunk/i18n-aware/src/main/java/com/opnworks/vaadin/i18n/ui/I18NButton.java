@@ -7,7 +7,7 @@ import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.vaadin.ui.Button;
 
 /**
- * The I18NButton
+ * The I18N Button
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
@@ -23,7 +23,6 @@ public class I18NButton extends Button implements I18NAwareComponent,
 	/**
 	 * Creates a new i18n push button. The value of the push button is false and
 	 * it is immediate by default.
-	 * 
 	 */
 	public I18NButton() {
 		super();

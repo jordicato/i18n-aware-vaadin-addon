@@ -32,6 +32,12 @@ public class I18NHorizontalLayout extends HorizontalLayout implements
 	}
 
 	@Override
+	public void removeComponent(Component c) {
+		super.removeComponent(c);
+		i18nAwareSupport.remove(c);
+	}
+	
+	@Override
 	public void i18NUpdate(I18NService i18N) {
 		i18nAwareSupport.updateLabels(i18N);
 	}
