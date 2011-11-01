@@ -31,21 +31,9 @@ public class I18NFormLayout extends FormLayout implements I18NAwareContainer {
 	}
 
 	@Override
-	public void addComponent(Component c, int index) {
-		super.addComponent(c, index);
-		i18nAwareSupport.add(c);
-	}
-
-	@Override
 	public void removeComponent(Component c) {
 		super.removeComponent(c);
 		i18nAwareSupport.remove(c);
-	}
-
-	@Override
-	public void removeAllComponents() {
-		super.removeAllComponents();
-		i18nAwareSupport.clear();
 	}
 
 	@Override
