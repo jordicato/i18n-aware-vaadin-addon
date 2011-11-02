@@ -2,12 +2,15 @@ package com.opnworks.vaadin.i18n.service_impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Date;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareField;
+import com.opnworks.vaadin.i18n.I18NAwareLayout;
 import com.opnworks.vaadin.i18n.I18NAwareValue;
+import com.opnworks.vaadin.i18n.I18NAwareFormFieldFactory;
 import com.opnworks.vaadin.i18n.data.util.I18NIndexedContainer;
 import com.opnworks.vaadin.i18n.data.validator.I18NEmailValidator;
 import com.opnworks.vaadin.i18n.data.validator.I18NStringLengthValidator;
@@ -69,6 +72,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.InlineDateField;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Layout;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.OptionGroup;
@@ -147,7 +151,8 @@ public class I18NAwareFactory {
 	 *            the name of the method in target object, that receives button
 	 *            click events.
 	 */
-	public static Button newButton(String captionKey, Object target, String methodName) {
+	public static Button newButton(String captionKey, Object target,
+			String methodName) {
 		return new I18NButton(captionKey, target, methodName);
 	}
 
@@ -304,8 +309,10 @@ public class I18NAwareFactory {
 	 *            border of the Link
 	 * @return new i18n-aware Link
 	 */
-	public static Link newLink(String captionKey, Resource resource, String targetName, int width, int height, int border) {
-		return new I18NLink(captionKey, resource, targetName, width, height, border);
+	public static Link newLink(String captionKey, Resource resource,
+			String targetName, int width, int height, int border) {
+		return new I18NLink(captionKey, resource, targetName, width, height,
+				border);
 	}
 
 	/**
@@ -375,7 +382,8 @@ public class I18NAwareFactory {
 	 * @param buttonCaptionKey
 	 *            key for the Button caption
 	 */
-	public static void setButtonCaptionKey(Upload upload, String buttonCaptionKey) {
+	public static void setButtonCaptionKey(Upload upload,
+			String buttonCaptionKey) {
 		if (!(upload instanceof I18NUpload)) {
 			throw new IllegalArgumentException("Expecting a I18NUpload");
 		}
@@ -390,7 +398,8 @@ public class I18NAwareFactory {
 	 * @param buttonCaptionParams
 	 *            params for the Button caption key
 	 */
-	public static void setButtonCaptionParams(Upload upload, Object[] buttonCaptionParams) {
+	public static void setButtonCaptionParams(Upload upload,
+			Object[] buttonCaptionParams) {
 		if (!(upload instanceof I18NUpload)) {
 			throw new IllegalArgumentException("Expecting a I18NUpload");
 		}
@@ -503,7 +512,8 @@ public class I18NAwareFactory {
 	 *            Length of the templateStream
 	 * @throws IOException
 	 */
-	public static CustomLayout newCustomLayout(InputStream templateStream) throws IOException {
+	public static CustomLayout newCustomLayout(InputStream templateStream)
+			throws IOException {
 		return new I18NCustomLayout(templateStream);
 	}
 
@@ -682,7 +692,6 @@ public class I18NAwareFactory {
 	 * @param initialState
 	 *            the initial state of the switch button
 	 */
-	@SuppressWarnings("deprecation")
 	public static CheckBox newCheckBox(String captionKey, boolean initialState) {
 		return new I18NCheckBox(captionKey, initialState);
 	}
@@ -704,7 +713,8 @@ public class I18NAwareFactory {
 	 *            the name of the method in target object, that receives button
 	 *            click events.
 	 */
-	public static CheckBox newCheckBox(String captionKey, Object target, String methodName) {
+	public static CheckBox newCheckBox(String captionKey, Object target,
+			String methodName) {
 		return new I18NCheckBox(captionKey, target, methodName);
 	}
 
@@ -717,7 +727,6 @@ public class I18NAwareFactory {
 	 *            the Initial state of the switch-button.
 	 * @param dataSource
 	 */
-	@SuppressWarnings("deprecation")
 	public static CheckBox newCheckBox(String captionKey, Property dataSource) {
 		return new I18NCheckBox(captionKey, dataSource);
 	}
@@ -805,7 +814,8 @@ public class I18NAwareFactory {
 	 * @param dataSource
 	 *            the Property to be edited with this editor.
 	 */
-	public static DateField newDateField(Property dataSource) throws IllegalArgumentException {
+	public static DateField newDateField(Property dataSource)
+			throws IllegalArgumentException {
 		return new I18NDateField(dataSource);
 	}
 
@@ -837,7 +847,8 @@ public class I18NAwareFactory {
 	 * 
 	 * @param dataSource
 	 */
-	public static PopupDateField newPopupDateField(Property dataSource) throws IllegalArgumentException {
+	public static PopupDateField newPopupDateField(Property dataSource)
+			throws IllegalArgumentException {
 		return new I18NPopupDateField(dataSource);
 	}
 
@@ -861,7 +872,8 @@ public class I18NAwareFactory {
 	 *            the caption message key of the PopupDateField.
 	 * @param dataSource
 	 */
-	public static PopupDateField newPopupDateField(String captionKey, Property dataSource) {
+	public static PopupDateField newPopupDateField(String captionKey,
+			Property dataSource) {
 		return new I18NPopupDateField(captionKey, dataSource);
 	}
 
@@ -876,18 +888,21 @@ public class I18NAwareFactory {
 		return new I18NPopupDateField(captionKey);
 	}
 
-	public static void setInputPromptKey(PopupDateField popupDateField, String inputPromptKey) {
+	public static void setInputPromptKey(PopupDateField popupDateField,
+			String inputPromptKey) {
 		if (!(popupDateField instanceof I18NPopupDateField)) {
 			throw new IllegalArgumentException("Expecting a I18NPopupDateField");
 		}
 		((I18NPopupDateField) popupDateField).setInputPromptKey(inputPromptKey);
 	}
 
-	public static void setInputPromptKeyParams(PopupDateField popupDateField, Object... inputPromptParams) {
+	public static void setInputPromptKeyParams(PopupDateField popupDateField,
+			Object... inputPromptParams) {
 		if (!(popupDateField instanceof I18NPopupDateField)) {
 			throw new IllegalArgumentException("Expecting a I18NPopupDateField");
 		}
-		((I18NPopupDateField) popupDateField).setInputPromptKeyParams(inputPromptParams);
+		((I18NPopupDateField) popupDateField)
+				.setInputPromptKeyParams(inputPromptParams);
 	}
 
 	/**
@@ -902,7 +917,8 @@ public class I18NAwareFactory {
 	 * 
 	 * @param dataSource
 	 */
-	public static InlineDateField newInlineDateField(Property dataSource) throws IllegalArgumentException {
+	public static InlineDateField newInlineDateField(Property dataSource)
+			throws IllegalArgumentException {
 		return new I18NInlineDateField(dataSource);
 	}
 
@@ -914,7 +930,8 @@ public class I18NAwareFactory {
 	 *            the caption message key of the datefield.
 	 * @param value
 	 */
-	public static InlineDateField newInlineDateField(String captionKey, Date value) {
+	public static InlineDateField newInlineDateField(String captionKey,
+			Date value) {
 		return new I18NInlineDateField(captionKey, value);
 	}
 
@@ -926,7 +943,8 @@ public class I18NAwareFactory {
 	 *            the caption message key of the InlineDateField.
 	 * @param dataSource
 	 */
-	public static InlineDateField newInlineDateField(String captionKey, Property dataSource) {
+	public static InlineDateField newInlineDateField(String captionKey,
+			Property dataSource) {
 		return new I18NInlineDateField(captionKey, dataSource);
 	}
 
@@ -969,7 +987,8 @@ public class I18NAwareFactory {
 	 * @param options
 	 * @return
 	 */
-	public static NativeSelect newNativeSelect(String captionKey, Collection<?> options) {
+	public static NativeSelect newNativeSelect(String captionKey,
+			Collection<?> options) {
 		return new I18NNativeSelect(captionKey, options);
 	}
 
@@ -981,7 +1000,8 @@ public class I18NAwareFactory {
 	 * @param dataSource
 	 * @return
 	 */
-	public static NativeSelect newNativeSelect(String captionKey, Container dataSource) {
+	public static NativeSelect newNativeSelect(String captionKey,
+			Container dataSource) {
 		return new I18NNativeSelect(captionKey, dataSource);
 	}
 
@@ -1013,7 +1033,8 @@ public class I18NAwareFactory {
 	 * @param options
 	 * @return new i18n-aware OptionGroup
 	 */
-	public static OptionGroup newOptionGroup(String captionKey, Collection<?> options) {
+	public static OptionGroup newOptionGroup(String captionKey,
+			Collection<?> options) {
 		return new I18NOptionGroup(captionKey, options);
 	}
 
@@ -1025,7 +1046,8 @@ public class I18NAwareFactory {
 	 * @param dataSource
 	 * @return new i18n-aware OptionGroup
 	 */
-	public static OptionGroup newOptionGroup(String captionKey, Container dataSource) {
+	public static OptionGroup newOptionGroup(String captionKey,
+			Container dataSource) {
 		return new I18NOptionGroup(captionKey, dataSource);
 	}
 
@@ -1039,7 +1061,8 @@ public class I18NAwareFactory {
 	 * @param captionKey
 	 *            key for the OptionGroup caption
 	 */
-	public static void setItemCaptionKey(OptionGroup optionGroup, Object itemId, String captionKey) {
+	public static void setItemCaptionKey(OptionGroup optionGroup,
+			Object itemId, String captionKey) {
 		if (!(optionGroup instanceof I18NOptionGroup)) {
 			throw new IllegalArgumentException("Expecting a OptionGroup");
 		}
@@ -1180,26 +1203,42 @@ public class I18NAwareFactory {
 	}
 
 	/**
-	 * Constructs a new form with given {@link I18NFormLayout}.
+	 * Constructs a new i18n form with given {@link I18NAwareLayout}.
 	 * 
 	 * @param formLayout
 	 *            the layout of the form.
 	 */
-	public static Form newForm(I18NFormLayout formLayout) {
-		return new I18NForm(formLayout);
+	public static Form newForm(Layout formLayout) {
+
+		if (!(formLayout instanceof I18NAwareLayout)) {
+			throw new IllegalArgumentException("Expecting a I18NAwareLayout");
+		}
+
+		return new I18NForm((I18NAwareLayout) formLayout);
 	}
 
 	/**
-	 * Constructs a new form with given {@link I18NFormLayout} and
-	 * {@link FormFieldFactory}.
+	 * Constructs a new form with given {@link I18NAwareLayout} and
+	 * {@link I18NAwareFormFieldFactory}.
 	 * 
 	 * @param formLayout
 	 *            the layout of the form.
 	 * @param fieldFactory
 	 *            the FieldFactory of the form.
 	 */
-	public static Form newForm(I18NFormLayout formLayout, FormFieldFactory fieldFactory) {
-		return new I18NForm(formLayout, fieldFactory);
+	public static Form newForm(Layout formLayout, FormFieldFactory fieldFactory) {
+
+		if (!(formLayout instanceof I18NAwareLayout)) {
+			throw new IllegalArgumentException("Expecting a I18NAwareLayout");
+		}
+
+		if (!(fieldFactory instanceof I18NAwareFormFieldFactory)) {
+			throw new IllegalArgumentException(
+					"Expecting a I18NFormFieldFactory");
+		}
+
+		return new I18NForm((I18NAwareLayout) formLayout,
+				(I18NAwareFormFieldFactory) fieldFactory);
 	}
 
 	// Table
@@ -1255,7 +1294,8 @@ public class I18NAwareFactory {
 	 *            key array for column header names
 	 * @see I18NTable
 	 */
-	public static void setColumnHeadersKeys(Table table, String[] columnHeadersKeys) {
+	public static void setColumnHeadersKeys(Table table,
+			String[] columnHeadersKeys) {
 
 		if (!(table instanceof I18NTable)) {
 			throw new IllegalArgumentException("Expecting a I18NTable");
@@ -1275,7 +1315,8 @@ public class I18NAwareFactory {
 	 *            key for field name
 	 * @return new i18n-aware EmailValidator
 	 */
-	public static EmailValidator newEmailValidator(String errorMessageKey, String fieldNameKey) {
+	public static EmailValidator newEmailValidator(String errorMessageKey,
+			String fieldNameKey) {
 		return new I18NEmailValidator(errorMessageKey, fieldNameKey);
 	}
 
@@ -1287,7 +1328,8 @@ public class I18NAwareFactory {
 	 * @param errorMessageKey
 	 *            new error message key
 	 */
-	public static void setErrorMessageKey(EmailValidator emailValidator, String errorMessageKey) {
+	public static void setErrorMessageKey(EmailValidator emailValidator,
+			String errorMessageKey) {
 		emailValidator.setErrorMessage(errorMessageKey);
 	}
 
@@ -1306,8 +1348,11 @@ public class I18NAwareFactory {
 	 *            null allowed
 	 * @return new i18n-aware StringLengthValidator
 	 */
-	public static StringLengthValidator newStringLengthValidator(String errorMessageKey, String fieldNameKey, int minLength, int maxLength, boolean allowNull) {
-		return new I18NStringLengthValidator(errorMessageKey, fieldNameKey, minLength, maxLength, allowNull);
+	public static StringLengthValidator newStringLengthValidator(
+			String errorMessageKey, String fieldNameKey, int minLength,
+			int maxLength, boolean allowNull) {
+		return new I18NStringLengthValidator(errorMessageKey, fieldNameKey,
+				minLength, maxLength, allowNull);
 	}
 
 	/**
@@ -1318,7 +1363,8 @@ public class I18NAwareFactory {
 	 * @param errorMessageKey
 	 *            new error message key
 	 */
-	public static void setErrorMessageKey(StringLengthValidator stringLengthValidator, String errorMessageKey) {
+	public static void setErrorMessageKey(
+			StringLengthValidator stringLengthValidator, String errorMessageKey) {
 		stringLengthValidator.setErrorMessage(errorMessageKey);
 	}
 
@@ -1423,7 +1469,8 @@ public class I18NAwareFactory {
 	 *            params for required error message
 	 * @see I18NAwareField
 	 */
-	public static <T> void setRequiredErrorParams(T item, Object... requiredErrorParams) {
+	public static <T> void setRequiredErrorParams(T item,
+			Object... requiredErrorParams) {
 
 		if (!(item instanceof I18NAwareField)) {
 			throw new IllegalArgumentException("Expecting a I18NAwareField");

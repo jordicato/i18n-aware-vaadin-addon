@@ -3,11 +3,14 @@ package com.opnworks.vaadin.i18n.ui;
 import java.util.Date;
 
 import com.opnworks.vaadin.i18n.I18NAwareField;
+import com.opnworks.vaadin.i18n.I18NAwareFormFieldFactory;
+import com.opnworks.vaadin.i18n.I18NAwareTableFieldFactory;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.FormFieldFactory;
 import com.vaadin.ui.TableFieldFactory;
 
@@ -16,12 +19,30 @@ import com.vaadin.ui.TableFieldFactory;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public class I18NDefaultFieldFactory implements FormFieldFactory,
-		TableFieldFactory {
+public class I18NDefaultFieldFactory implements I18NAwareFormFieldFactory,
+		I18NAwareTableFieldFactory, FormFieldFactory, TableFieldFactory {
 
-	private static final long serialVersionUID = 1352614318932017797L;
+	private static final long serialVersionUID = 4477342039842651573L;
+	
+	private static final I18NDefaultFieldFactory singleton = new I18NDefaultFieldFactory();
 
-	public I18NAwareField createField(Item item, Object propertyId,
+	public static I18NDefaultFieldFactory getInstance() {
+		return singleton;
+	}
+
+	@Override
+	public Field createField(Container container, Object itemId,
+			Object propertyId, Component uiContext) {
+
+		return createI18NAwareField(container, itemId, propertyId, uiContext);
+	}
+
+	@Override
+	public Field createField(Item item, Object propertyId, Component uiContext) {
+		return createI18NAwareField(item, propertyId, uiContext);
+	}
+
+	public I18NAwareField createI18NAwareField(Item item, Object propertyId,
 			Component uiContext) {
 		Class<?> type = item.getItemProperty(propertyId).getType();
 		I18NAwareField field = createI18NFieldByPropertyType(type);
@@ -29,8 +50,8 @@ public class I18NDefaultFieldFactory implements FormFieldFactory,
 		return field;
 	}
 
-	public I18NAwareField createField(Container container, Object itemId,
-			Object propertyId, Component uiContext) {
+	public I18NAwareField createI18NAwareField(Container container,
+			Object itemId, Object propertyId, Component uiContext) {
 		Property containerProperty = container.getContainerProperty(itemId,
 				propertyId);
 		Class<?> type = containerProperty.getType();

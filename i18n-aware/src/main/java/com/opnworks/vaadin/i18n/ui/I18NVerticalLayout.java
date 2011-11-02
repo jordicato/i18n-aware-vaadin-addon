@@ -1,6 +1,6 @@
 package com.opnworks.vaadin.i18n.ui;
 
-import com.opnworks.vaadin.i18n.I18NAwareContainer;
+import com.opnworks.vaadin.i18n.I18NAwareLayout;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.vaadin.ui.Component;
@@ -12,7 +12,7 @@ import com.vaadin.ui.VerticalLayout;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 public class I18NVerticalLayout extends VerticalLayout implements
-		I18NAwareContainer {
+		I18NAwareLayout {
 
 	private static final long serialVersionUID = 1060456585902319374L;
 
@@ -24,13 +24,13 @@ public class I18NVerticalLayout extends VerticalLayout implements
 	public I18NVerticalLayout() {
 		super();
 	}
-	
+
 	@Override
 	public void addComponent(Component c) {
 		super.addComponent(c);
 		i18nAwareSupport.add(c);
 	}
-	
+
 	@Override
 	public void removeComponent(Component c) {
 		super.removeComponent(c);

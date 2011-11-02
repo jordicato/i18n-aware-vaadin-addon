@@ -3,7 +3,7 @@ package com.opnworks.vaadin.i18n.ui;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.opnworks.vaadin.i18n.I18NAwareContainer;
+import com.opnworks.vaadin.i18n.I18NAwareLayout;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.vaadin.ui.Component;
@@ -14,8 +14,7 @@ import com.vaadin.ui.CustomLayout;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public class I18NCustomLayout extends CustomLayout implements
-		I18NAwareContainer {
+public class I18NCustomLayout extends CustomLayout implements I18NAwareLayout {
 
 	private static final long serialVersionUID = -6862053468403081465L;
 

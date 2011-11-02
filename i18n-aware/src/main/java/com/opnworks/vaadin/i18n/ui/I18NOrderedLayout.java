@@ -1,6 +1,6 @@
 package com.opnworks.vaadin.i18n.ui;
 
-import com.opnworks.vaadin.i18n.I18NAwareContainer;
+import com.opnworks.vaadin.i18n.I18NAwareLayout;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.vaadin.ui.Component;
@@ -12,7 +12,7 @@ import com.vaadin.ui.OrderedLayout;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @Deprecated
-public class I18NOrderedLayout extends OrderedLayout implements I18NAwareContainer {
+public class I18NOrderedLayout extends OrderedLayout implements I18NAwareLayout {
 
 	private static final long serialVersionUID = -4162410642504114947L;
 
