@@ -1,6 +1,6 @@
 package com.opnworks.vaadin.i18n.ui;
 
-import com.opnworks.vaadin.i18n.I18NAwareContainer;
+import com.opnworks.vaadin.i18n.I18NAwareLayout;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.vaadin.ui.Component;
@@ -11,7 +11,7 @@ import com.vaadin.ui.FormLayout;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public class I18NFormLayout extends FormLayout implements I18NAwareContainer {
+public class I18NFormLayout extends FormLayout implements I18NAwareLayout {
 
 	private static final long serialVersionUID = -6103979352836315594L;
 

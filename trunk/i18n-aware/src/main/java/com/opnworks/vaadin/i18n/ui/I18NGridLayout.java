@@ -1,6 +1,6 @@
 package com.opnworks.vaadin.i18n.ui;
 
-import com.opnworks.vaadin.i18n.I18NAwareContainer;
+import com.opnworks.vaadin.i18n.I18NAwareLayout;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.vaadin.ui.Component;
@@ -11,7 +11,7 @@ import com.vaadin.ui.GridLayout;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public class I18NGridLayout extends GridLayout implements I18NAwareContainer {
+public class I18NGridLayout extends GridLayout implements I18NAwareLayout {
 
 	private static final long serialVersionUID = 7259048281272984884L;
 

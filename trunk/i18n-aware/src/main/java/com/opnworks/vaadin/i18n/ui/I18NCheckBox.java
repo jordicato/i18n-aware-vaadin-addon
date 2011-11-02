@@ -61,7 +61,6 @@ public class I18NCheckBox extends CheckBox implements I18NAwareField {
 	 * @param initialState
 	 *            the initial state of the switch button
 	 */
-	@SuppressWarnings("deprecation")
 	public I18NCheckBox(String captionKey, boolean initialState) {
 		super(captionKey, initialState);
 		i18NAwareFieldSupport.setCaptionKey(captionKey);
@@ -98,7 +97,6 @@ public class I18NCheckBox extends CheckBox implements I18NAwareField {
 	 *            the Initial state of the switch-button.
 	 * @param dataSource
 	 */
-	@SuppressWarnings("deprecation")
 	public I18NCheckBox(String captionKey, Property dataSource) {
 		super(captionKey, dataSource);
 		i18NAwareFieldSupport.setCaptionKey(captionKey);
