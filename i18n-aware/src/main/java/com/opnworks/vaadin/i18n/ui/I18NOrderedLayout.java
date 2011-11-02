@@ -12,21 +12,34 @@ import com.vaadin.ui.OrderedLayout;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @Deprecated
-public class I18NOrderedLayout extends OrderedLayout implements
-		I18NAwareContainer {
+public class I18NOrderedLayout extends OrderedLayout implements I18NAwareContainer {
 
 	private static final long serialVersionUID = -4162410642504114947L;
 
 	private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();
 
-    /**
-     * Creates a new i18n ordered layout. The order of the layout is
-     * <code>ORIENTATION_VERTICAL</code>.
-     * 
-     * @deprecated Use I18NVerticalLayout instead.
-     */
+	/**
+	 * Creates a new i18n ordered layout. The order of the layout is
+	 * <code>ORIENTATION_VERTICAL</code>.
+	 * 
+	 * @deprecated Use I18NVerticalLayout instead.
+	 */
 	public I18NOrderedLayout() {
 		super();
+	}
+
+	/**
+	 * Create a new ordered layout. The orientation of the layout is given as
+	 * parameters.
+	 * 
+	 * @param orientation
+	 *            the Orientation of the layout.
+	 * 
+	 * @deprecated Use VerticalLayout/HorizontalLayout instead.
+	 */
+	@Deprecated
+	public I18NOrderedLayout(int orientation) {
+		super(orientation);
 	}
 
 	@Override

@@ -14,13 +14,11 @@ import com.vaadin.ui.Window;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public class I18NWindow extends Window implements I18NAwareContainer,
-		I18NAwareCaption {
+public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareCaption {
 
 	private static final long serialVersionUID = 6357950198553382989L;
 
-	private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(
-			this);
+	private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(this);
 
 	private I18NAwareSupport i18nAwareSupport;
 
@@ -43,6 +41,19 @@ public class I18NWindow extends Window implements I18NAwareContainer,
 		super(captionKey);
 		captionSupport.setCaptionKey(captionKey);
 		setContent(new I18NVerticalLayout());
+	}
+
+	/**
+	 * Creates a new unnamed i18n window with the given content and title.
+	 * 
+	 * @param captionKey
+	 *            the title message key of the window.
+	 * @param content
+	 *            the contents of the window
+	 */
+	public I18NWindow(String captionKey, ComponentContainer content) {
+		super(captionKey, content);
+		captionSupport.setCaptionKey(captionKey);
 	}
 
 	@Override

@@ -7,19 +7,19 @@ import java.util.Map;
 import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
+import com.vaadin.data.Container;
 import com.vaadin.ui.OptionGroup;
 
 /**
  * The I18NOptionGroup
- *
+ * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
 public class I18NOptionGroup extends OptionGroup implements I18NAwareField {
 
 	private static final long serialVersionUID = 9024460858748646949L;
 
-	private I18NAwareFieldSupport i18NAwareFieldSupport = new I18NAwareFieldSupport(
-			this);
+	private I18NAwareFieldSupport i18NAwareFieldSupport = new I18NAwareFieldSupport(this);
 
 	private Map<Object, String> itemCaptionKeys = new HashMap<Object, String>();
 
@@ -29,6 +29,16 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareField {
 
 	public I18NOptionGroup(String captionKey) {
 		super(captionKey);
+		i18NAwareFieldSupport.setCaptionKey(captionKey);
+	}
+
+	public I18NOptionGroup(String captionKey, Collection<?> options) {
+		super(captionKey, options);
+		i18NAwareFieldSupport.setCaptionKey(captionKey);
+	}
+
+	public I18NOptionGroup(String captionKey, Container dataSource) {
+		super(captionKey, dataSource);
 		i18NAwareFieldSupport.setCaptionKey(captionKey);
 	}
 
