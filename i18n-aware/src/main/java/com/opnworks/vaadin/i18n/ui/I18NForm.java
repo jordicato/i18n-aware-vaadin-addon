@@ -5,6 +5,7 @@ import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.vaadin.ui.Form;
+import com.vaadin.ui.FormFieldFactory;
 
 /**
  * The I18NForm
@@ -15,8 +16,7 @@ public class I18NForm extends Form implements I18NAwareField {
 
 	private static final long serialVersionUID = 6357950198553382989L;
 
-	private I18NAwareFieldSupport i18NAwareFieldSupport = new I18NAwareFieldSupport(
-			this);
+	private I18NAwareFieldSupport i18NAwareFieldSupport = new I18NAwareFieldSupport(this);
 
 	/**
 	 * Constructs a new i18n form with I18NFormLayout layout and
@@ -25,6 +25,33 @@ public class I18NForm extends Form implements I18NAwareField {
 	public I18NForm() {
 		super();
 		setLayout(new I18NFormLayout());
+		setFooter(new I18NVerticalLayout());
+	}
+
+	/**
+	 * Constructs a new form with given {@link I18NFormLayout}.
+	 * 
+	 * @param formLayout
+	 *            the layout of the form.
+	 */
+	public I18NForm(I18NFormLayout formLayout) {
+		super();
+		setLayout(formLayout);
+		setFooter(new I18NVerticalLayout());
+	}
+
+	/**
+	 * Constructs a new form with given {@link I18NFormLayout} and
+	 * {@link FormFieldFactory}.
+	 * 
+	 * @param formLayout
+	 *            the layout of the form.
+	 * @param fieldFactory
+	 *            the FieldFactory of the form.
+	 */
+	public I18NForm(I18NFormLayout formLayout, FormFieldFactory fieldFactory) {
+		super();
+		setLayout(formLayout);
 		setFooter(new I18NVerticalLayout());
 	}
 

@@ -3,6 +3,7 @@ package com.opnworks.vaadin.i18n.ui;
 import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
+import com.vaadin.data.Property;
 import com.vaadin.ui.CheckBox;
 
 /**
@@ -15,8 +16,7 @@ public class I18NCheckBox extends CheckBox implements I18NAwareField {
 
 	private static final long serialVersionUID = 6357950198553382989L;
 
-	private I18NAwareFieldSupport i18NAwareFieldSupport = new I18NAwareFieldSupport(
-			this);
+	private I18NAwareFieldSupport i18NAwareFieldSupport = new I18NAwareFieldSupport(this);
 
 	/**
 	 * Creates a new i18n switch button.
@@ -50,6 +50,57 @@ public class I18NCheckBox extends CheckBox implements I18NAwareField {
 	 */
 	public I18NCheckBox(String captionKey, ClickListener listener) {
 		super(captionKey, listener);
+		i18NAwareFieldSupport.setCaptionKey(captionKey);
+	}
+
+	/**
+	 * Creates a new switch button with a caption and a set initial state.
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the switch button
+	 * @param initialState
+	 *            the initial state of the switch button
+	 */
+	@SuppressWarnings("deprecation")
+	public I18NCheckBox(String captionKey, boolean initialState) {
+		super(captionKey, initialState);
+		i18NAwareFieldSupport.setCaptionKey(captionKey);
+	}
+
+	/**
+	 * Convenience method for creating a new switch button with a method
+	 * listening button clicks. Using this method is discouraged because it
+	 * cannot be checked during compilation. Use
+	 * {@link #addListener(Class, Object, Method)} or
+	 * {@link #addListener(com.vaadin.ui.Component.Listener)} instead. The
+	 * method must have either no parameters, or only one parameter of
+	 * Button.ClickEvent type.
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the switch button
+	 * @param target
+	 *            the Object having the method for listening button clicks.
+	 * @param methodName
+	 *            the name of the method in target object, that receives button
+	 *            click events.
+	 */
+	public I18NCheckBox(String captionKey, Object target, String methodName) {
+		super(captionKey, target, methodName);
+		i18NAwareFieldSupport.setCaptionKey(captionKey);
+	}
+
+	/**
+	 * Creates a new switch button that is connected to a boolean property.
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the switch button
+	 * @param state
+	 *            the Initial state of the switch-button.
+	 * @param dataSource
+	 */
+	@SuppressWarnings("deprecation")
+	public I18NCheckBox(String captionKey, Property dataSource) {
+		super(captionKey, dataSource);
 		i18NAwareFieldSupport.setCaptionKey(captionKey);
 	}
 
