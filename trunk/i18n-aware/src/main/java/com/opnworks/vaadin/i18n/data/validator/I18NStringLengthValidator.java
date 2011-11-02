@@ -1,5 +1,7 @@
 package com.opnworks.vaadin.i18n.data.validator;
 
+import java.util.Locale;
+
 import com.opnworks.vaadin.i18n.I18NAwareValidator;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.vaadin.data.validator.StringLengthValidator;
@@ -31,7 +33,13 @@ public class I18NStringLengthValidator extends StringLengthValidator implements
 	}
 
 	@Override
+	public void setLocale(Locale locale) {
+	}
+
+	@Override
 	public void i18NUpdate(I18NService i18N) {
+
+		setLocale( i18N.getLocale() );
 
 		setErrorMessage(i18N.getMessage(errorMessageKey, "{0}",
 				i18N.getMessage(fieldNameKey), getMinLength(), getMaxLength()));

@@ -1,5 +1,7 @@
 package com.opnworks.vaadin.i18n;
 
+import java.util.Locale;
+
 /**
  * This interface is used to propagate i18n messages
  * 
@@ -7,6 +9,8 @@ package com.opnworks.vaadin.i18n;
  */
 public interface I18NAware {
 
+	void setLocale( Locale locale );
+	
 	/**
 	 * Performs the i18N update
 	 * 

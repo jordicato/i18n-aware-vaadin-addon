@@ -1,5 +1,4 @@
 com.vaadin.ui.Accordion
-com.vaadin.ui.InlineDateField
 com.vaadin.ui.ListSelect
 com.vaadin.ui.LoginForm
 com.vaadin.ui.MenuBar

@@ -25,12 +25,14 @@ import com.opnworks.vaadin.i18n.ui.I18NFormLayout;
 import com.opnworks.vaadin.i18n.ui.I18NGridLayout;
 import com.opnworks.vaadin.i18n.ui.I18NHorizontalLayout;
 import com.opnworks.vaadin.i18n.ui.I18NHorizontalSplitPanel;
+import com.opnworks.vaadin.i18n.ui.I18NInlineDateField;
 import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NLink;
 import com.opnworks.vaadin.i18n.ui.I18NNativeSelect;
 import com.opnworks.vaadin.i18n.ui.I18NOptionGroup;
 import com.opnworks.vaadin.i18n.ui.I18NOrderedLayout;
 import com.opnworks.vaadin.i18n.ui.I18NPanel;
+import com.opnworks.vaadin.i18n.ui.I18NPopupDateField;
 import com.opnworks.vaadin.i18n.ui.I18NProgressIndicator;
 import com.opnworks.vaadin.i18n.ui.I18NSplitPanel;
 import com.opnworks.vaadin.i18n.ui.I18NTabSheet;
@@ -62,6 +64,7 @@ import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
+import com.vaadin.ui.InlineDateField;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.NativeSelect;
@@ -80,7 +83,6 @@ import com.vaadin.ui.Upload.Receiver;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.VerticalSplitPanel;
 import com.vaadin.ui.Window;
-import com.opnworks.vaadin.i18n.ui.I18NPopupDateField;
 
 /**
  * I18NAware Factory main purpose is to minimize the coupling between the
@@ -558,7 +560,6 @@ public class I18NAwareFactory {
 		return new I18NDateField(captionKey);
 	}
 
-	
 	/**
 	 * Creates an empty i18n <code>PopupDateField</code> with no caption.
 	 */
@@ -610,6 +611,73 @@ public class I18NAwareFactory {
 	public static PopupDateField newPopupDateField(String captionKey) {
 		return new I18NPopupDateField(captionKey);
 	}
+	
+	public static void setInputPromptKey(PopupDateField popupDateField, String inputPromptKey) {
+		if (!(popupDateField instanceof I18NPopupDateField)) {
+			throw new IllegalArgumentException("Expecting a I18NPopupDateField");
+		}
+		((I18NPopupDateField) popupDateField).setInputPromptKey(inputPromptKey);
+	}
+
+	public static void setInputPromptKeyParams(PopupDateField popupDateField, Object... inputPromptParams) {
+		if (!(popupDateField instanceof I18NPopupDateField)) {
+			throw new IllegalArgumentException("Expecting a I18NPopupDateField");
+		}
+		((I18NPopupDateField) popupDateField).setInputPromptKeyParams(inputPromptParams);
+	}
+	
+	/**
+	 * Creates an empty i18n <code>InlineDateField</code> with no caption.
+	 */
+	public static InlineDateField newInlineDateField() {
+		return new I18NInlineDateField();
+	}
+
+	/**
+	 * Creates an i18n <code>InlineDateField</code> with a dataSource.
+	 * 
+	 * @param dataSource
+	 */
+	public static InlineDateField newInlineDateField(Property dataSource)
+			throws IllegalArgumentException {
+		return new I18NInlineDateField(dataSource);
+	}
+
+	/**
+	 * Creates an i18n <code>InlineDateField</code> with caption message key
+	 * and initial value.
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the datefield.
+	 * @param value
+	 */
+	public static InlineDateField newInlineDateField(String captionKey, Date value) {
+		return new I18NInlineDateField(captionKey, value);
+	}
+
+	/**
+	 * Creates an i18n <code>InlineDateField</code> with caption message key
+	 * and dataSource.
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the InlineDateField.
+	 * @param dataSource
+	 */
+	public static InlineDateField newInlineDateField(String captionKey, Property dataSource) {
+		return new I18NInlineDateField(captionKey, dataSource);
+	}
+
+	/**
+	 * Creates an empty i18n <code>InlineDateField</code> with caption message
+	 * key.
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the InlineDateField.
+	 */
+	public static InlineDateField newInlineDateField(String captionKey) {
+		return new I18NInlineDateField(captionKey);
+	}
+
 	
 	/**
 	 * Creates a NativeSelect
@@ -807,6 +875,7 @@ public class I18NAwareFactory {
 	}
 
 	// Validators
+	
 	/**
 	 * Creates an EmailValidator
 	 * 

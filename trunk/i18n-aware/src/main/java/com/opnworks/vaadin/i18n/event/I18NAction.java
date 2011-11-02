@@ -1,5 +1,7 @@
 package com.opnworks.vaadin.i18n.event;
 
+import java.util.Locale;
+
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport;
@@ -54,7 +56,14 @@ public class I18NAction extends Action implements I18NAwareCaption, CaptionConta
 	}
 
 	@Override
+	public void setLocale(Locale locale) {
+	}
+
+	@Override
 	public void i18NUpdate(I18NService i18N) {
+
+		setLocale( i18N.getLocale() );
+		
 		i18NCaptionSupport.i18NUpdate(i18N);
 	}
 }

@@ -1,5 +1,7 @@
 package com.opnworks.vaadin.i18n.data.util;
 
+import java.util.Locale;
+
 import com.opnworks.vaadin.i18n.I18NAware;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.vaadin.data.Item;
@@ -16,7 +18,13 @@ public class I18NIndexedContainer extends IndexedContainer implements I18NAware 
 	private static final long serialVersionUID = 4796387361379052615L;
 
 	@Override
+	public void setLocale(Locale locale) {
+	}
+	
+	@Override
 	public void i18NUpdate(I18NService i18N) {
+		
+		setLocale(i18N.getLocale());
 
 		for (Object itemId : getItemIds()) {
 

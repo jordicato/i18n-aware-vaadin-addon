@@ -1,9 +1,13 @@
 package com.opnworks.vaadin.i18n.ui;
 
+import java.util.Locale;
+
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
+import com.opnworks.vaadin.i18n.support.I18NCaptionSupport;
+import com.opnworks.vaadin.i18n.support.I18NCaptionSupport.CaptionContainer;
 import com.vaadin.terminal.ErrorMessage;
 import com.vaadin.terminal.Resource;
 import com.vaadin.ui.Component;
@@ -51,36 +55,28 @@ public class I18NTabSheet extends TabSheet implements I18NAwareComponent {
 		i18NAwareSupport.i18NUpdate(i18N);
 	}
 
-	public class I18NTab implements Tab, I18NAwareCaption {
+	public class I18NTab implements Tab, I18NAwareCaption, CaptionContainer {
 
 		private static final long serialVersionUID = 800297056670016442L;
 
 		private Tab delegate;
 
-		private String captionKey;
-		private Object[] captionParams;
+		private I18NCaptionSupport i18NCaptionSupport = new I18NCaptionSupport(this);
 
 		public I18NTab(Tab delegate) {
 			this.delegate = delegate;
 		}
 
 		public void setCaptionKey(String captionKey) {
-			this.captionKey = captionKey;
-		}
-
-		public String getCaptionKey() {
-			return captionKey;
+			i18NCaptionSupport.setCaptionKey(captionKey);
 		}
 
 		public void setCaptionParams(Object... captionParams) {
-			this.captionParams = captionParams;
+			i18NCaptionSupport.setCaptionParams(captionParams);
 		}
 
 		public void i18NUpdate(I18NService i18N) {
-
-			if (captionKey != null) {
-				delegate.setCaption(i18N.getMessage(captionKey, captionParams));
-			}
+			i18NCaptionSupport.i18NUpdate(i18N);
 		}
 
 		public boolean isVisible() {
@@ -141,6 +137,9 @@ public class I18NTabSheet extends TabSheet implements I18NAwareComponent {
 
 		public Component getComponent() {
 			return delegate.getComponent();
+		}
+		
+		public void setLocale( Locale locale ) {
 		}
 	}
 }

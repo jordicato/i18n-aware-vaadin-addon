@@ -39,6 +39,7 @@ public class I18NAbsoluteLayout extends AbsoluteLayout implements
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
+		
 		i18nAwareSupport.i18NUpdate(i18N);
 	}
 }

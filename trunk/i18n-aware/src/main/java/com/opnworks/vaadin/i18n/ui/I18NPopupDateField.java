@@ -6,9 +6,9 @@ import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
+import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.ValueContainer;
 import com.vaadin.data.Property;
 import com.vaadin.ui.PopupDateField;
-import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.ValueContainer;
 
 /**
  * The I18NPopupDateField
@@ -23,13 +23,14 @@ public class I18NPopupDateField extends PopupDateField implements
 	private I18NAwareFieldSupport i18NAwareFieldSupport = new I18NAwareFieldSupport(
 			this);
 
-	private I18NAwareValueSupport i18NInputPromptSupport = new I18NAwareValueSupport( new ValueContainer() {
-		@Override
-		public void setValue(String value) {
-			setInputPrompt(value);
-		}
-	});
-	
+	private I18NAwareValueSupport i18NInputPromptSupport = new I18NAwareValueSupport(
+			new ValueContainer() {
+				@Override
+				public void setValue(String value) {
+					setInputPrompt(value);
+				}
+			});
+
 	/**
 	 * Constructs an empty i18n <code>PopupDateField</code> with no caption.
 	 */
@@ -85,14 +86,14 @@ public class I18NPopupDateField extends PopupDateField implements
 		i18NAwareFieldSupport.setCaptionKey(captionKey);
 	}
 
-    public void setInputPromptKey(String inputPromptKey) {
-    	i18NInputPromptSupport.setValueKey(inputPromptKey);
-    }
-	
-    public void setInputPromptKeyParams(Object... inputPromptParams) {
-    	i18NInputPromptSupport.setValueParams(inputPromptParams);
-    }
-	
+	public void setInputPromptKey(String inputPromptKey) {
+		i18NInputPromptSupport.setValueKey(inputPromptKey);
+	}
+
+	public void setInputPromptKeyParams(Object... inputPromptParams) {
+		i18NInputPromptSupport.setValueParams(inputPromptParams);
+	}
+
 	@Override
 	public void setCaptionKey(String captionKey) {
 		i18NAwareFieldSupport.setCaptionKey(captionKey);
@@ -115,6 +116,9 @@ public class I18NPopupDateField extends PopupDateField implements
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
+
+		setLocale(i18N.getLocale());
+
 		i18NAwareFieldSupport.i18NUpdate(i18N);
 		i18NInputPromptSupport.i18NUpdate(i18N);
 	}
