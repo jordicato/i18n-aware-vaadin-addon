@@ -69,7 +69,7 @@ public class I18NWindow extends Window implements I18NAwareContainer,
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		captionSupport.updateLabels(i18N);
+		captionSupport.i18NUpdate(i18N);
 		ComponentContainer container = getContent();
 		if (container instanceof I18NAwareContainer) {
 			((I18NAwareContainer) container).i18NUpdate(i18N);

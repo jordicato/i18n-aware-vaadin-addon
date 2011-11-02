@@ -2,6 +2,7 @@ package com.opnworks.vaadin.i18n.service_impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareField;
@@ -41,6 +42,7 @@ import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalSplitPanel;
 import com.opnworks.vaadin.i18n.ui.I18NWindow;
 import com.vaadin.data.Container;
+import com.vaadin.data.Property;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.StringLengthValidator;
@@ -66,6 +68,7 @@ import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.OrderedLayout;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.SplitPanel;
 import com.vaadin.ui.TabSheet;
@@ -77,6 +80,7 @@ import com.vaadin.ui.Upload.Receiver;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.VerticalSplitPanel;
 import com.vaadin.ui.Window;
+import com.opnworks.vaadin.i18n.ui.I18NPopupDateField;
 
 /**
  * I18NAware Factory main purpose is to minimize the coupling between the
@@ -554,6 +558,59 @@ public class I18NAwareFactory {
 		return new I18NDateField(captionKey);
 	}
 
+	
+	/**
+	 * Creates an empty i18n <code>PopupDateField</code> with no caption.
+	 */
+	public static PopupDateField newPopupDateField() {
+		return new I18NPopupDateField();
+	}
+
+	/**
+	 * Creates an i18n <code>PopupDateField</code> with a dataSource.
+	 * 
+	 * @param dataSource
+	 */
+	public static PopupDateField newPopupDateField(Property dataSource)
+			throws IllegalArgumentException {
+		return new I18NPopupDateField(dataSource);
+	}
+
+	/**
+	 * Creates an i18n <code>PopupDateField</code> with caption message key
+	 * and initial value.
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the datefield.
+	 * @param value
+	 */
+	public static PopupDateField newPopupDateField(String captionKey, Date value) {
+		return new I18NPopupDateField(captionKey, value);
+	}
+
+	/**
+	 * Creates an i18n <code>PopupDateField</code> with caption message key
+	 * and dataSource.
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the PopupDateField.
+	 * @param dataSource
+	 */
+	public static PopupDateField newPopupDateField(String captionKey, Property dataSource) {
+		return new I18NPopupDateField(captionKey, dataSource);
+	}
+
+	/**
+	 * Creates an empty i18n <code>PopupDateField</code> with caption message
+	 * key.
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the PopupDateField.
+	 */
+	public static PopupDateField newPopupDateField(String captionKey) {
+		return new I18NPopupDateField(captionKey);
+	}
+	
 	/**
 	 * Creates a NativeSelect
 	 * 

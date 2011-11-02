@@ -6,6 +6,7 @@ import java.util.Collection;
 import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NAwareValidator;
 import com.opnworks.vaadin.i18n.I18NService;
+import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.ValueContainer;
 import com.vaadin.data.Validator;
 
 /**
@@ -21,8 +22,13 @@ public class I18NAwareFieldSupport implements Serializable {
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 
-	private String requiredErrorKey;
-	private Object[] requiredErrorParams;
+	private I18NAwareValueSupport i18NRequiredErrorSupport = new I18NAwareValueSupport(
+			new ValueContainer() {
+				@Override
+				public void setValue(String value) {
+					originalField.setRequiredError(value);
+				}
+			});
 
 	public I18NAwareFieldSupport(I18NAwareField originalField) {
 		this.originalField = originalField;
@@ -39,33 +45,43 @@ public class I18NAwareFieldSupport implements Serializable {
 	}
 
 	public void setRequiredErrorKey(String requiredErrorKey) {
-		this.requiredErrorKey = requiredErrorKey;
+		i18NRequiredErrorSupport.setValueKey(requiredErrorKey);
 	}
 
 	public void setRequiredErrorParams(Object[] requiredErrorParams) {
-		this.requiredErrorParams = requiredErrorParams;
+		i18NRequiredErrorSupport.setValueParams(requiredErrorParams);
 	}
 
-	public void updateLabels(I18NService i18N) {
+	public void i18NUpdate(I18NService i18N) {
 
-		i18NAwareComponentCaptionSupport.updateLabels(i18N);
+		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
 
-		if (requiredErrorKey != null) {
+		// Perform RequiredError internationalization
+		if (i18NRequiredErrorSupport.getValueKey() != null) {
 
-			Object[] params = null;
+			Object[] requiredErrorParams = i18NRequiredErrorSupport
+					.getValueParams();
 
 			if (requiredErrorParams != null) {
-				params = new Object[1 + requiredErrorParams.length];
+
+				Object[] params = new Object[1 + requiredErrorParams.length];
+
+				params[0] = originalField.getCaption();
+
 				System.arraycopy(requiredErrorParams, 0, params, 1,
 						requiredErrorParams.length);
+
+				i18NRequiredErrorSupport.setValueParams(params);
+
 			} else {
-				params = new Object[] { originalField.getCaption() };
+				i18NRequiredErrorSupport.setValueParams(originalField
+						.getCaption());
 			}
 
-			originalField.setRequiredError(i18N.getMessage(requiredErrorKey,
-					params));
+			i18NRequiredErrorSupport.i18NUpdate(i18N);
 		}
 
+		// Perform Validators internationalization
 		Collection<Validator> validators = originalField.getValidators();
 
 		if (validators != null) {

@@ -5,6 +5,8 @@ import com.opnworks.vaadin.i18n.I18NAwareComponent;
 import com.opnworks.vaadin.i18n.I18NAwareValue;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
+import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
+import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.ValueContainer;
 import com.vaadin.ui.Label;
 
 /**
@@ -14,28 +16,27 @@ import com.vaadin.ui.Label;
  */
 @SuppressWarnings("unchecked")
 public class I18NLabel extends Label implements I18NAwareComponent,
-		I18NAwareCaption, I18NAwareValue {
+		I18NAwareCaption, I18NAwareValue, ValueContainer {
 
 	private static final long serialVersionUID = 2379556692292586769L;
 
 	private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(
 			this);
 
-	private String valueKey;
-	private Object[] valueParams;
+	private I18NAwareValueSupport i18NAwareValueSupport;
 
-    /**
-     * Creates an empty i18n Label.
-     */
+	/**
+	 * Creates an empty i18n Label.
+	 */
 	public I18NLabel() {
 		super();
 	}
 
-    /**
-     * Creates an i18n Label with text-contents.
-     * 
-     * @param content
-     */
+	/**
+	 * Creates an i18n Label with text-contents.
+	 * 
+	 * @param content
+	 */
 	public I18NLabel(String content) {
 		super(content);
 	}
@@ -52,27 +53,41 @@ public class I18NLabel extends Label implements I18NAwareComponent,
 
 	@Override
 	public void setValueKey(String textKey) {
-		this.valueKey = textKey;
-		setValue(formatMessage(textKey));
+
+		createValueSupport();
+
+		i18NAwareValueSupport.setValueKey(textKey);
+
+		setValue(textKey);
 	}
 
 	@Override
 	public void setValueParams(Object... params) {
-		this.valueParams = params;
+
+		createValueSupport();
+
+		i18NAwareValueSupport.setValueParams(params);
 	}
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 
-		captionSupport.updateLabels(i18N);
+		captionSupport.i18NUpdate(i18N);
 
-		if (valueKey != null) {
-			String message = i18N.getMessage(valueKey, valueParams);
-			setValue(formatMessage(message));
+		if (i18NAwareValueSupport != null) {
+			i18NAwareValueSupport.i18NUpdate(i18N);
 		}
 	}
 
-	protected String formatMessage(String text) {
-		return text;
+	private void createValueSupport() {
+
+		if (i18NAwareValueSupport == null) {
+			i18NAwareValueSupport = new I18NAwareValueSupport(this);
+		}
+	}
+
+	@Override
+	public void setValue(String value) {
+		super.setValue(value);
 	}
 }

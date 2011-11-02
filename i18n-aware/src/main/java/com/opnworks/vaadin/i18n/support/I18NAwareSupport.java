@@ -34,7 +34,7 @@ public class I18NAwareSupport implements Serializable {
 		i18nAwares.clear();
 	}
 	
-	public void updateLabels(I18NService i18N) {
+	public void i18NUpdate(I18NService i18N) {
 
 		for (I18NAware i18nAware : i18nAwares) {
 			i18nAware.i18NUpdate(i18N);

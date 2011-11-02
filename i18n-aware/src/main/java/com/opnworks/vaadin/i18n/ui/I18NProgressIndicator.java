@@ -38,7 +38,7 @@ public class I18NProgressIndicator extends ProgressIndicator implements
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		i18NAwareComponentCaptionSupport.updateLabels(i18N);
+		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
 	}
 
 }

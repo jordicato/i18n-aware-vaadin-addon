@@ -5,17 +5,18 @@ import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport;
 import com.vaadin.event.Action;
 import com.vaadin.terminal.Resource;
+import com.opnworks.vaadin.i18n.support.I18NCaptionSupport.CaptionContainer;
 
 /**
  * The I18NAware
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public class I18NAction extends Action implements I18NAwareCaption {
+public class I18NAction extends Action implements I18NAwareCaption, CaptionContainer {
 
 	private static final long serialVersionUID = -4241515863916987115L;
 
-	private I18NCaptionSupport i18NCaptionSupport = new I18NCaptionSupport();
+	private I18NCaptionSupport i18NCaptionSupport = new I18NCaptionSupport(this);
 
 	/**
 	 * Constructs a new i18n action with the given caption message key.
@@ -54,6 +55,6 @@ public class I18NAction extends Action implements I18NAwareCaption {
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		setCaption(i18NCaptionSupport.getCaption(i18N));
+		i18NCaptionSupport.i18NUpdate(i18N);
 	}
 }

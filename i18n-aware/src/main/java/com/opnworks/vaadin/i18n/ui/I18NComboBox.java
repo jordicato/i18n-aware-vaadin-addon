@@ -54,7 +54,7 @@ public class I18NComboBox extends ComboBox implements I18NAwareField {
 	
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		i18NAwareFieldSupport.updateLabels(i18N);
+		i18NAwareFieldSupport.i18NUpdate(i18N);
 	}
 
 }
