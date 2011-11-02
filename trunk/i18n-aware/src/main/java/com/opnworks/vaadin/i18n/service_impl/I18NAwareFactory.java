@@ -2,6 +2,7 @@ package com.opnworks.vaadin.i18n.service_impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.Date;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
@@ -60,6 +61,7 @@ import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Form;
+import com.vaadin.ui.FormFieldFactory;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -124,8 +126,58 @@ public class I18NAwareFactory {
 	 *            ClickListener for the Button
 	 * @return new i18n-aware Button
 	 */
-	public Button newButton(String captionKey, ClickListener listener) {
+	public static Button newButton(String captionKey, ClickListener listener) {
 		return new I18NButton(captionKey, listener);
+	}
+
+	/**
+	 * Creates a new push button with a method listening button clicks. Using
+	 * this method is discouraged because it cannot be checked during
+	 * compilation. Use
+	 * {@link #Button(String, com.vaadin.ui.Button.ClickListener)} instead. The
+	 * method must have either no parameters, or only one parameter of
+	 * Button.ClickEvent type.
+	 * 
+	 * @param captionKey
+	 *            key for the Button caption
+	 * @param target
+	 *            the Object having the method for listening button clicks.
+	 * @param methodName
+	 *            the name of the method in target object, that receives button
+	 *            click events.
+	 */
+	public static Button newButton(String captionKey, Object target, String methodName) {
+		return new I18NButton(captionKey, target, methodName);
+	}
+
+	/**
+	 * Creates a new switch button with initial value.
+	 * 
+	 * @param captionKey
+	 *            key for the Button caption
+	 * @param state
+	 *            the Initial state of the switch-button.
+	 * @param initialState
+	 * @deprecated use {@link CheckBox} instead of Button in "switchmode"
+	 */
+	@Deprecated
+	public static Button newButton(String captionKey, boolean initialState) {
+		return new I18NButton(captionKey, initialState);
+	}
+
+	/**
+	 * Creates a new switch button that is connected to a boolean property.
+	 * 
+	 * @param captionKey
+	 *            key for the Button caption
+	 * @param state
+	 *            the Initial state of the switch-button.
+	 * @param dataSource
+	 * @deprecated use {@link CheckBox} instead of Button in "switchmode"
+	 */
+	@Deprecated
+	public static Button newButton(String captionKey, Property dataSource) {
+		return new I18NButton(captionKey, dataSource);
 	}
 
 	/**
@@ -157,7 +209,7 @@ public class I18NAwareFactory {
 	 *            Resource to embed
 	 * @return new i18n-aware Embedded
 	 */
-	public Embedded newEmbedded(String captionKey, Resource resource) {
+	public static Embedded newEmbedded(String captionKey, Resource resource) {
 		return new I18NEmbedded(captionKey, resource);
 	}
 
@@ -220,10 +272,8 @@ public class I18NAwareFactory {
 	 *            border of the Link
 	 * @return new i18n-aware Link
 	 */
-	public static Link newLink(String captionKey, Resource resource,
-			String targetName, int width, int height, int border) {
-		return new I18NLink(captionKey, resource, targetName, width, height,
-				border);
+	public static Link newLink(String captionKey, Resource resource, String targetName, int width, int height, int border) {
+		return new I18NLink(captionKey, resource, targetName, width, height, border);
 	}
 
 	/**
@@ -274,8 +324,7 @@ public class I18NAwareFactory {
 	 * @param buttonCaptionKey
 	 *            key for the Button caption
 	 */
-	public static void setButtonCaptionKey(Upload upload,
-			String buttonCaptionKey) {
+	public static void setButtonCaptionKey(Upload upload, String buttonCaptionKey) {
 		if (!(upload instanceof I18NUpload)) {
 			throw new IllegalArgumentException("Expecting a I18NUpload");
 		}
@@ -290,8 +339,7 @@ public class I18NAwareFactory {
 	 * @param buttonCaptionParams
 	 *            params for the Button caption key
 	 */
-	public static void setButtonCaptionParams(Upload upload,
-			Object[] buttonCaptionParams) {
+	public static void setButtonCaptionParams(Upload upload, Object[] buttonCaptionParams) {
 		if (!(upload instanceof I18NUpload)) {
 			throw new IllegalArgumentException("Expecting a I18NUpload");
 		}
@@ -397,8 +445,7 @@ public class I18NAwareFactory {
 	 *            Length of the templateStream
 	 * @throws IOException
 	 */
-	public static CustomLayout newCustomLayout(InputStream templateStream)
-			throws IOException {
+	public static CustomLayout newCustomLayout(InputStream templateStream) throws IOException {
 		return new I18NCustomLayout(templateStream);
 	}
 
@@ -521,6 +568,54 @@ public class I18NAwareFactory {
 	}
 
 	/**
+	 * Creates a new switch button with a caption and a set initial state.
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the switch button
+	 * @param initialState
+	 *            the initial state of the switch button
+	 */
+	@SuppressWarnings("deprecation")
+	public static CheckBox newCheckBox(String captionKey, boolean initialState) {
+		return new I18NCheckBox(captionKey, initialState);
+	}
+
+	/**
+	 * Convenience method for creating a new switch button with a method
+	 * listening button clicks. Using this method is discouraged because it
+	 * cannot be checked during compilation. Use
+	 * {@link #addListener(Class, Object, Method)} or
+	 * {@link #addListener(com.vaadin.ui.Component.Listener)} instead. The
+	 * method must have either no parameters, or only one parameter of
+	 * Button.ClickEvent type.
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the switch button
+	 * @param target
+	 *            the Object having the method for listening button clicks.
+	 * @param methodName
+	 *            the name of the method in target object, that receives button
+	 *            click events.
+	 */
+	public static CheckBox newCheckBox(String captionKey, Object target, String methodName) {
+		return new I18NCheckBox(captionKey, target, methodName);
+	}
+
+	/**
+	 * Creates a new switch button that is connected to a boolean property.
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the switch button
+	 * @param state
+	 *            the Initial state of the switch-button.
+	 * @param dataSource
+	 */
+	@SuppressWarnings("deprecation")
+	public static CheckBox newCheckBox(String captionKey, Property dataSource) {
+		return new I18NCheckBox(captionKey, dataSource);
+	}
+
+	/**
 	 * Creates a ComboBox
 	 * 
 	 * @return new i18n-aware ComboBox
@@ -538,6 +633,29 @@ public class I18NAwareFactory {
 	 */
 	public static ComboBox newComboBox(String captionKey) {
 		return new I18NComboBox(captionKey);
+	}
+
+	/**
+	 * 
+	 * @param captionKey
+	 *            key for the ComboBox caption
+	 * @param options
+	 *            options for the comboBox
+	 * @return
+	 */
+	public static ComboBox newComboBox(String captionKey, Collection<?> options) {
+		return new I18NComboBox(captionKey, options);
+	}
+
+	/**
+	 * 
+	 * @param captionKey
+	 *            key for the ComboBox caption
+	 * @param dataSource
+	 * @return
+	 */
+	public static ComboBox newComboBox(String captionKey, Container dataSource) {
+		return new I18NComboBox(captionKey, dataSource);
 	}
 
 	/**
@@ -561,6 +679,46 @@ public class I18NAwareFactory {
 	}
 
 	/**
+	 * Constructs a new <code>DateField</code> that's bound to the specified
+	 * <code>Property</code> and has the given caption <code>String</code>.
+	 * 
+	 * @param caption
+	 *            the caption <code>String</code> for the editor.
+	 * @param dataSource
+	 *            the Property to be edited with this editor.
+	 */
+	public static DateField newDateField(String captionKey, Property dataSource) {
+		return new I18NDateField(captionKey, dataSource);
+	}
+
+	/**
+	 * Constructs a new <code>DateField</code> that's bound to the specified
+	 * <code>Property</code> and has no caption.
+	 * 
+	 * @param dataSource
+	 *            the Property to be edited with this editor.
+	 */
+	public static DateField newDateField(Property dataSource) throws IllegalArgumentException {
+		return new I18NDateField(dataSource);
+	}
+
+	/**
+	 * Constructs a new <code>DateField</code> with the given caption and
+	 * initial text contents. The editor constructed this way will not be bound
+	 * to a Property unless
+	 * {@link com.vaadin.data.Property.Viewer#setPropertyDataSource(Property)}
+	 * is called to bind it.
+	 * 
+	 * @param caption
+	 *            the caption <code>String</code> for the editor.
+	 * @param value
+	 *            the Date value.
+	 */
+	public static DateField newDateField(String captionKey, Date value) {
+		return new I18NDateField(captionKey, value);
+	}
+
+	/**
 	 * Creates an empty i18n <code>PopupDateField</code> with no caption.
 	 */
 	public static PopupDateField newPopupDateField() {
@@ -572,14 +730,13 @@ public class I18NAwareFactory {
 	 * 
 	 * @param dataSource
 	 */
-	public static PopupDateField newPopupDateField(Property dataSource)
-			throws IllegalArgumentException {
+	public static PopupDateField newPopupDateField(Property dataSource) throws IllegalArgumentException {
 		return new I18NPopupDateField(dataSource);
 	}
 
 	/**
-	 * Creates an i18n <code>PopupDateField</code> with caption message key
-	 * and initial value.
+	 * Creates an i18n <code>PopupDateField</code> with caption message key and
+	 * initial value.
 	 * 
 	 * @param captionKey
 	 *            the caption message key of the datefield.
@@ -590,8 +747,8 @@ public class I18NAwareFactory {
 	}
 
 	/**
-	 * Creates an i18n <code>PopupDateField</code> with caption message key
-	 * and dataSource.
+	 * Creates an i18n <code>PopupDateField</code> with caption message key and
+	 * dataSource.
 	 * 
 	 * @param captionKey
 	 *            the caption message key of the PopupDateField.
@@ -611,7 +768,7 @@ public class I18NAwareFactory {
 	public static PopupDateField newPopupDateField(String captionKey) {
 		return new I18NPopupDateField(captionKey);
 	}
-	
+
 	public static void setInputPromptKey(PopupDateField popupDateField, String inputPromptKey) {
 		if (!(popupDateField instanceof I18NPopupDateField)) {
 			throw new IllegalArgumentException("Expecting a I18NPopupDateField");
@@ -625,7 +782,7 @@ public class I18NAwareFactory {
 		}
 		((I18NPopupDateField) popupDateField).setInputPromptKeyParams(inputPromptParams);
 	}
-	
+
 	/**
 	 * Creates an empty i18n <code>InlineDateField</code> with no caption.
 	 */
@@ -638,14 +795,13 @@ public class I18NAwareFactory {
 	 * 
 	 * @param dataSource
 	 */
-	public static InlineDateField newInlineDateField(Property dataSource)
-			throws IllegalArgumentException {
+	public static InlineDateField newInlineDateField(Property dataSource) throws IllegalArgumentException {
 		return new I18NInlineDateField(dataSource);
 	}
 
 	/**
-	 * Creates an i18n <code>InlineDateField</code> with caption message key
-	 * and initial value.
+	 * Creates an i18n <code>InlineDateField</code> with caption message key and
+	 * initial value.
 	 * 
 	 * @param captionKey
 	 *            the caption message key of the datefield.
@@ -656,8 +812,8 @@ public class I18NAwareFactory {
 	}
 
 	/**
-	 * Creates an i18n <code>InlineDateField</code> with caption message key
-	 * and dataSource.
+	 * Creates an i18n <code>InlineDateField</code> with caption message key and
+	 * dataSource.
 	 * 
 	 * @param captionKey
 	 *            the caption message key of the InlineDateField.
@@ -678,7 +834,6 @@ public class I18NAwareFactory {
 		return new I18NInlineDateField(captionKey);
 	}
 
-	
 	/**
 	 * Creates a NativeSelect
 	 * 
@@ -729,8 +884,7 @@ public class I18NAwareFactory {
 	 * @param captionKey
 	 *            key for the OptionGroup caption
 	 */
-	public static void setItemCaptionKey(OptionGroup optionGroup,
-			Object itemId, String captionKey) {
+	public static void setItemCaptionKey(OptionGroup optionGroup, Object itemId, String captionKey) {
 		if (!(optionGroup instanceof I18NOptionGroup)) {
 			throw new IllegalArgumentException("Expecting a OptionGroup");
 		}
@@ -811,6 +965,29 @@ public class I18NAwareFactory {
 		return new I18NForm();
 	}
 
+	/**
+	 * Constructs a new form with given {@link I18NFormLayout}.
+	 * 
+	 * @param formLayout
+	 *            the layout of the form.
+	 */
+	public static Form newForm(I18NFormLayout formLayout) {
+		return new I18NForm(formLayout);
+	}
+
+	/**
+	 * Constructs a new form with given {@link I18NFormLayout} and
+	 * {@link FormFieldFactory}.
+	 * 
+	 * @param formLayout
+	 *            the layout of the form.
+	 * @param fieldFactory
+	 *            the FieldFactory of the form.
+	 */
+	public static Form newForm(I18NFormLayout formLayout, FormFieldFactory fieldFactory) {
+		return new I18NForm(formLayout, fieldFactory);
+	}
+
 	// Table
 
 	/**
@@ -864,8 +1041,7 @@ public class I18NAwareFactory {
 	 *            key array for column header names
 	 * @see I18NTable
 	 */
-	public static void setColumnHeadersKeys(Table table,
-			String[] columnHeadersKeys) {
+	public static void setColumnHeadersKeys(Table table, String[] columnHeadersKeys) {
 
 		if (!(table instanceof I18NTable)) {
 			throw new IllegalArgumentException("Expecting a I18NTable");
@@ -875,7 +1051,7 @@ public class I18NAwareFactory {
 	}
 
 	// Validators
-	
+
 	/**
 	 * Creates an EmailValidator
 	 * 
@@ -885,8 +1061,7 @@ public class I18NAwareFactory {
 	 *            key for field name
 	 * @return new i18n-aware EmailValidator
 	 */
-	public static EmailValidator newEmailValidator(String errorMessageKey,
-			String fieldNameKey) {
+	public static EmailValidator newEmailValidator(String errorMessageKey, String fieldNameKey) {
 		return new I18NEmailValidator(errorMessageKey, fieldNameKey);
 	}
 
@@ -898,8 +1073,7 @@ public class I18NAwareFactory {
 	 * @param errorMessageKey
 	 *            new error message key
 	 */
-	public static void setErrorMessageKey(EmailValidator emailValidator,
-			String errorMessageKey) {
+	public static void setErrorMessageKey(EmailValidator emailValidator, String errorMessageKey) {
 		emailValidator.setErrorMessage(errorMessageKey);
 	}
 
@@ -918,11 +1092,8 @@ public class I18NAwareFactory {
 	 *            null allowed
 	 * @return new i18n-aware StringLengthValidator
 	 */
-	public static StringLengthValidator newStringLengthValidator(
-			String errorMessageKey, String fieldNameKey, int minLength,
-			int maxLength, boolean allowNull) {
-		return new I18NStringLengthValidator(errorMessageKey, fieldNameKey,
-				minLength, maxLength, allowNull);
+	public static StringLengthValidator newStringLengthValidator(String errorMessageKey, String fieldNameKey, int minLength, int maxLength, boolean allowNull) {
+		return new I18NStringLengthValidator(errorMessageKey, fieldNameKey, minLength, maxLength, allowNull);
 	}
 
 	/**
@@ -933,8 +1104,7 @@ public class I18NAwareFactory {
 	 * @param errorMessageKey
 	 *            new error message key
 	 */
-	public static void setErrorMessageKey(
-			StringLengthValidator stringLengthValidator, String errorMessageKey) {
+	public static void setErrorMessageKey(StringLengthValidator stringLengthValidator, String errorMessageKey) {
 		stringLengthValidator.setErrorMessage(errorMessageKey);
 	}
 
@@ -1039,8 +1209,7 @@ public class I18NAwareFactory {
 	 *            params for required error message
 	 * @see I18NAwareField
 	 */
-	public static <T> void setRequiredErrorParams(T item,
-			Object... requiredErrorParams) {
+	public static <T> void setRequiredErrorParams(T item, Object... requiredErrorParams) {
 
 		if (!(item instanceof I18NAwareField)) {
 			throw new IllegalArgumentException("Expecting a I18NAwareField");
