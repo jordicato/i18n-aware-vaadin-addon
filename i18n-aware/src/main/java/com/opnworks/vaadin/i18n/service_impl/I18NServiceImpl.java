@@ -18,6 +18,8 @@ public class I18NServiceImpl implements I18NService {
 	private I18NMessageProvider i18NMessageProvider;
 
 	private List<I18NAware> i18NAwares = new ArrayList<I18NAware>();
+	
+	private Locale locale;
 
 	public I18NServiceImpl(I18NMessageProvider i18NMessageProvider) {
 		this.i18NMessageProvider = i18NMessageProvider;
@@ -33,8 +35,13 @@ public class I18NServiceImpl implements I18NService {
 	}
 
 	public void setLocale(Locale locale) {
+		this.locale = locale;
 		i18NMessageProvider.setLocale(locale);
 		i18nUpdate();
+	}
+	
+	public Locale getLocale() {
+		return locale;
 	}
 
 	private void i18nUpdate() {

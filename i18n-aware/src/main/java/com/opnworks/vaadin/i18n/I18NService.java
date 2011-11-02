@@ -1,5 +1,7 @@
 package com.opnworks.vaadin.i18n;
 
+import java.util.Locale;
+
 /**
  * This is the main integration interface of this addon.
  * 
@@ -12,6 +14,11 @@ package com.opnworks.vaadin.i18n;
  */
 public interface I18NService extends I18NMessageProvider {
 
+	/**
+	 * @return current Locale
+	 */
+	Locale getLocale();
+	
 	/**
 	 * Register a top level I18NAware
 	 * 

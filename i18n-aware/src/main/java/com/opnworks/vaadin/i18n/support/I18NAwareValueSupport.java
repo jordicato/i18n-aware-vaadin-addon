@@ -1,5 +1,7 @@
 package com.opnworks.vaadin.i18n.support;
 
+import java.util.Locale;
+
 import com.opnworks.vaadin.i18n.I18NAwareValue;
 import com.opnworks.vaadin.i18n.I18NService;
 
@@ -38,7 +40,13 @@ public class I18NAwareValueSupport implements I18NAwareValue {
 	}
 
 	@Override
+	public void setLocale(Locale locale) {
+	}
+	
+	@Override
 	public void i18NUpdate(I18NService i18N) {
+		
+		setLocale( i18N.getLocale() );
 		
 		if( valueKey != null ) {
 			valueContainer.setValue(i18N.getMessage(valueKey, valueParams));
