@@ -4,6 +4,7 @@ import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
+import com.vaadin.data.Property;
 import com.vaadin.ui.ProgressIndicator;
 
 /**
@@ -11,19 +12,36 @@ import com.vaadin.ui.ProgressIndicator;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public class I18NProgressIndicator extends ProgressIndicator implements
-		I18NAwareComponent, I18NAwareCaption {
+public class I18NProgressIndicator extends ProgressIndicator implements I18NAwareComponent, I18NAwareCaption {
 
 	private static final long serialVersionUID = 1516381605599417078L;
 
-	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(
-			this);
+	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 
-    /**
-     * Creates an a new i18n ProgressIndicator.
-     */
+	/**
+	 * Creates an a new i18n ProgressIndicator.
+	 */
 	public I18NProgressIndicator() {
 		super();
+	}
+
+	/**
+	 * Creates a new instance of i18n ProgressIndicator with given state.
+	 * 
+	 * @param value
+	 */
+	public I18NProgressIndicator(Float value) {
+		super(value);
+	}
+
+	/**
+	 * Creates a new instance of i18n ProgressIndicator with stae read from
+	 * given datasource.
+	 * 
+	 * @param contentSource
+	 */
+	public I18NProgressIndicator(Property contentSource) {
+		super(contentSource);
 	}
 
 	@Override

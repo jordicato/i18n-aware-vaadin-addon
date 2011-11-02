@@ -17,16 +17,23 @@ public class I18NGridLayout extends GridLayout implements I18NAwareContainer {
 
 	private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();
 
-    /**
-     * Constructor for i18n grid of given size (number of cells). Note that grid's
-     * final size depends on the items that are added into the grid. Grid grows
-     * if you add components outside the grid's area.
-     * 
-     * @param columns
-     *            Number of columns in the grid.
-     * @param rows
-     *            Number of rows in the grid.
-     */
+	/**
+	 * Constructs an empty grid layout that is extended as needed.
+	 */
+	public I18NGridLayout() {
+		super();
+	}
+
+	/**
+	 * Constructor for i18n grid of given size (number of cells). Note that
+	 * grid's final size depends on the items that are added into the grid. Grid
+	 * grows if you add components outside the grid's area.
+	 * 
+	 * @param columns
+	 *            Number of columns in the grid.
+	 * @param rows
+	 *            Number of rows in the grid.
+	 */
 	public I18NGridLayout(int columns, int rows) {
 		super(columns, rows);
 	}
@@ -44,8 +51,7 @@ public class I18NGridLayout extends GridLayout implements I18NAwareContainer {
 	}
 
 	@Override
-	public void addComponent(Component component, int column1, int row1,
-			int column2, int row2) {
+	public void addComponent(Component component, int column1, int row1, int column2, int row2) {
 		super.addComponent(component, column1, row1, column2, row2);
 		i18nAwareSupport.add(component);
 	}

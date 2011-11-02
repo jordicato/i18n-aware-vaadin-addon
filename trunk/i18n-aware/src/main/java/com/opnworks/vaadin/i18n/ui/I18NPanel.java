@@ -14,32 +14,57 @@ import com.vaadin.ui.Panel;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public class I18NPanel extends Panel implements I18NAwareContainer,
-		I18NAwareCaption {
+public class I18NPanel extends Panel implements I18NAwareContainer, I18NAwareCaption {
 
 	private static final long serialVersionUID = 6357950198553382989L;
 
-	private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(
-			this);
+	private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(this);
 
 	private I18NAwareSupport i18nAwareSupport;
 
-    /**
-     * Creates a new empty i18n panel. A I18NVerticalLayout is used as content.
-     */
+	/**
+	 * Creates a new empty i18n panel. A I18NVerticalLayout is used as content.
+	 */
 	public I18NPanel() {
 		super();
 		setContent(new I18NVerticalLayout());
 	}
 
-    /**
-     * Creates a new empty i18n panel with caption message key. Default layout is used.
-     * 
-     * @param captionKey
-     *            the caption message key used in the panel.
-     */
+	/**
+	 * Creates a new empty i18n panel with caption message key. Default layout
+	 * is used.
+	 * 
+	 * @param captionKey
+	 *            the caption message key used in the panel.
+	 */
 	public I18NPanel(String captionKey) {
 		super(captionKey);
+		setCaptionKey(captionKey);
+		setContent(new I18NVerticalLayout());
+	}
+
+	/**
+	 * Creates a new empty panel which contains the given content. The content
+	 * cannot be null.
+	 * 
+	 * @param content
+	 *            the content for the panel.
+	 */
+	public I18NPanel(ComponentContainer content) {
+		super(content);
+		setContent(new I18NVerticalLayout());
+	}
+
+	/**
+	 * Creates a new empty panel with the given caption and content.
+	 * 
+	 * @param captionKey
+	 *            the caption message key used in the panel.
+	 * @param content
+	 *            the content used in the panel.
+	 */
+	public I18NPanel(String captionKey, ComponentContainer content) {
+		super(captionKey, content);
 		setCaptionKey(captionKey);
 		setContent(new I18NVerticalLayout());
 	}

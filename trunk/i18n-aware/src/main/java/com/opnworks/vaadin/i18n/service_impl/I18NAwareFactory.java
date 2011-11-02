@@ -56,6 +56,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.DateField;
@@ -234,6 +235,37 @@ public class I18NAwareFactory {
 	}
 
 	/**
+	 * Creates a new instance of Label with text-contents read from given
+	 * datasource.
+	 * 
+	 * @param contentSource
+	 */
+	public static Label newLabel(Property contentSource) {
+		return new I18NLabel(contentSource);
+	}
+
+	/**
+	 * Creates a new instance of Label with text-contents.
+	 * 
+	 * @param content
+	 * @param contentMode
+	 */
+	public static Label newLabel(String content, int contentMode) {
+		return new I18NLabel(content, contentMode);
+	}
+
+	/**
+	 * Creates a new instance of Label with text-contents read from given
+	 * datasource.
+	 * 
+	 * @param contentSource
+	 * @param contentMode
+	 */
+	public static Label newLabel(Property contentSource, int contentMode) {
+		return new I18NLabel(contentSource, contentMode);
+	}
+
+	/**
 	 * Creates a Link
 	 * 
 	 * @return new i18n-aware Link
@@ -283,6 +315,25 @@ public class I18NAwareFactory {
 	 */
 	public static ProgressIndicator newProgressIndicator() {
 		return new I18NProgressIndicator();
+	}
+
+	/**
+	 * Creates a new instance of i18n-aware ProgressIndicator with given state.
+	 * 
+	 * @param value
+	 */
+	public static ProgressIndicator newProgressIndicator(Float value) {
+		return new I18NProgressIndicator(value);
+	}
+
+	/**
+	 * Creates a new instance of i18n-aware ProgressIndicator with stae read
+	 * from given datasource.
+	 * 
+	 * @param contentSource
+	 */
+	public static ProgressIndicator newProgressIndicator(Property contentSource) {
+		return new I18NProgressIndicator(contentSource);
 	}
 
 	/**
@@ -347,6 +398,13 @@ public class I18NAwareFactory {
 	}
 
 	// Containers
+
+	/**
+	 * Constructs an empty grid layout that is extended as needed.
+	 */
+	public static GridLayout newGridLayout() {
+		return new I18NGridLayout();
+	}
 
 	/**
 	 * Creates a GridLayout
@@ -467,6 +525,20 @@ public class I18NAwareFactory {
 	}
 
 	/**
+	 * Create a new ordered layout. The orientation of the layout is given as
+	 * parameters.
+	 * 
+	 * @param orientation
+	 *            the Orientation of the layout.
+	 * 
+	 * @deprecated Use VerticalLayout/HorizontalLayout instead.
+	 */
+	@Deprecated
+	public static OrderedLayout newOrderedLayout(int orientation) {
+		return new I18NOrderedLayout(orientation);
+	}
+
+	/**
 	 * Creates a Panel
 	 * 
 	 * @return new i18n-aware Panel
@@ -487,6 +559,29 @@ public class I18NAwareFactory {
 	}
 
 	/**
+	 * Creates a new empty panel which contains the given content. The content
+	 * cannot be null.
+	 * 
+	 * @param content
+	 *            the content for the panel.
+	 */
+	public static Panel newPanel(ComponentContainer content) {
+		return new I18NPanel(content);
+	}
+
+	/**
+	 * Creates a new empty panel with the given caption and content.
+	 * 
+	 * @param captionKey
+	 *            the caption message key used in the panel.
+	 * @param content
+	 *            the content used in the panel.
+	 */
+	public static Panel newPanel(String captionKey, ComponentContainer content) {
+		return new I18NPanel(captionKey, content);
+	}
+
+	/**
 	 * Creates a Window
 	 * 
 	 * @return new i18n-aware Window
@@ -504,6 +599,18 @@ public class I18NAwareFactory {
 	 */
 	public static Window newWindow(String captionKey) {
 		return new I18NWindow(captionKey);
+	}
+
+	/**
+	 * Creates a new unnamed i18n window with the given content and title.
+	 * 
+	 * @param captionKey
+	 *            the title message key of the window.
+	 * @param content
+	 *            the contents of the window
+	 */
+	public static Window newWindow(String captionKey, ComponentContainer content) {
+		return new I18NWindow(captionKey, content);
 	}
 
 	// Events
@@ -855,6 +962,30 @@ public class I18NAwareFactory {
 	}
 
 	/**
+	 * Creates a NativeSelect
+	 * 
+	 * @param captionKey
+	 *            key for the NativeSelect caption
+	 * @param options
+	 * @return
+	 */
+	public static NativeSelect newNativeSelect(String captionKey, Collection<?> options) {
+		return new I18NNativeSelect(captionKey, options);
+	}
+
+	/**
+	 * Creates a NativeSelect
+	 * 
+	 * @param captionKey
+	 *            key for the NativeSelect caption
+	 * @param dataSource
+	 * @return
+	 */
+	public static NativeSelect newNativeSelect(String captionKey, Container dataSource) {
+		return new I18NNativeSelect(captionKey, dataSource);
+	}
+
+	/**
 	 * Creates an OptionGroup
 	 * 
 	 * @return new i18n-aware OptionGroup
@@ -872,6 +1003,30 @@ public class I18NAwareFactory {
 	 */
 	public static OptionGroup newOptionGroup(String captionKey) {
 		return new I18NOptionGroup(captionKey);
+	}
+
+	/**
+	 * Creates an OptionGroup
+	 * 
+	 * @param captionKey
+	 *            key for the OptionGroup caption
+	 * @param options
+	 * @return new i18n-aware OptionGroup
+	 */
+	public static OptionGroup newOptionGroup(String captionKey, Collection<?> options) {
+		return new I18NOptionGroup(captionKey, options);
+	}
+
+	/**
+	 * Creates an OptionGroup
+	 * 
+	 * @param captionKey
+	 *            key for the OptionGroup caption
+	 * @param dataSource
+	 * @return new i18n-aware OptionGroup
+	 */
+	public static OptionGroup newOptionGroup(String captionKey, Container dataSource) {
+		return new I18NOptionGroup(captionKey, dataSource);
 	}
 
 	/**
@@ -913,6 +1068,40 @@ public class I18NAwareFactory {
 	}
 
 	/**
+	 * Constructs a i18n TextArea with given property data source.
+	 * 
+	 * @param dataSource
+	 *            the data source for the field
+	 */
+	public static TextArea newTextArea(Property dataSource) {
+		return new I18NTextArea(dataSource);
+	}
+
+	/**
+	 * Constructs a i18n TextArea with given caption and property data source.
+	 * 
+	 * @param captionKey
+	 *            the caption message key for the field.
+	 * @param dataSource
+	 *            the data source for the field
+	 */
+	public static TextArea newTextArea(String captionKey, Property dataSource) {
+		return new I18NTextArea(captionKey, dataSource);
+	}
+
+	/**
+	 * Constructs a i18n TextArea with given caption and value.
+	 * 
+	 * @param captionKey
+	 *            the caption message key for the field.
+	 * @param value
+	 *            the value for the field
+	 */
+	public static TextArea newTextArea(String captionKey, String value) {
+		return new I18NTextArea(captionKey, value);
+	}
+
+	/**
 	 * Creates a TextField
 	 * 
 	 * @return new i18n-aware TextField
@@ -943,6 +1132,31 @@ public class I18NAwareFactory {
 	 */
 	public static TextField newTextField(String captionKey, String value) {
 		return new I18NTextField(captionKey, value);
+	}
+
+	/**
+	 * Constructs a new i18n <code>TextField</code> that's bound to the
+	 * specified <code>Property</code> and has no caption.
+	 * 
+	 * @param dataSource
+	 *            the Property to be edited with this editor.
+	 */
+	public static TextField newTextField(Property dataSource) {
+		return new I18NTextField(dataSource);
+	}
+
+	/**
+	 * Constructs a new i18n <code>TextField</code> that's bound to the
+	 * specified <code>Property</code> and has the given caption
+	 * <code>String</code>.
+	 * 
+	 * @param captionKey
+	 *            the caption message key for the editor.
+	 * @param dataSource
+	 *            the Property to be edited with this editor.
+	 */
+	public static TextField newTextField(String captionKey, Property dataSource) {
+		return new I18NTextField(captionKey, dataSource);
 	}
 
 	// Form

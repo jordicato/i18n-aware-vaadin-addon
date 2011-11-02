@@ -7,6 +7,7 @@ import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.ValueContainer;
+import com.vaadin.data.Property;
 import com.vaadin.ui.Label;
 
 /**
@@ -15,13 +16,11 @@ import com.vaadin.ui.Label;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @SuppressWarnings("unchecked")
-public class I18NLabel extends Label implements I18NAwareComponent,
-		I18NAwareCaption, I18NAwareValue, ValueContainer {
+public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCaption, I18NAwareValue, ValueContainer {
 
 	private static final long serialVersionUID = 2379556692292586769L;
 
-	private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(
-			this);
+	private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(this);
 
 	private I18NAwareValueSupport i18NAwareValueSupport;
 
@@ -39,6 +38,37 @@ public class I18NLabel extends Label implements I18NAwareComponent,
 	 */
 	public I18NLabel(String content) {
 		super(content);
+	}
+
+	/**
+	 * Creates a new instance of Label with text-contents read from given
+	 * datasource.
+	 * 
+	 * @param contentSource
+	 */
+	public I18NLabel(Property contentSource) {
+		super(contentSource);
+	}
+
+	/**
+	 * Creates a new instance of Label with text-contents.
+	 * 
+	 * @param content
+	 * @param contentMode
+	 */
+	public I18NLabel(String content, int contentMode) {
+		super(content, contentMode);
+	}
+
+	/**
+	 * Creates a new instance of Label with text-contents read from given
+	 * datasource.
+	 * 
+	 * @param contentSource
+	 * @param contentMode
+	 */
+	public I18NLabel(Property contentSource, int contentMode) {
+		super(contentSource, contentMode);
 	}
 
 	@Override
