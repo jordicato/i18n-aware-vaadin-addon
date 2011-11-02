@@ -32,7 +32,7 @@ public class I18NAwareComponentCaptionSupport implements Serializable {
 		this.captionParams = params;
 	}
 
-	public void updateLabels(I18NService i18N) {
+	public void i18NUpdate(I18NService i18N) {
 
 		if (captionKey != null) {
 			originalComponent.setCaption(i18N.getMessage(captionKey,

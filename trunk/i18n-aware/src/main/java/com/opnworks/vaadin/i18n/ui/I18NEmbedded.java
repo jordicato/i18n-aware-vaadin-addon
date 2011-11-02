@@ -63,7 +63,7 @@ public class I18NEmbedded extends Embedded implements I18NAwareComponent,
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		i18NAwareComponentCaptionSupport.updateLabels(i18N);
+		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
 	}
 
 }

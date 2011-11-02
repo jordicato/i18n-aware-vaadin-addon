@@ -48,7 +48,7 @@ public class I18NTabSheet extends TabSheet implements I18NAwareComponent {
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		i18NAwareSupport.updateLabels(i18N);
+		i18NAwareSupport.i18NUpdate(i18N);
 	}
 
 	public class I18NTab implements Tab, I18NAwareCaption {

@@ -68,8 +68,8 @@ public class I18NPanel extends Panel implements I18NAwareContainer,
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		captionSupport.updateLabels(i18N);
-		getI18nAwareSupport().updateLabels(i18N);
+		captionSupport.i18NUpdate(i18N);
+		getI18nAwareSupport().i18NUpdate(i18N);
 	}
 
 	private I18NAwareSupport getI18nAwareSupport() {

@@ -5,7 +5,6 @@ com.vaadin.ui.LoginForm
 com.vaadin.ui.MenuBar
 com.vaadin.ui.NativeButton
 com.vaadin.ui.PasswordField
-com.vaadin.ui.PopupDateField
 com.vaadin.ui.PopupView
 com.vaadin.ui.RichTextArea
 com.vaadin.ui.Select

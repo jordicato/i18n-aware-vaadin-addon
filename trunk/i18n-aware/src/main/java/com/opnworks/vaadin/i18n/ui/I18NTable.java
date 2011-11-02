@@ -89,7 +89,7 @@ public class I18NTable extends Table implements I18NAwareComponent,
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 
-		i18NAwareComponentCaptionSupport.updateLabels(i18N);
+		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
 
 		if (columnHeadersKeys != null) {
 			String[] columnHeaders = new String[columnHeadersKeys.length];
@@ -108,7 +108,7 @@ public class I18NTable extends Table implements I18NAwareComponent,
 		}
 
 		// Actions
-		i18NAwareSupport.updateLabels(i18N);
+		i18NAwareSupport.i18NUpdate(i18N);
 	}
 
 	private void registerI18NActions(Action.Handler actionHandler, Object itemId) {

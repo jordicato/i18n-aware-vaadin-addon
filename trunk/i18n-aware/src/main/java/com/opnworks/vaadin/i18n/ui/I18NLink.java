@@ -73,7 +73,7 @@ public class I18NLink extends Link implements I18NAwareComponent, I18NAwareCapti
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		i18NAwareComponentCaptionSupport.updateLabels(i18N);
+		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
 	}
 
 }

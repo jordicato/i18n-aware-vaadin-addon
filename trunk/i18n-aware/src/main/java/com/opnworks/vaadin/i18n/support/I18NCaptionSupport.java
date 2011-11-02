@@ -1,46 +1,33 @@
 package com.opnworks.vaadin.i18n.support;
 
-import com.opnworks.vaadin.i18n.I18NService;
+import com.opnworks.vaadin.i18n.I18NAwareCaption;
 
 /**
- * The I18NCaptionSupport
+ * The I18NAwareCaption Support
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public class I18NCaptionSupport {
+public class I18NCaptionSupport extends I18NAwareValueSupport implements
+		I18NAwareCaption {
 
-	protected String captionKey;
-	protected Object[] captionParams;
-
-	public I18NCaptionSupport() {
-	}
-
-	public I18NCaptionSupport(String captionKey) {
-		this(captionKey, null);
-	}
-
-	public I18NCaptionSupport(String captionKey, Object[] captionParams) {
-		this.captionKey = captionKey;
-		this.captionParams = captionParams;
+	public I18NCaptionSupport(final CaptionContainer captionContainer) {
+		super(new ValueContainer() {
+			@Override
+			public void setValue(String value) {
+				captionContainer.setCaption(value);
+			}
+		});
 	}
 
 	public void setCaptionKey(String captionKey) {
-		this.captionKey = captionKey;
-	}
-
-	public String getCaptionKey() {
-		return captionKey;
-	}
-
-	public Object[] getCaptionParams() {
-		return captionParams;
+		setValueKey(captionKey);
 	}
 
 	public void setCaptionParams(Object... params) {
-		this.captionParams = params;
+		setValueParams(params);
 	}
 
-	public String getCaption(I18NService i18N) {
-		return i18N.getMessage(captionKey, captionParams);
+	public interface CaptionContainer {
+		void setCaption(String caption);
 	}
 }

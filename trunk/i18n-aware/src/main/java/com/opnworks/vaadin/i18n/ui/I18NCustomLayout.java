@@ -74,6 +74,6 @@ public class I18NCustomLayout extends CustomLayout implements
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		i18nAwareSupport.updateLabels(i18N);
+		i18nAwareSupport.i18NUpdate(i18N);
 	}
 }
