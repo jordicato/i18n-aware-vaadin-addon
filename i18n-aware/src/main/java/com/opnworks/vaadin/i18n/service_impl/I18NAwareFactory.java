@@ -8,14 +8,15 @@ import java.util.Date;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareField;
+import com.opnworks.vaadin.i18n.I18NAwareFormFieldFactory;
 import com.opnworks.vaadin.i18n.I18NAwareLayout;
 import com.opnworks.vaadin.i18n.I18NAwareValue;
-import com.opnworks.vaadin.i18n.I18NAwareFormFieldFactory;
 import com.opnworks.vaadin.i18n.data.util.I18NIndexedContainer;
 import com.opnworks.vaadin.i18n.data.validator.I18NEmailValidator;
 import com.opnworks.vaadin.i18n.data.validator.I18NStringLengthValidator;
 import com.opnworks.vaadin.i18n.event.I18NAction;
 import com.opnworks.vaadin.i18n.ui.I18NAbsoluteLayout;
+import com.opnworks.vaadin.i18n.ui.I18NAccordion;
 import com.opnworks.vaadin.i18n.ui.I18NButton;
 import com.opnworks.vaadin.i18n.ui.I18NCheckBox;
 import com.opnworks.vaadin.i18n.ui.I18NComboBox;
@@ -32,17 +33,28 @@ import com.opnworks.vaadin.i18n.ui.I18NHorizontalSplitPanel;
 import com.opnworks.vaadin.i18n.ui.I18NInlineDateField;
 import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NLink;
+import com.opnworks.vaadin.i18n.ui.I18NListSelect;
+import com.opnworks.vaadin.i18n.ui.I18NLoginForm;
+import com.opnworks.vaadin.i18n.ui.I18NMenuBar;
+import com.opnworks.vaadin.i18n.ui.I18NNativeButton;
 import com.opnworks.vaadin.i18n.ui.I18NNativeSelect;
 import com.opnworks.vaadin.i18n.ui.I18NOptionGroup;
 import com.opnworks.vaadin.i18n.ui.I18NOrderedLayout;
 import com.opnworks.vaadin.i18n.ui.I18NPanel;
+import com.opnworks.vaadin.i18n.ui.I18NPasswordField;
 import com.opnworks.vaadin.i18n.ui.I18NPopupDateField;
+import com.opnworks.vaadin.i18n.ui.I18NPopupView;
 import com.opnworks.vaadin.i18n.ui.I18NProgressIndicator;
+import com.opnworks.vaadin.i18n.ui.I18NRichTextArea;
+import com.opnworks.vaadin.i18n.ui.I18NSelect;
+import com.opnworks.vaadin.i18n.ui.I18NSlider;
 import com.opnworks.vaadin.i18n.ui.I18NSplitPanel;
 import com.opnworks.vaadin.i18n.ui.I18NTabSheet;
 import com.opnworks.vaadin.i18n.ui.I18NTable;
 import com.opnworks.vaadin.i18n.ui.I18NTextArea;
 import com.opnworks.vaadin.i18n.ui.I18NTextField;
+import com.opnworks.vaadin.i18n.ui.I18NTree;
+import com.opnworks.vaadin.i18n.ui.I18NTwinColSelect;
 import com.opnworks.vaadin.i18n.ui.I18NUpload;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalSplitPanel;
@@ -55,10 +67,12 @@ import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.Action;
 import com.vaadin.terminal.Resource;
 import com.vaadin.ui.AbsoluteLayout;
+import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomLayout;
@@ -74,17 +88,29 @@ import com.vaadin.ui.InlineDateField;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Link;
+import com.vaadin.ui.ListSelect;
+import com.vaadin.ui.LoginForm;
+import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.OrderedLayout;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.PopupDateField;
+import com.vaadin.ui.PopupView;
+import com.vaadin.ui.PopupView.Content;
 import com.vaadin.ui.ProgressIndicator;
+import com.vaadin.ui.RichTextArea;
+import com.vaadin.ui.Select;
+import com.vaadin.ui.Slider;
 import com.vaadin.ui.SplitPanel;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.Tree;
+import com.vaadin.ui.TwinColSelect;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.Receiver;
 import com.vaadin.ui.VerticalLayout;
@@ -187,6 +213,54 @@ public class I18NAwareFactory {
 	}
 
 	/**
+	 * Creates a NativeButton
+	 * 
+	 * @return new i18n-aware NativeButton
+	 */
+	public static NativeButton newNativeButton() {
+		return new I18NNativeButton();
+	}
+
+	/**
+	 * Creates a NativeButton
+	 * 
+	 * @param captionKey
+	 *            key for the NativeButton caption
+	 * @return new i18n-aware NativeButton
+	 */
+	public static NativeButton newNativeButton(String captionKey) {
+		return new I18NNativeButton(captionKey);
+	}
+
+	/**
+	 * Creates a NativeButton
+	 * 
+	 * @param captionKey
+	 *            key for the NativeButton caption
+	 * @param listener
+	 *            ClickListener for the NativeButton
+	 * @return new i18n-aware NativeButton
+	 */
+	public static NativeButton newNativeButton(String captionKey,
+			ClickListener listener) {
+		return new I18NNativeButton(captionKey, listener);
+	}
+
+	/**
+	 * Creates a NativeButton
+	 * 
+	 * @param captionKey
+	 *            key for the NativeButton caption
+	 * @param target
+	 * @param methodName
+	 * @return new i18n-aware NativeButton
+	 */
+	public static NativeButton newNativeButton(String captionKey,
+			Object target, String methodName) {
+		return new I18NNativeButton(captionKey, target, methodName);
+	}
+
+	/**
 	 * Creates an Embedded
 	 * 
 	 * @return new i18n-aware Embedded
@@ -271,6 +345,49 @@ public class I18NAwareFactory {
 	}
 
 	/**
+	 * Create a new slider with the caption given as parameter. All slider
+	 * values set to defaults.
+	 * 
+	 * @param caption
+	 *            The caption for this Slider (e.g. "Volume").
+	 */
+	public static Slider newSlider(String captionKey) {
+		return new I18NSlider(captionKey);
+	}
+
+	/**
+	 * Create a new slider with given range and resolution
+	 * 
+	 * @param min
+	 * @param max
+	 * @param resolution
+	 */
+	public static Slider newSlider(double min, double max, int resolution) {
+		return new I18NSlider(min, max, resolution);
+	}
+
+	/**
+	 * Create a new slider with given range
+	 * 
+	 * @param min
+	 * @param max
+	 */
+	public static Slider newSlider(int min, int max) {
+		return new I18NSlider(min, max);
+	}
+
+	/**
+	 * Create a new slider with given caption and range
+	 * 
+	 * @param caption
+	 * @param min
+	 * @param max
+	 */
+	public static Slider newSlider(String captionKey, int min, int max) {
+		return new I18NSlider(captionKey, min, max);
+	}
+
+	/**
 	 * Creates a Link
 	 * 
 	 * @return new i18n-aware Link
@@ -350,6 +467,15 @@ public class I18NAwareFactory {
 	 */
 	public static TabSheet newTabSheet() {
 		return new I18NTabSheet();
+	}
+
+	/**
+	 * Creates a Accordion
+	 * 
+	 * @return new i18n-aware Accordion
+	 */
+	public static Accordion newAccordion() {
+		return new I18NAccordion();
 	}
 
 	/**
@@ -890,6 +1016,7 @@ public class I18NAwareFactory {
 
 	public static void setInputPromptKey(PopupDateField popupDateField,
 			String inputPromptKey) {
+
 		if (!(popupDateField instanceof I18NPopupDateField)) {
 			throw new IllegalArgumentException("Expecting a I18NPopupDateField");
 		}
@@ -898,6 +1025,7 @@ public class I18NAwareFactory {
 
 	public static void setInputPromptKeyParams(PopupDateField popupDateField,
 			Object... inputPromptParams) {
+
 		if (!(popupDateField instanceof I18NPopupDateField)) {
 			throw new IllegalArgumentException("Expecting a I18NPopupDateField");
 		}
@@ -960,6 +1088,44 @@ public class I18NAwareFactory {
 	}
 
 	/**
+	 * Creates a Select
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the Select.
+	 * @param options
+	 * 
+	 * @return new i18n-aware Select
+	 */
+	public static Select newSelect(String captionKey, Collection<?> options) {
+		return new I18NSelect(captionKey, options);
+	}
+
+	/**
+	 * Creates a Select
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the Select.
+	 * @param dataSource
+	 * 
+	 * @return new i18n-aware Select
+	 */
+	public static Select newSelect(String captionKey, Container dataSource) {
+		return new I18NSelect(captionKey, dataSource);
+	}
+
+	/**
+	 * Creates a Select
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the Select.
+	 * 
+	 * @return new i18n-aware Select
+	 */
+	public static Select newSelect(String captionKey) {
+		return new I18NSelect(captionKey);
+	}
+
+	/**
 	 * Creates a NativeSelect
 	 * 
 	 * @return new i18n-aware NativeSelect
@@ -1003,6 +1169,135 @@ public class I18NAwareFactory {
 	public static NativeSelect newNativeSelect(String captionKey,
 			Container dataSource) {
 		return new I18NNativeSelect(captionKey, dataSource);
+	}
+
+	/**
+	 * Creates a ListSelect
+	 * 
+	 * @param captionKey
+	 *            key for the ListSelect caption
+	 * @param options
+	 * @return
+	 */
+	public static ListSelect newListSelect(String captionKey,
+			Collection<?> options) {
+		return new I18NListSelect(captionKey, options);
+	}
+
+	/**
+	 * Creates a ListSelect
+	 * 
+	 * @param captionKey
+	 *            key for the ListSelect caption
+	 * @param dataSource
+	 * @return
+	 */
+	public ListSelect newListSelect(String captionKey, Container dataSource) {
+		return new I18NListSelect(captionKey, dataSource);
+	}
+
+	/**
+	 * Creates a ListSelect
+	 * 
+	 * @param captionKey
+	 *            key for the ListSelect caption
+	 * @return
+	 */
+	public ListSelect newListSelect(String captionKey) {
+		return new I18NListSelect(captionKey);
+	}
+
+	/**
+	 * Creates a new empty tree.
+	 */
+	public static Tree newTree() {
+		return new I18NTree();
+	}
+
+	/**
+	 * Creates a new empty tree with caption.
+	 * 
+	 * @param caption
+	 */
+	public static Tree newTree(String captionKey) {
+		return new I18NTree(captionKey);
+	}
+
+	/**
+	 * Creates a new tree with caption and connect it to a Container.
+	 * 
+	 * @param caption
+	 * @param dataSource
+	 */
+	public static Tree newTree(String captionKey, Container dataSource) {
+		return new I18NTree(captionKey);
+	}
+
+	/**
+	 * Construct a I18NTwinColSelect
+	 */
+	public static TwinColSelect newTwinColSelect() {
+		return new I18NTwinColSelect();
+	}
+
+	/**
+	 * Construct a I18NTwinColSelect
+	 * 
+	 * @param caption
+	 */
+	public static TwinColSelect newTwinColSelect(String captionKey) {
+		return new I18NTwinColSelect(captionKey);
+	}
+
+	/**
+	 * Construct a I18NTwinColSelect
+	 * 
+	 * @param captionKey
+	 * @param dataSource
+	 */
+	public static TwinColSelect newTwinColSelect(String captionKey,
+			Container dataSource) {
+		return new I18NTwinColSelect(captionKey, dataSource);
+	}
+
+	public static void setLeftColumnCaptionKey(TwinColSelect twinColSelect,
+			String leftColumnCaptionKey) {
+
+		if (!(twinColSelect instanceof I18NTwinColSelect)) {
+			throw new IllegalArgumentException("Expecting a I18NTwinColSelect");
+		}
+		((I18NTwinColSelect) twinColSelect)
+				.setLeftColumnCaptionKey(leftColumnCaptionKey);
+	}
+
+	public static void setLeftColumnCaptionParams(TwinColSelect twinColSelect,
+			Object... leftColumnCaptionParams) {
+
+		if (!(twinColSelect instanceof I18NTwinColSelect)) {
+			throw new IllegalArgumentException("Expecting a I18NTwinColSelect");
+		}
+		((I18NTwinColSelect) twinColSelect)
+				.setLeftColumnCaptionParams(leftColumnCaptionParams);
+	}
+
+	public static void setRightColumnCaptionKey(TwinColSelect twinColSelect,
+			String rightColumnCaptionKey) {
+
+		if (!(twinColSelect instanceof I18NTwinColSelect)) {
+			throw new IllegalArgumentException("Expecting a I18NTwinColSelect");
+		}
+		((I18NTwinColSelect) twinColSelect)
+				.setRightColumnCaptionKey(rightColumnCaptionKey);
+	}
+
+	public static void setRightColumnCaptionParams(TwinColSelect twinColSelect,
+			Object... rightColumnCaptionParams) {
+
+		if (!(twinColSelect instanceof I18NTwinColSelect)) {
+			throw new IllegalArgumentException("Expecting a I18NTwinColSelect");
+		}
+		((I18NTwinColSelect) twinColSelect)
+				.setRightColumnCaptionParams(rightColumnCaptionParams);
 	}
 
 	/**
@@ -1125,6 +1420,62 @@ public class I18NAwareFactory {
 	}
 
 	/**
+	 * Constructs an empty <code>RichTextArea</code> with no caption.
+	 */
+	public static RichTextArea newRichTextArea() {
+		return new I18NRichTextArea();
+	}
+
+	/**
+	 * 
+	 * Constructs an empty <code>RichTextArea</code> with the given caption.
+	 * 
+	 * @param captionKey
+	 *            the caption key for the editor.
+	 */
+	public static RichTextArea newRichTextArea(String captionKey) {
+		return new I18NRichTextArea(captionKey);
+	}
+
+	/**
+	 * Constructs a new <code>RichTextArea</code> that's bound to the specified
+	 * <code>Property</code> and has no caption.
+	 * 
+	 * @param dataSource
+	 *            the data source for the editor value
+	 */
+	public static RichTextArea newRichTextArea(Property dataSource) {
+		return new I18NRichTextArea(dataSource);
+	}
+
+	/**
+	 * Constructs a new <code>RichTextArea</code> that's bound to the specified
+	 * <code>Property</code> and has the given caption.
+	 * 
+	 * @param captionKey
+	 *            the caption key for the editor.
+	 * @param dataSource
+	 *            the data source for the editor value
+	 */
+	public static RichTextArea newRichTextArea(String captionKey,
+			Property dataSource) {
+		return new I18NRichTextArea(captionKey, dataSource);
+	}
+
+	/**
+	 * Constructs a new <code>RichTextArea</code> with the given caption and
+	 * initial text contents.
+	 * 
+	 * @param captionKey
+	 *            the caption key for the editor.
+	 * @param value
+	 *            the initial text content of the editor.
+	 */
+	public static RichTextArea newRichTextArea(String captionKey, String value) {
+		return new I18NRichTextArea(captionKey, value);
+	}
+
+	/**
 	 * Creates a TextField
 	 * 
 	 * @return new i18n-aware TextField
@@ -1180,6 +1531,59 @@ public class I18NAwareFactory {
 	 */
 	public static TextField newTextField(String captionKey, Property dataSource) {
 		return new I18NTextField(captionKey, dataSource);
+	}
+
+	/**
+	 * Constructs an empty I18NPasswordField.
+	 */
+	public static PasswordField newPasswordField() {
+		return new I18NPasswordField();
+	}
+
+	/**
+	 * Constructs a I18NPasswordField with given property data source.
+	 * 
+	 * @param dataSource
+	 *            the property data source for the field
+	 */
+	public static PasswordField newPasswordField(Property dataSource) {
+		return new I18NPasswordField(dataSource);
+	}
+
+	/**
+	 * Constructs a I18NPasswordField with given caption and property data
+	 * source.
+	 * 
+	 * @param caption
+	 *            the caption for the field
+	 * @param dataSource
+	 *            the property data source for the field
+	 */
+	public static PasswordField newPasswordField(String captionKey,
+			Property dataSource) {
+		return new I18NPasswordField(captionKey, dataSource);
+	}
+
+	/**
+	 * Constructs a I18NPasswordField with given value and caption.
+	 * 
+	 * @param caption
+	 *            the caption for the field
+	 * @param value
+	 *            the value for the field
+	 */
+	public static PasswordField newPasswordField(String captionKey, String value) {
+		return new I18NPasswordField(captionKey, value);
+	}
+
+	/**
+	 * Constructs a I18NPasswordField with given caption.
+	 * 
+	 * @param caption
+	 *            the caption for the field
+	 */
+	public static PasswordField newPasswordField(String captionKey) {
+		return new I18NPasswordField(captionKey);
 	}
 
 	// Form
@@ -1302,6 +1706,125 @@ public class I18NAwareFactory {
 		}
 
 		((I18NTable) table).setColumnHeadersKeys(columnHeadersKeys);
+	}
+
+	/**
+	 * Creates a MenuBar
+	 */
+	public static MenuBar newMenuBar() {
+		return new I18NMenuBar();
+	}
+
+	/**
+	 * Add a new item to the menu bar. Icon and command can be null, but a
+	 * caption must be given.
+	 * 
+	 * @param caption
+	 *            the text for the menu item
+	 * @param icon
+	 *            the icon for the menu item
+	 * @param command
+	 *            the command for the menu item
+	 * @throws IllegalArgumentException
+	 */
+	public static MenuBar.MenuItem addItem(MenuBar menuBar, String captionKey,
+			Resource icon, MenuBar.Command command) {
+
+		if (!(menuBar instanceof I18NMenuBar)) {
+			throw new IllegalArgumentException("Expecting a I18NMenuBar");
+		}
+
+		return ((I18NMenuBar) menuBar).addItem(captionKey, icon, command);
+	}
+
+	/**
+	 * Add an item before some item. If the given item does not exist the item
+	 * is added at the end of the menu. Icon and command can be null, but a
+	 * caption must be given.
+	 * 
+	 * @param caption
+	 *            the text for the menu item
+	 * @param icon
+	 *            the icon for the menu item
+	 * @param command
+	 *            the command for the menu item
+	 * @param itemToAddBefore
+	 *            the item that will be after the new item
+	 * @throws IllegalArgumentException
+	 */
+	public MenuBar.MenuItem addItemBefore(MenuBar menuBar, String captionKey,
+			Resource icon, MenuBar.Command command,
+			MenuBar.MenuItem itemToAddBefore) {
+
+		if (!(menuBar instanceof I18NMenuBar)) {
+			throw new IllegalArgumentException("Expecting a I18NMenuBar");
+		}
+
+		return ((I18NMenuBar) menuBar).addItemBefore(captionKey, icon, command,
+				itemToAddBefore);
+	}
+
+	/**
+	 * A simple way to create a PopupPanel. Note that the minimal representation
+	 * may not be dynamically updated, in order to achieve this create your own
+	 * Content object and use {@link PopupView#PopupView(Content)}.
+	 * 
+	 * @param small
+	 *            the minimal textual representation as HTML
+	 * @param large
+	 *            the full, Component-type representation
+	 */
+	public static PopupView newPopupView(final java.lang.String small,
+			final Component large) {
+		return new I18NPopupView(small, large);
+	}
+
+	/**
+	 * Creates a PopupView through the PopupView.Content interface. This allows
+	 * the creator to dynamically change the contents of the PopupView.
+	 * 
+	 * @param content
+	 *            the PopupView.Content that contains the information for this
+	 */
+	public static PopupView newPopupView(PopupView.Content content) {
+		return new I18NPopupView(content);
+	}
+
+	// Custom Components
+
+	/**
+	 * Creates a LoginForm
+	 */
+	public static LoginForm newLoginForm() {
+		return new I18NLoginForm();
+	}
+
+	public static void setUsernameCaptionKey(LoginForm loginForm,
+			String usernameCaptionKey) {
+		if (!(loginForm instanceof I18NLoginForm)) {
+			throw new IllegalArgumentException("Expecting a I18NLoginForm");
+		}
+
+		((I18NLoginForm) loginForm).setUsernameCaptionKey(usernameCaptionKey);
+	}
+
+	public static void setPasswordCaptionKey(LoginForm loginForm,
+			String passwordCaptionKey) {
+		if (!(loginForm instanceof I18NLoginForm)) {
+			throw new IllegalArgumentException("Expecting a I18NLoginForm");
+		}
+
+		((I18NLoginForm) loginForm).setPasswordCaptionKey(passwordCaptionKey);
+	}
+
+	public static void setLoginButtonCaptionKey(LoginForm loginForm,
+			String loginButtonCaptionKey) {
+		if (!(loginForm instanceof I18NLoginForm)) {
+			throw new IllegalArgumentException("Expecting a I18NLoginForm");
+		}
+
+		((I18NLoginForm) loginForm)
+				.setLoginButtonCaptionKey(loginButtonCaptionKey);
 	}
 
 	// Validators

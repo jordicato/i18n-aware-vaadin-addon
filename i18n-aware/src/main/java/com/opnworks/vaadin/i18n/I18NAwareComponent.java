@@ -7,5 +7,5 @@ import com.vaadin.ui.Component;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public interface I18NAwareComponent extends Component, I18NAware {
+public interface I18NAwareComponent extends Component, I18NAwareCaption {
 }
