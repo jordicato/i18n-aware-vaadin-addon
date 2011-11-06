@@ -4,26 +4,25 @@ import com.opnworks.vaadin.i18n.I18NAwareComponent;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
+import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.TabSheet;
 
 /**
- * The I18NTabSheet
+ * The I18NAccordion
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public class I18NTabSheet extends TabSheet implements I18NAwareComponent {
+public class I18NAccordion extends Accordion implements I18NAwareComponent {
 
-	private static final long serialVersionUID = -7070663953414272939L;
-
+	private static final long serialVersionUID = -891019186115514452L;
+	
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 	private I18NAwareSupport i18NAwareSupport = new I18NAwareSupport();
 
 	/**
-	 * Constructs a new i18n Tabsheet. Tabsheet is immediate by default, and the
-	 * default close handler removes the tab being closed.
+	 * Constructs a new i18n Accordion.  
 	 */
-	public I18NTabSheet() {
+	public I18NAccordion() {
 		super();
 	}
 

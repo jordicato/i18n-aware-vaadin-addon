@@ -1,11 +1,11 @@
 package com.opnworks.vaadin.i18n.ui;
 
-import com.opnworks.vaadin.i18n.I18NAwareCaption;
-import com.opnworks.vaadin.i18n.I18NAwareComponent;
+import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NService;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
+import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
 
 /**
  * The I18N Button
@@ -13,11 +13,12 @@ import com.vaadin.ui.Button;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @SuppressWarnings("unchecked")
-public class I18NButton extends Button implements I18NAwareComponent, I18NAwareCaption {
+public class I18NButton extends Button implements I18NAwareField {
 
 	private static final long serialVersionUID = 6357950198553382989L;
 
-	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
+	private I18NAwareFieldSupport i18NAwareFieldSupport = new I18NAwareFieldSupport(
+			this);
 
 	/**
 	 * Creates a new i18n push button. The value of the push button is false and
@@ -37,7 +38,7 @@ public class I18NButton extends Button implements I18NAwareComponent, I18NAwareC
 	 */
 	public I18NButton(String captionKey) {
 		super(captionKey);
-		i18NAwareComponentCaptionSupport.setCaptionKey(captionKey);
+		i18NAwareFieldSupport.setCaptionKey(captionKey);
 	}
 
 	/**
@@ -51,7 +52,7 @@ public class I18NButton extends Button implements I18NAwareComponent, I18NAwareC
 	 */
 	public I18NButton(String captionKey, ClickListener listener) {
 		super(captionKey, listener);
-		i18NAwareComponentCaptionSupport.setCaptionKey(captionKey);
+		i18NAwareFieldSupport.setCaptionKey(captionKey);
 	}
 
 	/**
@@ -72,7 +73,7 @@ public class I18NButton extends Button implements I18NAwareComponent, I18NAwareC
 	 */
 	public I18NButton(String captionKey, Object target, String methodName) {
 		super(captionKey, target, methodName);
-		i18NAwareComponentCaptionSupport.setCaptionKey(captionKey);
+		i18NAwareFieldSupport.setCaptionKey(captionKey);
 	}
 
 	/**
@@ -88,7 +89,7 @@ public class I18NButton extends Button implements I18NAwareComponent, I18NAwareC
 	@Deprecated
 	public I18NButton(String captionKey, boolean initialState) {
 		super(captionKey, initialState);
-		i18NAwareComponentCaptionSupport.setCaptionKey(captionKey);
+		i18NAwareFieldSupport.setCaptionKey(captionKey);
 	}
 
 	/**
@@ -104,22 +105,32 @@ public class I18NButton extends Button implements I18NAwareComponent, I18NAwareC
 	@Deprecated
 	public I18NButton(String captionKey, Property dataSource) {
 		super(captionKey, dataSource);
-		i18NAwareComponentCaptionSupport.setCaptionKey(captionKey);
+		i18NAwareFieldSupport.setCaptionKey(captionKey);
+	}
+
+	@Override
+	public void setRequiredErrorKey(String requiredErrorKey) {
+		i18NAwareFieldSupport.setRequiredErrorKey(requiredErrorKey);
+	}
+
+	@Override
+	public void setRequiredErrorParams(Object[] requiredErrorParams) {
+		i18NAwareFieldSupport.setRequiredErrorParams(requiredErrorParams);
 	}
 
 	@Override
 	public void setCaptionKey(String captionKey) {
-		i18NAwareComponentCaptionSupport.setCaptionKey(captionKey);
+		i18NAwareFieldSupport.setCaptionKey(captionKey);
 	}
 
 	@Override
 	public void setCaptionParams(Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionParams(params);
+		i18NAwareFieldSupport.setCaptionParams(params);
 	}
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
+		i18NAwareFieldSupport.i18NUpdate(i18N);
 	}
 
 }

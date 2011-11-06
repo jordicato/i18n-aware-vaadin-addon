@@ -2,6 +2,7 @@ package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareLayout;
 import com.opnworks.vaadin.i18n.I18NService;
+import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.OrderedLayout;
@@ -16,6 +17,7 @@ public class I18NOrderedLayout extends OrderedLayout implements I18NAwareLayout 
 
 	private static final long serialVersionUID = -4162410642504114947L;
 
+	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 	private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();
 
 	/**
@@ -55,7 +57,18 @@ public class I18NOrderedLayout extends OrderedLayout implements I18NAwareLayout 
 	}
 
 	@Override
+	public void setCaptionKey(String captionKey) {
+		i18NAwareComponentCaptionSupport.setCaptionKey(captionKey);
+	}
+
+	@Override
+	public void setCaptionParams(Object... params) {
+		i18NAwareComponentCaptionSupport.setCaptionParams(params);
+	}
+
+	@Override
 	public void i18NUpdate(I18NService i18N) {
+		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
 		i18nAwareSupport.i18NUpdate(i18N);
 	}
 }
