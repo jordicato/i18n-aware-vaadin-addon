@@ -74,7 +74,7 @@ public class I18NAwareDemo extends Application {
 		tab1Content.addComponent(I18NAwareFactory.newButton("tab1.button.caption"));
 
 		Tab tab1 = tabSheet.addTab(tab1Content);
-		I18NAwareFactory.setCaptionKey(tab1, "tab1.name");
+		I18NAwareFactory.setCaptionMessage(tab1, "tab1.name");
 
 		VerticalLayout tab2Content = I18NAwareFactory.newVerticalLayout();
 
@@ -85,7 +85,7 @@ public class I18NAwareDemo extends Application {
 				.newButton("tab2.button.caption"));
 
 		Tab tab2 = tabSheet.addTab(tab2Content);
-		I18NAwareFactory.setCaptionKey(tab2, "tab2.name");
+		I18NAwareFactory.setCaptionMessage(tab2, "tab2.name");
 
 		mainWindow.addComponent(tabSheet);
 
@@ -107,7 +107,7 @@ public class I18NAwareDemo extends Application {
 		languageSelector.setItemCaption(Locale.ENGLISH, "English");
 
 		languageSelector.addItem(Locale.FRENCH);
-		languageSelector.setItemCaption(Locale.FRENCH, "Français");
+		languageSelector.setItemCaption(Locale.FRENCH, "Francais");
 
 		languageSelector.setValue(DEFAULT_LOCALE);
 
