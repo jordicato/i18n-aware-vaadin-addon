@@ -12,14 +12,8 @@ public interface I18NAwareValue extends I18NAware {
 	 * 
 	 * @param valueKey
 	 *            the value message key.
-	 */
-	void setValueKey(String valueKey);
-
-	/**
-	 * Set the value message parameters
-	 * 
 	 * @param valueParams
 	 *            the value message parameters.
 	 */
-	void setValueParams(Object... valueParams);
+	void setValueMessage(String valueKey, Object... valueParams);
 }

@@ -31,7 +31,7 @@ public class I18NSlider extends Slider implements I18NAwareField {
 	 */
 	public I18NSlider(String captionKey) {
 		super(captionKey);
-		i18NAwareFieldSupport.setCaptionKey(captionKey);
+		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
 
 	/**
@@ -64,27 +64,23 @@ public class I18NSlider extends Slider implements I18NAwareField {
 	 */
 	public I18NSlider(String captionKey, int min, int max) {
 		super(captionKey, min, max);
-		i18NAwareFieldSupport.setCaptionKey(captionKey);
+		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
 
 	@Override
-	public void setRequiredErrorKey(String requiredErrorKey) {
-		i18NAwareFieldSupport.setRequiredErrorKey(requiredErrorKey);
+	public void setRequiredErrorMessage(String requiredErrorKey, Object... requiredErrorParams) {
+		i18NAwareFieldSupport.setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
 	@Override
-	public void setRequiredErrorParams(Object[] requiredErrorParams) {
-		i18NAwareFieldSupport.setRequiredErrorParams(requiredErrorParams);
+	public void setCaptionMessage(String captionKey, Object... params) {
+		i18NAwareFieldSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setCaptionKey(String captionKey) {
-		i18NAwareFieldSupport.setCaptionKey(captionKey);
-	}
-
-	@Override
-	public void setCaptionParams(Object... params) {
-		i18NAwareFieldSupport.setCaptionParams(params);
+	public void setDescriptionMessage(String descriptionKey,
+			Object... descriptionParams) {
+		i18NAwareFieldSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override

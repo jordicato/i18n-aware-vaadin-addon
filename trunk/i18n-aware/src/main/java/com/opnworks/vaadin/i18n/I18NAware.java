@@ -11,6 +11,8 @@ public interface I18NAware {
 
 	void setLocale( Locale locale );
 	
+	Locale getLocale();
+
 	/**
 	 * Performs the i18N update
 	 * 

@@ -17,7 +17,7 @@ public class I18NProgressIndicatorTest extends AbstractI18NTest {
 
 		final I18NProgressIndicator i18NProgressIndicator = new I18NProgressIndicator();
 
-		i18NProgressIndicator.setCaptionKey(TEST_KEY_2);
+		i18NProgressIndicator.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NProgressIndicator, new I18NAwareTest() {
 
@@ -41,11 +41,9 @@ public class I18NProgressIndicatorTest extends AbstractI18NTest {
 
 		final I18NProgressIndicator i18NProgressIndicator = new I18NProgressIndicator();
 
-		i18NProgressIndicator.setCaptionKey(TEST_KEY_3);
-		
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NProgressIndicator.setCaptionParams(params);
+		i18NProgressIndicator.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NProgressIndicator, new I18NAwareTest() {
 

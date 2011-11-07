@@ -47,24 +47,20 @@ public class I18NLoginForm extends LoginForm implements I18NAwareCaption {
 				}
 			});
 
-	public void setCaptionKey(String captionKey) {
-		captionSupport.setCaptionKey(captionKey);
-	}
-
-	public void setCaptionParams(Object... params) {
-		captionSupport.setCaptionParams(params);
+	public void setCaptionMessage(String captionKey, Object... params) {
+		captionSupport.setCaptionMessage(captionKey, params);
 	}
 
 	public void setUsernameCaptionKey(String usernameCaptionKey) {
-		usernameCaptionSupport.setCaptionKey(usernameCaptionKey);
+		usernameCaptionSupport.setCaptionMessage(usernameCaptionKey);
 	}
 
 	public void setPasswordCaptionKey(String passwordCaptionKey) {
-		passwordCaptionSupport.setCaptionKey(passwordCaptionKey);
+		passwordCaptionSupport.setCaptionMessage(passwordCaptionKey);
 	}
 
 	public void setLoginButtonCaptionKey(String loginButtonCaptionKey) {
-		loginButtonCaptionSupport.setCaptionKey(loginButtonCaptionKey);
+		loginButtonCaptionSupport.setCaptionMessage(loginButtonCaptionKey);
 	}
 
 	@Override

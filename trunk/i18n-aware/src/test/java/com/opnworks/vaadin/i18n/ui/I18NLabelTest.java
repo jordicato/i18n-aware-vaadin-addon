@@ -3,7 +3,6 @@ package com.opnworks.vaadin.i18n.ui;
 import org.junit.Test;
 
 import com.opnworks.vaadin.i18n.AbstractI18NTest;
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 
 /**
  * The I18NLabel Unit Tests
@@ -15,14 +14,14 @@ public class I18NLabelTest extends AbstractI18NTest {
 	@Test
 	public void testConstructorValueKey() {
 
-		final I18NLabel i18NLabel = new I18NLabel();
+		final I18NLabel i18NI18NLabel = new I18NLabel();
 
-		i18NLabel.setValueKey(TEST_KEY_1);
+		i18NI18NLabel.setValueMessage(TEST_KEY_1);
 		
-		performTest(i18NLabel, new I18NAwareTest() {
+		performTest(i18NI18NLabel, new I18NAwareTest() {
 
 			public String getActualValue() {
-				return (String)i18NLabel.getValue();
+				return (String)i18NI18NLabel.getValue();
 			}
 
 			public String getKey() {
@@ -38,14 +37,14 @@ public class I18NLabelTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionKey() {
 
-		final I18NLabel i18NLabel = new I18NLabel(TEST_KEY_1);
+		final I18NLabel i18NI18NLabel = new I18NLabel(TEST_KEY_1);
 
-		i18NLabel.setCaptionKey(TEST_KEY_2);
+		i18NI18NLabel.setCaptionMessage(TEST_KEY_2);
 
-		performTest(i18NLabel, new I18NAwareTest() {
+		performTest(i18NI18NLabel, new I18NAwareTest() {
 
 			public String getActualValue() {
-				return i18NLabel.getCaption();
+				return i18NI18NLabel.getCaption();
 			}
 
 			public String getKey() {
@@ -62,18 +61,16 @@ public class I18NLabelTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionParams() {
 
-		final I18NLabel i18NLabel = new I18NLabel();
+		final I18NLabel i18NI18NLabel = new I18NLabel();
 
-		i18NLabel.setCaptionKey(TEST_KEY_3);
-		
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NLabel.setCaptionParams(params);
+		i18NI18NLabel.setCaptionMessage(TEST_KEY_3, params);
 
-		performTest(i18NLabel, new I18NAwareTest() {
+		performTest(i18NI18NLabel, new I18NAwareTest() {
 
 			public String getActualValue() {
-				return (String)i18NLabel.getCaption();
+				return (String)i18NI18NLabel.getCaption();
 			}
 
 			public String getKey() {
@@ -90,14 +87,14 @@ public class I18NLabelTest extends AbstractI18NTest {
 	@Test
 	public void testSetValueKey() {
 
-		final I18NLabel i18NLabel = new I18NLabel(TEST_KEY_1);
+		final I18NLabel i18NI18NLabel = new I18NLabel(TEST_KEY_1);
 		
-		i18NLabel.setValueKey(TEST_KEY_2);
+		i18NI18NLabel.setValueMessage(TEST_KEY_2);
 
-		performTest(i18NLabel, new I18NAwareTest() {
+		performTest(i18NI18NLabel, new I18NAwareTest() {
 
 			public String getActualValue() {
-				return (String)i18NLabel.getValue();
+				return (String)i18NI18NLabel.getValue();
 			}
 
 			public String getKey() {

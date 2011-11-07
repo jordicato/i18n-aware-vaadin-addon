@@ -23,17 +23,15 @@ public class I18NTab implements Tab, I18NAwareCaption, CaptionContainer {
 	private Tab delegate;
 
 	private I18NCaptionSupport i18NCaptionSupport = new I18NCaptionSupport(this);
-
+	
+	private Locale locale;
+	
 	public I18NTab(Tab delegate) {
 		this.delegate = delegate;
 	}
 
-	public void setCaptionKey(String captionKey) {
-		i18NCaptionSupport.setCaptionKey(captionKey);
-	}
-
-	public void setCaptionParams(Object... captionParams) {
-		i18NCaptionSupport.setCaptionParams(captionParams);
+	public void setCaptionMessage(String captionKey, Object... captionParams) {
+		i18NCaptionSupport.setCaptionMessage(captionKey, captionParams);
 	}
 
 	public void i18NUpdate(I18NService i18N) {
@@ -99,7 +97,22 @@ public class I18NTab implements Tab, I18NAwareCaption, CaptionContainer {
 	public Component getComponent() {
 		return delegate.getComponent();
 	}
+	
+	public void setStyleName(String styleName) {
+		delegate.setStyleName(styleName);
+	}
 
+	public String getStyleName() {
+		return delegate.getStyleName();
+	}
+
+	@Override
 	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
+	
+	@Override
+	public Locale getLocale() {
+		return locale;
 	}
 }

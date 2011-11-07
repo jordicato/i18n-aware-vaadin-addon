@@ -23,14 +23,14 @@ public class I18NAwareDemo {
 		tab1Content.addComponent(I18NAwareFactory.newButton("tab1.button"));
 
 		Tab tab1 = tabSheet.addTab(tab1Content);
-		I18NAwareFactory.setCaptionKey(tab1, "tab1.name");
+		I18NAwareFactory.setCaptionMessage(tab1, "tab1.name");
 
 		VerticalLayout tab2Content = I18NAwareFactory.newVerticalLayout();
 		tab2Content.addComponent(I18NAwareFactory.newTextField("tab2.text"));
 		tab2Content.addComponent(I18NAwareFactory.newButton("tab2.button"));
 
 		Tab tab2 = tabSheet.addTab(tab2Content);
-		I18NAwareFactory.setCaptionKey(tab2, "tab2.name");
+		I18NAwareFactory.setCaptionMessage(tab2, "tab2.name");
 
 		mainWindow.addComponent(tabSheet);
 

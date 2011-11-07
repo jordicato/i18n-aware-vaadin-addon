@@ -17,8 +17,16 @@ public class I18NIndexedContainer extends IndexedContainer implements I18NAware 
 
 	private static final long serialVersionUID = 4796387361379052615L;
 
+	private Locale locale;
+	
 	@Override
 	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
+	
+	@Override
+	public Locale getLocale() {
+		return locale;
 	}
 	
 	@Override

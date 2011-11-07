@@ -39,7 +39,7 @@ public class I18NLinkTest extends AbstractI18NTest {
 
 		final I18NLink i18NLink = new I18NLink(TEST_KEY_1, null);
 
-		i18NLink.setCaptionKey(TEST_KEY_2);
+		i18NLink.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NLink, new I18NAwareTest() {
 
@@ -61,11 +61,11 @@ public class I18NLinkTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionParams() {
 
-		final I18NLink i18NLink = new I18NLink(TEST_KEY_3, null);
+		final I18NLink i18NLink = new I18NLink();
 
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NLink.setCaptionParams(params);
+		i18NLink.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NLink, new I18NAwareTest() {
 

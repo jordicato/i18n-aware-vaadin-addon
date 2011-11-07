@@ -40,7 +40,7 @@ public class I18NPanelTest extends AbstractI18NTest {
 
 		final I18NPanel i18NPanel = new I18NPanel(TEST_KEY_1);
 
-		i18NPanel.setCaptionKey(TEST_KEY_2);
+		i18NPanel.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NPanel, new I18NAwareTest() {
 

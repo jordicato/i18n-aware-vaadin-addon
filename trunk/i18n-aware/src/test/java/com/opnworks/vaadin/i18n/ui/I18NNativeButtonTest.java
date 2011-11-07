@@ -40,7 +40,7 @@ public class I18NNativeButtonTest extends AbstractI18NTest {
 		final I18NNativeButton i18NNativeButton = new I18NNativeButton(
 				TEST_KEY_1);
 
-		i18NNativeButton.setCaptionKey(TEST_KEY_2);
+		i18NNativeButton.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NNativeButton, new I18NAwareTest() {
 
@@ -62,12 +62,11 @@ public class I18NNativeButtonTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionParams() {
 
-		final I18NNativeButton i18NNativeButton = new I18NNativeButton(
-				TEST_KEY_3);
+		final I18NNativeButton i18NNativeButton = new I18NNativeButton();
 
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NNativeButton.setCaptionParams(params);
+		i18NNativeButton.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NNativeButton, new I18NAwareTest() {
 

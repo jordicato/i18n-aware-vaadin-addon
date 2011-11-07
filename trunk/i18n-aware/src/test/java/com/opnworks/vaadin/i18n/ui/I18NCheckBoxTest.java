@@ -39,7 +39,7 @@ public class I18NCheckBoxTest extends AbstractI18NTest {
 
 		final I18NCheckBox i18NCheckBox = new I18NCheckBox(TEST_KEY_1);
 
-		i18NCheckBox.setCaptionKey(TEST_KEY_2);
+		i18NCheckBox.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NCheckBox, new I18NAwareTest() {
 
@@ -61,11 +61,11 @@ public class I18NCheckBoxTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionParams() {
 
-		final I18NCheckBox i18NCheckBox = new I18NCheckBox(TEST_KEY_3);
+		final I18NCheckBox i18NCheckBox = new I18NCheckBox();
 
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NCheckBox.setCaptionParams(params);
+		i18NCheckBox.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NCheckBox, new I18NAwareTest() {
 
@@ -84,11 +84,11 @@ public class I18NCheckBoxTest extends AbstractI18NTest {
 	}
 
 	@Test
-	public void testSetRequiredErrorKey() {
+	public void testsetRequiredErrorMessage() {
 
 		final I18NCheckBox i18NCheckBox = new I18NCheckBox(TEST_KEY_1);
 
-		i18NCheckBox.setRequiredErrorKey(TEST_KEY_2);
+		i18NCheckBox.setRequiredErrorMessage(TEST_KEY_2);
 
 		performTest(i18NCheckBox, new I18NAwareTest() {
 

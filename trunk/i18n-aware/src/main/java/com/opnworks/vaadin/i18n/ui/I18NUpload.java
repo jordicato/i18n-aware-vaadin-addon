@@ -4,6 +4,8 @@ import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
+import com.opnworks.vaadin.i18n.support.I18NCaptionSupport;
+import com.opnworks.vaadin.i18n.support.I18NCaptionSupport.CaptionContainer;
 import com.vaadin.ui.Upload;
 
 /**
@@ -19,8 +21,13 @@ public class I18NUpload extends Upload implements I18NAwareComponent,
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(
 			this);
 
-	private String buttonCaptionKey;
-	private Object[] buttonCaptionParams;
+	private I18NCaptionSupport buttonCaptionI18NCaptionSupport = new I18NCaptionSupport(
+			new CaptionContainer() {
+				@Override
+				public void setCaption(String caption) {
+					setButtonCaption(caption);
+				}
+			});
 
 	/**
 	 * Creates a new i18n Upload.
@@ -38,35 +45,30 @@ public class I18NUpload extends Upload implements I18NAwareComponent,
 	 */
 	public I18NUpload(String captionKey, Receiver receiver) {
 		super(captionKey, receiver);
-		i18NAwareComponentCaptionSupport.setCaptionKey(captionKey);
+		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey);
 	}
 
-	public void setButtonCaptionKey(String buttonCaptionKey) {
-		this.buttonCaptionKey = buttonCaptionKey;
-	}
-
-	public void setButtonCaptionParams(Object[] buttonCaptionParams) {
-		this.buttonCaptionParams = buttonCaptionParams;
-	}
-
-	@Override
-	public void setCaptionKey(String captionKey) {
-		i18NAwareComponentCaptionSupport.setCaptionKey(captionKey);
+	public void setButtonCaptionMessage(String buttonCaptionKey,
+			Object... buttonCaptionParams) {
+		buttonCaptionI18NCaptionSupport.setCaptionMessage(buttonCaptionKey,
+				buttonCaptionParams);
 	}
 
 	@Override
-	public void setCaptionParams(Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionParams(params);
+	public void setCaptionMessage(String captionKey, Object... params) {
+		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
+	}
+
+	@Override
+	public void setDescriptionMessage(String descriptionKey,
+			Object... descriptionParams) {
+		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 
 		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
-
-		if (buttonCaptionKey != null) {
-			setButtonCaption(i18N.getMessage(buttonCaptionKey,
-					buttonCaptionParams));
-		}
+		buttonCaptionI18NCaptionSupport.i18NUpdate(i18N);
 	}
 }

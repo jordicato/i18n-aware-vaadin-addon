@@ -10,18 +10,12 @@ import com.vaadin.ui.Field;
 public interface I18NAwareField extends I18NAwareComponent, I18NAwareCaption, Field {
 
 	/**
-	 * Set the required error message key
+	 * Set the required error message
 	 * 
 	 * @param requiredErrorKey
 	 *            the requiredError message key.
-	 */
-	void setRequiredErrorKey(String requiredErrorKey);
-
-	/**
-	 * Set the required error message parameters
-	 * 
 	 * @param requiredErrorParams
 	 *            the requiredError message parameters.
 	 */
-	void setRequiredErrorParams(Object[] requiredErrorParams);
+	void setRequiredErrorMessage(String requiredErrorKey, Object... requiredErrorParams);
 }

@@ -19,12 +19,8 @@ public class I18NCaptionSupport extends I18NAwareValueSupport implements
 		});
 	}
 
-	public void setCaptionKey(String captionKey) {
-		setValueKey(captionKey);
-	}
-
-	public void setCaptionParams(Object... params) {
-		setValueParams(params);
+	public void setCaptionMessage(String captionKey, Object... params) {
+		setValueMessage(captionKey, params);
 	}
 
 	public interface CaptionContainer {

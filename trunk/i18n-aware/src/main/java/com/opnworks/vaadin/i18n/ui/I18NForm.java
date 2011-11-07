@@ -71,25 +71,21 @@ public class I18NForm extends Form implements I18NAwareField {
 	}
 
 	@Override
-	public void setCaptionKey(String captionKey) {
-		i18NAwareFieldSupport.setCaptionKey(captionKey);
+	public void setRequiredErrorMessage(String requiredErrorKey, Object... requiredErrorParams) {
+		i18NAwareFieldSupport.setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
 	@Override
-	public void setCaptionParams(Object... params) {
-		i18NAwareFieldSupport.setCaptionParams(params);
+	public void setCaptionMessage(String captionKey, Object... params) {
+		i18NAwareFieldSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setRequiredErrorKey(String requiredErrorKey) {
-		i18NAwareFieldSupport.setRequiredErrorKey(requiredErrorKey);
+	public void setDescriptionMessage(String descriptionKey,
+			Object... descriptionParams) {
+		i18NAwareFieldSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}
-
-	@Override
-	public void setRequiredErrorParams(Object[] requiredErrorParams) {
-		i18NAwareFieldSupport.setRequiredErrorParams(requiredErrorParams);
-	}
-
+	
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 		i18NAwareFieldSupport.i18NUpdate(i18N);

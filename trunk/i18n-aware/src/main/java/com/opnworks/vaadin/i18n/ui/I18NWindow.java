@@ -5,6 +5,8 @@ import com.opnworks.vaadin.i18n.I18NAwareContainer;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
+import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
+import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.ValueContainer;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Window;
@@ -20,6 +22,15 @@ public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareC
 
 	private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(this);
 
+	private I18NAwareValueSupport i18NDescriptionSupport = new I18NAwareValueSupport(
+			new ValueContainer() {
+				@Override
+				public void setValue(String value) {
+					setDescription(value);
+
+				}
+			});
+	
 	private I18NAwareSupport i18nAwareSupport;
 
 	/**
@@ -39,7 +50,7 @@ public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareC
 	 */
 	public I18NWindow(String captionKey) {
 		super(captionKey);
-		captionSupport.setCaptionKey(captionKey);
+		captionSupport.setCaptionMessage(captionKey);
 		setContent(new I18NVerticalLayout());
 	}
 
@@ -53,17 +64,18 @@ public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareC
 	 */
 	public I18NWindow(String captionKey, ComponentContainer content) {
 		super(captionKey, content);
-		captionSupport.setCaptionKey(captionKey);
+		captionSupport.setCaptionMessage(captionKey);
 	}
 
 	@Override
-	public void setCaptionKey(String captionKey) {
-		captionSupport.setCaptionKey(captionKey);
+	public void setCaptionMessage(String captionKey, Object... params) {
+		captionSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setCaptionParams(Object... captionParams) {
-		captionSupport.setCaptionParams(captionParams);
+	public void setDescriptionMessage(String descriptionKey,
+			Object... descriptionParams) {
+		i18NDescriptionSupport.setValueMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
@@ -81,6 +93,7 @@ public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareC
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 		captionSupport.i18NUpdate(i18N);
+		i18NDescriptionSupport.i18NUpdate(i18N);
 		ComponentContainer container = getContent();
 		if (container instanceof I18NAwareContainer) {
 			((I18NAwareContainer) container).i18NUpdate(i18N);

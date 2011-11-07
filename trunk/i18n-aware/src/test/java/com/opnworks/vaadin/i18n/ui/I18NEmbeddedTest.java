@@ -39,7 +39,7 @@ public class I18NEmbeddedTest  extends AbstractI18NTest {
 
 		final I18NEmbedded i18NEmbedded = new I18NEmbedded();
 
-		i18NEmbedded.setCaptionKey(TEST_KEY_2);
+		i18NEmbedded.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NEmbedded, new I18NAwareTest() {
 
@@ -63,11 +63,9 @@ public class I18NEmbeddedTest  extends AbstractI18NTest {
 
 		final I18NEmbedded i18NEmbedded = new I18NEmbedded();
 
-		i18NEmbedded.setCaptionKey(TEST_KEY_3);
-		
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NEmbedded.setCaptionParams(params);
+		i18NEmbedded.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NEmbedded, new I18NAwareTest() {
 

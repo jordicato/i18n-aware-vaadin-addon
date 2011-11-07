@@ -181,7 +181,7 @@ public class I18NMenuBarTest extends AbstractI18NTest  {
 
 		final I18NMenuBar i18NMenuBar = new I18NMenuBar();
 
-		i18NMenuBar.setCaptionKey(TEST_KEY_2);
+		i18NMenuBar.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NMenuBar, new I18NAwareTest() {
 
@@ -206,8 +206,7 @@ public class I18NMenuBarTest extends AbstractI18NTest  {
 
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NMenuBar.setCaptionKey(TEST_KEY_3);
-		i18NMenuBar.setCaptionParams(params);
+		i18NMenuBar.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NMenuBar, new I18NAwareTest() {
 

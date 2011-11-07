@@ -3,7 +3,6 @@ package com.opnworks.vaadin.i18n.event;
 import org.junit.Test;
 
 import com.opnworks.vaadin.i18n.AbstractI18NTest;
-import com.opnworks.vaadin.i18n.event.I18NAction;
 
 /**
  * The I18NAction Unit Tests
@@ -39,7 +38,7 @@ public class I18NActionTest extends AbstractI18NTest {
 
 		final I18NAction i18NAction = new I18NAction(TEST_KEY_1);
 
-		i18NAction.setCaptionKey(TEST_KEY_2);
+		i18NAction.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NAction, new I18NAwareTest() {
 
@@ -64,8 +63,8 @@ public class I18NActionTest extends AbstractI18NTest {
 		final I18NAction i18NAction = new I18NAction(TEST_KEY_3);
 
 		final Object[] params = new Object[] { 1, 2, 3 };
-
-		i18NAction.setCaptionParams(params);
+		
+		i18NAction.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NAction, new I18NAwareTest() {
 

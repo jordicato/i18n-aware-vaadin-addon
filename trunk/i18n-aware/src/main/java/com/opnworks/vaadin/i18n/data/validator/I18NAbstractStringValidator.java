@@ -2,6 +2,7 @@ package com.opnworks.vaadin.i18n.data.validator;
 
 import com.opnworks.vaadin.i18n.I18NAwareValidator;
 import com.opnworks.vaadin.i18n.I18NService;
+import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 import com.vaadin.data.validator.AbstractStringValidator;
 
 /**
@@ -24,10 +25,24 @@ public abstract class I18NAbstractStringValidator extends
 
 		this.errorMessageKey = errorMessageKey;
 		this.fieldNameKey = fieldNameKey;
+		
+		i18NUpdate();
 	}
 
 	public void setErrorMessageKey(String errorMessageKey) {
 		this.errorMessageKey = errorMessageKey;
+		i18NUpdate();
+	}
+	
+	public void setFieldNameKey(String fieldNameKey) {
+		this.fieldNameKey = fieldNameKey;
+		i18NUpdate();
+	}
+
+	private void i18NUpdate() {
+		if( I18NServiceImpl.getInstance() != null ) {
+			i18NUpdate( I18NServiceImpl.getInstance() );
+		}
 	}
 
 	@Override

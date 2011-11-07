@@ -36,7 +36,7 @@ public class I18NCheckBox extends CheckBox implements I18NAwareField {
 	 */
 	public I18NCheckBox(String captionKey) {
 		super(captionKey);
-		i18NAwareFieldSupport.setCaptionKey(captionKey);
+		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class I18NCheckBox extends CheckBox implements I18NAwareField {
 	 */
 	public I18NCheckBox(String captionKey, ClickListener listener) {
 		super(captionKey, listener);
-		i18NAwareFieldSupport.setCaptionKey(captionKey);
+		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class I18NCheckBox extends CheckBox implements I18NAwareField {
 	 */
 	public I18NCheckBox(String captionKey, boolean initialState) {
 		super(captionKey, initialState);
-		i18NAwareFieldSupport.setCaptionKey(captionKey);
+		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class I18NCheckBox extends CheckBox implements I18NAwareField {
 	 */
 	public I18NCheckBox(String captionKey, Object target, String methodName) {
 		super(captionKey, target, methodName);
-		i18NAwareFieldSupport.setCaptionKey(captionKey);
+		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
 
 	/**
@@ -99,29 +99,25 @@ public class I18NCheckBox extends CheckBox implements I18NAwareField {
 	 */
 	public I18NCheckBox(String captionKey, Property dataSource) {
 		super(captionKey, dataSource);
-		i18NAwareFieldSupport.setCaptionKey(captionKey);
+		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
 
 	@Override
-	public void setRequiredErrorKey(String requiredErrorKey) {
-		i18NAwareFieldSupport.setRequiredErrorKey(requiredErrorKey);
+	public void setRequiredErrorMessage(String requiredErrorKey, Object... requiredErrorParams) {
+		i18NAwareFieldSupport.setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
 	@Override
-	public void setRequiredErrorParams(Object[] requiredErrorParams) {
-		i18NAwareFieldSupport.setRequiredErrorParams(requiredErrorParams);
+	public void setCaptionMessage(String captionKey, Object... params) {
+		i18NAwareFieldSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setCaptionKey(String captionKey) {
-		i18NAwareFieldSupport.setCaptionKey(captionKey);
+	public void setDescriptionMessage(String descriptionKey,
+			Object... descriptionParams) {
+		i18NAwareFieldSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}
-
-	@Override
-	public void setCaptionParams(Object... params) {
-		i18NAwareFieldSupport.setCaptionParams(params);
-	}
-
+	
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 		i18NAwareFieldSupport.i18NUpdate(i18N);

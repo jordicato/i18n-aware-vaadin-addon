@@ -20,7 +20,7 @@ public class I18NAccordionTest extends AbstractI18NTest {
 
 		final I18NTab i18NTab = i18NAccordion.addI18NTab(component);
 
-		i18NTab.setCaptionKey(TEST_KEY_2);
+		i18NTab.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NAccordion, new I18NAwareTest() {
 
