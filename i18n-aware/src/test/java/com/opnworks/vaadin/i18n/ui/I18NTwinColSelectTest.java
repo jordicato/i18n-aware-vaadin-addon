@@ -16,11 +16,9 @@ public class I18NTwinColSelectTest extends AbstractI18NTest {
 
 		final I18NTwinColSelect i18NTwinColSelect = new I18NTwinColSelect();
 
-		i18NTwinColSelect.setLeftColumnCaptionKey(TEST_KEY_3);
-		
 		final Object[] params = new Object[] { 1, 2, 3 };
-		
-		i18NTwinColSelect.setLeftColumnCaptionParams(params);
+
+		i18NTwinColSelect.setLeftColumnCaptionKey(TEST_KEY_3, params);
 
 		performTest(i18NTwinColSelect, new I18NAwareTest() {
 
@@ -43,11 +41,9 @@ public class I18NTwinColSelectTest extends AbstractI18NTest {
 
 		final I18NTwinColSelect i18NTwinColSelect = new I18NTwinColSelect();
 
-		i18NTwinColSelect.setRightColumnCaptionKey(TEST_KEY_3);
-		
 		final Object[] params = new Object[] { 1, 2, 3 };
-		
-		i18NTwinColSelect.setRightColumnCaptionParams(params);
+
+		i18NTwinColSelect.setRightColumnCaptionKey(TEST_KEY_3, params);
 
 		performTest(i18NTwinColSelect, new I18NAwareTest() {
 
@@ -64,7 +60,7 @@ public class I18NTwinColSelectTest extends AbstractI18NTest {
 			}
 		});
 	}
-	
+
 	@Test
 	public void testConstructorCaptionKey() {
 
@@ -94,7 +90,7 @@ public class I18NTwinColSelectTest extends AbstractI18NTest {
 		final I18NTwinColSelect i18NTwinColSelect = new I18NTwinColSelect(
 				TEST_KEY_1);
 
-		i18NTwinColSelect.setCaptionKey(TEST_KEY_2);
+		i18NTwinColSelect.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NTwinColSelect, new I18NAwareTest() {
 
@@ -116,12 +112,11 @@ public class I18NTwinColSelectTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionParams() {
 
-		final I18NTwinColSelect i18NTwinColSelect = new I18NTwinColSelect(
-				TEST_KEY_3);
+		final I18NTwinColSelect i18NTwinColSelect = new I18NTwinColSelect();
 
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NTwinColSelect.setCaptionParams(params);
+		i18NTwinColSelect.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NTwinColSelect, new I18NAwareTest() {
 
@@ -140,12 +135,12 @@ public class I18NTwinColSelectTest extends AbstractI18NTest {
 	}
 
 	@Test
-	public void testSetRequiredErrorKey() {
+	public void testsetRequiredErrorMessage() {
 
 		final I18NTwinColSelect i18NTwinColSelect = new I18NTwinColSelect(
 				TEST_KEY_1);
 
-		i18NTwinColSelect.setRequiredErrorKey(TEST_KEY_2);
+		i18NTwinColSelect.setRequiredErrorMessage(TEST_KEY_2);
 
 		performTest(i18NTwinColSelect, new I18NAwareTest() {
 

@@ -16,23 +16,34 @@ import com.vaadin.ui.Label;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @SuppressWarnings("unchecked")
-public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCaption, I18NAwareValue, ValueContainer {
+public class I18NLabel extends Label implements I18NAwareComponent,
+		I18NAwareCaption, I18NAwareValue, ValueContainer {
 
 	private static final long serialVersionUID = 2379556692292586769L;
 
-	private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(this);
+	private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(
+			this);
+	
+	private I18NAwareValueSupport i18NDescriptionSupport = new I18NAwareValueSupport(
+			new ValueContainer() {
+				@Override
+				public void setValue(String value) {
+					setDescription(value);
+
+				}
+			});
 
 	private I18NAwareValueSupport i18NAwareValueSupport;
 
 	/**
-	 * Creates an empty i18n Label.
+	 * Creates an empty i18n I18NLabel.
 	 */
 	public I18NLabel() {
 		super();
 	}
 
 	/**
-	 * Creates an i18n Label with text-contents.
+	 * Creates an i18n I18NLabel with text-contents.
 	 * 
 	 * @param content
 	 */
@@ -41,7 +52,7 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 	}
 
 	/**
-	 * Creates a new instance of Label with text-contents read from given
+	 * Creates a new instance of I18NLabel with text-contents read from given
 	 * datasource.
 	 * 
 	 * @param contentSource
@@ -51,7 +62,7 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 	}
 
 	/**
-	 * Creates a new instance of Label with text-contents.
+	 * Creates a new instance of I18NLabel with text-contents.
 	 * 
 	 * @param content
 	 * @param contentMode
@@ -61,7 +72,7 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 	}
 
 	/**
-	 * Creates a new instance of Label with text-contents read from given
+	 * Creates a new instance of I18NLabel with text-contents read from given
 	 * datasource.
 	 * 
 	 * @param contentSource
@@ -72,37 +83,33 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 	}
 
 	@Override
-	public void setCaptionKey(String captionKey) {
-		captionSupport.setCaptionKey(captionKey);
+	public void setCaptionMessage(String captionKey, Object... params) {
+		captionSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setCaptionParams(Object... params) {
-		captionSupport.setCaptionParams(params);
+	public void setDescriptionMessage(String descriptionKey,
+			Object... descriptionParams) {
+		i18NDescriptionSupport.setValueMessage(descriptionKey,
+				descriptionParams);
 	}
 
 	@Override
-	public void setValueKey(String textKey) {
+	public void setValueMessage(String textKey, Object... params) {
 
 		createValueSupport();
 
-		i18NAwareValueSupport.setValueKey(textKey);
+		i18NAwareValueSupport.setValueMessage(textKey, params);
 
 		setValue(textKey);
-	}
-
-	@Override
-	public void setValueParams(Object... params) {
-
-		createValueSupport();
-
-		i18NAwareValueSupport.setValueParams(params);
 	}
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 
 		captionSupport.i18NUpdate(i18N);
+		
+		i18NDescriptionSupport.i18NUpdate(i18N);
 
 		if (i18NAwareValueSupport != null) {
 			i18NAwareValueSupport.i18NUpdate(i18N);

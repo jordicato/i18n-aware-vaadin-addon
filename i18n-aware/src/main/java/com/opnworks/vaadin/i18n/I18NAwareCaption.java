@@ -8,18 +8,12 @@ package com.opnworks.vaadin.i18n;
 public interface I18NAwareCaption extends I18NAware {
 
 	/**
-	 * Set the caption message key.
+	 * Set the caption message.
 	 * 
 	 * @param captionKey
 	 *            the caption message key.
-	 */
-	void setCaptionKey(String captionKey);
-
-	/**
-	 * Set the caption message parameters.
-	 * 
 	 * @param params
 	 *            the caption message parameters.
 	 */
-	void setCaptionParams(Object... params);
+	void setCaptionMessage(String captionKey, Object... params);
 }

@@ -34,7 +34,7 @@ public class I18NLink extends Link implements I18NAwareComponent, I18NAwareCapti
      */
 	public I18NLink(String captionKey, Resource resource) {
 		super(captionKey, resource);
-		i18NAwareComponentCaptionSupport.setCaptionKey(captionKey);
+		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey);
 	}
 
     /**
@@ -58,19 +58,20 @@ public class I18NLink extends Link implements I18NAwareComponent, I18NAwareCapti
 	public I18NLink(String captionKey, Resource resource, String targetName,
 			int width, int height, int border) {
 		super(captionKey, resource, targetName, width, height, border);
-		i18NAwareComponentCaptionSupport.setCaptionKey(captionKey);
+		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey);
 	}
 
 	@Override
-	public void setCaptionKey(String captionKey) {
-		i18NAwareComponentCaptionSupport.setCaptionKey(captionKey);
+	public void setCaptionMessage(String captionKey, Object... params) {
+		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setCaptionParams(Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionParams(params);
+	public void setDescriptionMessage(String descriptionKey,
+			Object... descriptionParams) {
+		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}
-
+	
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);

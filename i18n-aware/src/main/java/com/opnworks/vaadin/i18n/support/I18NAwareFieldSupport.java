@@ -36,20 +36,20 @@ public class I18NAwareFieldSupport implements Serializable {
 				originalField);
 	}
 
-	public void setCaptionKey(String captionKey) {
-		i18NAwareComponentCaptionSupport.setCaptionKey(captionKey);
+	public void setCaptionMessage(String captionKey, Object... params) {
+		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
 	}
 
-	public void setCaptionParams(Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionParams(params);
+	public void setDescriptionMessage(String descriptionKey,
+			Object... descriptionParams) {
+		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey,
+				descriptionParams);
 	}
 
-	public void setRequiredErrorKey(String requiredErrorKey) {
-		i18NRequiredErrorSupport.setValueKey(requiredErrorKey);
-	}
-
-	public void setRequiredErrorParams(Object[] requiredErrorParams) {
-		i18NRequiredErrorSupport.setValueParams(requiredErrorParams);
+	public void setRequiredErrorMessage(String requiredErrorKey,
+			Object[] requiredErrorParams) {
+		i18NRequiredErrorSupport.setValueMessage(requiredErrorKey,
+				requiredErrorParams);
 	}
 
 	public void i18NUpdate(I18NService i18N) {

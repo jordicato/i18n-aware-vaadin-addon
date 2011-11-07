@@ -39,7 +39,7 @@ public class I18NUploadTest extends AbstractI18NTest {
 
 		final I18NUpload i18NUpload = new I18NUpload(TEST_KEY_1, null);
 
-		i18NUpload.setCaptionKey(TEST_KEY_2);
+		i18NUpload.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NUpload, new I18NAwareTest() {
 
@@ -61,11 +61,11 @@ public class I18NUploadTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionParams() {
 
-		final I18NUpload i18NUpload = new I18NUpload(TEST_KEY_3, null);
+		final I18NUpload i18NUpload = new I18NUpload(TEST_KEY_1, null);
 
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NUpload.setCaptionParams(params);
+		i18NUpload.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NUpload, new I18NAwareTest() {
 

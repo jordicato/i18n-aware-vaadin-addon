@@ -38,7 +38,7 @@ public class I18NOptionGroupTest extends AbstractI18NTest {
 
 		final I18NOptionGroup i18NOptionGroup = new I18NOptionGroup(TEST_KEY_1);
 
-		i18NOptionGroup.setCaptionKey(TEST_KEY_2);
+		i18NOptionGroup.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NOptionGroup, new I18NAwareTest() {
 
@@ -60,11 +60,11 @@ public class I18NOptionGroupTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionParams() {
 
-		final I18NOptionGroup i18NOptionGroup = new I18NOptionGroup(TEST_KEY_3);
+		final I18NOptionGroup i18NOptionGroup = new I18NOptionGroup();
 
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NOptionGroup.setCaptionParams(params);
+		i18NOptionGroup.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NOptionGroup, new I18NAwareTest() {
 
@@ -83,11 +83,11 @@ public class I18NOptionGroupTest extends AbstractI18NTest {
 	}
 
 	@Test
-	public void testSetRequiredErrorKey() {
+	public void testsetRequiredErrorMessage() {
 
 		final I18NOptionGroup i18NOptionGroup = new I18NOptionGroup(TEST_KEY_1);
 
-		i18NOptionGroup.setRequiredErrorKey(TEST_KEY_2);
+		i18NOptionGroup.setRequiredErrorMessage(TEST_KEY_2);
 
 		performTest(i18NOptionGroup, new I18NAwareTest() {
 

@@ -85,7 +85,6 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.InlineDateField;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.ListSelect;
@@ -294,53 +293,53 @@ public class I18NAwareFactory {
 	}
 
 	/**
-	 * Creates a Label
+	 * Creates a I18NLabel
 	 * 
-	 * @return new i18n-aware Label
+	 * @return new i18n-aware I18NLabel
 	 */
-	public static Label newLabel() {
+	public static I18NLabel newI18NLabel() {
 		return new I18NLabel();
 	}
 
 	/**
-	 * Creates a Label
+	 * Creates a I18NLabel
 	 * 
 	 * @param valueKey
-	 *            key for the Label value
-	 * @return new i18n-aware Label
+	 *            key for the I18NLabel value
+	 * @return new i18n-aware I18NLabel
 	 */
-	public static Label newLabel(String valueKey) {
+	public static I18NLabel newI18NLabel(String valueKey) {
 		return new I18NLabel(valueKey);
 	}
 
 	/**
-	 * Creates a new instance of Label with text-contents read from given
+	 * Creates a new instance of I18NLabel with text-contents read from given
 	 * datasource.
 	 * 
 	 * @param contentSource
 	 */
-	public static Label newLabel(Property contentSource) {
+	public static I18NLabel newI18NLabel(Property contentSource) {
 		return new I18NLabel(contentSource);
 	}
 
 	/**
-	 * Creates a new instance of Label with text-contents.
+	 * Creates a new instance of I18NLabel with text-contents.
 	 * 
 	 * @param content
 	 * @param contentMode
 	 */
-	public static Label newLabel(String content, int contentMode) {
+	public static I18NLabel newI18NLabel(String content, int contentMode) {
 		return new I18NLabel(content, contentMode);
 	}
 
 	/**
-	 * Creates a new instance of Label with text-contents read from given
+	 * Creates a new instance of I18NLabel with text-contents read from given
 	 * datasource.
 	 * 
 	 * @param contentSource
 	 * @param contentMode
 	 */
-	public static Label newLabel(Property contentSource, int contentMode) {
+	public static I18NLabel newI18NLabel(Property contentSource, int contentMode) {
 		return new I18NLabel(contentSource, contentMode);
 	}
 
@@ -507,29 +506,15 @@ public class I18NAwareFactory {
 	 *            component to be set
 	 * @param buttonCaptionKey
 	 *            key for the Button caption
-	 */
-	public static void setButtonCaptionKey(Upload upload,
-			String buttonCaptionKey) {
-		if (!(upload instanceof I18NUpload)) {
-			throw new IllegalArgumentException("Expecting a I18NUpload");
-		}
-		((I18NUpload) upload).setButtonCaptionKey(buttonCaptionKey);
-	}
-
-	/**
-	 * Sets params for the button caption of an Upload component
-	 * 
-	 * @param Upload
-	 *            component to be set
 	 * @param buttonCaptionParams
 	 *            params for the Button caption key
 	 */
-	public static void setButtonCaptionParams(Upload upload,
-			Object[] buttonCaptionParams) {
+	public static void setButtonCaptionKey(Upload upload,
+			String buttonCaptionKey, Object... buttonCaptionParams) {
 		if (!(upload instanceof I18NUpload)) {
 			throw new IllegalArgumentException("Expecting a I18NUpload");
 		}
-		((I18NUpload) upload).setButtonCaptionParams(buttonCaptionParams);
+		((I18NUpload) upload).setButtonCaptionMessage(buttonCaptionKey, buttonCaptionParams);
 	}
 
 	// Containers
@@ -1015,22 +1000,12 @@ public class I18NAwareFactory {
 	}
 
 	public static void setInputPromptKey(PopupDateField popupDateField,
-			String inputPromptKey) {
+			String inputPromptKey, Object... inputPromptParams) {
 
 		if (!(popupDateField instanceof I18NPopupDateField)) {
 			throw new IllegalArgumentException("Expecting a I18NPopupDateField");
 		}
-		((I18NPopupDateField) popupDateField).setInputPromptKey(inputPromptKey);
-	}
-
-	public static void setInputPromptKeyParams(PopupDateField popupDateField,
-			Object... inputPromptParams) {
-
-		if (!(popupDateField instanceof I18NPopupDateField)) {
-			throw new IllegalArgumentException("Expecting a I18NPopupDateField");
-		}
-		((I18NPopupDateField) popupDateField)
-				.setInputPromptKeyParams(inputPromptParams);
+		((I18NPopupDateField) popupDateField).setInputPromptKey(inputPromptKey, inputPromptParams);
 	}
 
 	/**
@@ -1261,43 +1236,23 @@ public class I18NAwareFactory {
 	}
 
 	public static void setLeftColumnCaptionKey(TwinColSelect twinColSelect,
-			String leftColumnCaptionKey) {
+			String leftColumnCaptionKey, Object... leftColumnCaptionParams) {
 
 		if (!(twinColSelect instanceof I18NTwinColSelect)) {
 			throw new IllegalArgumentException("Expecting a I18NTwinColSelect");
 		}
 		((I18NTwinColSelect) twinColSelect)
-				.setLeftColumnCaptionKey(leftColumnCaptionKey);
-	}
-
-	public static void setLeftColumnCaptionParams(TwinColSelect twinColSelect,
-			Object... leftColumnCaptionParams) {
-
-		if (!(twinColSelect instanceof I18NTwinColSelect)) {
-			throw new IllegalArgumentException("Expecting a I18NTwinColSelect");
-		}
-		((I18NTwinColSelect) twinColSelect)
-				.setLeftColumnCaptionParams(leftColumnCaptionParams);
+				.setLeftColumnCaptionKey(leftColumnCaptionKey, leftColumnCaptionParams);
 	}
 
 	public static void setRightColumnCaptionKey(TwinColSelect twinColSelect,
-			String rightColumnCaptionKey) {
+			String rightColumnCaptionKey, Object... rightColumnCaptionParams) {
 
 		if (!(twinColSelect instanceof I18NTwinColSelect)) {
 			throw new IllegalArgumentException("Expecting a I18NTwinColSelect");
 		}
 		((I18NTwinColSelect) twinColSelect)
-				.setRightColumnCaptionKey(rightColumnCaptionKey);
-	}
-
-	public static void setRightColumnCaptionParams(TwinColSelect twinColSelect,
-			Object... rightColumnCaptionParams) {
-
-		if (!(twinColSelect instanceof I18NTwinColSelect)) {
-			throw new IllegalArgumentException("Expecting a I18NTwinColSelect");
-		}
-		((I18NTwinColSelect) twinColSelect)
-				.setRightColumnCaptionParams(rightColumnCaptionParams);
+				.setRightColumnCaptionKey(rightColumnCaptionKey, rightColumnCaptionParams);
 	}
 
 	/**
@@ -1900,34 +1855,19 @@ public class I18NAwareFactory {
 	 *            Item to be updated type I18NAwareCaption
 	 * @param captionKey
 	 *            new caption key
-	 * @see I18NAwareCaption
-	 */
-	public static <T> void setCaptionKey(T item, String captionKey) {
-
-		if (!(item instanceof I18NAwareCaption)) {
-			throw new IllegalArgumentException("Expecting a I18NAwareCaption");
-		}
-
-		((I18NAwareCaption) item).setCaptionKey(captionKey);
-	}
-
-	/**
-	 * Set caption key params
-	 * 
-	 * @param item
-	 *            Item to be updated type I18NAwareCaption
 	 * @param params
 	 *            parameters for the caption
 	 * @see I18NAwareCaption
 	 */
-	public static <T> void setCaptionParams(T item, Object... params) {
+	public static <T> void setCaptionMessage(T item, String captionKey, Object... params) {
 
 		if (!(item instanceof I18NAwareCaption)) {
 			throw new IllegalArgumentException("Expecting a I18NAwareCaption");
 		}
 
-		((I18NAwareCaption) item).setCaptionParams(params);
+		((I18NAwareCaption) item).setCaptionMessage(captionKey, params);
 	}
+
 
 	/**
 	 * Set value key
@@ -1938,31 +1878,13 @@ public class I18NAwareFactory {
 	 *            new value
 	 * @see I18NAwareValue
 	 */
-	public static <T> void setValueKey(T item, String valueKey) {
+	public static <T> void setValueKey(T item, String valueKey, Object... valueParams) {
 
 		if (!(item instanceof I18NAwareValue)) {
 			throw new IllegalArgumentException("Expecting a I18NAwareValue");
 		}
 
-		((I18NAwareValue) item).setValueKey(valueKey);
-	}
-
-	/**
-	 * Set params for the value
-	 * 
-	 * @param item
-	 *            Item to be updated I18NAwareValue
-	 * @param valueParams
-	 *            parameters for the value
-	 * @see I18NAwareValue
-	 */
-	public static <T> void setValueParams(T item, Object... valueParams) {
-
-		if (!(item instanceof I18NAwareValue)) {
-			throw new IllegalArgumentException("Expecting a I18NAwareValue");
-		}
-
-		((I18NAwareValue) item).setValueParams(valueParams);
+		((I18NAwareValue) item).setValueMessage(valueKey, valueParams);
 	}
 
 	/**
@@ -1974,32 +1896,13 @@ public class I18NAwareFactory {
 	 *            key for required error message
 	 * @see I18NAwareValue
 	 */
-	public static <T> void setRequiredErrorKey(T item, String requiredErrorKey) {
+	public static <T> void setRequiredErrorMessage(T item, String requiredErrorKey, Object... requiredErrorParams) {
 
 		if (!(item instanceof I18NAwareField)) {
 			throw new IllegalArgumentException("Expecting a I18NAwareValue");
 		}
 
-		((I18NAwareField) item).setRequiredErrorKey(requiredErrorKey);
-	}
-
-	/**
-	 * Set params for error required message
-	 * 
-	 * @param item
-	 *            Item to be updated type I18NAwareField
-	 * @param requiredErrorParams
-	 *            params for required error message
-	 * @see I18NAwareField
-	 */
-	public static <T> void setRequiredErrorParams(T item,
-			Object... requiredErrorParams) {
-
-		if (!(item instanceof I18NAwareField)) {
-			throw new IllegalArgumentException("Expecting a I18NAwareField");
-		}
-
-		((I18NAwareField) item).setRequiredErrorParams(requiredErrorParams);
+		((I18NAwareField) item).setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
 }

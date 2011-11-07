@@ -17,7 +17,7 @@ public class I18NFormTest extends AbstractI18NTest {
 
 		final I18NForm i18NForm = new I18NForm();
 
-		i18NForm.setCaptionKey(TEST_KEY_2);
+		i18NForm.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NForm, new I18NAwareTest() {
 
@@ -41,11 +41,9 @@ public class I18NFormTest extends AbstractI18NTest {
 
 		final I18NForm i18NForm = new I18NForm();
 
-		i18NForm.setCaptionKey(TEST_KEY_3);
-
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NForm.setCaptionParams(params);
+		i18NForm.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NForm, new I18NAwareTest() {
 
@@ -64,13 +62,13 @@ public class I18NFormTest extends AbstractI18NTest {
 	}
 
 	@Test
-	public void testSetRequiredErrorKey() {
+	public void testsetRequiredErrorMessage() {
 
 		final I18NForm i18NForm = new I18NForm();
 
-		i18NForm.setCaptionKey(TEST_KEY_1);
+		i18NForm.setCaptionMessage(TEST_KEY_1);
 
-		i18NForm.setRequiredErrorKey(TEST_KEY_2);
+		i18NForm.setRequiredErrorMessage(TEST_KEY_2);
 
 		performTest(i18NForm, new I18NAwareTest() {
 

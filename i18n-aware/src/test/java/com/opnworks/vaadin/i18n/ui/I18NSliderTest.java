@@ -38,7 +38,7 @@ public class I18NSliderTest extends AbstractI18NTest {
 
 		final I18NSlider i18NSlider = new I18NSlider(TEST_KEY_1);
 
-		i18NSlider.setCaptionKey(TEST_KEY_2);
+		i18NSlider.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NSlider, new I18NAwareTest() {
 
@@ -60,11 +60,11 @@ public class I18NSliderTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionParams() {
 
-		final I18NSlider i18NSlider = new I18NSlider(TEST_KEY_3);
+		final I18NSlider i18NSlider = new I18NSlider();
 
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NSlider.setCaptionParams(params);
+		i18NSlider.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NSlider, new I18NAwareTest() {
 
@@ -83,11 +83,11 @@ public class I18NSliderTest extends AbstractI18NTest {
 	}
 
 	@Test
-	public void testSetRequiredErrorKey() {
+	public void testsetRequiredErrorMessage() {
 
 		final I18NSlider i18NSlider = new I18NSlider(TEST_KEY_1);
 
-		i18NSlider.setRequiredErrorKey(TEST_KEY_2);
+		i18NSlider.setRequiredErrorMessage(TEST_KEY_2);
 
 		performTest(i18NSlider, new I18NAwareTest() {
 

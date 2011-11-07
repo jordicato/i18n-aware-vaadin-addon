@@ -39,7 +39,7 @@ public class I18NTextFieldTest extends AbstractI18NTest {
 
 		final I18NTextField i18NTextField = new I18NTextField(TEST_KEY_1);
 
-		i18NTextField.setCaptionKey(TEST_KEY_2);
+		i18NTextField.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NTextField, new I18NAwareTest() {
 
@@ -61,11 +61,11 @@ public class I18NTextFieldTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionParams() {
 
-		final I18NTextField i18NTextField = new I18NTextField(TEST_KEY_3);
+		final I18NTextField i18NTextField = new I18NTextField();
 
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NTextField.setCaptionParams(params);
+		i18NTextField.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NTextField, new I18NAwareTest() {
 
@@ -84,11 +84,11 @@ public class I18NTextFieldTest extends AbstractI18NTest {
 	}
 
 	@Test
-	public void testSetRequiredErrorKey() {
+	public void testsetRequiredErrorMessage() {
 
 		final I18NTextField i18NTextField = new I18NTextField(TEST_KEY_1);
 
-		i18NTextField.setRequiredErrorKey(TEST_KEY_2);
+		i18NTextField.setRequiredErrorMessage(TEST_KEY_2);
 
 		performTest(i18NTextField, new I18NAwareTest() {
 

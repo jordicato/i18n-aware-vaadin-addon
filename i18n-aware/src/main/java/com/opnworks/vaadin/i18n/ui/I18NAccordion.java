@@ -45,14 +45,16 @@ public class I18NAccordion extends Accordion implements I18NAwareComponent {
 	}
 
 	@Override
-	public void setCaptionKey(String captionKey) {
-		i18NAwareComponentCaptionSupport.setCaptionKey(captionKey);
+	public void setCaptionMessage(String captionKey, Object... params) {
+		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
 	}
-
+	
 	@Override
-	public void setCaptionParams(Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionParams(params);
+	public void setDescriptionMessage(String descriptionKey,
+			Object... descriptionParams) {
+		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}
+	
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {

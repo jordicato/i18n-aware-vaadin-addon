@@ -41,7 +41,7 @@ public class I18NNativeSelectTest extends AbstractI18NTest {
 		final I18NNativeSelect i18NNativeSelect = new I18NNativeSelect(
 				TEST_KEY_1);
 
-		i18NNativeSelect.setCaptionKey(TEST_KEY_2);
+		i18NNativeSelect.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NNativeSelect, new I18NAwareTest() {
 
@@ -63,12 +63,11 @@ public class I18NNativeSelectTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionParams() {
 
-		final I18NNativeSelect i18NNativeSelect = new I18NNativeSelect(
-				TEST_KEY_3);
+		final I18NNativeSelect i18NNativeSelect = new I18NNativeSelect();
 
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NNativeSelect.setCaptionParams(params);
+		i18NNativeSelect.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NNativeSelect, new I18NAwareTest() {
 
@@ -87,12 +86,12 @@ public class I18NNativeSelectTest extends AbstractI18NTest {
 	}
 
 	@Test
-	public void testSetRequiredErrorKey() {
+	public void testsetRequiredErrorMessage() {
 
 		final I18NNativeSelect i18NNativeSelect = new I18NNativeSelect(
 				TEST_KEY_1);
 
-		i18NNativeSelect.setRequiredErrorKey(TEST_KEY_2);
+		i18NNativeSelect.setRequiredErrorMessage(TEST_KEY_2);
 
 		performTest(i18NNativeSelect, new I18NAwareTest() {
 

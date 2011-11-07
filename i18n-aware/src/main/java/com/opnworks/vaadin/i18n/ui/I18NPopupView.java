@@ -47,13 +47,14 @@ public class I18NPopupView extends PopupView implements I18NAwareComponent {
 	}
 
 	@Override
-	public void setCaptionKey(String captionKey) {
-		i18NAwareComponentCaptionSupport.setCaptionKey(captionKey);
+	public void setCaptionMessage(String captionKey, Object... params) {
+		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setCaptionParams(Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionParams(params);
+	public void setDescriptionMessage(String descriptionKey,
+			Object... descriptionParams) {
+		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
@@ -116,12 +117,24 @@ public class I18NPopupView extends PopupView implements I18NAwareComponent {
 
 		@Override
 		public void setLocale(Locale locale) {
-			
+
 			I18NAwareComponent i18NAwareComponent = getI18nPopupComponent();
 
 			if (i18NAwareComponent != null) {
 				i18NAwareComponent.setLocale(locale);
 			}
+		}
+
+		@Override
+		public Locale getLocale() {
+
+			I18NAwareComponent i18NAwareComponent = getI18nPopupComponent();
+
+			if (i18NAwareComponent != null) {
+				return i18NAwareComponent.getLocale();
+			}
+
+			return null;
 		}
 
 		public abstract I18NAwareComponent getI18nPopupComponent();

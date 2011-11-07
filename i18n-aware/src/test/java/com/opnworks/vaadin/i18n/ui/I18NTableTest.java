@@ -37,7 +37,7 @@ public class I18NTableTest extends AbstractI18NTest {
 
 		final I18NTable i18NTable = new I18NTable(TEST_KEY_1);
 
-		i18NTable.setCaptionKey(TEST_KEY_2);
+		i18NTable.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NTable, new I18NAwareTest() {
 
@@ -59,11 +59,11 @@ public class I18NTableTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionParams() {
 
-		final I18NTable i18NTable = new I18NTable(TEST_KEY_3);
+		final I18NTable i18NTable = new I18NTable();
 
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NTable.setCaptionParams(params);
+		i18NTable.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NTable, new I18NAwareTest() {
 

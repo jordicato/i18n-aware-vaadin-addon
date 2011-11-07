@@ -40,7 +40,7 @@ public class I18NWindowTest extends AbstractI18NTest {
 
 		final I18NWindow i18NWindow = new I18NWindow(TEST_KEY_1);
 
-		i18NWindow.setCaptionKey(TEST_KEY_2);
+		i18NWindow.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NWindow, new I18NAwareTest() {
 
@@ -62,11 +62,11 @@ public class I18NWindowTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionParams() {
 
-		final I18NWindow i18NWindow = new I18NWindow(TEST_KEY_3);
+		final I18NWindow i18NWindow = new I18NWindow();
 
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NWindow.setCaptionParams(params);
+		i18NWindow.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NWindow, new I18NAwareTest() {
 

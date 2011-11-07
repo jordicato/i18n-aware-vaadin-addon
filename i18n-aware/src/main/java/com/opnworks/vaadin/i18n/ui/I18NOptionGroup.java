@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NService;
+import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.vaadin.data.Container;
 import com.vaadin.ui.OptionGroup;
@@ -29,56 +30,64 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareField {
 
 	public I18NOptionGroup(String captionKey) {
 		super(captionKey);
-		i18NAwareFieldSupport.setCaptionKey(captionKey);
+		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
 
 	public I18NOptionGroup(String captionKey, Collection<?> options) {
 		super(captionKey, options);
-		i18NAwareFieldSupport.setCaptionKey(captionKey);
+		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
 
 	public I18NOptionGroup(String captionKey, Container dataSource) {
 		super(captionKey, dataSource);
-		i18NAwareFieldSupport.setCaptionKey(captionKey);
+		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
 
 	public void setItemCaptionKey(Object itemId, String captionKey) {
 		itemCaptionKeys.put(itemId, captionKey);
+		if( I18NServiceImpl.getInstance() != null ) {
+			updateItemCaptionKey( itemId, I18NServiceImpl.getInstance() );
+		}
 	}
 
 	@Override
-	public void setCaptionKey(String captionKey) {
-		i18NAwareFieldSupport.setCaptionKey(captionKey);
+	public void setRequiredErrorMessage(String requiredErrorKey, Object... requiredErrorParams) {
+		i18NAwareFieldSupport.setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
 	@Override
-	public void setCaptionParams(Object... params) {
-		i18NAwareFieldSupport.setCaptionParams(params);
+	public void setCaptionMessage(String captionKey, Object... params) {
+		i18NAwareFieldSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setRequiredErrorKey(String requiredErrorKey) {
-		i18NAwareFieldSupport.setRequiredErrorKey(requiredErrorKey);
-	}
-
-	@Override
-	public void setRequiredErrorParams(Object[] requiredErrorParams) {
-		i18NAwareFieldSupport.setRequiredErrorParams(requiredErrorParams);
+	public void setDescriptionMessage(String descriptionKey,
+			Object... descriptionParams) {
+		i18NAwareFieldSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 		i18NAwareFieldSupport.i18NUpdate(i18N);
+		updateItemCaptionKeys(i18N);
+	}
+
+	private void updateItemCaptionKeys(I18NService i18N) {
 		Collection<?> itemIds = getItemIds();
 		Map<Object, String> updatedItemCaptionKeys = new HashMap<Object, String>();
 		for (Object itemId : itemIds) {
-			String itemCaptionKey = itemCaptionKeys.get(itemId);
-			if (itemCaptionKey == null) {
-				itemCaptionKey = "No itemCaptionKey defined";
-			}
+			String itemCaptionKey = updateItemCaptionKey(itemId, i18N);
 			updatedItemCaptionKeys.put(itemId, itemCaptionKey);
-			setItemCaption(itemId, i18N.getMessage(itemCaptionKey));
 		}
 		itemCaptionKeys = updatedItemCaptionKeys;
+	}
+
+	private String updateItemCaptionKey(Object itemId, I18NService i18N) {
+		String itemCaptionKey = itemCaptionKeys.get(itemId);
+		if (itemCaptionKey == null) {
+			itemCaptionKey = "No itemCaptionKey defined";
+		}
+		setItemCaption(itemId, i18N.getMessage(itemCaptionKey));
+		return itemCaptionKey;
 	}
 }

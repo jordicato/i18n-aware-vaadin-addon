@@ -4,6 +4,7 @@ import com.opnworks.vaadin.i18n.I18NAware;
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
 import com.opnworks.vaadin.i18n.I18NService;
+import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.vaadin.data.Container;
@@ -41,7 +42,7 @@ public class I18NTable extends Table implements I18NAwareComponent,
 	 */
 	public I18NTable(String captionKey) {
 		super(captionKey);
-		setCaptionKey(captionKey);
+		setCaptionMessage(captionKey);
 	}
 
 	/**
@@ -52,7 +53,7 @@ public class I18NTable extends Table implements I18NAwareComponent,
 	 */
 	public I18NTable(String captionKey, Container dataSource) {
 		super(captionKey, dataSource);
-		setCaptionKey(captionKey);
+		setCaptionMessage(captionKey);
 	}
 
 	/**
@@ -62,16 +63,20 @@ public class I18NTable extends Table implements I18NAwareComponent,
 	 */
 	public void setColumnHeadersKeys(String[] columnHeadersKeys) {
 		this.columnHeadersKeys = columnHeadersKeys;
+		if( I18NServiceImpl.getInstance() != null ) {
+			updateColumnHeaders( I18NServiceImpl.getInstance() );
+		}
 	}
 
 	@Override
-	public void setCaptionKey(String captionKey) {
-		i18NAwareComponentCaptionSupport.setCaptionKey(captionKey);
+	public void setCaptionMessage(String captionKey, Object... params) {
+		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setCaptionParams(Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionParams(params);
+	public void setDescriptionMessage(String descriptionKey,
+			Object... descriptionParams) {
+		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
@@ -91,15 +96,7 @@ public class I18NTable extends Table implements I18NAwareComponent,
 
 		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
 
-		if (columnHeadersKeys != null) {
-			String[] columnHeaders = new String[columnHeadersKeys.length];
-
-			for (int i = 0; i < columnHeadersKeys.length; i++) {
-				columnHeaders[i] = i18N.getMessage(columnHeadersKeys[i]);
-			}
-
-			setColumnHeaders(columnHeaders);
-		}
+		updateColumnHeaders(i18N);
 
 		Container items = getContainerDataSource();
 
@@ -109,6 +106,18 @@ public class I18NTable extends Table implements I18NAwareComponent,
 
 		// Actions
 		i18NAwareSupport.i18NUpdate(i18N);
+	}
+
+	private void updateColumnHeaders(I18NService i18N) {
+		if (columnHeadersKeys != null) {
+			String[] columnHeaders = new String[columnHeadersKeys.length];
+
+			for (int i = 0; i < columnHeadersKeys.length; i++) {
+				columnHeaders[i] = i18N.getMessage(columnHeadersKeys[i]);
+			}
+
+			setColumnHeaders(columnHeaders);
+		}
 	}
 
 	private void registerI18NActions(Action.Handler actionHandler, Object itemId) {

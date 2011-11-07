@@ -126,7 +126,7 @@ public class I18NPopupViewTest extends AbstractI18NTest {
 
 		final I18NPopupView i18NPopupView = new I18NPopupView(null, null);
 
-		i18NPopupView.setCaptionKey(TEST_KEY_2);
+		i18NPopupView.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NPopupView, new I18NAwareTest() {
 
@@ -150,11 +150,9 @@ public class I18NPopupViewTest extends AbstractI18NTest {
 
 		final I18NPopupView i18NPopupView = new I18NPopupView(null, null);
 
-		i18NPopupView.setCaptionKey(TEST_KEY_3);
-
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NPopupView.setCaptionParams(params);
+		i18NPopupView.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NPopupView, new I18NAwareTest() {
 

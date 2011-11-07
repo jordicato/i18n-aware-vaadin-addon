@@ -38,7 +38,7 @@ public class I18NPopupDateFieldTest extends AbstractI18NTest {
 
 		final I18NPopupDateField i18NPopupDateField = new I18NPopupDateField(TEST_KEY_1);
 
-		i18NPopupDateField.setCaptionKey(TEST_KEY_2);
+		i18NPopupDateField.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NPopupDateField, new I18NAwareTest() {
 
@@ -60,11 +60,11 @@ public class I18NPopupDateFieldTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionParams() {
 
-		final I18NPopupDateField i18NPopupDateField = new I18NPopupDateField(TEST_KEY_3);
+		final I18NPopupDateField i18NPopupDateField = new I18NPopupDateField();
 
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NPopupDateField.setCaptionParams(params);
+		i18NPopupDateField.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NPopupDateField, new I18NAwareTest() {
 
@@ -83,11 +83,11 @@ public class I18NPopupDateFieldTest extends AbstractI18NTest {
 	}
 
 	@Test
-	public void testSetRequiredErrorKey() {
+	public void testsetRequiredErrorMessage() {
 
 		final I18NPopupDateField i18NPopupDateField = new I18NPopupDateField(TEST_KEY_1);
 
-		i18NPopupDateField.setRequiredErrorKey(TEST_KEY_2);
+		i18NPopupDateField.setRequiredErrorMessage(TEST_KEY_2);
 
 		performTest(i18NPopupDateField, new I18NAwareTest() {
 
@@ -134,12 +134,9 @@ public class I18NPopupDateFieldTest extends AbstractI18NTest {
 
 		final I18NPopupDateField i18NPopupDateField = new I18NPopupDateField();
 
-		i18NPopupDateField.setInputPromptKey(TEST_KEY_2);
-		
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NPopupDateField.setCaptionParams(params);
-		
+		i18NPopupDateField.setInputPromptKey(TEST_KEY_2, params);
 
 		performTest(i18NPopupDateField, new I18NAwareTest() {
 

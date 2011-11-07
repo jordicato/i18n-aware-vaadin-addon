@@ -16,7 +16,7 @@ public class I18NLoginFormTest extends AbstractI18NTest {
 
 		final I18NLoginForm i18NLoginForm = new I18NLoginForm();
 
-		i18NLoginForm.setCaptionKey(TEST_KEY_2);
+		i18NLoginForm.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NLoginForm, new I18NAwareTest() {
 
@@ -40,11 +40,9 @@ public class I18NLoginFormTest extends AbstractI18NTest {
 
 		final I18NLoginForm i18NLoginForm = new I18NLoginForm();
 
-		i18NLoginForm.setCaptionKey(TEST_KEY_3);
-
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NLoginForm.setCaptionParams(params);
+		i18NLoginForm.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NLoginForm, new I18NAwareTest() {
 

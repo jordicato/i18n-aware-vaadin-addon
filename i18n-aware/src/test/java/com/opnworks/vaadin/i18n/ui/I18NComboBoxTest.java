@@ -39,7 +39,7 @@ public class I18NComboBoxTest extends AbstractI18NTest {
 
 		final I18NComboBox i18NComboBox = new I18NComboBox(TEST_KEY_1);
 
-		i18NComboBox.setCaptionKey(TEST_KEY_2);
+		i18NComboBox.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NComboBox, new I18NAwareTest() {
 
@@ -61,11 +61,11 @@ public class I18NComboBoxTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionParams() {
 
-		final I18NComboBox i18NComboBox = new I18NComboBox(TEST_KEY_3);
+		final I18NComboBox i18NComboBox = new I18NComboBox();
 
 		final Object[] params = new Object[] { 1, 2, 3 };
 
-		i18NComboBox.setCaptionParams(params);
+		i18NComboBox.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NComboBox, new I18NAwareTest() {
 
@@ -84,11 +84,11 @@ public class I18NComboBoxTest extends AbstractI18NTest {
 	}
 
 	@Test
-	public void testSetRequiredErrorKey() {
+	public void testsetRequiredErrorMessage() {
 
 		final I18NComboBox i18NComboBox = new I18NComboBox(TEST_KEY_1);
 
-		i18NComboBox.setRequiredErrorKey(TEST_KEY_2);
+		i18NComboBox.setRequiredErrorMessage(TEST_KEY_2);
 
 		performTest(i18NComboBox, new I18NAwareTest() {
 

@@ -46,7 +46,7 @@ public class I18NDefaultFieldFactory implements I18NAwareFormFieldFactory,
 			Component uiContext) {
 		Class<?> type = item.getItemProperty(propertyId).getType();
 		I18NAwareField field = createI18NFieldByPropertyType(type);
-		field.setCaptionKey(createCaptionKeyByPropertyId(propertyId, uiContext));
+		field.setCaptionMessage(createCaptionKeyByPropertyId(propertyId, uiContext));
 		return field;
 	}
 
@@ -56,7 +56,7 @@ public class I18NDefaultFieldFactory implements I18NAwareFormFieldFactory,
 				propertyId);
 		Class<?> type = containerProperty.getType();
 		I18NAwareField field = createI18NFieldByPropertyType(type);
-		field.setCaptionKey(createCaptionKeyByPropertyId(propertyId, uiContext));
+		field.setCaptionMessage(createCaptionKeyByPropertyId(propertyId, uiContext));
 		return field;
 	}
 
