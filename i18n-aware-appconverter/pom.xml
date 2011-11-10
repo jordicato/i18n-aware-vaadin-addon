@@ -4,16 +4,13 @@
 	<groupId>com.ipse.test</groupId>
 	<artifactId>i18n-aware-appconverter</artifactId>
 	<version>0.0.2-SNAPSHOT</version>
-	<repositories>
-		<repository>
-			<id>javaparser</id>
-			<name>JavaParser Repository</name>
-			<url>http://javaparser.googlecode.com/svn/maven2</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
+	
+	<parent>
+		<groupId>com.opnworks.vaadin</groupId>
+		<artifactId>i18n-aware-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.google.code.javaparser</groupId>
