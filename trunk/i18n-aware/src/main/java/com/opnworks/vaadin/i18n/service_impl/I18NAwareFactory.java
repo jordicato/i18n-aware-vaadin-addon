@@ -85,6 +85,7 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.InlineDateField;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.ListSelect;
@@ -297,7 +298,7 @@ public class I18NAwareFactory {
 	 * 
 	 * @return new i18n-aware I18NLabel
 	 */
-	public static I18NLabel newLabel() {
+	public static  Label newLabel() {
 		return new I18NLabel();
 	}
 
@@ -308,7 +309,7 @@ public class I18NAwareFactory {
 	 *            key for the I18NLabel value
 	 * @return new i18n-aware I18NLabel
 	 */
-	public static I18NLabel newLabel(String valueKey) {
+	public static  Label newLabel(String valueKey) {
 		return new I18NLabel(valueKey);
 	}
 
@@ -318,7 +319,7 @@ public class I18NAwareFactory {
 	 * 
 	 * @param contentSource
 	 */
-	public static I18NLabel newLabel(Property contentSource) {
+	public static  Label newLabel(Property contentSource) {
 		return new I18NLabel(contentSource);
 	}
 
@@ -328,7 +329,7 @@ public class I18NAwareFactory {
 	 * @param content
 	 * @param contentMode
 	 */
-	public static I18NLabel newLabel(String content, int contentMode) {
+	public static  Label newLabel(String content, int contentMode) {
 		return new I18NLabel(content, contentMode);
 	}
 
@@ -339,7 +340,7 @@ public class I18NAwareFactory {
 	 * @param contentSource
 	 * @param contentMode
 	 */
-	public static I18NLabel newLabel(Property contentSource, int contentMode) {
+	public static  Label newLabel(Property contentSource, int contentMode) {
 		return new I18NLabel(contentSource, contentMode);
 	}
 
