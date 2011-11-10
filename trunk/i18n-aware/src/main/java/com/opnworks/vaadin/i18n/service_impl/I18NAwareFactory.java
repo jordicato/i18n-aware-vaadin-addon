@@ -1178,7 +1178,7 @@ public class I18NAwareFactory {
 	 *            key for the ListSelect caption
 	 * @return
 	 */
-	public ListSelect newListSelect(String captionKey) {
+	public static ListSelect newListSelect(String captionKey) {
 		return new I18NListSelect(captionKey);
 	}
 
