@@ -8,8 +8,10 @@ import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 import japa.parser.ast.body.ConstructorDeclaration;
 import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
+import japa.parser.ast.body.Parameter;
 import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.body.VariableDeclarator;
+import japa.parser.ast.body.VariableDeclaratorId;
 import japa.parser.ast.expr.ArrayCreationExpr;
 import japa.parser.ast.expr.ArrayInitializerExpr;
 import japa.parser.ast.expr.AssignExpr;
@@ -100,13 +102,15 @@ public class I18NConverter {
 	 * @return
 	 */
 	private String getI18NCompositeName(String vaadinName) {
-		if (vaadinName.startsWith("com.vaadin.ui.")) {
-			vaadinName = vaadinName.replace("com.vaadin.ui.", "");
-		}
-		for (int index = 0; index < lidfactoryd.size(); index++) {
-			ImportDeclaration id = lidfactoryd.get(index);
-			if (id.getName().toString().endsWith(vaadinName)) {
-				return id.getName().toString();
+		if (vaadinName != null) {
+			if (vaadinName.startsWith("com.vaadin.ui.")) {
+				vaadinName = vaadinName.replace("com.vaadin.ui.", "");
+			}
+			for (int index = 0; index < lidfactoryd.size(); index++) {
+				ImportDeclaration id = lidfactoryd.get(index);
+				if (id.getName().toString().endsWith(vaadinName)) {
+					return id.getName().toString();
+				}
 			}
 		}
 		return null;
@@ -354,18 +358,38 @@ public class I18NConverter {
 		} else if (member instanceof FieldDeclaration) {
 			FieldDeclaration fd = (FieldDeclaration) member;
 			if (isVaadinCompositeNameSupported(fd.getType().toString())) {
+				ReferenceType rt = (ReferenceType) fd.getType();
+				ClassOrInterfaceType coi = (ClassOrInterfaceType) rt.getType();
+				String newclassname = getI18NCompositeName(coi.getName());
+				coi.setName(newclassname);
 				for (VariableDeclarator vd : fd.getVariables()) {
 					changeVaadinVarDeclaratorNewReqPrecheck(vd);
 				}
 			}
 		} else if (member instanceof MethodDeclaration || member instanceof ConstructorDeclaration) {
 			BlockStmt blockStmk;
+			List<Parameter> params;
 			if (member instanceof MethodDeclaration) {
 				MethodDeclaration method = (MethodDeclaration) member;
 				blockStmk = method.getBody();
+				params = method.getParameters();
 			} else {
 				ConstructorDeclaration method = (ConstructorDeclaration) member;
 				blockStmk = method.getBlock();
+				params = method.getParameters();
+			}
+			if (params != null) {
+				for (int i = 0; i < params.size(); i++) {
+					if (params.get(i).getType() instanceof ReferenceType) {
+						ReferenceType rt = (ReferenceType) params.get(i).getType();
+						ClassOrInterfaceType coi = (ClassOrInterfaceType) rt.getType();
+						String newname = getI18NCompositeName(coi.getName());
+
+						if (newname != null && !newname.equals(coi.getName())) {
+							coi.setName(newname);
+						}
+					}
+				}
 			}
 			if (blockStmk != null && blockStmk.getStmts() != null)
 				for (Statement s : blockStmk.getStmts()) {
