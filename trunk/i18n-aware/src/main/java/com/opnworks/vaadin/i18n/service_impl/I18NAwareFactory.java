@@ -297,7 +297,7 @@ public class I18NAwareFactory {
 	 * 
 	 * @return new i18n-aware I18NLabel
 	 */
-	public static I18NLabel newI18NLabel() {
+	public static I18NLabel newLabel() {
 		return new I18NLabel();
 	}
 
@@ -308,7 +308,7 @@ public class I18NAwareFactory {
 	 *            key for the I18NLabel value
 	 * @return new i18n-aware I18NLabel
 	 */
-	public static I18NLabel newI18NLabel(String valueKey) {
+	public static I18NLabel newLabel(String valueKey) {
 		return new I18NLabel(valueKey);
 	}
 
@@ -318,7 +318,7 @@ public class I18NAwareFactory {
 	 * 
 	 * @param contentSource
 	 */
-	public static I18NLabel newI18NLabel(Property contentSource) {
+	public static I18NLabel newLabel(Property contentSource) {
 		return new I18NLabel(contentSource);
 	}
 
@@ -328,7 +328,7 @@ public class I18NAwareFactory {
 	 * @param content
 	 * @param contentMode
 	 */
-	public static I18NLabel newI18NLabel(String content, int contentMode) {
+	public static I18NLabel newLabel(String content, int contentMode) {
 		return new I18NLabel(content, contentMode);
 	}
 
@@ -339,7 +339,7 @@ public class I18NAwareFactory {
 	 * @param contentSource
 	 * @param contentMode
 	 */
-	public static I18NLabel newI18NLabel(Property contentSource, int contentMode) {
+	public static I18NLabel newLabel(Property contentSource, int contentMode) {
 		return new I18NLabel(contentSource, contentMode);
 	}
 
