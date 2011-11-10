@@ -7,25 +7,17 @@
 	<packaging>war</packaging>
 	<name>I18nAware Demo</name>
 
+	<parent>
+		<groupId>com.opnworks.vaadin</groupId>
+		<artifactId>i18n-aware-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
 	<scm>
 		<connection>scm:svn:https://i18n-aware-vaadin-addon.googlecode.com/svn/trunk/i18n-aware-demo</connection>
 		<developerConnection>scm:svn:https://i18n-aware-vaadin-addon.googlecode.com/svn/trunk/i18n-aware-demo</developerConnection>
 		<url>scm:svn:https://i18n-aware-vaadin-addon.googlecode.com/svn/trunk/i18n-aware-demo</url>
 	</scm>
-
-	<distributionManagement>
-		<repository>
-			<id>public-releases</id>
-			<name>OpnWorks Public Releases</name>
-			<url>http://aws.opnworks.com/nexus/content/repositories/public-releases</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<name>OpnWorks Snapshots</name>
-			<url>http://aws.opnworks.com/nexus/content/repositories/snapshots/</url>
-			<uniqueVersion>false</uniqueVersion>
-		</snapshotRepository>
-	</distributionManagement>
 
 	<dependencies>
 
@@ -38,118 +30,6 @@
 			<version>0.0.5-SNAPSHOT</version>
 		</dependency>
 
-		<!-- Vaadin -->
-
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin</artifactId>
-			<version>6.6.6</version>
-		</dependency>
-
 	</dependencies>
-
-	<build>
-		<plugins>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>2.1.2</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.zeroturnaround</groupId>
-				<artifactId>jrebel-maven-plugin</artifactId>
-				<version>1.0.7</version>
-				<executions>
-					<execution>
-						<id>generate-rebel-xml</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.1</version>
-				<configuration>
-					<providerImplementations>
-						<svn>javasvn</svn>
-					</providerImplementations>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>com.google.code.maven-scm-provider-svnjava</groupId>
-						<artifactId>maven-scm-provider-svnjava</artifactId>
-						<version>1.12</version>
-					</dependency>
-					<dependency>
-						<groupId>org.tmatesoft.svnkit</groupId>
-						<artifactId>svnkit</artifactId>
-						<version>1.7.0-SNAPSHOT</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-
-		</plugins>
-
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.zeroturnaround
-										</groupId>
-										<artifactId>
-											jrebel-maven-plugin
-										</artifactId>
-										<versionRange>
-											[1.0.7,)
-										</versionRange>
-										<goals>
-											<goal>generate</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore />
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
 
 </project>
