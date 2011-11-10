@@ -2,8 +2,6 @@ package com.opnworks.vaadin.i18n.data.validator;
 
 import org.junit.Test;
 
-import com.opnworks.vaadin.i18n.data.validator.I18NStringLengthValidator;
-
 /**
  * The I18NStringLengthValidator Unit Tests
  * 

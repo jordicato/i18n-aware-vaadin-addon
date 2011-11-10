@@ -3,7 +3,6 @@ package com.opnworks.vaadin.i18n.ui;
 import org.junit.Test;
 
 import com.opnworks.vaadin.i18n.AbstractI18NTest;
-import com.opnworks.vaadin.i18n.ui.I18NUpload;
 
 /**
  * The I18NUpload Unit Tests

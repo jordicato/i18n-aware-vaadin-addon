@@ -3,6 +3,7 @@ package com.opnworks.vaadin.i18n.ui;
 import java.util.Locale;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport.CaptionContainer;
@@ -30,7 +31,7 @@ public class I18NTab implements Tab, I18NAwareCaption, CaptionContainer {
 		this.delegate = delegate;
 	}
 
-	public void setCaptionMessage(String captionKey, Object... captionParams) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... captionParams) {
 		i18NCaptionSupport.setCaptionMessage(captionKey, captionParams);
 	}
 

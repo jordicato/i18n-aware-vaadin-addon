@@ -3,7 +3,8 @@ package com.opnworks.vaadin.i18n.ui;
 import org.junit.Test;
 
 import com.opnworks.vaadin.i18n.AbstractI18NTest;
-import com.opnworks.vaadin.i18n.ui.I18NButton;
+import com.vaadin.data.Property;
+import com.vaadin.ui.Button.ClickListener;
 
 /**
  * The I18NButton Unit Tests
@@ -11,6 +12,22 @@ import com.opnworks.vaadin.i18n.ui.I18NButton;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 public class I18NButtonTest extends AbstractI18NTest {
+	
+	@Test
+	public void testI18NAwareMessagePresent() throws Exception {
+		
+		// Constructors
+		assertI18NAwareMessagePresent( I18NButton.class, 0, String.class );
+		assertI18NAwareMessagePresent( I18NButton.class, 0, String.class, ClickListener.class );
+		assertI18NAwareMessagePresent( I18NButton.class, 0, String.class, Object.class, String.class );
+		assertI18NAwareMessagePresent( I18NButton.class, 0, String.class, Boolean.TYPE );
+		assertI18NAwareMessagePresent( I18NButton.class, 0, String.class, Property.class );
+
+		// Methods
+		assertI18NAwareMessagePresent( I18NButton.class, "setRequiredErrorMessage",  0, String.class, Object[].class );
+		assertI18NAwareMessagePresent( I18NButton.class, "setCaptionMessage",  0, String.class, Object[].class );
+		assertI18NAwareMessagePresent( I18NButton.class, "setDescriptionMessage",  0, String.class, Object[].class );
+	}
 
 	@Test
 	public void testConstructorCaptionKey() {

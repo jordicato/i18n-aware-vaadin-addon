@@ -2,6 +2,7 @@ package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NAwareValue;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
@@ -83,19 +84,19 @@ public class I18NLabel extends Label implements I18NAwareComponent,
 	}
 
 	@Override
-	public void setCaptionMessage(String captionKey, Object... params) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		captionSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setDescriptionMessage(String descriptionKey,
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {
 		i18NDescriptionSupport.setValueMessage(descriptionKey,
 				descriptionParams);
 	}
 
 	@Override
-	public void setValueMessage(String textKey, Object... params) {
+	public void setValueMessage(@I18NAwareMessage String textKey, Object... params) {
 
 		createValueSupport();
 

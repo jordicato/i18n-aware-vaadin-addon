@@ -1,6 +1,7 @@
 package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareField;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.vaadin.data.Property;
@@ -31,7 +32,7 @@ public class I18NTextArea extends TextArea implements I18NAwareField {
 	 * @param captionKey
 	 *            the caption message key for the field.
 	 */
-	public I18NTextArea(String captionKey) {
+	public I18NTextArea(@I18NAwareMessage String captionKey) {
 		super(captionKey);
 		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
@@ -54,7 +55,7 @@ public class I18NTextArea extends TextArea implements I18NAwareField {
 	 * @param dataSource
 	 *            the data source for the field
 	 */
-	public I18NTextArea(String captionKey, Property dataSource) {
+	public I18NTextArea(@I18NAwareMessage String captionKey, Property dataSource) {
 		super(captionKey, dataSource);
 		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
@@ -67,23 +68,23 @@ public class I18NTextArea extends TextArea implements I18NAwareField {
 	 * @param value
 	 *            the value for the field
 	 */
-	public I18NTextArea(String captionKey, String value) {
+	public I18NTextArea(@I18NAwareMessage String captionKey, String value) {
 		super(captionKey, value);
 		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
 
 	@Override
-	public void setRequiredErrorMessage(String requiredErrorKey, Object... requiredErrorParams) {
+	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
 		i18NAwareFieldSupport.setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
 	@Override
-	public void setCaptionMessage(String captionKey, Object... params) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		i18NAwareFieldSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setDescriptionMessage(String descriptionKey,
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {
 		i18NAwareFieldSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}

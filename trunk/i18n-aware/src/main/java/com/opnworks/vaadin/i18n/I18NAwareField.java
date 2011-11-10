@@ -17,5 +17,5 @@ public interface I18NAwareField extends I18NAwareComponent, I18NAwareCaption, Fi
 	 * @param requiredErrorParams
 	 *            the requiredError message parameters.
 	 */
-	void setRequiredErrorMessage(String requiredErrorKey, Object... requiredErrorParams);
+	void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams);
 }

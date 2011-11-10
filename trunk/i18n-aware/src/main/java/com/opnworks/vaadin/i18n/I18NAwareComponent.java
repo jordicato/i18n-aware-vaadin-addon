@@ -11,6 +11,6 @@ public interface I18NAwareComponent extends Component, I18NAwareCaption {
 
 	void setDescription(String description);
 
-	void setDescriptionMessage(String descriptionKey,
+	void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams);
 }

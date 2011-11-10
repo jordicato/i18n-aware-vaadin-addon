@@ -2,6 +2,7 @@ package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.vaadin.ui.NativeButton;
@@ -24,28 +25,28 @@ public class I18NNativeButton extends NativeButton implements
 		super();
 	}
 
-	public I18NNativeButton(String captionKey) {
+	public I18NNativeButton(@I18NAwareMessage String captionKey) {
 		super(captionKey);
 		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey);
 	}
 
-	public I18NNativeButton(String captionKey, ClickListener listener) {
+	public I18NNativeButton(@I18NAwareMessage String captionKey, ClickListener listener) {
 		super(captionKey, listener);
 		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey);
 	}
 
-	public I18NNativeButton(String captionKey, Object target, String methodName) {
+	public I18NNativeButton(@I18NAwareMessage String captionKey, Object target, String methodName) {
 		super(captionKey, target, methodName);
 		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey);
 	}
 
 	@Override
-	public void setCaptionMessage(String captionKey, Object... params) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setDescriptionMessage(String descriptionKey,
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {
 		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}

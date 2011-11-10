@@ -15,5 +15,5 @@ public interface I18NAwareCaption extends I18NAware {
 	 * @param params
 	 *            the caption message parameters.
 	 */
-	void setCaptionMessage(String captionKey, Object... params);
+	void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params);
 }

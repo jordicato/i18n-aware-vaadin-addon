@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.opnworks.vaadin.i18n.I18NAwareField;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
@@ -28,22 +29,22 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareField {
 		super();
 	}
 
-	public I18NOptionGroup(String captionKey) {
+	public I18NOptionGroup(@I18NAwareMessage String captionKey) {
 		super(captionKey);
 		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
 
-	public I18NOptionGroup(String captionKey, Collection<?> options) {
+	public I18NOptionGroup(@I18NAwareMessage String captionKey, Collection<?> options) {
 		super(captionKey, options);
 		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
 
-	public I18NOptionGroup(String captionKey, Container dataSource) {
+	public I18NOptionGroup(@I18NAwareMessage String captionKey, Container dataSource) {
 		super(captionKey, dataSource);
 		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
 
-	public void setItemCaptionKey(Object itemId, String captionKey) {
+	public void setItemCaptionKey(Object itemId, @I18NAwareMessage String captionKey) {
 		itemCaptionKeys.put(itemId, captionKey);
 		if( I18NServiceImpl.getInstance() != null ) {
 			updateItemCaptionKey( itemId, I18NServiceImpl.getInstance() );
@@ -51,17 +52,17 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareField {
 	}
 
 	@Override
-	public void setRequiredErrorMessage(String requiredErrorKey, Object... requiredErrorParams) {
+	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
 		i18NAwareFieldSupport.setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
 	@Override
-	public void setCaptionMessage(String captionKey, Object... params) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		i18NAwareFieldSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setDescriptionMessage(String descriptionKey,
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {
 		i18NAwareFieldSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import com.opnworks.vaadin.i18n.I18NAwareField;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NAwareValidator;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.ValueContainer;
@@ -36,17 +37,17 @@ public class I18NAwareFieldSupport implements Serializable {
 				originalField);
 	}
 
-	public void setCaptionMessage(String captionKey, Object... params) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
 	}
 
-	public void setDescriptionMessage(String descriptionKey,
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {
 		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey,
 				descriptionParams);
 	}
 
-	public void setRequiredErrorMessage(String requiredErrorKey,
+	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey,
 			Object[] requiredErrorParams) {
 		i18NRequiredErrorSupport.setValueMessage(requiredErrorKey,
 				requiredErrorParams);

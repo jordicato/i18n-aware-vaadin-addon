@@ -2,6 +2,7 @@ package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareContainer;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
@@ -48,7 +49,7 @@ public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareC
 	 * @param captionKey
 	 *            the title message key of the window.
 	 */
-	public I18NWindow(String captionKey) {
+	public I18NWindow(@I18NAwareMessage String captionKey) {
 		super(captionKey);
 		captionSupport.setCaptionMessage(captionKey);
 		setContent(new I18NVerticalLayout());
@@ -62,18 +63,18 @@ public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareC
 	 * @param content
 	 *            the contents of the window
 	 */
-	public I18NWindow(String captionKey, ComponentContainer content) {
+	public I18NWindow(@I18NAwareMessage String captionKey, ComponentContainer content) {
 		super(captionKey, content);
 		captionSupport.setCaptionMessage(captionKey);
 	}
 
 	@Override
-	public void setCaptionMessage(String captionKey, Object... params) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		captionSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setDescriptionMessage(String descriptionKey,
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {
 		i18NDescriptionSupport.setValueMessage(descriptionKey, descriptionParams);
 	}

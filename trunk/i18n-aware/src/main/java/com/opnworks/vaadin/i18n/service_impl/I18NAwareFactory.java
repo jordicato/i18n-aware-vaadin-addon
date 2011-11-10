@@ -10,6 +10,7 @@ import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NAwareFormFieldFactory;
 import com.opnworks.vaadin.i18n.I18NAwareLayout;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NAwareValue;
 import com.opnworks.vaadin.i18n.data.util.I18NIndexedContainer;
 import com.opnworks.vaadin.i18n.data.validator.I18NEmailValidator;
@@ -144,7 +145,7 @@ public class I18NAwareFactory {
 	 *            key for the Button caption
 	 * @return new i18n-aware Button
 	 */
-	public static Button newButton(String captionKey) {
+	public static Button newButton(@I18NAwareMessage String captionKey) {
 		return new I18NButton(captionKey);
 	}
 
@@ -157,7 +158,7 @@ public class I18NAwareFactory {
 	 *            ClickListener for the Button
 	 * @return new i18n-aware Button
 	 */
-	public static Button newButton(String captionKey, ClickListener listener) {
+	public static Button newButton(@I18NAwareMessage String captionKey, ClickListener listener) {
 		return new I18NButton(captionKey, listener);
 	}
 
@@ -177,7 +178,7 @@ public class I18NAwareFactory {
 	 *            the name of the method in target object, that receives button
 	 *            click events.
 	 */
-	public static Button newButton(String captionKey, Object target,
+	public static Button newButton(@I18NAwareMessage String captionKey, Object target,
 			String methodName) {
 		return new I18NButton(captionKey, target, methodName);
 	}
@@ -193,7 +194,7 @@ public class I18NAwareFactory {
 	 * @deprecated use {@link CheckBox} instead of Button in "switchmode"
 	 */
 	@Deprecated
-	public static Button newButton(String captionKey, boolean initialState) {
+	public static Button newButton(@I18NAwareMessage String captionKey, boolean initialState) {
 		return new I18NButton(captionKey, initialState);
 	}
 
@@ -208,7 +209,7 @@ public class I18NAwareFactory {
 	 * @deprecated use {@link CheckBox} instead of Button in "switchmode"
 	 */
 	@Deprecated
-	public static Button newButton(String captionKey, Property dataSource) {
+	public static Button newButton(@I18NAwareMessage String captionKey, Property dataSource) {
 		return new I18NButton(captionKey, dataSource);
 	}
 
@@ -228,7 +229,7 @@ public class I18NAwareFactory {
 	 *            key for the NativeButton caption
 	 * @return new i18n-aware NativeButton
 	 */
-	public static NativeButton newNativeButton(String captionKey) {
+	public static NativeButton newNativeButton(@I18NAwareMessage String captionKey) {
 		return new I18NNativeButton(captionKey);
 	}
 
@@ -241,7 +242,7 @@ public class I18NAwareFactory {
 	 *            ClickListener for the NativeButton
 	 * @return new i18n-aware NativeButton
 	 */
-	public static NativeButton newNativeButton(String captionKey,
+	public static NativeButton newNativeButton(@I18NAwareMessage String captionKey,
 			ClickListener listener) {
 		return new I18NNativeButton(captionKey, listener);
 	}
@@ -255,7 +256,7 @@ public class I18NAwareFactory {
 	 * @param methodName
 	 * @return new i18n-aware NativeButton
 	 */
-	public static NativeButton newNativeButton(String captionKey,
+	public static NativeButton newNativeButton(@I18NAwareMessage String captionKey,
 			Object target, String methodName) {
 		return new I18NNativeButton(captionKey, target, methodName);
 	}
@@ -276,7 +277,7 @@ public class I18NAwareFactory {
 	 *            key for the Embedded caption
 	 * @return new i18n-aware Embedded
 	 */
-	public static Embedded newEmbedded(String captionKey) {
+	public static Embedded newEmbedded(@I18NAwareMessage String captionKey) {
 		return new I18NEmbedded(captionKey);
 	}
 
@@ -289,7 +290,7 @@ public class I18NAwareFactory {
 	 *            Resource to embed
 	 * @return new i18n-aware Embedded
 	 */
-	public static Embedded newEmbedded(String captionKey, Resource resource) {
+	public static Embedded newEmbedded(@I18NAwareMessage String captionKey, Resource resource) {
 		return new I18NEmbedded(captionKey, resource);
 	}
 
@@ -351,7 +352,7 @@ public class I18NAwareFactory {
 	 * @param caption
 	 *            The caption for this Slider (e.g. "Volume").
 	 */
-	public static Slider newSlider(String captionKey) {
+	public static Slider newSlider(@I18NAwareMessage String captionKey) {
 		return new I18NSlider(captionKey);
 	}
 
@@ -383,7 +384,7 @@ public class I18NAwareFactory {
 	 * @param min
 	 * @param max
 	 */
-	public static Slider newSlider(String captionKey, int min, int max) {
+	public static Slider newSlider(@I18NAwareMessage String captionKey, int min, int max) {
 		return new I18NSlider(captionKey, min, max);
 	}
 
@@ -405,7 +406,7 @@ public class I18NAwareFactory {
 	 *            Resource for the Link
 	 * @return new i18n-aware Link
 	 */
-	public static Link newLink(String captionKey, Resource resource) {
+	public static Link newLink(@I18NAwareMessage String captionKey, Resource resource) {
 		return new I18NLink(captionKey, resource);
 	}
 
@@ -426,7 +427,7 @@ public class I18NAwareFactory {
 	 *            border of the Link
 	 * @return new i18n-aware Link
 	 */
-	public static Link newLink(String captionKey, Resource resource,
+	public static Link newLink(@I18NAwareMessage String captionKey, Resource resource,
 			String targetName, int width, int height, int border) {
 		return new I18NLink(captionKey, resource, targetName, width, height,
 				border);
@@ -496,7 +497,7 @@ public class I18NAwareFactory {
 	 *            for the Upload
 	 * @return new i18n-aware Upload
 	 */
-	public static Upload newUpload(String captionKey, Receiver receiver) {
+	public static Upload newUpload(@I18NAwareMessage String captionKey, Receiver receiver) {
 		return new I18NUpload(captionKey, receiver);
 	}
 
@@ -676,7 +677,7 @@ public class I18NAwareFactory {
 	 *            key for the Panel caption
 	 * @return new i18n-aware
 	 */
-	public static Panel newPanel(String captionKey) {
+	public static Panel newPanel(@I18NAwareMessage String captionKey) {
 		return new I18NPanel(captionKey);
 	}
 
@@ -699,7 +700,7 @@ public class I18NAwareFactory {
 	 * @param content
 	 *            the content used in the panel.
 	 */
-	public static Panel newPanel(String captionKey, ComponentContainer content) {
+	public static Panel newPanel(@I18NAwareMessage String captionKey, ComponentContainer content) {
 		return new I18NPanel(captionKey, content);
 	}
 
@@ -719,7 +720,7 @@ public class I18NAwareFactory {
 	 *            key for the Window caption
 	 * @return new i18n-aware Window
 	 */
-	public static Window newWindow(String captionKey) {
+	public static Window newWindow(@I18NAwareMessage String captionKey) {
 		return new I18NWindow(captionKey);
 	}
 
@@ -731,7 +732,7 @@ public class I18NAwareFactory {
 	 * @param content
 	 *            the contents of the window
 	 */
-	public static Window newWindow(String captionKey, ComponentContainer content) {
+	public static Window newWindow(@I18NAwareMessage String captionKey, ComponentContainer content) {
 		return new I18NWindow(captionKey, content);
 	}
 
@@ -744,7 +745,7 @@ public class I18NAwareFactory {
 	 *            key for the Action caption
 	 * @return new i18n-aware Action
 	 */
-	public static Action newAction(String captionKey) {
+	public static Action newAction(@I18NAwareMessage String captionKey) {
 		return new I18NAction(captionKey);
 	}
 
@@ -757,7 +758,7 @@ public class I18NAwareFactory {
 	 *            resource for the icon
 	 * @return new i18n-aware Action
 	 */
-	public static Action newAction(String captionKey, Resource icon) {
+	public static Action newAction(@I18NAwareMessage String captionKey, Resource icon) {
 		return new I18NAction(captionKey, icon);
 	}
 
@@ -779,7 +780,7 @@ public class I18NAwareFactory {
 	 *            key for the CheckBox caption
 	 * @return new i18n-aware CheckBox
 	 */
-	public static CheckBox newCheckBox(String captionKey) {
+	public static CheckBox newCheckBox(@I18NAwareMessage String captionKey) {
 		return new I18NCheckBox(captionKey);
 	}
 
@@ -792,7 +793,7 @@ public class I18NAwareFactory {
 	 *            listener for the CheckBox
 	 * @return new i18n-aware CheckBox
 	 */
-	public static CheckBox newCheckBox(String captionKey, ClickListener listener) {
+	public static CheckBox newCheckBox(@I18NAwareMessage String captionKey, ClickListener listener) {
 		return new I18NCheckBox(captionKey, listener);
 	}
 
@@ -804,7 +805,7 @@ public class I18NAwareFactory {
 	 * @param initialState
 	 *            the initial state of the switch button
 	 */
-	public static CheckBox newCheckBox(String captionKey, boolean initialState) {
+	public static CheckBox newCheckBox(@I18NAwareMessage String captionKey, boolean initialState) {
 		return new I18NCheckBox(captionKey, initialState);
 	}
 
@@ -825,7 +826,7 @@ public class I18NAwareFactory {
 	 *            the name of the method in target object, that receives button
 	 *            click events.
 	 */
-	public static CheckBox newCheckBox(String captionKey, Object target,
+	public static CheckBox newCheckBox(@I18NAwareMessage String captionKey, Object target,
 			String methodName) {
 		return new I18NCheckBox(captionKey, target, methodName);
 	}
@@ -839,7 +840,7 @@ public class I18NAwareFactory {
 	 *            the Initial state of the switch-button.
 	 * @param dataSource
 	 */
-	public static CheckBox newCheckBox(String captionKey, Property dataSource) {
+	public static CheckBox newCheckBox(@I18NAwareMessage String captionKey, Property dataSource) {
 		return new I18NCheckBox(captionKey, dataSource);
 	}
 
@@ -859,7 +860,7 @@ public class I18NAwareFactory {
 	 *            key for the ComboBox caption
 	 * @return new i18n-aware ComboBox
 	 */
-	public static ComboBox newComboBox(String captionKey) {
+	public static ComboBox newComboBox(@I18NAwareMessage String captionKey) {
 		return new I18NComboBox(captionKey);
 	}
 
@@ -871,7 +872,7 @@ public class I18NAwareFactory {
 	 *            options for the comboBox
 	 * @return
 	 */
-	public static ComboBox newComboBox(String captionKey, Collection<?> options) {
+	public static ComboBox newComboBox(@I18NAwareMessage String captionKey, Collection<?> options) {
 		return new I18NComboBox(captionKey, options);
 	}
 
@@ -882,7 +883,7 @@ public class I18NAwareFactory {
 	 * @param dataSource
 	 * @return
 	 */
-	public static ComboBox newComboBox(String captionKey, Container dataSource) {
+	public static ComboBox newComboBox(@I18NAwareMessage String captionKey, Container dataSource) {
 		return new I18NComboBox(captionKey, dataSource);
 	}
 
@@ -902,7 +903,7 @@ public class I18NAwareFactory {
 	 *            key for the DateField caption
 	 * @return new i18n-aware DateField
 	 */
-	public static DateField newDateField(String captionKey) {
+	public static DateField newDateField(@I18NAwareMessage String captionKey) {
 		return new I18NDateField(captionKey);
 	}
 
@@ -915,7 +916,7 @@ public class I18NAwareFactory {
 	 * @param dataSource
 	 *            the Property to be edited with this editor.
 	 */
-	public static DateField newDateField(String captionKey, Property dataSource) {
+	public static DateField newDateField(@I18NAwareMessage String captionKey, Property dataSource) {
 		return new I18NDateField(captionKey, dataSource);
 	}
 
@@ -943,7 +944,7 @@ public class I18NAwareFactory {
 	 * @param value
 	 *            the Date value.
 	 */
-	public static DateField newDateField(String captionKey, Date value) {
+	public static DateField newDateField(@I18NAwareMessage String captionKey, Date value) {
 		return new I18NDateField(captionKey, value);
 	}
 
@@ -972,7 +973,7 @@ public class I18NAwareFactory {
 	 *            the caption message key of the datefield.
 	 * @param value
 	 */
-	public static PopupDateField newPopupDateField(String captionKey, Date value) {
+	public static PopupDateField newPopupDateField(@I18NAwareMessage String captionKey, Date value) {
 		return new I18NPopupDateField(captionKey, value);
 	}
 
@@ -984,7 +985,7 @@ public class I18NAwareFactory {
 	 *            the caption message key of the PopupDateField.
 	 * @param dataSource
 	 */
-	public static PopupDateField newPopupDateField(String captionKey,
+	public static PopupDateField newPopupDateField(@I18NAwareMessage String captionKey,
 			Property dataSource) {
 		return new I18NPopupDateField(captionKey, dataSource);
 	}
@@ -996,7 +997,7 @@ public class I18NAwareFactory {
 	 * @param captionKey
 	 *            the caption message key of the PopupDateField.
 	 */
-	public static PopupDateField newPopupDateField(String captionKey) {
+	public static PopupDateField newPopupDateField(@I18NAwareMessage String captionKey) {
 		return new I18NPopupDateField(captionKey);
 	}
 
@@ -1034,7 +1035,7 @@ public class I18NAwareFactory {
 	 *            the caption message key of the datefield.
 	 * @param value
 	 */
-	public static InlineDateField newInlineDateField(String captionKey,
+	public static InlineDateField newInlineDateField(@I18NAwareMessage String captionKey,
 			Date value) {
 		return new I18NInlineDateField(captionKey, value);
 	}
@@ -1047,7 +1048,7 @@ public class I18NAwareFactory {
 	 *            the caption message key of the InlineDateField.
 	 * @param dataSource
 	 */
-	public static InlineDateField newInlineDateField(String captionKey,
+	public static InlineDateField newInlineDateField(@I18NAwareMessage String captionKey,
 			Property dataSource) {
 		return new I18NInlineDateField(captionKey, dataSource);
 	}
@@ -1059,7 +1060,7 @@ public class I18NAwareFactory {
 	 * @param captionKey
 	 *            the caption message key of the InlineDateField.
 	 */
-	public static InlineDateField newInlineDateField(String captionKey) {
+	public static InlineDateField newInlineDateField(@I18NAwareMessage String captionKey) {
 		return new I18NInlineDateField(captionKey);
 	}
 
@@ -1072,7 +1073,7 @@ public class I18NAwareFactory {
 	 * 
 	 * @return new i18n-aware Select
 	 */
-	public static Select newSelect(String captionKey, Collection<?> options) {
+	public static Select newSelect(@I18NAwareMessage String captionKey, Collection<?> options) {
 		return new I18NSelect(captionKey, options);
 	}
 
@@ -1085,7 +1086,7 @@ public class I18NAwareFactory {
 	 * 
 	 * @return new i18n-aware Select
 	 */
-	public static Select newSelect(String captionKey, Container dataSource) {
+	public static Select newSelect(@I18NAwareMessage String captionKey, Container dataSource) {
 		return new I18NSelect(captionKey, dataSource);
 	}
 
@@ -1097,7 +1098,7 @@ public class I18NAwareFactory {
 	 * 
 	 * @return new i18n-aware Select
 	 */
-	public static Select newSelect(String captionKey) {
+	public static Select newSelect(@I18NAwareMessage String captionKey) {
 		return new I18NSelect(captionKey);
 	}
 
@@ -1117,7 +1118,7 @@ public class I18NAwareFactory {
 	 *            key for the NativeSelect caption
 	 * @return new i18n-aware NativeSelect
 	 */
-	public static NativeSelect newNativeSelect(String captionKey) {
+	public static NativeSelect newNativeSelect(@I18NAwareMessage String captionKey) {
 		return new I18NNativeSelect(captionKey);
 	}
 
@@ -1129,7 +1130,7 @@ public class I18NAwareFactory {
 	 * @param options
 	 * @return
 	 */
-	public static NativeSelect newNativeSelect(String captionKey,
+	public static NativeSelect newNativeSelect(@I18NAwareMessage String captionKey,
 			Collection<?> options) {
 		return new I18NNativeSelect(captionKey, options);
 	}
@@ -1142,7 +1143,7 @@ public class I18NAwareFactory {
 	 * @param dataSource
 	 * @return
 	 */
-	public static NativeSelect newNativeSelect(String captionKey,
+	public static NativeSelect newNativeSelect(@I18NAwareMessage String captionKey,
 			Container dataSource) {
 		return new I18NNativeSelect(captionKey, dataSource);
 	}
@@ -1155,7 +1156,7 @@ public class I18NAwareFactory {
 	 * @param options
 	 * @return
 	 */
-	public static ListSelect newListSelect(String captionKey,
+	public static ListSelect newListSelect(@I18NAwareMessage String captionKey,
 			Collection<?> options) {
 		return new I18NListSelect(captionKey, options);
 	}
@@ -1168,7 +1169,7 @@ public class I18NAwareFactory {
 	 * @param dataSource
 	 * @return
 	 */
-	public ListSelect newListSelect(String captionKey, Container dataSource) {
+	public ListSelect newListSelect(@I18NAwareMessage String captionKey, Container dataSource) {
 		return new I18NListSelect(captionKey, dataSource);
 	}
 
@@ -1179,7 +1180,7 @@ public class I18NAwareFactory {
 	 *            key for the ListSelect caption
 	 * @return
 	 */
-	public static ListSelect newListSelect(String captionKey) {
+	public static ListSelect newListSelect(@I18NAwareMessage String captionKey) {
 		return new I18NListSelect(captionKey);
 	}
 
@@ -1195,7 +1196,7 @@ public class I18NAwareFactory {
 	 * 
 	 * @param caption
 	 */
-	public static Tree newTree(String captionKey) {
+	public static Tree newTree(@I18NAwareMessage String captionKey) {
 		return new I18NTree(captionKey);
 	}
 
@@ -1205,7 +1206,7 @@ public class I18NAwareFactory {
 	 * @param caption
 	 * @param dataSource
 	 */
-	public static Tree newTree(String captionKey, Container dataSource) {
+	public static Tree newTree(@I18NAwareMessage String captionKey, Container dataSource) {
 		return new I18NTree(captionKey);
 	}
 
@@ -1221,7 +1222,7 @@ public class I18NAwareFactory {
 	 * 
 	 * @param caption
 	 */
-	public static TwinColSelect newTwinColSelect(String captionKey) {
+	public static TwinColSelect newTwinColSelect(@I18NAwareMessage String captionKey) {
 		return new I18NTwinColSelect(captionKey);
 	}
 
@@ -1231,7 +1232,7 @@ public class I18NAwareFactory {
 	 * @param captionKey
 	 * @param dataSource
 	 */
-	public static TwinColSelect newTwinColSelect(String captionKey,
+	public static TwinColSelect newTwinColSelect(@I18NAwareMessage String captionKey,
 			Container dataSource) {
 		return new I18NTwinColSelect(captionKey, dataSource);
 	}
@@ -1272,7 +1273,7 @@ public class I18NAwareFactory {
 	 *            key for the OptionGroup caption
 	 * @return new i18n-aware OptionGroup
 	 */
-	public static OptionGroup newOptionGroup(String captionKey) {
+	public static OptionGroup newOptionGroup(@I18NAwareMessage String captionKey) {
 		return new I18NOptionGroup(captionKey);
 	}
 
@@ -1284,7 +1285,7 @@ public class I18NAwareFactory {
 	 * @param options
 	 * @return new i18n-aware OptionGroup
 	 */
-	public static OptionGroup newOptionGroup(String captionKey,
+	public static OptionGroup newOptionGroup(@I18NAwareMessage String captionKey,
 			Collection<?> options) {
 		return new I18NOptionGroup(captionKey, options);
 	}
@@ -1297,7 +1298,7 @@ public class I18NAwareFactory {
 	 * @param dataSource
 	 * @return new i18n-aware OptionGroup
 	 */
-	public static OptionGroup newOptionGroup(String captionKey,
+	public static OptionGroup newOptionGroup(@I18NAwareMessage String captionKey,
 			Container dataSource) {
 		return new I18NOptionGroup(captionKey, dataSource);
 	}
@@ -1313,7 +1314,7 @@ public class I18NAwareFactory {
 	 *            key for the OptionGroup caption
 	 */
 	public static void setItemCaptionKey(OptionGroup optionGroup,
-			Object itemId, String captionKey) {
+			Object itemId, @I18NAwareMessage String captionKey) {
 		if (!(optionGroup instanceof I18NOptionGroup)) {
 			throw new IllegalArgumentException("Expecting a OptionGroup");
 		}
@@ -1337,7 +1338,7 @@ public class I18NAwareFactory {
 	 *            key for the TextArea caption
 	 * @return new i18n-aware TextArea
 	 */
-	public static TextArea newTextArea(String captionKey) {
+	public static TextArea newTextArea(@I18NAwareMessage String captionKey) {
 		return new I18NTextArea(captionKey);
 	}
 
@@ -1359,7 +1360,7 @@ public class I18NAwareFactory {
 	 * @param dataSource
 	 *            the data source for the field
 	 */
-	public static TextArea newTextArea(String captionKey, Property dataSource) {
+	public static TextArea newTextArea(@I18NAwareMessage String captionKey, Property dataSource) {
 		return new I18NTextArea(captionKey, dataSource);
 	}
 
@@ -1371,7 +1372,7 @@ public class I18NAwareFactory {
 	 * @param value
 	 *            the value for the field
 	 */
-	public static TextArea newTextArea(String captionKey, String value) {
+	public static TextArea newTextArea(@I18NAwareMessage String captionKey, String value) {
 		return new I18NTextArea(captionKey, value);
 	}
 
@@ -1389,7 +1390,7 @@ public class I18NAwareFactory {
 	 * @param captionKey
 	 *            the caption key for the editor.
 	 */
-	public static RichTextArea newRichTextArea(String captionKey) {
+	public static RichTextArea newRichTextArea(@I18NAwareMessage String captionKey) {
 		return new I18NRichTextArea(captionKey);
 	}
 
@@ -1413,7 +1414,7 @@ public class I18NAwareFactory {
 	 * @param dataSource
 	 *            the data source for the editor value
 	 */
-	public static RichTextArea newRichTextArea(String captionKey,
+	public static RichTextArea newRichTextArea(@I18NAwareMessage String captionKey,
 			Property dataSource) {
 		return new I18NRichTextArea(captionKey, dataSource);
 	}
@@ -1427,7 +1428,7 @@ public class I18NAwareFactory {
 	 * @param value
 	 *            the initial text content of the editor.
 	 */
-	public static RichTextArea newRichTextArea(String captionKey, String value) {
+	public static RichTextArea newRichTextArea(@I18NAwareMessage String captionKey, String value) {
 		return new I18NRichTextArea(captionKey, value);
 	}
 
@@ -1447,7 +1448,7 @@ public class I18NAwareFactory {
 	 *            key for the TextField caption
 	 * @return new i18n-aware TextField
 	 */
-	public static TextField newTextField(String captionKey) {
+	public static TextField newTextField(@I18NAwareMessage String captionKey) {
 		return new I18NTextField(captionKey);
 	}
 
@@ -1460,7 +1461,7 @@ public class I18NAwareFactory {
 	 *            value for the TextField
 	 * @return new i18n-aware TextField
 	 */
-	public static TextField newTextField(String captionKey, String value) {
+	public static TextField newTextField(@I18NAwareMessage String captionKey, String value) {
 		return new I18NTextField(captionKey, value);
 	}
 
@@ -1485,7 +1486,7 @@ public class I18NAwareFactory {
 	 * @param dataSource
 	 *            the Property to be edited with this editor.
 	 */
-	public static TextField newTextField(String captionKey, Property dataSource) {
+	public static TextField newTextField(@I18NAwareMessage String captionKey, Property dataSource) {
 		return new I18NTextField(captionKey, dataSource);
 	}
 
@@ -1515,7 +1516,7 @@ public class I18NAwareFactory {
 	 * @param dataSource
 	 *            the property data source for the field
 	 */
-	public static PasswordField newPasswordField(String captionKey,
+	public static PasswordField newPasswordField(@I18NAwareMessage String captionKey,
 			Property dataSource) {
 		return new I18NPasswordField(captionKey, dataSource);
 	}
@@ -1528,7 +1529,7 @@ public class I18NAwareFactory {
 	 * @param value
 	 *            the value for the field
 	 */
-	public static PasswordField newPasswordField(String captionKey, String value) {
+	public static PasswordField newPasswordField(@I18NAwareMessage String captionKey, String value) {
 		return new I18NPasswordField(captionKey, value);
 	}
 
@@ -1538,7 +1539,7 @@ public class I18NAwareFactory {
 	 * @param caption
 	 *            the caption for the field
 	 */
-	public static PasswordField newPasswordField(String captionKey) {
+	public static PasswordField newPasswordField(@I18NAwareMessage String captionKey) {
 		return new I18NPasswordField(captionKey);
 	}
 
@@ -1628,7 +1629,7 @@ public class I18NAwareFactory {
 	 *            key for the table caption
 	 * @return new i18n-aware Table
 	 */
-	public static Table newTable(String captionKey) {
+	public static Table newTable(@I18NAwareMessage String captionKey) {
 		return new I18NTable(captionKey);
 	}
 
@@ -1641,7 +1642,7 @@ public class I18NAwareFactory {
 	 *            data source for the Table
 	 * @return new i18n-aware Table
 	 */
-	public static Table newTable(String captionKey, Container dataSource) {
+	public static Table newTable(@I18NAwareMessage String captionKey, Container dataSource) {
 		return new I18NTable(captionKey, dataSource);
 	}
 
@@ -1683,7 +1684,7 @@ public class I18NAwareFactory {
 	 *            the command for the menu item
 	 * @throws IllegalArgumentException
 	 */
-	public static MenuBar.MenuItem addItem(MenuBar menuBar, String captionKey,
+	public static MenuBar.MenuItem addItem(MenuBar menuBar, @I18NAwareMessage String captionKey,
 			Resource icon, MenuBar.Command command) {
 
 		if (!(menuBar instanceof I18NMenuBar)) {
@@ -1708,7 +1709,7 @@ public class I18NAwareFactory {
 	 *            the item that will be after the new item
 	 * @throws IllegalArgumentException
 	 */
-	public MenuBar.MenuItem addItemBefore(MenuBar menuBar, String captionKey,
+	public MenuBar.MenuItem addItemBefore(MenuBar menuBar, @I18NAwareMessage String captionKey,
 			Resource icon, MenuBar.Command command,
 			MenuBar.MenuItem itemToAddBefore) {
 
@@ -1860,7 +1861,7 @@ public class I18NAwareFactory {
 	 *            parameters for the caption
 	 * @see I18NAwareCaption
 	 */
-	public static <T> void setCaptionMessage(T item, String captionKey, Object... params) {
+	public static <T> void setCaptionMessage(T item, @I18NAwareMessage String captionKey, Object... params) {
 
 		if (!(item instanceof I18NAwareCaption)) {
 			throw new IllegalArgumentException("Expecting a I18NAwareCaption");
@@ -1897,7 +1898,7 @@ public class I18NAwareFactory {
 	 *            key for required error message
 	 * @see I18NAwareValue
 	 */
-	public static <T> void setRequiredErrorMessage(T item, String requiredErrorKey, Object... requiredErrorParams) {
+	public static <T> void setRequiredErrorMessage(T item, @I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
 
 		if (!(item instanceof I18NAwareField)) {
 			throw new IllegalArgumentException("Expecting a I18NAwareValue");

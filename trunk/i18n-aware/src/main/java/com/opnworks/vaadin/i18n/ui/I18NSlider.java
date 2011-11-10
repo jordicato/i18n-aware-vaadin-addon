@@ -1,6 +1,7 @@
 package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareField;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.vaadin.ui.Slider;
@@ -29,7 +30,7 @@ public class I18NSlider extends Slider implements I18NAwareField {
 	 * @param caption
 	 *            The caption for this Slider (e.g. "Volume").
 	 */
-	public I18NSlider(String captionKey) {
+	public I18NSlider(@I18NAwareMessage String captionKey) {
 		super(captionKey);
 		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
@@ -62,23 +63,23 @@ public class I18NSlider extends Slider implements I18NAwareField {
 	 * @param min
 	 * @param max
 	 */
-	public I18NSlider(String captionKey, int min, int max) {
+	public I18NSlider(@I18NAwareMessage String captionKey, int min, int max) {
 		super(captionKey, min, max);
 		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
 
 	@Override
-	public void setRequiredErrorMessage(String requiredErrorKey, Object... requiredErrorParams) {
+	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
 		i18NAwareFieldSupport.setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
 	@Override
-	public void setCaptionMessage(String captionKey, Object... params) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		i18NAwareFieldSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setDescriptionMessage(String descriptionKey,
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {
 		i18NAwareFieldSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}

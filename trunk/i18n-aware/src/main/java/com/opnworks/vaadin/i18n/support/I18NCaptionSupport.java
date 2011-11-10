@@ -1,6 +1,7 @@
 package com.opnworks.vaadin.i18n.support;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 
 /**
  * The I18NAwareCaption Support
@@ -19,7 +20,7 @@ public class I18NCaptionSupport extends I18NAwareValueSupport implements
 		});
 	}
 
-	public void setCaptionMessage(String captionKey, Object... params) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		setValueMessage(captionKey, params);
 	}
 
