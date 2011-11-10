@@ -1,6 +1,7 @@
 package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport.CaptionContainer;
@@ -47,7 +48,7 @@ public class I18NLoginForm extends LoginForm implements I18NAwareCaption {
 				}
 			});
 
-	public void setCaptionMessage(String captionKey, Object... params) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		captionSupport.setCaptionMessage(captionKey, params);
 	}
 

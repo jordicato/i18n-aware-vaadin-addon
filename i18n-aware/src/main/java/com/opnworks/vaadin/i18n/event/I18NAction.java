@@ -3,11 +3,12 @@ package com.opnworks.vaadin.i18n.event;
 import java.util.Locale;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport;
+import com.opnworks.vaadin.i18n.support.I18NCaptionSupport.CaptionContainer;
 import com.vaadin.event.Action;
 import com.vaadin.terminal.Resource;
-import com.opnworks.vaadin.i18n.support.I18NCaptionSupport.CaptionContainer;
 
 /**
  * The I18NAware
@@ -28,7 +29,7 @@ public class I18NAction extends Action implements I18NAwareCaption, CaptionConta
 	 * @param captionKey
 	 *            the caption message key for the new action.
 	 */
-	public I18NAction(String captionKey) {
+	public I18NAction(@I18NAwareMessage String captionKey) {
 		super(captionKey);
 		i18NCaptionSupport.setCaptionMessage(captionKey);
 	}
@@ -42,13 +43,13 @@ public class I18NAction extends Action implements I18NAwareCaption, CaptionConta
 	 * @param icon
 	 *            the icon for the new action.
 	 */
-	public I18NAction(String captionKey, Resource icon) {
+	public I18NAction(@I18NAwareMessage String captionKey, Resource icon) {
 		super(captionKey, icon);
 		i18NCaptionSupport.setCaptionMessage(captionKey);
 	}
 
 	@Override
-	public void setCaptionMessage(String captionKey, Object... captionParams) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... captionParams) {
 		i18NCaptionSupport.setCaptionMessage(captionKey, captionParams);
 	}
 

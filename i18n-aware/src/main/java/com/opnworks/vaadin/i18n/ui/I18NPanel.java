@@ -2,6 +2,7 @@ package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareContainer;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
@@ -48,7 +49,7 @@ public class I18NPanel extends Panel implements I18NAwareContainer, I18NAwareCap
 	 * @param captionKey
 	 *            the caption message key used in the panel.
 	 */
-	public I18NPanel(String captionKey) {
+	public I18NPanel(@I18NAwareMessage String captionKey) {
 		super(captionKey);
 		setCaptionMessage(captionKey);
 		setContent(new I18NVerticalLayout());
@@ -74,7 +75,7 @@ public class I18NPanel extends Panel implements I18NAwareContainer, I18NAwareCap
 	 * @param content
 	 *            the content used in the panel.
 	 */
-	public I18NPanel(String captionKey, ComponentContainer content) {
+	public I18NPanel(@I18NAwareMessage String captionKey, ComponentContainer content) {
 		super(captionKey, content);
 		setCaptionMessage(captionKey);
 		setContent(new I18NVerticalLayout());
@@ -93,12 +94,12 @@ public class I18NPanel extends Panel implements I18NAwareContainer, I18NAwareCap
 	}
 
 	@Override
-	public void setCaptionMessage(String captionKey, Object... params) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		captionSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setDescriptionMessage(String descriptionKey,
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {
 		i18NDescriptionSupport.setValueMessage(descriptionKey,
 				descriptionParams);

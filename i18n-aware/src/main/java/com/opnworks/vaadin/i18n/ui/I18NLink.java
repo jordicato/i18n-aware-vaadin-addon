@@ -2,6 +2,7 @@ package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.vaadin.terminal.Resource;
@@ -32,7 +33,7 @@ public class I18NLink extends Link implements I18NAwareComponent, I18NAwareCapti
      * @param captionKey
      * @param resource
      */
-	public I18NLink(String captionKey, Resource resource) {
+	public I18NLink(@I18NAwareMessage String captionKey, Resource resource) {
 		super(captionKey, resource);
 		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey);
 	}
@@ -55,19 +56,19 @@ public class I18NLink extends Link implements I18NAwareComponent, I18NAwareCapti
      *            the Border style of the target window.
      * 
      */
-	public I18NLink(String captionKey, Resource resource, String targetName,
+	public I18NLink(@I18NAwareMessage String captionKey, Resource resource, String targetName,
 			int width, int height, int border) {
 		super(captionKey, resource, targetName, width, height, border);
 		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey);
 	}
 
 	@Override
-	public void setCaptionMessage(String captionKey, Object... params) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setDescriptionMessage(String descriptionKey,
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {
 		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}

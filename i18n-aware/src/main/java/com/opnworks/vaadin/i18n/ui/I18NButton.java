@@ -1,6 +1,7 @@
 package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareField;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.vaadin.data.Property;
@@ -36,7 +37,7 @@ public class I18NButton extends Button implements I18NAwareField {
 	 * @param captionKey
 	 *            the Button caption message key.
 	 */
-	public I18NButton(String captionKey) {
+	public I18NButton(@I18NAwareMessage String captionKey) {
 		super(captionKey);
 		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
@@ -50,7 +51,7 @@ public class I18NButton extends Button implements I18NAwareField {
 	 * @param listener
 	 *            the Button click listener.
 	 */
-	public I18NButton(String captionKey, ClickListener listener) {
+	public I18NButton( @I18NAwareMessage String captionKey, ClickListener listener) {
 		super(captionKey, listener);
 		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
@@ -71,7 +72,7 @@ public class I18NButton extends Button implements I18NAwareField {
 	 *            the name of the method in target object, that receives button
 	 *            click events.
 	 */
-	public I18NButton(String captionKey, Object target, String methodName) {
+	public I18NButton(@I18NAwareMessage String captionKey, Object target, String methodName) {
 		super(captionKey, target, methodName);
 		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
@@ -87,7 +88,7 @@ public class I18NButton extends Button implements I18NAwareField {
 	 * @deprecated use {@link CheckBox} instead of Button in "switchmode"
 	 */
 	@Deprecated
-	public I18NButton(String captionKey, boolean initialState) {
+	public I18NButton(@I18NAwareMessage String captionKey, boolean initialState) {
 		super(captionKey, initialState);
 		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
@@ -103,24 +104,24 @@ public class I18NButton extends Button implements I18NAwareField {
 	 * @deprecated use {@link CheckBox} instead of Button in "switchmode"
 	 */
 	@Deprecated
-	public I18NButton(String captionKey, Property dataSource) {
+	public I18NButton(@I18NAwareMessage String captionKey, Property dataSource) {
 		super(captionKey, dataSource);
 		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
 
 	@Override
-	public void setRequiredErrorMessage(String requiredErrorKey, Object... requiredErrorParams) {
+	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
 		i18NAwareFieldSupport.setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
 
 	@Override
-	public void setCaptionMessage(String captionKey, Object... params) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		i18NAwareFieldSupport.setCaptionMessage(captionKey, params);
 	}
 	
 	@Override
-	public void setDescriptionMessage(String descriptionKey,
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {
 		i18NAwareFieldSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}

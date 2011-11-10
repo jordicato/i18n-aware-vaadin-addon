@@ -2,6 +2,7 @@ package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.vaadin.terminal.Resource;
@@ -32,7 +33,7 @@ public class I18NEmbedded extends Embedded implements I18NAwareComponent,
 	 * 
 	 * @param captionKey
 	 */
-	public I18NEmbedded(String captionKey) {
+	public I18NEmbedded(@I18NAwareMessage String captionKey) {
 		super(captionKey);
 		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey);
 	}
@@ -46,18 +47,18 @@ public class I18NEmbedded extends Embedded implements I18NAwareComponent,
 	 * @param source
 	 *            the Source of the embedded object.
 	 */
-	public I18NEmbedded(String captionKey, Resource resource) {
+	public I18NEmbedded(@I18NAwareMessage String captionKey, Resource resource) {
 		super(captionKey, resource);
 		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey);
 	}
 
 	@Override
-	public void setCaptionMessage(String captionKey, Object... params) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setDescriptionMessage(String descriptionKey,
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {
 		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}

@@ -3,6 +3,7 @@ package com.opnworks.vaadin.i18n.ui;
 import com.opnworks.vaadin.i18n.I18NAware;
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
@@ -40,7 +41,7 @@ public class I18NTable extends Table implements I18NAwareComponent,
 	 * 
 	 * @param caption
 	 */
-	public I18NTable(String captionKey) {
+	public I18NTable(@I18NAwareMessage String captionKey) {
 		super(captionKey);
 		setCaptionMessage(captionKey);
 	}
@@ -51,7 +52,7 @@ public class I18NTable extends Table implements I18NAwareComponent,
 	 * @param caption
 	 * @param dataSource
 	 */
-	public I18NTable(String captionKey, Container dataSource) {
+	public I18NTable(@I18NAwareMessage String captionKey, Container dataSource) {
 		super(captionKey, dataSource);
 		setCaptionMessage(captionKey);
 	}
@@ -69,12 +70,12 @@ public class I18NTable extends Table implements I18NAwareComponent,
 	}
 
 	@Override
-	public void setCaptionMessage(String captionKey, Object... params) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setDescriptionMessage(String descriptionKey,
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {
 		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}

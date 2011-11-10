@@ -6,6 +6,7 @@ import java.util.Locale;
 import com.opnworks.vaadin.i18n.I18NAware;
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
@@ -29,7 +30,7 @@ public class I18NMenuBar extends MenuBar implements I18NAwareComponent,
 
 	private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();
 
-	public MenuBar.MenuItem addItem(String captionKey, Resource icon,
+	public MenuBar.MenuItem addItem(@I18NAwareMessage String captionKey, Resource icon,
 			MenuBar.Command command) {
 
 		I18NMenuItem result = new I18NMenuItem(captionKey, super.addItem(
@@ -40,7 +41,7 @@ public class I18NMenuBar extends MenuBar implements I18NAwareComponent,
 		return result;
 	}
 
-	public MenuBar.MenuItem addItemBefore(String captionKey, Resource icon,
+	public MenuBar.MenuItem addItemBefore(@I18NAwareMessage String captionKey, Resource icon,
 			MenuBar.Command command, MenuBar.MenuItem itemToAddBefore) {
 
 		I18NMenuItem result = new I18NMenuItem(captionKey, super.addItemBefore(
@@ -64,12 +65,12 @@ public class I18NMenuBar extends MenuBar implements I18NAwareComponent,
 	}
 
 	@Override
-	public void setCaptionMessage(String captionKey, Object... params) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setDescriptionMessage(String descriptionKey,
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {
 		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}
@@ -104,13 +105,13 @@ public class I18NMenuBar extends MenuBar implements I18NAwareComponent,
 					}
 				});
 
-		public I18NMenuItem(String captionKey, MenuItem delegate) {
+		public I18NMenuItem(@I18NAwareMessage String captionKey, MenuItem delegate) {
 			super("dummy", null, null);
 			this.delegate = delegate;
 			i18NTextSupport.setValueMessage(captionKey);
 		}
 		
-		public MenuBar.MenuItem addItem(String captionKey, Resource icon,
+		public MenuBar.MenuItem addItem(@I18NAwareMessage String captionKey, Resource icon,
 				MenuBar.Command command) throws IllegalStateException {
 
 			I18NMenuItem result = new I18NMenuItem(captionKey, delegate.addItem(captionKey, icon,
@@ -121,7 +122,7 @@ public class I18NMenuBar extends MenuBar implements I18NAwareComponent,
 			return result;
 		}
 
-		public MenuBar.MenuItem addItemBefore(String captionKey, Resource icon,
+		public MenuBar.MenuItem addItemBefore(@I18NAwareMessage String captionKey, Resource icon,
 				MenuBar.Command command, MenuBar.MenuItem itemToAddBefore)
 				throws IllegalStateException {
 

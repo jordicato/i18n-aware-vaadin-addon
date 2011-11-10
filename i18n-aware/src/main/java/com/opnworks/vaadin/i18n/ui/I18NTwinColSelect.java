@@ -1,6 +1,7 @@
 package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareField;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport;
@@ -48,7 +49,7 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField {
 	 * 
 	 * @param caption
 	 */
-	public I18NTwinColSelect(String captionKey) {
+	public I18NTwinColSelect(@I18NAwareMessage String captionKey) {
 		super(captionKey);
 		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
@@ -59,7 +60,7 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField {
 	 * @param captionKey
 	 * @param dataSource
 	 */
-	public I18NTwinColSelect(String captionKey, Container dataSource) {
+	public I18NTwinColSelect(@I18NAwareMessage String captionKey, Container dataSource) {
 		super(captionKey, dataSource);
 		i18NAwareFieldSupport.setCaptionMessage(captionKey);
 	}
@@ -73,17 +74,17 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField {
 	}
 
 	@Override
-	public void setRequiredErrorMessage(String requiredErrorKey, Object... requiredErrorParams) {
+	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
 		i18NAwareFieldSupport.setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
 	@Override
-	public void setCaptionMessage(String captionKey, Object... params) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		i18NAwareFieldSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setDescriptionMessage(String descriptionKey,
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {
 		i18NAwareFieldSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}

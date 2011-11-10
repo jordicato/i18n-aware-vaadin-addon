@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.ValueContainer;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport.CaptionContainer;
@@ -41,11 +42,11 @@ public class I18NAwareComponentCaptionSupport implements Serializable,
 		this.originalComponent = originalComponent;
 	}
 
-	public void setCaptionMessage(String captionKey, Object... params) {
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		i18NCaptionSupport.setCaptionMessage(captionKey, params);
 	}
 
-	public void setDescriptionMessage(String descriptionKey,
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {
 		descriptionI18NSupport.setValueMessage(descriptionKey,
 				descriptionParams);
