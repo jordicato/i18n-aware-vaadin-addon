@@ -614,16 +614,9 @@ public class SamplerApplication extends Application implements HttpServletReques
     		languageSelector.setImmediate(true);
     		languageSelector.setNullSelectionAllowed(false);
 
-    		languageSelector.addItem(Locale.ENGLISH);
-    		languageSelector.setItemCaption(Locale.ENGLISH, "English");
-
-    		languageSelector.addItem(Locale.FRENCH);
-    		languageSelector.setItemCaption(Locale.FRENCH, "Français");
-
-    		Locale esLocale = new Locale("es");
-    		
-			languageSelector.addItem(esLocale);
-    		languageSelector.setItemCaption(esLocale, "Español");
+    		addLocale( Locale.ENGLISH, languageSelector );
+    		addLocale( Locale.FRENCH, languageSelector );
+    		addLocale( new Locale("es"), languageSelector );
     		
     		languageSelector.setValue(i18NService.getLocale());
 
@@ -637,6 +630,12 @@ public class SamplerApplication extends Application implements HttpServletReques
     		return languageSelector;
     	}
 
+    }
+    
+    private void addLocale( Locale locale, I18NNativeSelect languageSelector ) {
+    	
+		languageSelector.addItem(locale);
+		languageSelector.setItemCaption(locale, i18NService.getMessage(locale, "SamplerApplication.language"));
     }
 
     private class BreadCrumbs extends CustomComponent implements

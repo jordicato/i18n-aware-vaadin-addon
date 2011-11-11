@@ -3,14 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.opnworks.vaadin</groupId>
 	<artifactId>i18n-aware-sampler</artifactId>
-	<version>1.0.0</version>
 	<packaging>war</packaging>
 	<name>I18nAware Sampler</name>
 
 	<parent>
 		<groupId>com.opnworks.vaadin</groupId>
 		<artifactId>i18n-aware-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.1.0-SNAPSHOT</version>
 	</parent>
 
 	<scm>
