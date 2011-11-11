@@ -20,13 +20,12 @@
 
 	<dependencies>
 
-
 		<!-- I18NAware Addon -->
 
 		<dependency>
 			<groupId>com.opnworks.vaadin</groupId>
 			<artifactId>i18n-aware</artifactId>
-			<version>0.0.5-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 
 	</dependencies>

@@ -23,7 +23,13 @@
 		<dependency>
 			<groupId>com.opnworks.vaadin</groupId>
 			<artifactId>i18n-aware</artifactId>
-			<version>0.0.5-SNAPSHOT</version>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.javaparser</groupId>
+			<artifactId>javaparser</artifactId>
+			<version>1.0.8</version>
 		</dependency>
 
 		<dependency>
@@ -42,7 +48,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-				<version>2.4.0</version>
 				<configuration>
 					<webappDirectory>${project.build.directory}/${project.build.finalName}/VAADIN/widgetsets</webappDirectory>
 					<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
@@ -65,7 +70,6 @@
 			<plugin>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin-maven-plugin</artifactId>
-				<version>1.0.1</version>
 				<executions>
 					<execution>
 						<configuration>
