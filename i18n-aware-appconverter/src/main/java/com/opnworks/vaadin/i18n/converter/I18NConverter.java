@@ -198,13 +198,18 @@ public class I18NConverter {
 				ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration) type;
 				if (coid != null && coid.getExtends() != null)
 					for (ClassOrInterfaceType oneextend : coid.getExtends()) {
-						if (oneextend.getName().equals("CustomComponent")) {
-							huboModificaciones = true;
-							oneextend.setName("I18NCustomComponent");
-						} else if (oneextend.getName().equals("Window")) {
-							huboModificaciones = true;
-							oneextend.setName("I18NWindow");
+						String newExtend = getI18NCompositeName(oneextend.getName());
+						if (newExtend != null) {
+							oneextend.setName(newExtend);
+
 						}
+						// if (oneextend.getName().equals("CustomComponent")) {
+						// huboModificaciones = true;
+						// oneextend.setName("I18NCustomComponent");
+						// } else if (oneextend.getName().equals("Window")) {
+						// huboModificaciones = true;
+						// oneextend.setName("I18NWindow");
+						// }
 					}
 			}
 			List<BodyDeclaration> members = type.getMembers();
@@ -280,7 +285,10 @@ public class I18NConverter {
 				ReferenceType rt = (ReferenceType) vde.getType();
 				if (rt.getType() instanceof ClassOrInterfaceType) {
 					ClassOrInterfaceType coi2 = (ClassOrInterfaceType) rt.getType();
-					if (isVaadinCompositeNameSupported(coi2.getName())) {
+					String newClass = getI18NCompositeName(coi2.getName());
+
+					if (newClass != null) {
+						coi2.setName(newClass);
 						for (VariableDeclarator vdd : vde.getVars()) {
 							changeVaadinVarDeclaratorNewReqPrecheck(vdd);
 						}
