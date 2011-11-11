@@ -3,12 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.opnworks.vaadin</groupId>
 	<artifactId>i18n-aware-appconverter</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
 	
 	<parent>
 		<groupId>com.opnworks.vaadin</groupId>
 		<artifactId>i18n-aware-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.1.0-SNAPSHOT</version>
 	</parent>
 	
 	<dependencies>
