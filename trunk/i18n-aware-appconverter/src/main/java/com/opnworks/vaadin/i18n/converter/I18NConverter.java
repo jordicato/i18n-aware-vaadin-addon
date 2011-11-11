@@ -11,7 +11,6 @@ import japa.parser.ast.body.MethodDeclaration;
 import japa.parser.ast.body.Parameter;
 import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.body.VariableDeclarator;
-import japa.parser.ast.body.VariableDeclaratorId;
 import japa.parser.ast.expr.ArrayCreationExpr;
 import japa.parser.ast.expr.ArrayInitializerExpr;
 import japa.parser.ast.expr.AssignExpr;
@@ -259,6 +258,14 @@ public class I18NConverter {
 		}
 	}
 
+	void processBlockStmt(BlockStmt blockStmt) {
+		if (blockStmt != null && blockStmt.getStmts() != null) {
+			for (Statement s : blockStmt.getStmts()) {
+				processStmt(s);
+			}
+		}
+	}
+
 	/**
 	 * Process every expression
 	 * 
@@ -272,7 +279,6 @@ public class I18NConverter {
 		if (expression instanceof AssignExpr) {
 			AssignExpr ae = (AssignExpr) expression;
 			if (ae.getTarget() instanceof NameExpr) {
-				NameExpr ntarget = (NameExpr) ae.getTarget();
 				if (ae.getValue() instanceof ObjectCreationExpr) {
 					ae.setValue(vaadinObjectCreationNoReqPrecheck((ObjectCreationExpr) ae.getValue()));
 				} else if (ae.getValue() instanceof MethodCallExpr) {
@@ -356,7 +362,6 @@ public class I18NConverter {
 					String newExtend = getI18NCompositeName(oneextend.getName());
 					if (newExtend != null) {
 						oneextend.setName(newExtend);
-
 					}
 				}
 				for (BodyDeclaration member1 : ((ClassOrInterfaceDeclaration) member).getMembers()) {
@@ -399,10 +404,7 @@ public class I18NConverter {
 					}
 				}
 			}
-			if (blockStmk != null && blockStmk.getStmts() != null)
-				for (Statement s : blockStmk.getStmts()) {
-					processStmt(s);
-				}
+			processBlockStmt(blockStmk);
 		} else if (member instanceof ClassOrInterfaceDeclaration) {
 			for (BodyDeclaration member1 : ((ClassOrInterfaceDeclaration) member).getMembers())
 				processMember(member1);
@@ -421,21 +423,17 @@ public class I18NConverter {
 			processExpression(es.getExpression());
 		} else if (statement instanceof BlockStmt) {
 			BlockStmt bs = (BlockStmt) statement;
-			for (Statement ss : bs.getStmts()) {
-				processStmt(ss);
-			}
+			processBlockStmt(bs);
 		} else if (statement instanceof SynchronizedStmt) {
 			SynchronizedStmt bs = (SynchronizedStmt) statement;
 			BlockStmt bs1 = (BlockStmt) bs.getBlock();
-			if (bs1 != null && bs1.getStmts() != null)
-				for (Statement ss : bs1.getStmts()) {
-					processStmt(ss);
-				}
+			processBlockStmt(bs1);
 		} else if (statement instanceof EmptyStmt) {
 			// nothing to do
 		} else if (statement instanceof SwitchStmt) {
 			SwitchStmt bs = (SwitchStmt) statement;
 			for (SwitchEntryStmt swe : bs.getEntries()) {
+
 				if (swe.getStmts() != null)
 					for (Statement ss : swe.getStmts()) {
 						processStmt(ss);
@@ -446,10 +444,7 @@ public class I18NConverter {
 			if (bs.getThenStmt() != null) {
 				if (bs.getThenStmt() instanceof BlockStmt) {
 					BlockStmt bs0 = (BlockStmt) bs.getThenStmt();
-					if (bs0 != null && bs0.getStmts() != null)
-						for (Statement ss : bs0.getStmts()) {
-							processStmt(ss);
-						}
+					processBlockStmt(bs0);
 				} else if (bs.getThenStmt() instanceof IfStmt) {
 					processStmt(bs.getThenStmt());
 				} else {
@@ -459,11 +454,7 @@ public class I18NConverter {
 			if (bs.getElseStmt() != null) {
 				if (bs.getElseStmt() instanceof BlockStmt) {
 					BlockStmt bs0 = (BlockStmt) bs.getElseStmt();
-					if (bs0 != null && bs0.getStmts() != null)
-						for (Statement ss : bs0.getStmts()) {
-							processStmt(ss);
-						}
-
+					processBlockStmt(bs0);
 				} else if (bs.getElseStmt() instanceof IfStmt) {
 					processStmt(bs.getElseStmt());
 				} else {
@@ -479,50 +470,27 @@ public class I18NConverter {
 		} else if (statement instanceof ForeachStmt) {
 			ForeachStmt bs = (ForeachStmt) statement;
 			BlockStmt bs1 = (BlockStmt) bs.getBody();
-			if (bs1 != null && bs1.getStmts() != null) {
-				for (Statement ss : bs1.getStmts()) {
-					processStmt(ss);
-				}
-			}
+			processBlockStmt(bs1);
 		} else if (statement instanceof WhileStmt) {
 			WhileStmt bs = (WhileStmt) statement;
 			BlockStmt bs1 = (BlockStmt) bs.getBody();
-			if (bs1 != null && bs1.getStmts() != null) {
-				for (Statement ss : bs1.getStmts()) {
-					processStmt(ss);
-				}
-			}
+			processBlockStmt(bs1);
 		} else if (statement instanceof TryStmt) {
 			TryStmt bs = (TryStmt) statement;
 			BlockStmt bs1 = (BlockStmt) bs.getTryBlock();
-			if (bs1 != null && bs1.getStmts() != null) {
-				for (Statement ss : bs1.getStmts()) {
-					processStmt(ss);
-				}
-			}
+			processBlockStmt(bs1);
 			bs1 = (BlockStmt) bs.getFinallyBlock();
-			if (bs1 != null && bs1.getStmts() != null) {
-				for (Statement ss : bs1.getStmts()) {
-					processStmt(ss);
-				}
-			}
+			processBlockStmt(bs1);
 			if (bs.getCatchs() != null) {
 				for (CatchClause cc : bs.getCatchs()) {
 					bs1 = (BlockStmt) cc.getCatchBlock();
-					if (bs1 != null && bs1.getStmts() != null)
-						for (Statement ss : bs1.getStmts()) {
-							processStmt(ss);
-						}
+					processBlockStmt(bs1);
 				}
 			}
 		} else if (statement instanceof ForStmt) {
 			ForStmt bs = (ForStmt) statement;
 			BlockStmt bs1 = (BlockStmt) bs.getBody();
-			if (bs1 != null && bs1.getStmts() != null) {
-				for (Statement ss : bs1.getStmts()) {
-					processStmt(ss);
-				}
-			}
+			processBlockStmt(bs1);
 		} else if (statement instanceof ThrowStmt || statement instanceof BreakStmt || statement instanceof ContinueStmt) {
 			// do nothing (for now)
 		} else {
