@@ -72,6 +72,7 @@ public class I18NServiceImpl implements I18NService {
 		this.i18NMessageProvider = i18NMessageProvider;
 	}
 
+	@Override
 	public <T> void registerI18NAware(T i18NAware) {
 
 		if (!(i18NAware instanceof I18NAware)) {
@@ -81,12 +82,14 @@ public class I18NServiceImpl implements I18NService {
 		i18NAwares.add((I18NAware) i18NAware);
 	}
 
+	@Override
 	public void setLocale(Locale locale) {
 		this.locale = locale;
 		i18NMessageProvider.setLocale(locale);
 		i18nUpdate();
 	}
 
+	@Override
 	public Locale getLocale() {
 		return locale;
 	}
@@ -97,7 +100,13 @@ public class I18NServiceImpl implements I18NService {
 		}
 	}
 
+	@Override
 	public String getMessage(String key, Object... args) {
 		return i18NMessageProvider.getMessage(key, args);
+	}
+	
+	@Override
+	public String getMessage(Locale locale, String key, Object... args) {
+		return i18NMessageProvider.getMessage(locale, key, args);
 	}
 }

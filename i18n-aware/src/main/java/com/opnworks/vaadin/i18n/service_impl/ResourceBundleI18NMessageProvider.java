@@ -36,23 +36,46 @@ public class ResourceBundleI18NMessageProvider implements I18NMessageProvider {
 
 		this.locale = locale;
 		
-		if (classLoader == null) {
-			bundle = ResourceBundle.getBundle(baseName, locale);
-		} else {
-			bundle = ResourceBundle.getBundle(baseName, locale, classLoader);
-		}
+		bundle = getBundle(locale);
 	}
 
 	@Override
 	public String getMessage(String key, Object... args) {
+		return getMessage( bundle, key, args);
+	}
+
+	@Override
+	public String getMessage(Locale locale, String key, Object... args) {
+		
+		ResourceBundle localeBundle = null;
+		
+		if( locale.equals( this.locale ) ) {
+			localeBundle = bundle;
+		}
+		else {
+			localeBundle = getBundle(locale) ;
+		}
+		
+		return getMessage( localeBundle, key, args);
+	}
+
+	private String getMessage(ResourceBundle localeBundle, String key, Object... args) {
 		try {
 			MessageFormat messageFormat = new MessageFormat(
-					bundle.getString(key), locale);
+					localeBundle.getString(key), locale);
 			return messageFormat.format(args, new StringBuffer(), null)
 					.toString();
 		} catch (MissingResourceException e) {
 			return key;
 		}
 	}
-
+	
+	private ResourceBundle getBundle(Locale locale) {
+		
+		if (classLoader == null) {
+			return ResourceBundle.getBundle(baseName, locale);
+		}
+		
+		return ResourceBundle.getBundle(baseName, locale, classLoader);
+	}
 }

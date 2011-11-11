@@ -17,7 +17,7 @@ public interface I18NMessageProvider {
 	void setLocale(Locale locale);
 	
 	/**
-	 * Retrieve a message ( may contain {@link java.text.MessageFormat}
+	 * Retrieve a message using the current locale ( may contain {@link java.text.MessageFormat}
 	 * arguments).
 	 * 
 	 * @param key
@@ -27,5 +27,19 @@ public interface I18NMessageProvider {
 	 * @return the resolved message
 	 */
 	String getMessage(String key, Object... args);
+	
+	/**
+	 * Retrieve a message using an specific locale ( may contain {@link java.text.MessageFormat}
+	 * arguments).
+	 * 
+	 * @param locale
+	 *            the locale
+	 * @param key
+	 *            the message key
+	 * @param args
+	 *            the message arguments (if any).
+	 * @return the resolved message
+	 */
+	String getMessage(Locale locale, String key, Object... args);
 
 }
