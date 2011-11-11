@@ -618,12 +618,12 @@ public class SamplerApplication extends Application implements HttpServletReques
     		languageSelector.setItemCaption(Locale.ENGLISH, "English");
 
     		languageSelector.addItem(Locale.FRENCH);
-    		languageSelector.setItemCaption(Locale.FRENCH, "Français");
+    		languageSelector.setItemCaption(Locale.FRENCH, "FranÃ§ais");
 
     		Locale esLocale = new Locale("es");
     		
 			languageSelector.addItem(esLocale);
-    		languageSelector.setItemCaption(esLocale, "Español");
+    		languageSelector.setItemCaption(esLocale, "EspaÃ±ol");
     		
     		languageSelector.setValue(i18NService.getLocale());
 
