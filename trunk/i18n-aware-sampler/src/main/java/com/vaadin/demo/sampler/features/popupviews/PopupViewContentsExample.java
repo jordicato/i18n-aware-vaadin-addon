@@ -1,8 +1,8 @@
 package com.vaadin.demo.sampler.features.popupviews;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.PopupView;
 import com.vaadin.ui.TextField;
 
@@ -18,8 +18,8 @@ public class PopupViewContentsExample extends I18NVerticalLayout {
         // ------
 
         // Create the content for the popup
-        I18NLabel content = new I18NLabel(
-                "This is a simple I18NLabel component inside the popup. You can place any Vaadin components here.");
+        Label content = new Label(
+                "This is a simple Label component inside the popup. You can place any Vaadin components here.");
         // The PopupView popup will be as large as needed by the content
         content.setWidth("300px");
 
@@ -50,7 +50,7 @@ public class PopupViewContentsExample extends I18NVerticalLayout {
             root.setSizeUndefined();
             root.setSpacing(true);
             root.setMargin(true);
-            root.addComponent(new I18NLabel(
+            root.addComponent(new Label(
                     "The changes made to any components inside the popup are reflected automatically when the popup is closed, but you might want to provide explicit action buttons for the user, like \"Save\" or \"Close\"."));
 
             root.addComponent(tf);

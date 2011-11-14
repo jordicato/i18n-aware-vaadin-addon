@@ -3,13 +3,13 @@ package com.vaadin.demo.sampler.features.upload;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.Upload;
@@ -22,10 +22,10 @@ import com.vaadin.ui.Upload.SucceededEvent;
 @SuppressWarnings("serial")
 public class UploadWithProgressMonitoringExample extends I18NVerticalLayout {
 
-    private I18NLabel state = new I18NLabel();
-    private I18NLabel result = new I18NLabel();
-    private I18NLabel fileName = new I18NLabel();
-    private I18NLabel textualProgress = new I18NLabel();
+    private Label state = new Label();
+    private Label result = new Label();
+    private Label fileName = new Label();
+    private Label textualProgress = new Label();
 
     private ProgressIndicator pi = new ProgressIndicator();
 
@@ -36,7 +36,7 @@ public class UploadWithProgressMonitoringExample extends I18NVerticalLayout {
     public UploadWithProgressMonitoringExample() {
         setSpacing(true);
 
-        addComponent(new I18NLabel(
+        addComponent(new Label(
                 "Upload a file and we'll count the number of line break characters (\\n) found in it."));
 
         // make analyzing start immediatedly when file is selected

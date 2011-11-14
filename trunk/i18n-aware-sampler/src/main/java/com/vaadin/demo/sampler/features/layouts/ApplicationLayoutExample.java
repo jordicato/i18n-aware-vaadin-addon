@@ -2,7 +2,6 @@ package com.vaadin.demo.sampler.features.layouts;
 
 import java.util.Iterator;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.demo.sampler.ExampleUtil;
 import com.vaadin.ui.Button;
@@ -44,7 +43,7 @@ public class ApplicationLayoutExample extends I18NVerticalLayout {
                 open.setEnabled(false);
             }
         });
-        addComponent(new I18NLabel(
+        addComponent(new Label(
                 ("Don't worry: the content of the window is not supposed to make sense...")));
 
     }
@@ -86,14 +85,14 @@ public class ApplicationLayoutExample extends I18NVerticalLayout {
             tbl.setPageLength(7);
             left.addComponent(tbl);
 
-            // I18NLabel on bottom
+            // Label on bottom
             Panel textPanel = new Panel(); // for scrollbars
             textPanel.setStyleName(Reindeer.PANEL_LIGHT);
             textPanel.setSizeFull();
             left.addComponent(textPanel);
             left.setExpandRatio(textPanel, 1.0f); // use all available space
 
-            I18NLabel text = new I18NLabel(ExampleUtil.lorem, Label.CONTENT_XHTML);
+            Label text = new Label(ExampleUtil.lorem, Label.CONTENT_XHTML);
             text.setWidth("500px"); // some limit is good for text
             textPanel.addComponent(text);
 

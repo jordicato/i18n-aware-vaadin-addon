@@ -1,10 +1,10 @@
 package com.vaadin.demo.sampler.features.windows;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
 
 @SuppressWarnings("serial")
@@ -24,8 +24,8 @@ public class SubwindowModalExample extends I18NVerticalLayout {
         layout.setMargin(true);
         layout.setSpacing(true);
 
-        // Add some content; a I18NLabel and a close-button
-        I18NLabel message = new I18NLabel("This is a modal subwindow.");
+        // Add some content; a Label and a close-button
+        Label message = new Label("This is a modal subwindow.");
         subwindow.addComponent(message);
 
         Button close = new Button("Close", new Button.ClickListener() {

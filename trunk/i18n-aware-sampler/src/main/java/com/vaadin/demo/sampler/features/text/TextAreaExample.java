@@ -1,6 +1,5 @@
 package com.vaadin.demo.sampler.features.text;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.ui.Button;
@@ -13,7 +12,7 @@ public class TextAreaExample extends HorizontalLayout implements
 
     private static final String initialText = "The quick brown fox jumps over the lazy dog.";
 
-    private I18NLabel plainText;
+    private Label plainText;
     private final com.vaadin.ui.TextArea editor;
 
     public TextAreaExample() {
@@ -27,11 +26,11 @@ public class TextAreaExample extends HorizontalLayout implements
         editor.setImmediate(true);
         addComponent(editor);
 
-        // the TextArea is immediate, and it's valueCahnge updates the I18NLabel,
+        // the TextArea is immediate, and it's valueCahnge updates the Label,
         // so this button actually does nothing
         addComponent(new Button(">"));
 
-        plainText = new I18NLabel(initialText);
+        plainText = new Label(initialText);
         plainText.setContentMode(Label.CONTENT_XHTML);
         addComponent(plainText);
         setExpandRatio(plainText, 1);
@@ -39,7 +38,7 @@ public class TextAreaExample extends HorizontalLayout implements
 
     /*
      * Catch the valuechange event of the textfield and update the value of the
-     * I18NLabel component
+     * Label component
      */
     public void valueChange(ValueChangeEvent event) {
         String text = (String) editor.getValue();

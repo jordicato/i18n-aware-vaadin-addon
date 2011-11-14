@@ -2,7 +2,6 @@ package com.vaadin.demo.sampler.features.layouts;
 
 import java.util.Arrays;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -10,6 +9,7 @@ import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.VerticalSplitPanel;
 
@@ -39,7 +39,7 @@ public class SplitPanelPositioningExample extends I18NVerticalLayout {
         addComponent(verticalSplitPanel);
 
         // Add some content to the top
-        final I18NLabel topArea = new I18NLabel();
+        final Label topArea = new Label();
         topArea.setStyleName("top-area");
         topArea.addStyleName("measured-from-top");
         topArea.setSizeFull();
@@ -53,13 +53,13 @@ public class SplitPanelPositioningExample extends I18NVerticalLayout {
         verticalSplitPanel.addComponent(horizontalSplitPanel);
 
         // Add some content to the left and right sides of the vertical layout
-        final I18NLabel leftArea = new I18NLabel();
+        final Label leftArea = new Label();
         leftArea.setStyleName("left-area");
         leftArea.addStyleName("measured-from-left");
         leftArea.setSizeFull();
         horizontalSplitPanel.addComponent(leftArea);
 
-        final I18NLabel rightArea = new I18NLabel();
+        final Label rightArea = new Label();
         rightArea.setStyleName("right-area");
         rightArea.setSizeFull();
         horizontalSplitPanel.addComponent(rightArea);

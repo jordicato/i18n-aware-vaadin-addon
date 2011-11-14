@@ -22,7 +22,7 @@ public class RichTextEditor extends Feature {
     @Override
     public String getDescription() {
         return "The RichTextArea allows 'rich' formatting of the input.<br/>"
-                + "Click the <i>Edit</i> button to edit the I18NLabel content"
+                + "Click the <i>Edit</i> button to edit the Label content"
                 + " with the RichTextArea.";
     }
 

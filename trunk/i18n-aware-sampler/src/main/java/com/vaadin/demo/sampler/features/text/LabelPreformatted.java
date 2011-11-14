@@ -1,9 +1,9 @@
 package com.vaadin.demo.sampler.features.text;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.vaadin.demo.sampler.APIResource;
 import com.vaadin.demo.sampler.Feature;
 import com.vaadin.demo.sampler.NamedExternalResource;
+import com.vaadin.ui.Label;
 
 @SuppressWarnings("serial")
 public class LabelPreformatted extends Feature {
@@ -15,7 +15,7 @@ public class LabelPreformatted extends Feature {
 
     @Override
     public String getName() {
-        return "I18NLabel, preformatted";
+        return "Label, preformatted";
     }
 
     @Override
@@ -28,7 +28,7 @@ public class LabelPreformatted extends Feature {
 
     @Override
     public APIResource[] getRelatedAPI() {
-        return new APIResource[] { new APIResource(I18NLabel.class) };
+        return new APIResource[] { new APIResource(Label.class) };
     }
 
     @SuppressWarnings("unchecked")

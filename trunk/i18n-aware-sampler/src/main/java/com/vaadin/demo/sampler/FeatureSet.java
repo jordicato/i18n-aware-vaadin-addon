@@ -44,12 +44,12 @@ import com.vaadin.demo.sampler.features.layouts.CustomLayouts;
 import com.vaadin.demo.sampler.features.layouts.ExpandingComponent;
 import com.vaadin.demo.sampler.features.layouts.GridLayoutBasic;
 import com.vaadin.demo.sampler.features.layouts.HorizontalLayoutBasic;
-import com.vaadin.demo.sampler.features.layouts.VerticalLayoutBasic;
 import com.vaadin.demo.sampler.features.layouts.LayoutAlignment;
 import com.vaadin.demo.sampler.features.layouts.LayoutMargin;
 import com.vaadin.demo.sampler.features.layouts.LayoutSpacing;
 import com.vaadin.demo.sampler.features.layouts.SplitPanelBasic;
 import com.vaadin.demo.sampler.features.layouts.SplitPanelPositioning;
+import com.vaadin.demo.sampler.features.layouts.VerticalLayoutBasic;
 import com.vaadin.demo.sampler.features.layouts.WebLayout;
 import com.vaadin.demo.sampler.features.link.LinkCurrentWindow;
 import com.vaadin.demo.sampler.features.link.LinkNoDecorations;
@@ -592,7 +592,7 @@ public class FeatureSet extends Feature {
             super(
                     "Texts",
                     "Texts",
-                    "A I18NLabel is a simple component that allows you to add (optionally formatted) text components to your application",
+                    "A Label is a simple component that allows you to add (optionally formatted) text components to your application",
                     new Feature[] {
                             //
                             new LabelPlain(), //

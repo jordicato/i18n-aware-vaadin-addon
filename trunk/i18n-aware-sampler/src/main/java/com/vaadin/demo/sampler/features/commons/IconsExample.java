@@ -1,10 +1,10 @@
 package com.vaadin.demo.sampler.features.commons;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.terminal.ExternalResource;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.Panel;
 
@@ -19,8 +19,8 @@ public class IconsExample extends I18NVerticalLayout {
         button.setIcon(new ThemeResource("../sampler/icons/action_save.gif"));
         addComponent(button);
 
-        /* I18NLabel */;
-        I18NLabel l = new I18NLabel("Icons are very handy");
+        /* Label */;
+        Label l = new Label("Icons are very handy");
         l.setCaption("Comment");
         l.setIcon(new ThemeResource("../sampler/icons/comment_yellow.gif"));
         addComponent(l);

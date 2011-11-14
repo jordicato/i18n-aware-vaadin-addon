@@ -23,7 +23,7 @@ public class TextFieldSingleExample extends I18NVerticalLayout implements
 
     /*
      * Catch the valuechange event of the textfield and update the value of the
-     * I18NLabel component
+     * Label component
      */
     public void valueChange(ValueChangeEvent event) {
         // Show the new value we received

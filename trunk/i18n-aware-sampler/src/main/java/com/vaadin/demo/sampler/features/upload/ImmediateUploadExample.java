@@ -3,12 +3,12 @@ package com.vaadin.demo.sampler.features.upload;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.FailedEvent;
@@ -20,7 +20,7 @@ import com.vaadin.ui.Upload.SucceededEvent;
 @SuppressWarnings("serial")
 public class ImmediateUploadExample extends I18NVerticalLayout {
 
-    private I18NLabel status = new I18NLabel("Please select a file to upload");
+    private Label status = new Label("Please select a file to upload");
 
     private ProgressIndicator pi = new ProgressIndicator();
 

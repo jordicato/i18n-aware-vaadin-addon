@@ -3,7 +3,6 @@ package com.vaadin.demo.sampler;
 import java.util.HashMap;
 
 import com.opnworks.vaadin.i18n.ui.I18NHorizontalLayout;
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.data.util.HierarchicalContainer;
 import com.vaadin.demo.sampler.ActiveLink.LinkActivatedEvent;
@@ -33,7 +32,7 @@ public class FeatureView extends I18NHorizontalLayout {
 
     private HorizontalLayout controls;
 
-    private I18NLabel title = new I18NLabel("", Label.CONTENT_XHTML);
+    private Label title = new Label("", Label.CONTENT_XHTML);
 
     private ActiveLink showSrc;
 
@@ -170,10 +169,10 @@ public class FeatureView extends I18NHorizontalLayout {
             boolean hasParentDesc = false;
 
             if (parent != null && !isRoot) {
-                final I18NLabel parentI18NLabel = new I18NLabel(parent.getDescription());
+                final Label parentLabel = new Label(parent.getDescription());
                 if (desc != null && desc != "") {
-                    parentI18NLabel.setContentMode(Label.CONTENT_XHTML);
-                    right.addComponent(parentI18NLabel);
+                    parentLabel.setContentMode(Label.CONTENT_XHTML);
+                    right.addComponent(parentLabel);
                     hasParentDesc = true;
                 }
             }
@@ -182,7 +181,7 @@ public class FeatureView extends I18NHorizontalLayout {
             if (desc != null && desc != "") {
                 // Sample description uses additional decorations if a parent
                 // description is found
-                final I18NLabel l = new I18NLabel(
+                final Label l = new Label(
                         "<div class=\"outer-deco\"><div class=\"deco\"><span class=\"deco\"></span>"
                                 + desc + "</div></div>", Label.CONTENT_XHTML);
                 right.addComponent(l);
@@ -208,7 +207,7 @@ public class FeatureView extends I18NHorizontalLayout {
             NamedExternalResource[] resources = feature.getRelatedResources();
             if (resources != null) {
                 I18NVerticalLayout res = new I18NVerticalLayout();
-                I18NLabel caption = new I18NLabel("<span>Additional Resources</span>",
+                Label caption = new Label("<span>Additional Resources</span>",
                         Label.CONTENT_XHTML);
                 caption.setStyleName("section");
                 caption.setWidth("100%");
@@ -225,7 +224,7 @@ public class FeatureView extends I18NHorizontalLayout {
             APIResource[] apis = feature.getRelatedAPI();
             if (apis != null) {
                 I18NVerticalLayout api = new I18NVerticalLayout();
-                I18NLabel caption = new I18NLabel("<span>API Documentation</span>",
+                Label caption = new Label("<span>API Documentation</span>",
                         Label.CONTENT_XHTML);
                 caption.setStyleName("section");
                 caption.setWidth("100%");
@@ -243,7 +242,7 @@ public class FeatureView extends I18NHorizontalLayout {
             Class<? extends Feature>[] features = feature.getRelatedFeatures();
             if (features != null) {
                 I18NVerticalLayout rel = new I18NVerticalLayout();
-                I18NLabel caption = new I18NLabel("<span>Related Samples</span>",
+                Label caption = new Label("<span>Related Samples</span>",
                         Label.CONTENT_XHTML);
                 caption.setStyleName("section");
                 caption.setWidth("100%");

@@ -3,13 +3,13 @@ package com.vaadin.demo.sampler.features.table;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.demo.sampler.ExampleUtil;
 import com.vaadin.event.Action;
 import com.vaadin.terminal.ThemeResource;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Table.CellStyleGenerator;
 
@@ -31,8 +31,8 @@ public class TableMainFeaturesExample extends I18NVerticalLayout {
     public TableMainFeaturesExample() {
         addComponent(table);
 
-        // I18NLabel to indicate current selection
-        final I18NLabel selected = new I18NLabel("No selection");
+        // Label to indicate current selection
+        final Label selected = new Label("No selection");
         addComponent(selected);
 
         // set a style name, so we can style rows and cells
@@ -99,7 +99,7 @@ public class TableMainFeaturesExample extends I18NVerticalLayout {
                     table.requestRepaint();
                 } else if (ACTION_LOG == action) {
                     Item item = table.getItem(target);
-                    addComponent(new I18NLabel("Saved: "
+                    addComponent(new Label("Saved: "
                             + target
                             + ", "
                             + item.getItemProperty(
@@ -128,7 +128,7 @@ public class TableMainFeaturesExample extends I18NVerticalLayout {
 
         });
 
-        // listen for valueChange, a.k.a 'select' and update the I18NLabel
+        // listen for valueChange, a.k.a 'select' and update the Label
         table.addListener(new Table.ValueChangeListener() {
             public void valueChange(ValueChangeEvent event) {
                 // in multiselect mode, a Set of itemIds is returned,

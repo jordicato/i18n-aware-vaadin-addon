@@ -2,7 +2,6 @@ package com.vaadin.demo.sampler.features.layouts;
 
 import java.util.Iterator;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.demo.sampler.ExampleUtil;
 import com.vaadin.ui.Button;
@@ -43,7 +42,7 @@ public class WebLayoutExample extends I18NVerticalLayout {
             }
         });
 
-        addComponent(new I18NLabel(
+        addComponent(new Label(
                 ("Don't worry: the content of the window is not supposed to make sense...")));
 
     }
@@ -78,8 +77,8 @@ public class WebLayoutExample extends I18NVerticalLayout {
             tbl.setPageLength(7);
             left.addComponent(tbl);
 
-            // I18NLabel on bottom
-            I18NLabel text = new I18NLabel(ExampleUtil.lorem, Label.CONTENT_XHTML);
+            // Label on bottom
+            Label text = new Label(ExampleUtil.lorem, Label.CONTENT_XHTML);
             text.setWidth("500px"); // some limit is good for text
             left.addComponent(text);
 

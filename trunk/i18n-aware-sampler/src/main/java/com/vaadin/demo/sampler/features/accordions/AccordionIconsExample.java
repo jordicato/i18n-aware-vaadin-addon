@@ -1,9 +1,9 @@
 package com.vaadin.demo.sampler.features.accordions;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.Tab;
@@ -24,9 +24,9 @@ public class AccordionIconsExample extends HorizontalLayout implements
     public AccordionIconsExample() {
         setSpacing(true);
 
-        I18NLabel l1 = new I18NLabel("There are no previously saved actions.");
-        I18NLabel l2 = new I18NLabel("There are no saved notes.");
-        I18NLabel l3 = new I18NLabel("There are currently no issues.");
+        Label l1 = new Label("There are no previously saved actions.");
+        Label l2 = new Label("There are no saved notes.");
+        Label l3 = new Label("There are currently no issues.");
 
         a = new Accordion();
         a.setHeight("300px");

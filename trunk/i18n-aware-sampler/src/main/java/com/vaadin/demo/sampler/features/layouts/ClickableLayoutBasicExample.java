@@ -2,12 +2,12 @@ package com.vaadin.demo.sampler.features.layouts;
 
 import java.util.Arrays;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;
 import com.vaadin.event.LayoutEvents.LayoutClickListener;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.Select;
@@ -39,31 +39,31 @@ public class ClickableLayoutBasicExample extends I18NVerticalLayout {
         layout.setMargin(true);
 
         // Add some components inside the layout
-        layout.addComponent(new I18NLabel(
+        layout.addComponent(new Label(
                 "<b>This is a vertical layout with a click listener attached. "
                         + "Try clicking anywhere inside this layout.</b>",
-                I18NLabel.CONTENT_RAW));
+                Label.CONTENT_RAW));
 
-        final I18NLabel clickX = new I18NLabel("X-coordinate: <i>Not available.</i>",
-                I18NLabel.CONTENT_RAW);
+        final Label clickX = new Label("X-coordinate: <i>Not available.</i>",
+                Label.CONTENT_RAW);
         layout.addComponent(clickX);
 
-        final I18NLabel clickY = new I18NLabel("Y-coordinate: <i>Not available.</i>",
-                I18NLabel.CONTENT_RAW);
+        final Label clickY = new Label("Y-coordinate: <i>Not available.</i>",
+                Label.CONTENT_RAW);
         layout.addComponent(clickY);
 
-        final I18NLabel clickRelativeX = new I18NLabel(
+        final Label clickRelativeX = new Label(
                 "X-coordinate relative to the layout: <i>Not available.</i>",
-                I18NLabel.CONTENT_RAW);
+                Label.CONTENT_RAW);
         layout.addComponent(clickRelativeX);
 
-        final I18NLabel clickRelativeY = new I18NLabel(
+        final Label clickRelativeY = new Label(
                 "Y-coordinate relative to the layout: <i>Not available.</i>",
-                I18NLabel.CONTENT_RAW);
+                Label.CONTENT_RAW);
         layout.addComponent(clickRelativeY);
 
-        final I18NLabel button = new I18NLabel("Mouse button: <i>Not available.</i>",
-                I18NLabel.CONTENT_RAW);
+        final Label button = new Label("Mouse button: <i>Not available.</i>",
+                Label.CONTENT_RAW);
         layout.addComponent(button);
 
         // Listen for layout click events
@@ -96,11 +96,11 @@ public class ClickableLayoutBasicExample extends I18NVerticalLayout {
         layout.setMargin(true);
 
         // Add some components to the layout
-        layout.addComponent(new I18NLabel(
+        layout.addComponent(new Label(
                 "<b>Clickable layout events include a reference to the "
                         + "child component beneath the click. "
                         + "Try clicking anywhere in this layout.</b>",
-                I18NLabel.CONTENT_RAW), 0, 0, 4, 0);
+                Label.CONTENT_RAW), 0, 0, 4, 0);
 
         layout.addComponent(new TextField(null, "Click here"));
         layout.addComponent(new Link("Click here", null));
@@ -141,10 +141,10 @@ public class ClickableLayoutBasicExample extends I18NVerticalLayout {
         layout.setMargin(true);
 
         // Add some components inside the layout
-        layout.addComponent(new I18NLabel(
+        layout.addComponent(new Label(
                 "<b>Layout click events register if control keys are pressed during the click and double clicks. "
                         + "Try clicking anywhere inside this layout while holding CTRL, ALT, SHIFT or META key down.</b>",
-                I18NLabel.CONTENT_RAW));
+                Label.CONTENT_RAW));
 
         // Listen for layout click events
         layout.addListener(new LayoutClickListener() {

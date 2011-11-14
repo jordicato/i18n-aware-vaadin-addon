@@ -30,7 +30,7 @@ public class Errors extends Feature {
             + " causing an error, so that the user"
             + " can find and correct the problem.</p>"
             + "<p>If there is no specific component that causes the error, consider using a"
-            + " (styled) I18NLabel or a Notification to indicate the error.</p>"
+            + " (styled) Label or a Notification to indicate the error.</p>"
             + "<p>The Form component displays an error of a contained field in"
             + " a special error indicator area at the bottom of the form."
             + " If there are multiple fields with an error, only the first is displayed.</p>";

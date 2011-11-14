@@ -1,12 +1,12 @@
 package com.vaadin.demo.sampler.features.layouts;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Label;
 
 @SuppressWarnings("serial")
 public class LayoutMarginExample extends GridLayout implements
@@ -24,7 +24,7 @@ public class LayoutMarginExample extends GridLayout implements
         setSpacing(true);
 
         addComponent(
-                new I18NLabel(
+                new Label(
                         "Toggle layout margins with the checkboxes. The right side margin has a theme-specified value, while the other margins are the defaults."),
                 0, 0, 2, 0);
 
@@ -47,7 +47,7 @@ public class LayoutMarginExample extends GridLayout implements
         marginLayout.setSizeUndefined();
         marginLayout.setMargin(true);
         addComponent(marginLayout);
-        marginLayout.addComponent(new I18NLabel("Margins all around?"));
+        marginLayout.addComponent(new Label("Margins all around?"));
 
         rightMargin = new CheckBox("Right (100px)", this);
         rightMargin.setValue(true);

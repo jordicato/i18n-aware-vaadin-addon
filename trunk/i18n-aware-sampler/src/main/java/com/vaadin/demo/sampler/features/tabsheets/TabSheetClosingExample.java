@@ -1,8 +1,8 @@
 package com.vaadin.demo.sampler.features.tabsheets;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.ui.Component;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.Tab;
@@ -17,23 +17,23 @@ public class TabSheetClosingExample extends I18NVerticalLayout implements
         // Tab 1 content
         I18NVerticalLayout l1 = new I18NVerticalLayout();
         l1.setMargin(true);
-        l1.addComponent(new I18NLabel("There are no previously saved actions."));
+        l1.addComponent(new Label("There are no previously saved actions."));
         // Tab 2 content
         I18NVerticalLayout l2 = new I18NVerticalLayout();
         l2.setMargin(true);
-        l2.addComponent(new I18NLabel("There are no saved notes."));
+        l2.addComponent(new Label("There are no saved notes."));
         // Tab 3 content
         I18NVerticalLayout l3 = new I18NVerticalLayout();
         l3.setMargin(true);
-        l3.addComponent(new I18NLabel("There are currently no issues."));
+        l3.addComponent(new Label("There are currently no issues."));
         // Tab 4 content
         I18NVerticalLayout l4 = new I18NVerticalLayout();
         l4.setMargin(true);
-        l4.addComponent(new I18NLabel("There are no comments."));
+        l4.addComponent(new Label("There are no comments."));
         // Tab 5 content
         I18NVerticalLayout l5 = new I18NVerticalLayout();
         l5.setMargin(true);
-        l5.addComponent(new I18NLabel("There is no new feedback."));
+        l5.addComponent(new Label("There is no new feedback."));
 
         t = new TabSheet();
         t.setHeight("200px");

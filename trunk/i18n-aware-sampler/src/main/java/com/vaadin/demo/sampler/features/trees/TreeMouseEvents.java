@@ -23,7 +23,7 @@ public class TreeMouseEvents extends Feature {
         return "In this example, selecting items from the tree"
                 + " is disabled. Instead, another method of selection"
                 + " is used. Using the ItemClickEvent, we can update the"
-                + " I18NLabel showing the selection."
+                + " Label showing the selection."
                 + "<br>Try to click your left, right and middle mouse"
                 + " buttons on the tree items. Any modifier keys will"
                 + " also be detected.";
