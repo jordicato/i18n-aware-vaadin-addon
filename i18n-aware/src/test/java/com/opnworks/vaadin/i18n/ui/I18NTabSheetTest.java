@@ -35,7 +35,9 @@ public class I18NTabSheetTest extends AbstractI18NTest {
 			public Object[] getParams() {
 				return null;
 			}
-		}, new I18NAwareTest() {
+		});
+
+		performTest(i18NTabSheet, new I18NAwareTest() {
 
 			public String getActualValue() {
 				return i18NTab.getCaption();

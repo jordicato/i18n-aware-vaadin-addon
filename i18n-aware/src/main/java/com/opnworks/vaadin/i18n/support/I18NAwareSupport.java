@@ -1,8 +1,8 @@
 package com.opnworks.vaadin.i18n.support;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.opnworks.vaadin.i18n.I18NAware;
 import com.opnworks.vaadin.i18n.I18NService;
@@ -15,7 +15,7 @@ import com.opnworks.vaadin.i18n.I18NService;
 @SuppressWarnings("serial")
 public class I18NAwareSupport implements Serializable {
 
-	private Set<I18NAware> i18nAwares = new HashSet<I18NAware>();
+	private List<I18NAware> i18nAwares = new ArrayList<I18NAware>();
 
 	public <T> void add(T item) {
 
@@ -41,7 +41,7 @@ public class I18NAwareSupport implements Serializable {
 		}
 	}
 
-	public Set<I18NAware> getI18nAwares() {
+	public List<I18NAware> getI18nAwares() {
 		return i18nAwares;
 	}
 
