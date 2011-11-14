@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.event.dd.DragAndDropEvent;
 import com.vaadin.event.dd.DropHandler;
@@ -22,6 +21,7 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DragAndDropWrapper;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Html5File;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.Window;
@@ -32,7 +32,7 @@ public class DragDropHtml5FromDesktopExample extends I18NVerticalLayout {
     private ProgressIndicator progress;
 
     public DragDropHtml5FromDesktopExample() {
-        addComponent(new I18NLabel(
+        addComponent(new Label(
                 "Drag text from desktop application or image files from the "
                         + "file system to the drop box below (dragging files requires HTML5 capable browser like FF 3.6, Safari or Chrome)"));
 
@@ -162,7 +162,7 @@ public class DragDropHtml5FromDesktopExample extends I18NVerticalLayout {
         }
 
         private void showText(String text) {
-            showComponent(new I18NLabel(text), "Wrapped text content");
+            showComponent(new Label(text), "Wrapped text content");
         }
 
         private void showFile(String name, String type,

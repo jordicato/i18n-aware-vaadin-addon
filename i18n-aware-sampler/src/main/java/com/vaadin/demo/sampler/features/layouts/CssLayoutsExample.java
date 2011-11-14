@@ -1,9 +1,9 @@
 package com.vaadin.demo.sampler.features.layouts;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 
 @SuppressWarnings("serial")
@@ -21,7 +21,7 @@ public class CssLayoutsExample extends I18NVerticalLayout {
         panel.setStyleName("floatedpanel");
         panel.setWidth("30%");
         panel.setHeight("370px");
-        panel.addComponent(new I18NLabel("This panel is 30% wide "
+        panel.addComponent(new Label("This panel is 30% wide "
                 + "and 370px high (defined on the server side) "
                 + "and floated right (with custom css). "
                 + "Try resizing the browser window to see "
@@ -29,7 +29,7 @@ public class CssLayoutsExample extends I18NVerticalLayout {
                 + "behave. Every third of them has colored text "
                 + "to demonstrate the dynamic css injection."));
 
-        final I18NLabel bottomCenter = new I18NLabel(
+        final Label bottomCenter = new Label(
                 "I'm a 3 inches wide footer at the bottom of the layout");
         bottomCenter.setSizeUndefined(); // disable 100% default width
         bottomCenter.setStyleName("footer");
@@ -55,7 +55,7 @@ public class CssLayoutsExample extends I18NVerticalLayout {
 
         cssLayout.addComponent(panel);
         for (int i = 0; i < 15; i++) {
-            // add black I18NLabels that float left
+            // add black Labels that float left
             cssLayout.addComponent(new Brick());
         }
         cssLayout.addComponent(bottomCenter);
@@ -64,12 +64,12 @@ public class CssLayoutsExample extends I18NVerticalLayout {
     }
 
     /**
-     * A simple I18NLabel containing text "Brick" and themed black square.
+     * A simple Label containing text "Brick" and themed black square.
      */
-    static class Brick extends I18NLabel {
+    static class Brick extends Label {
         public Brick() {
             super("Brick");
-            // disable 100% width that I18NLabel has by default
+            // disable 100% width that Label has by default
             setSizeUndefined();
             setStyleName("brick");
         }

@@ -2,7 +2,6 @@ package com.vaadin.demo.sampler.features.commons;
 
 import java.util.TimeZone;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.terminal.gwt.server.WebApplicationContext;
 import com.vaadin.terminal.gwt.server.WebBrowser;
@@ -37,16 +36,16 @@ public class BrowserInformationExample extends I18NVerticalLayout {
         String browserText = getBrowserAndVersion(webBrowser);
         browserText = browserText + " in " + getOperatingSystem(webBrowser);
 
-        // Create I18NLabels for the information and add them to the application
-        I18NLabel ipAddressI18NLabel = new I18NLabel("Hello user from <b>"
+        // Create Labels for the information and add them to the application
+        Label ipAddressLabel = new Label("Hello user from <b>"
                 + webBrowser.getAddress() + "</b>.", Label.CONTENT_XHTML);
-        I18NLabel browser = new I18NLabel(
+        Label browser = new Label(
                 "You are running <b>" + browserText + "</b>.",
                 Label.CONTENT_XHTML);
-        I18NLabel screenSize = new I18NLabel("Your screen resolution is <b>"
+        Label screenSize = new Label("Your screen resolution is <b>"
                 + webBrowser.getScreenWidth() + "x"
                 + webBrowser.getScreenHeight() + "</b>.", Label.CONTENT_XHTML);
-        I18NLabel locale = new I18NLabel("Your browser is set to primarily use the <b>"
+        Label locale = new Label("Your browser is set to primarily use the <b>"
                 + webBrowser.getLocale() + "</b> locale.", Label.CONTENT_XHTML);
 
         // Client timezone offset w/o possible DST:
@@ -72,7 +71,7 @@ public class BrowserInformationExample extends I18NVerticalLayout {
         timeZones.setNullSelectionAllowed(false);
         timeZones.setCaption(getTimeZoneInfoString(webBrowser));
 
-        addComponent(ipAddressI18NLabel);
+        addComponent(ipAddressLabel);
         addComponent(browser);
         addComponent(screenSize);
         addComponent(locale);

@@ -1,12 +1,12 @@
 package com.vaadin.demo.sampler;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.vaadin.demo.sampler.gwt.client.ui.VCodeLabel;
 import com.vaadin.ui.ClientWidget;
+import com.vaadin.ui.Label;
 
 @ClientWidget(VCodeLabel.class)
 @SuppressWarnings("serial")
-public class CodeLabel extends I18NLabel {
+public class CodeLabel extends Label {
 
     public CodeLabel() {
         setContentMode(CONTENT_PREFORMATTED);

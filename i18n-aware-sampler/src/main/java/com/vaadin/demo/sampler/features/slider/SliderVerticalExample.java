@@ -1,10 +1,10 @@
 package com.vaadin.demo.sampler.features.slider;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Slider;
 
 @SuppressWarnings("serial")
@@ -13,7 +13,7 @@ public class SliderVerticalExample extends I18NVerticalLayout {
     public SliderVerticalExample() {
         setSpacing(true);
 
-        final I18NLabel value = new I18NLabel("0");
+        final Label value = new Label("0");
         value.setSizeUndefined();
 
         final Slider slider = new Slider("Select a value between 0 and 100");

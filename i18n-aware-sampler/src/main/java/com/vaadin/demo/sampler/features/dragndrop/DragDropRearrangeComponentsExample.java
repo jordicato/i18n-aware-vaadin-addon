@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.event.Transferable;
 import com.vaadin.event.dd.DragAndDropEvent;
@@ -26,6 +25,7 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.DragAndDropWrapper;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 
 public class DragDropRearrangeComponentsExample extends I18NVerticalLayout {
 
@@ -49,9 +49,9 @@ public class DragDropRearrangeComponentsExample extends I18NVerticalLayout {
     private List<Component> createComponents() {
         List<Component> components = new ArrayList<Component>();
 
-        I18NLabel I18NLabel = new I18NLabel("This is a long text block that will wrap.");
-        I18NLabel.setWidth("120px");
-        components.add(I18NLabel);
+        Label Label = new Label("This is a long text block that will wrap.");
+        Label.setWidth("120px");
+        components.add(Label);
 
         Embedded image = new Embedded("", new ThemeResource(
                 "../runo/icons/64/document.png"));

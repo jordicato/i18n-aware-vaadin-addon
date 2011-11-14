@@ -1,12 +1,12 @@
 package com.vaadin.demo.sampler.features.accordions;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.Tab;
 
@@ -17,9 +17,9 @@ public class AccordionDisabledExample extends I18NVerticalLayout implements
     private Accordion a;
     private Button b1;
     private Button b2;
-    private I18NLabel l1;
-    private I18NLabel l2;
-    private I18NLabel l3;
+    private Label l1;
+    private Label l2;
+    private Label l3;
     @SuppressWarnings("unused")
     private Tab t1;
     private Tab t2;
@@ -35,9 +35,9 @@ public class AccordionDisabledExample extends I18NVerticalLayout implements
     public AccordionDisabledExample() {
         setSpacing(true);
 
-        l1 = new I18NLabel("There are no previously saved actions.");
-        l2 = new I18NLabel("There are no saved notes.");
-        l3 = new I18NLabel("There are currently no issues.");
+        l1 = new Label("There are no previously saved actions.");
+        l2 = new Label("There are no saved notes.");
+        l3 = new Label("There are currently no issues.");
 
         a = new Accordion();
         a.setHeight("300px");

@@ -1,7 +1,7 @@
 package com.vaadin.demo.sampler.features.popupviews;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.PopupView;
 import com.vaadin.ui.PopupView.PopupVisibilityEvent;
 
@@ -14,7 +14,7 @@ public class PopupViewClosingExample extends I18NVerticalLayout implements
         setSpacing(true);
 
         // Create the content for the popup
-        I18NLabel content = new I18NLabel(
+        Label content = new Label(
                 "This popup will close as soon as you move the mouse cursor outside of the popup area.");
         // The PopupView popup will be as large as needed by the content
         content.setWidth("300px");
@@ -26,7 +26,7 @@ public class PopupViewClosingExample extends I18NVerticalLayout implements
         popup.addListener(this);
         addComponent(popup);
 
-        content = new I18NLabel(
+        content = new Label(
                 "This popup will only close if you click the mouse outside the popup area.");
         // The PopupView popup will be as large as needed by the content
         content.setWidth("300px");

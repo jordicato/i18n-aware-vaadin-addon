@@ -1,9 +1,9 @@
 package com.vaadin.demo.sampler.features.text;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.vaadin.demo.sampler.APIResource;
 import com.vaadin.demo.sampler.Feature;
 import com.vaadin.demo.sampler.NamedExternalResource;
+import com.vaadin.ui.Label;
 
 @SuppressWarnings("serial")
 public class LabelPlain extends Feature {
@@ -15,20 +15,20 @@ public class LabelPlain extends Feature {
 
     @Override
     public String getName() {
-        return "I18NLabel, plain text";
+        return "Label, plain text";
     }
 
     @Override
     public String getDescription() {
         return "In this example the content mode is set to"
-                + " CONTENT_TEXT, meaning that the I18NLabel will contain"
+                + " CONTENT_TEXT, meaning that the Label will contain"
                 + " only plain text.";
 
     }
 
     @Override
     public APIResource[] getRelatedAPI() {
-        return new APIResource[] { new APIResource(I18NLabel.class) };
+        return new APIResource[] { new APIResource(Label.class) };
     }
 
     @SuppressWarnings("unchecked")

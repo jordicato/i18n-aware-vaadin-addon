@@ -3,8 +3,8 @@ package com.vaadin.demo.sampler.features.upload;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.FinishedEvent;
 import com.vaadin.ui.Upload.Receiver;
@@ -12,7 +12,7 @@ import com.vaadin.ui.Upload.Receiver;
 @SuppressWarnings("serial")
 public class UploadBasicExample extends I18NVerticalLayout {
 
-    private I18NLabel result = new I18NLabel();
+    private Label result = new Label();
 
     private LineBreakCounter counter = new LineBreakCounter();
 

@@ -1,8 +1,8 @@
 package com.vaadin.demo.sampler.features.layouts;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 
 @SuppressWarnings("serial")
@@ -17,7 +17,7 @@ public class HorizontalLayoutBasicExample extends HorizontalLayout {
         addComponent(tf);
 
         // A dash
-        I18NLabel dash = new I18NLabel("-");
+        Label dash = new Label("-");
         addComponent(dash);
         setComponentAlignment(dash, Alignment.MIDDLE_LEFT);
 
@@ -27,7 +27,7 @@ public class HorizontalLayoutBasicExample extends HorizontalLayout {
         addComponent(tf);
 
         // Another dash
-        dash = new I18NLabel("-");
+        dash = new Label("-");
         addComponent(dash);
         setComponentAlignment(dash, Alignment.MIDDLE_LEFT);
 
@@ -37,7 +37,7 @@ public class HorizontalLayoutBasicExample extends HorizontalLayout {
         addComponent(tf);
 
         // Yet another dash
-        dash = new I18NLabel("-");
+        dash = new Label("-");
         addComponent(dash);
         setComponentAlignment(dash, Alignment.MIDDLE_LEFT);
 

@@ -3,7 +3,6 @@ package com.vaadin.demo.sampler.features.selects;
 import java.util.Arrays;
 import java.util.List;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -34,7 +33,7 @@ public class OptionGroupDisabledItemsExample extends I18NVerticalLayout implemen
 
         addComponent(citySelect);
 
-        addComponent(new I18NLabel("<h3>Multi-selection</h3>", Label.CONTENT_XHTML));
+        addComponent(new Label("<h3>Multi-selection</h3>", Label.CONTENT_XHTML));
 
         // Create the multiselect option group
         // 'Shorthand' constructor - also supports data binding using Containers

@@ -2,7 +2,6 @@ package com.vaadin.demo.sampler.features.buttons;
 
 import com.opnworks.vaadin.i18n.ui.I18NButton;
 import com.opnworks.vaadin.i18n.ui.I18NHorizontalLayout;
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NNativeButton;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.terminal.ThemeResource;
@@ -28,7 +27,7 @@ public class ButtonPushExample extends I18NHorizontalLayout implements
         buttons.setMargin(false, true, false, false);
         addComponent(buttons);
 
-        buttons.addComponent(new I18NLabel("<h3>Normal buttons</h3>",
+        buttons.addComponent(new Label("<h3>Normal buttons</h3>",
                 Label.CONTENT_XHTML));
 
         // Button w/ text and tooltip
@@ -57,7 +56,7 @@ public class ButtonPushExample extends I18NHorizontalLayout implements
         buttons.setMargin(false, false, false, true);
         addComponent(buttons);
 
-        buttons.addComponent(new I18NLabel("<h3>Native buttons</h3>",
+        buttons.addComponent(new Label("<h3>Native buttons</h3>",
                 Label.CONTENT_XHTML));
 
         // NativeButton w/ text and tooltip

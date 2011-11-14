@@ -1,6 +1,5 @@
 package com.vaadin.demo.sampler.features.text;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -12,14 +11,14 @@ import com.vaadin.ui.RichTextArea;
 public class LabelRichExample extends I18NVerticalLayout implements ClickListener {
 
     private Button b;
-    private I18NLabel richText;
+    private Label richText;
 
     private final RichTextArea editor = new RichTextArea();
 
     public LabelRichExample() {
         setSpacing(true);
 
-        richText = new I18NLabel(
+        richText = new Label(
                 "<h1>Rich text example</h1>"
                         + "<p>The <b>quick</b> brown fox jumps <sup>over</sup> the <b>lazy</b> dog.</p>"
                         + "<p>This text can be edited with the <i>Edit</i> -button</p>");

@@ -2,11 +2,11 @@ package com.vaadin.demo.sampler.features.windows;
 
 import java.util.Date;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.Window;
 
@@ -62,8 +62,8 @@ public class NativeWindowExample extends I18NVerticalLayout {
             layout.setMargin(true);
             layout.setSpacing(true);
 
-            // Add some content; a I18NLabel and a close-button
-            I18NLabel message = new I18NLabel("This is a native window, created at "
+            // Add some content; a Label and a close-button
+            Label message = new Label("This is a native window, created at "
                     + new Date());
             addComponent(message);
 

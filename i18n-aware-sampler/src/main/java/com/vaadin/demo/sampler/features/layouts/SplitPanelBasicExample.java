@@ -1,12 +1,12 @@
 package com.vaadin.demo.sampler.features.layouts;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.HorizontalSplitPanel;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalSplitPanel;
 
 @SuppressWarnings("serial")
@@ -22,8 +22,8 @@ public class SplitPanelBasicExample extends I18NVerticalLayout {
         vert.setSplitPosition(150, Sizeable.UNITS_PIXELS);
         addComponent(vert);
 
-        // add a I18NLabel to the upper area
-        vert.addComponent(new I18NLabel(brownFox));
+        // add a Label to the upper area
+        vert.addComponent(new Label(brownFox));
 
         // Add a horizontal SplitPanel to the lower area
         final HorizontalSplitPanel horiz = new HorizontalSplitPanel();
@@ -31,10 +31,10 @@ public class SplitPanelBasicExample extends I18NVerticalLayout {
         vert.addComponent(horiz);
 
         // left component:
-        horiz.addComponent(new I18NLabel(brownFox));
+        horiz.addComponent(new Label(brownFox));
 
         // right component:
-        horiz.addComponent(new I18NLabel(brownFox));
+        horiz.addComponent(new Label(brownFox));
 
         // Lock toggle button
         CheckBox toggleLocked = new CheckBox("Splits locked",

@@ -1,10 +1,10 @@
 package com.vaadin.demo.sampler.features.buttons;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
 
 public class ButtonDisableOnClickExample extends I18NVerticalLayout implements
@@ -33,7 +33,7 @@ public class ButtonDisableOnClickExample extends I18NVerticalLayout implements
         }
 
         // Show text that the save operation has been completed
-        addComponent(new I18NLabel("Save completed successfully!"));
+        addComponent(new Label("Save completed successfully!"));
 
         // Re-enable the button
         event.getButton().setEnabled(true);

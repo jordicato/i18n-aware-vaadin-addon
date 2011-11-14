@@ -2,13 +2,13 @@ package com.vaadin.demo.sampler.features.commons;
 
 import java.util.HashSet;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.Validator;
 import com.vaadin.data.validator.CompositeValidator;
 import com.vaadin.data.validator.StringLengthValidator;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 
 @SuppressWarnings("serial")
@@ -55,7 +55,7 @@ public class ValidationExample extends I18NVerticalLayout {
                 tf.validate();
                 if (tf.getValue() != null) {
                     usernames.add(tf.getValue().toString());
-                    addComponent(new I18NLabel("Added " + tf.getValue()
+                    addComponent(new Label("Added " + tf.getValue()
                             + " to usernames"));
                 }
             }

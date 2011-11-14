@@ -1,11 +1,11 @@
 package com.vaadin.demo.sampler.features.tabsheets;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.Tab;
@@ -35,15 +35,15 @@ public class TabSheetDisabledExample extends I18NVerticalLayout implements
         // Tab 1 content
         l1 = new I18NVerticalLayout();
         l1.setMargin(true);
-        l1.addComponent(new I18NLabel("There are no previously saved actions."));
+        l1.addComponent(new Label("There are no previously saved actions."));
         // Tab 2 content
         l2 = new I18NVerticalLayout();
         l2.setMargin(true);
-        l2.addComponent(new I18NLabel("There are no saved notes."));
+        l2.addComponent(new Label("There are no saved notes."));
         // Tab 3 content
         l3 = new I18NVerticalLayout();
         l3.setMargin(true);
-        l3.addComponent(new I18NLabel("There are currently no issues."));
+        l3.addComponent(new Label("There are currently no issues."));
 
         t = new TabSheet();
         t.setHeight("200px");

@@ -1,12 +1,12 @@
 package com.vaadin.demo.sampler.features.commons;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.terminal.Resource;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.themes.Reindeer;
 
@@ -50,7 +50,7 @@ public class PackageIconsExample extends I18NVerticalLayout {
                 e.setWidth(size + "px");
                 e.setHeight(size + "px");
 
-                I18NLabel name = new I18NLabel(icon);
+                Label name = new Label(icon);
                 if (size.equals("64")) {
                     name.setWidth("185px");
                 } else {

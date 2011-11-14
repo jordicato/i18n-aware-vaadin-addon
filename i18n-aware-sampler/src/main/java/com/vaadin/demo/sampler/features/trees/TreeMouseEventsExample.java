@@ -67,7 +67,7 @@ public class TreeMouseEventsExample extends I18NVerticalLayout implements
         }
         switch (event.getButton()) {
         case ItemClickEvent.BUTTON_LEFT:
-            // Left button click updates the 'selected' I18NLabel
+            // Left button click updates the 'selected' Label
             getWindow().showNotification("Selected item: " + event.getItem(),
                     modifiers);
             break;

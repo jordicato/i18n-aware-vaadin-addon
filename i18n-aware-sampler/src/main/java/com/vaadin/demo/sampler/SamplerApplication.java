@@ -14,7 +14,6 @@ import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 import com.opnworks.vaadin.i18n.service_impl.ResourceBundleI18NMessageProvider;
 import com.opnworks.vaadin.i18n.ui.I18NHorizontalSplitPanel;
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NNativeSelect;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.opnworks.vaadin.i18n.ui.I18NWindow;
@@ -665,7 +664,7 @@ public class SamplerApplication extends Application implements HttpServletReques
                 String parts[] = path.split("/");
                 ActiveLink link = null;
                 for (int i = 0; i < parts.length; i++) {
-                    I18NLabel separator = new I18NLabel("&raquo;", Label.CONTENT_XHTML);
+                    Label separator = new Label("&raquo;", Label.CONTENT_XHTML);
                     separator.setSizeUndefined();
                     layout.addComponent(separator);
                     Feature f = FeatureSet.FEATURES.getFeature(parts[i]);
@@ -828,7 +827,7 @@ public class SamplerApplication extends Application implements HttpServletReques
             Collection<Feature> features = (Collection<Feature>) c.getItemIds();
 
             CssLayout rootSet = new CssLayout();
-            I18NLabel rootTitle = null;
+            Label rootTitle = null;
 
             CssLayout highlightRow = new CssLayout();
             highlightRow.setStyleName("highlight-row");
@@ -843,7 +842,7 @@ public class SamplerApplication extends Application implements HttpServletReques
                                     + " samples</em>" + rootTitle.getValue());
                             sampleCount = 0;
                         }
-                        rootTitle = new I18NLabel("<h2>"
+                        rootTitle = new Label("<h2>"
                                 + f.getName()
                                 + "</h2><span>"
                                 + f.getDescription().substring(0,
@@ -872,7 +871,7 @@ public class SamplerApplication extends Application implements HttpServletReques
 
                         if (rootTitle == null) {
                             Feature parent = (Feature) allFeatures.getParent(f);
-                            rootTitle = new I18NLabel("<h2>" + parent.getName()
+                            rootTitle = new Label("<h2>" + parent.getName()
                                     + "</h2>", Label.CONTENT_XHTML);
                             rootTitle
                                     .setStyleName("root-section highlights-title");
@@ -880,7 +879,7 @@ public class SamplerApplication extends Application implements HttpServletReques
                             grid.addComponent(rootTitle);
 
                             if (parent.getDescription() != null) {
-                                I18NLabel desc = new I18NLabel(parent.getDescription(),
+                                Label desc = new Label(parent.getDescription(),
                                         Label.CONTENT_XHTML);
                                 desc.setStyleName("highlights-description");
                                 desc.setSizeUndefined();
@@ -908,7 +907,7 @@ public class SamplerApplication extends Application implements HttpServletReques
 
                         if (f.getDescription() != null
                                 && f.getDescription() != "") {
-                            I18NLabel desc = new I18NLabel(
+                            Label desc = new Label(
                                     f.getDescription()
                                             .substring(
                                                     0,
@@ -958,7 +957,7 @@ public class SamplerApplication extends Application implements HttpServletReques
                     if (f != null) {
                         addComponent(new CodeLabel(f.getSource()));
                     } else {
-                        addComponent(new I18NLabel("Sorry, no source found for "
+                        addComponent(new Label("Sorry, no source found for "
                                 + relativeUri));
                     }
                     return null;

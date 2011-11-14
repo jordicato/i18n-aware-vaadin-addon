@@ -1,6 +1,5 @@
 package com.vaadin.demo.sampler.features.progressindicator;
 
-import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -25,7 +24,7 @@ public class ProgressIndicatorsExample extends I18NVerticalLayout {
 
         setSpacing(true);
 
-        addComponent(new I18NLabel(
+        addComponent(new Label(
                 "<strong>Normal mode</strong> Runs for 20 seconds",
                 Label.CONTENT_XHTML));
 
@@ -52,7 +51,7 @@ public class ProgressIndicatorsExample extends I18NVerticalLayout {
         startButton1.setStyleName("small");
         hl.addComponent(startButton1);
 
-        addComponent(new I18NLabel(
+        addComponent(new Label(
                 "<strong>Indeterminate mode</strong> Runs for 10 seconds",
                 Label.CONTENT_XHTML));
 
