@@ -5,6 +5,7 @@ import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
+import com.vaadin.terminal.Resource;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet;
 
@@ -28,22 +29,28 @@ public class I18NTabSheet extends TabSheet implements I18NAwareComponent {
 		super();
 	}
 
-	@Override
-	public Tab addTab(Component c) {
-
-		Tab tab = super.addTab(c);
-
-		i18NAwareSupport.add(c);
-
-		I18NTab result = new I18NTab(tab);
-
-		i18NAwareSupport.add(result);
-
-		return result;
-	}
-
 	public I18NTab addI18NTab(Component c) {
 		return (I18NTab) addTab(c);
+	}
+	
+	@Override
+	public Tab addTab(Component c) {
+		return addI18NTabSupport(c, super.addTab(c));
+	}
+
+	@Override
+	public Tab addTab(Component c, @I18NAwareMessage String captionKey) {
+		return addI18NTabSupport(c, super.addTab(c, captionKey), captionKey);
+	}
+	
+	@Override
+	public Tab addTab(Component c, @I18NAwareMessage String captionKey, Resource icon) {
+		return addI18NTabSupport(c, super.addTab(c, captionKey, icon), captionKey);
+	}
+	
+	@Override
+	public Tab addTab(Component c, @I18NAwareMessage String captionKey, Resource icon, int position) {
+		return addI18NTabSupport(c, super.addTab(c, captionKey, icon, position), captionKey);
 	}
 
 	@Override
@@ -63,4 +70,22 @@ public class I18NTabSheet extends TabSheet implements I18NAwareComponent {
 		i18NAwareSupport.i18NUpdate(i18N);
 	}
 
+	private I18NTab addI18NTabSupport(Component c, Tab tab) {
+		return addI18NTabSupport(c, tab, null);
+	}
+
+	private I18NTab addI18NTabSupport(Component c, Tab tab, String captionKey, Object... captionParams) {
+		
+		i18NAwareSupport.add(c);
+
+		I18NTab result = new I18NTab(tab);
+
+		i18NAwareSupport.add(result);
+		
+		if( captionKey != null ) {
+			result.setCaptionMessage(captionKey, captionParams);
+		}
+
+		return result;
+	}
 }
