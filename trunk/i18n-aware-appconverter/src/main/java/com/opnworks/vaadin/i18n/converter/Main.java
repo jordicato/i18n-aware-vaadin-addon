@@ -56,7 +56,7 @@ public class Main {
 				try {
 					String newClassContent;
 					//this is only to set breakpoints
-					if (filesrc.getName().equals("AccordionDisabledExample.java")) {
+					if (filesrc.getName().equals("TextAreaExample.java")) {
 						newClassContent = null;
 					}
 					if (filesrc.getName().endsWith(".java")) {

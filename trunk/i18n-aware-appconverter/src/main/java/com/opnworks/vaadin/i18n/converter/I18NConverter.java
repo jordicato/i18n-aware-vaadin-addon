@@ -193,28 +193,29 @@ public class I18NConverter {
 
 		// ahora miramos en cada clase
 		for (TypeDeclaration type : types) {
-			if (type instanceof ClassOrInterfaceDeclaration) {
-				ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration) type;
-				if (coid != null && coid.getExtends() != null)
-					for (ClassOrInterfaceType oneextend : coid.getExtends()) {
-						String newExtend = getI18NCompositeName(oneextend.getName());
-						if (newExtend != null) {
-							oneextend.setName(newExtend);
-
-						}
-						// if (oneextend.getName().equals("CustomComponent")) {
-						// huboModificaciones = true;
-						// oneextend.setName("I18NCustomComponent");
-						// } else if (oneextend.getName().equals("Window")) {
-						// huboModificaciones = true;
-						// oneextend.setName("I18NWindow");
-						// }
-					}
-			}
-			List<BodyDeclaration> members = type.getMembers();
-			for (BodyDeclaration member : members) {
-				processMember(member);
-			}
+			processType(type);
+			// if (type instanceof ClassOrInterfaceDeclaration) {
+			// ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)
+			// type;
+			// if (coid != null && coid.getExtends() != null)
+			// for (ClassOrInterfaceType oneextend : coid.getExtends()) {
+			// String newExtend = getI18NCompositeName(oneextend.getName());
+			// if (newExtend != null) {
+			// oneextend.setName(newExtend);
+			// }
+			// // if (oneextend.getName().equals("CustomComponent")) {
+			// // huboModificaciones = true;
+			// // oneextend.setName("I18NCustomComponent");
+			// // } else if (oneextend.getName().equals("Window")) {
+			// // huboModificaciones = true;
+			// // oneextend.setName("I18NWindow");
+			// // }
+			// }
+			// }
+			// List<BodyDeclaration> members = type.getMembers();
+			// for (BodyDeclaration member : members) {
+			// processMember(member);
+			// }
 		}
 
 		// add i18n declarations
@@ -294,7 +295,7 @@ public class I18NConverter {
 					String newClass = getI18NCompositeName(coi2.getName());
 
 					if (newClass != null) {
-						coi2.setName(newClass);
+						// coi2.setName(newClass);
 						for (VariableDeclarator vdd : vde.getVars()) {
 							changeVaadinVarDeclaratorNewReqPrecheck(vdd);
 						}
@@ -374,7 +375,7 @@ public class I18NConverter {
 				ReferenceType rt = (ReferenceType) fd.getType();
 				ClassOrInterfaceType coi = (ClassOrInterfaceType) rt.getType();
 				String newclassname = getI18NCompositeName(coi.getName());
-				coi.setName(newclassname);
+				// coi.setName(newclassname);
 				for (VariableDeclarator vd : fd.getVariables()) {
 					changeVaadinVarDeclaratorNewReqPrecheck(vd);
 				}
@@ -406,8 +407,10 @@ public class I18NConverter {
 			}
 			processBlockStmt(blockStmk);
 		} else if (member instanceof ClassOrInterfaceDeclaration) {
-			for (BodyDeclaration member1 : ((ClassOrInterfaceDeclaration) member).getMembers())
-				processMember(member1);
+			processType((ClassOrInterfaceDeclaration) member);
+			// for (BodyDeclaration member1 : ((ClassOrInterfaceDeclaration)
+			// member).getMembers())
+			// processMember(member1);
 		}
 	}
 
@@ -498,6 +501,25 @@ public class I18NConverter {
 		}
 	}
 
+	void processType(TypeDeclaration type) {
+		if (type instanceof ClassOrInterfaceDeclaration) {
+			ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration) type;
+			if (coid != null && coid.getExtends() != null)
+				for (ClassOrInterfaceType oneextend : coid.getExtends()) {
+					String newExtend = getI18NCompositeName(oneextend.getName());
+					if (newExtend != null) {
+						oneextend.setName(newExtend);
+					}
+				}
+		} else {
+			throw new RuntimeException("Type no soportado " + type.getClass());
+		}
+		List<BodyDeclaration> members = type.getMembers();
+		for (BodyDeclaration member : members) {
+			processMember(member);
+		}
+	}
+
 	/**
 	 * 
 	 * @param oce
@@ -507,13 +529,24 @@ public class I18NConverter {
 	 */
 	private Expression vaadinObjectCreationNoReqPrecheck(ObjectCreationExpr oce) {
 		Expression expr = oce;
-		if (isVaadinCompositeNameSupported(oce.getType().getName())) {
-			MethodCallExpr mce = new MethodCallExpr();
-			mce.setName("I18NAwareFactory.new" + oce.getType().getName());
-			mce.setArgs(oce.getArgs());
-			expr = mce;
+		String newname = getI18NCompositeName(oce.getType().getName());
+		if (newname != null) {
+			ClassOrInterfaceType coi=new ClassOrInterfaceType(newname);
+			oce.setType(coi);
+			// MethodCallExpr mce = new MethodCallExpr();
+			// mce.setName("I18NAwareFactory.new" + oce.getType().getName());
+			// mce.setArgs(oce.getArgs());
+			// expr = mce;
 			huboModificaciones = true;
 		}
+		// if (isVaadinCompositeNameSupported(oce.getType().getName())) {
+		// oce.getType().setName("I18N" + oce.getType().getName());
+		// // MethodCallExpr mce = new MethodCallExpr();
+		// // mce.setName("I18NAwareFactory.new" + oce.getType().getName());
+		// // mce.setArgs(oce.getArgs());
+		// // expr = mce;
+		// huboModificaciones = true;
+		// }
 		processArgs(oce.getArgs());
 		if (oce.getAnonymousClassBody() != null) {
 			List<BodyDeclaration> members = oce.getAnonymousClassBody();
