@@ -105,10 +105,11 @@ public class I18NConverter {
 			if (vaadinName.startsWith("com.vaadin.ui.")) {
 				vaadinName = vaadinName.replace("com.vaadin.ui.", "");
 			}
+			vaadinName = "I18N" + vaadinName;
 			for (int index = 0; index < lidfactoryd.size(); index++) {
 				ImportDeclaration id = lidfactoryd.get(index);
 				if (id.getName().toString().endsWith(vaadinName)) {
-					return id.getName().toString();
+					return vaadinName;
 				}
 			}
 		}
@@ -531,7 +532,7 @@ public class I18NConverter {
 		Expression expr = oce;
 		String newname = getI18NCompositeName(oce.getType().getName());
 		if (newname != null) {
-			ClassOrInterfaceType coi=new ClassOrInterfaceType(newname);
+			ClassOrInterfaceType coi = new ClassOrInterfaceType(newname);
 			oce.setType(coi);
 			// MethodCallExpr mce = new MethodCallExpr();
 			// mce.setName("I18NAwareFactory.new" + oce.getType().getName());
