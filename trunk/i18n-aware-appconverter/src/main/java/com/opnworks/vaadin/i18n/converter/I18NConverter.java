@@ -1,6 +1,7 @@
 package com.opnworks.vaadin.i18n.converter;
 
 import japa.parser.JavaParser;
+import japa.parser.ast.Comment;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.ImportDeclaration;
 import japa.parser.ast.body.BodyDeclaration;
@@ -134,7 +135,7 @@ public class I18NConverter {
 	 * @return the converted i18n-aware class
 	 * @throws Exception
 	 */
-	public String proccessClass(String filename) throws Exception {
+	public String proccessJavaFile(String filename) throws Exception {
 		lidtarget = new ArrayList<ImportDeclaration>();
 		// creates an input stream for the file to be parsed
 		FileInputStream in = new FileInputStream(filename);
@@ -143,7 +144,6 @@ public class I18NConverter {
 		try {
 			// parse the file
 			cutarget = JavaParser.parse(in);
-			cutarget.toString();
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -190,33 +190,13 @@ public class I18NConverter {
 				}
 			}
 
+		List<Comment> lcomments = cutarget.getComments();
+		 
 		List<TypeDeclaration> types = cutarget.getTypes();
 
 		// ahora miramos en cada clase
 		for (TypeDeclaration type : types) {
 			processType(type);
-			// if (type instanceof ClassOrInterfaceDeclaration) {
-			// ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration)
-			// type;
-			// if (coid != null && coid.getExtends() != null)
-			// for (ClassOrInterfaceType oneextend : coid.getExtends()) {
-			// String newExtend = getI18NCompositeName(oneextend.getName());
-			// if (newExtend != null) {
-			// oneextend.setName(newExtend);
-			// }
-			// // if (oneextend.getName().equals("CustomComponent")) {
-			// // huboModificaciones = true;
-			// // oneextend.setName("I18NCustomComponent");
-			// // } else if (oneextend.getName().equals("Window")) {
-			// // huboModificaciones = true;
-			// // oneextend.setName("I18NWindow");
-			// // }
-			// }
-			// }
-			// List<BodyDeclaration> members = type.getMembers();
-			// for (BodyDeclaration member : members) {
-			// processMember(member);
-			// }
 		}
 
 		// add i18n declarations
@@ -240,6 +220,7 @@ public class I18NConverter {
 			cutarget.toString();
 		}
 		// prints the changed compilation unit
+		 
 		return cutarget.toString();
 	}
 

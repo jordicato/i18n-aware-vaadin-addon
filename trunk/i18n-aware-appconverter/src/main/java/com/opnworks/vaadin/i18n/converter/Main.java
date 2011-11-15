@@ -62,7 +62,7 @@ public class Main {
 					if (filesrc.getName().endsWith(".java")) {
 						System.out.println(filesrc.toString());
 						I18NConverter conv = new I18NConverter();
-						newClassContent = conv.proccessClass(filesrc.getAbsolutePath() );
+						newClassContent = conv.proccessJavaFile(filesrc.getAbsolutePath() );
 						FileOutputStream fos = new FileOutputStream(filedst);
 						fos.write(newClassContent.getBytes());
 						fos.close();
