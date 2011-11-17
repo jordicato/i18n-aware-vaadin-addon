@@ -25,7 +25,7 @@ public class I18NAwareMessageParametersHelper {
 	 * @throws SecurityException
 	 */
 	public static <T extends I18NAware> int[] getI18NAwareMessageParameters(
-			Class<T> clazz, Class<?> constructorParamTypes)
+			Class<T> clazz, Class<?>... constructorParamTypes)
 			throws SecurityException, NoSuchMethodException {
 
 		return getI18NAwareMessageParameters(clazz
@@ -54,7 +54,7 @@ public class I18NAwareMessageParametersHelper {
 	 * @throws SecurityException
 	 */
 	public static <T extends I18NAware> int[] getI18NAwareMessageParameters(
-			Class<T> clazz, String methodName, Class<?> paramTypes)
+			Class<T> clazz, String methodName, Class<?>... paramTypes)
 			throws SecurityException, NoSuchMethodException {
 
 		return getI18NAwareMessageParameters(clazz.getMethod(methodName,
