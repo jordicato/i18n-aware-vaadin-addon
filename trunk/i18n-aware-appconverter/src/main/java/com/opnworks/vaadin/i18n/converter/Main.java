@@ -34,6 +34,7 @@ public class Main {
 		File dirBaseDst = new File(dirbaseDst);
 		recursivedelete(dirBaseDst);
 		navigate(dirBaseSrc, dirBaseDst);
+		System.out.println(I18NConverter.literales);
 	}
 
 	/**
@@ -56,7 +57,7 @@ public class Main {
 				try {
 					String newClassContent;
 					//this is only to set breakpoints
-					if (filesrc.getName().equals("TextAreaExample.java")) {
+					if (filesrc.getName().equals("AccordionDisabledExample.java")) {
 						newClassContent = null;
 					}
 					if (filesrc.getName().endsWith(".java")) {
@@ -82,6 +83,7 @@ public class Main {
 				}
 			}
 		}
+		
 	}
 
 	/**

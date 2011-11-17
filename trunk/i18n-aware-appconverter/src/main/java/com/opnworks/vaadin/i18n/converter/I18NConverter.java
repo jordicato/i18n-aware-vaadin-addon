@@ -52,11 +52,15 @@ import japa.parser.ast.type.ClassOrInterfaceType;
 import japa.parser.ast.type.ReferenceType;
 
 import java.io.FileInputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import com.opnworks.vaadin.i18n.I18NAware;
 import com.opnworks.vaadin.i18n.service_impl.I18NAwareFactory;
+import com.opnworks.vaadin.i18n.service_impl.I18NAwareMessageParametersHelper;
 import com.opnworks.vaadin.i18n.ui.I18NCustomComponent;
 
 /**
@@ -68,13 +72,30 @@ import com.opnworks.vaadin.i18n.ui.I18NCustomComponent;
  * 
  */
 public class I18NConverter {
+	private static int contadorLiterales = 0;
+	public static List<String> literales = new ArrayList<String>();
 	boolean huboModificaciones = false;
 	List<String> lidfactory = new ArrayList<String>();
+
 	List<ImportDeclaration> lidfactoryd = new ArrayList<ImportDeclaration>();
+
 	List<ImportDeclaration> lidtarget;
 
 	public I18NConverter() {
 
+	}
+
+	void addLiteral(StringLiteralExpr expr) {
+		String s = expr.getValue();
+		s = " " + s + " ";
+		for (int i = 1; i < s.length() - 1; i++) {
+			String ss = s.substring(i, i + 1);
+			if ("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(ss) < 0) {
+				s = s.substring(0, i) + "_" + s.substring(i + 1);
+			}
+		}
+		s = s.trim() + "." + (contadorLiterales++) + "=" + expr.getValue();
+		literales.add(s);
 	}
 
 	/**
@@ -93,6 +114,45 @@ public class I18NConverter {
 				processArgs(mce0.getArgs());
 			}
 		}
+	}
+
+	private Constructor getClassConstructor(Class<I18NAware> clazz, List<Expression> largs) {
+		// this is quite complicated.
+		// 1st we look for the constructors with shuch number of parameters
+		Constructor[] ac = clazz.getConstructors();
+		List<Constructor> lc = new ArrayList<Constructor>();
+		for (Constructor c : ac) {
+			if (c.getParameterTypes().length == largs.size()) {
+				lc.add(c);
+			}
+		}
+		if (lc.size() == 1)
+			return lc.get(0);
+		// the easy search didn't worked
+		for (Iterator<Constructor> it = lc.iterator(); it.hasNext();) {
+			Constructor c = it.next();
+			for (int i = 0; i < c.getParameterTypes().length; i++) {
+				Expression e = largs.get(i);
+				Class cl = c.getParameterTypes()[i];
+				if (cl == getExpressionClass(e)) {
+					continue;
+				} else {
+					it.remove();
+					break;
+				}
+			}
+		}
+		if (lc.size() == 1)
+			return lc.get(0);
+		else
+			throw new RuntimeException("Constructor not found");
+	}
+
+	private Class getExpressionClass(Expression expr) {
+		if (expr instanceof StringLiteralExpr) {
+			return String.class;
+		} else
+			return null;
 	}
 
 	/**
@@ -334,6 +394,35 @@ public class I18NConverter {
 		return expression;
 	}
 
+	void extractLiterals(List<Expression> largs, String i18nclassname) {
+		boolean anyStringLiteralExpr = false;
+		for (int i = 0; i < largs.size(); i++) {
+			if (largs.get(i) instanceof StringLiteralExpr) {
+				anyStringLiteralExpr = true;
+				break;
+			}
+		}
+		if (!anyStringLiteralExpr)
+			return;
+		try {
+			Class<I18NAware> clazz = (Class<I18NAware>) Class.forName("com.opnworks.vaadin.i18n.ui." + i18nclassname);
+			int[] anns = I18NAwareMessageParametersHelper.getI18NAwareMessageParameters(getClassConstructor(clazz, largs));
+			if (anns == null)
+				return;
+			for (int indexann = 0; indexann < anns.length; indexann++) {
+				if (largs.get(anns[indexann]) instanceof StringLiteralExpr) {
+					addLiteral((StringLiteralExpr) largs.get(anns[indexann]));
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Process every member
 	 * 
@@ -535,6 +624,9 @@ public class I18NConverter {
 		// huboModificaciones = true;
 		// }
 		processArgs(oce.getArgs());
+		if (newname != null && oce.getArgs() != null && oce.getArgs().size() > 0) {
+			extractLiterals(oce.getArgs(), newname);
+		}
 		if (oce.getAnonymousClassBody() != null) {
 			List<BodyDeclaration> members = oce.getAnonymousClassBody();
 			for (BodyDeclaration member : members) {
