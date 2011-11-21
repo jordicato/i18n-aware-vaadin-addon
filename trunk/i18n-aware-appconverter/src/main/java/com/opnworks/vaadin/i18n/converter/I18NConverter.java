@@ -74,18 +74,47 @@ import com.opnworks.vaadin.i18n.ui.I18NCustomComponent;
 public class I18NConverter {
 	private static int contadorLiterales = 0;
 	public static List<String> literales = new ArrayList<String>();
-	boolean huboModificaciones = false;
-	List<String> lidfactory = new ArrayList<String>();
 
-	List<ImportDeclaration> lidfactoryd = new ArrayList<ImportDeclaration>();
+	/**
+	 * Renames a package to a new name accordig to rules: prefixsrcpackage and
+	 * prefixdstpackage A call with ("a.c.b","a","ew") will return "ew.c.b"
+	 * 
+	 * @param currentpackage
+	 *            original package
+	 * @param prefixSrcPackage
+	 *            prefix to be renamed
+	 * @param prefixDstPackage
+	 *            target package prefix to rename
+	 * @return renamed package. If no prefixsrcpackage is matched, returns
+	 *         equals currentpackage
+	 */
+	static String getCurrentDstPackage(String currentpackage, String prefixSrcPackage, String prefixDstPackage) {
+		String currentdtspackage = currentpackage;
+		if (currentpackage.indexOf(prefixSrcPackage) == 0) {
+			currentdtspackage = prefixDstPackage + currentpackage.substring(prefixSrcPackage.length());
+		}
+		return currentdtspackage;
+	}
 
-	List<ImportDeclaration> lidtarget;
+	private boolean extractlits = false;
+	private boolean huboModificaciones = false;
+	private List<String> lidfactory = new ArrayList<String>();
+	private List<ImportDeclaration> lidfactoryd = new ArrayList<ImportDeclaration>();
+	private List<ImportDeclaration> lidtarget;
+	private String prefixDstPackage = null;
+	private String prefixSrcPackage = null;
+	private boolean renamepackage = false;
 
 	public I18NConverter() {
 
 	}
 
-	void addLiteral(StringLiteralExpr expr) {
+	/**
+	 * adds a literal to the literals list
+	 * 
+	 * @param expr
+	 */
+	private void addLiteral(StringLiteralExpr expr) {
 		String s = expr.getValue();
 		s = " " + s + " ";
 		for (int i = 1; i < s.length() - 1; i++) {
@@ -116,6 +145,48 @@ public class I18NConverter {
 		}
 	}
 
+	/**
+	 * extracts literals from a constructor
+	 * 
+	 * @param largs
+	 * @param i18nclassname
+	 */
+	private void extractLiterals(List<Expression> largs, String i18nclassname) {
+		boolean anyStringLiteralExpr = false;
+		for (int i = 0; i < largs.size(); i++) {
+			if (largs.get(i) instanceof StringLiteralExpr) {
+				anyStringLiteralExpr = true;
+				break;
+			}
+		}
+		if (!anyStringLiteralExpr)
+			return;
+		try {
+			Class<I18NAware> clazz = (Class<I18NAware>) Class.forName("com.opnworks.vaadin.i18n.ui." + i18nclassname);
+			int[] anns = I18NAwareMessageParametersHelper.getI18NAwareMessageParameters(getClassConstructor(clazz, largs));
+			if (anns == null)
+				return;
+			for (int indexann = 0; indexann < anns.length; indexann++) {
+				if (largs.get(anns[indexann]) instanceof StringLiteralExpr) {
+					addLiteral((StringLiteralExpr) largs.get(anns[indexann]));
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Identifies wich constructor is being used. LOT OF WORK PENDING
+	 * 
+	 * @param clazz
+	 * @param largs
+	 * @return
+	 */
 	private Constructor getClassConstructor(Class<I18NAware> clazz, List<Expression> largs) {
 		// this is quite complicated.
 		// 1st we look for the constructors with shuch number of parameters
@@ -148,6 +219,11 @@ public class I18NConverter {
 			throw new RuntimeException("Constructor not found");
 	}
 
+	/**
+	 * Returns the class of an expression. LOTS OF WORK TO DO
+	 * @param expr
+	 * @return
+	 */
 	private Class getExpressionClass(Expression expr) {
 		if (expr instanceof StringLiteralExpr) {
 			return String.class;
@@ -176,6 +252,14 @@ public class I18NConverter {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Gets the extraction of literals setting
+	 * @return
+	 */
+	public boolean isExtractlits() {
+		return extractlits;
 	}
 
 	/**
@@ -252,9 +336,25 @@ public class I18NConverter {
 			}
 
 		List<Comment> lcomments = cutarget.getComments();
-
 		List<TypeDeclaration> types = cutarget.getTypes();
 
+		if (renamepackage) {
+			String cp = cutarget.getPackage().getName().toString();
+			String dp = getCurrentDstPackage(cp, prefixSrcPackage, prefixDstPackage);
+			if (!cp.equals(dp)) {
+				cutarget.getPackage().setName(new NameExpr(dp));
+				huboModificaciones = true;
+			}
+			if (cutarget.getImports() != null)
+				for (ImportDeclaration id : cutarget.getImports()) {
+					String name = id.getName().toString();
+					dp = getCurrentDstPackage(name, prefixSrcPackage, prefixDstPackage);
+					if (!name.equals(dp)) {
+						id.setName(new NameExpr(dp));
+						huboModificaciones = true;
+					}
+				}
+		}
 		// ahora miramos en cada clase
 		for (TypeDeclaration type : types) {
 			processType(type);
@@ -302,6 +402,10 @@ public class I18NConverter {
 		}
 	}
 
+	/**
+	 * proccess a block statement
+	 * @param blockStmt
+	 */
 	void processBlockStmt(BlockStmt blockStmt) {
 		if (blockStmt != null && blockStmt.getStmts() != null) {
 			for (Statement s : blockStmt.getStmts()) {
@@ -392,35 +496,6 @@ public class I18NConverter {
 			throw new RuntimeException("Expression not supported " + expression.getClass());
 		}
 		return expression;
-	}
-
-	void extractLiterals(List<Expression> largs, String i18nclassname) {
-		boolean anyStringLiteralExpr = false;
-		for (int i = 0; i < largs.size(); i++) {
-			if (largs.get(i) instanceof StringLiteralExpr) {
-				anyStringLiteralExpr = true;
-				break;
-			}
-		}
-		if (!anyStringLiteralExpr)
-			return;
-		try {
-			Class<I18NAware> clazz = (Class<I18NAware>) Class.forName("com.opnworks.vaadin.i18n.ui." + i18nclassname);
-			int[] anns = I18NAwareMessageParametersHelper.getI18NAwareMessageParameters(getClassConstructor(clazz, largs));
-			if (anns == null)
-				return;
-			for (int indexann = 0; indexann < anns.length; indexann++) {
-				if (largs.get(anns[indexann]) instanceof StringLiteralExpr) {
-					addLiteral((StringLiteralExpr) largs.get(anns[indexann]));
-				}
-			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -576,7 +651,11 @@ public class I18NConverter {
 		}
 	}
 
-	void processType(TypeDeclaration type) {
+	/**
+	 * Process every type
+	 * @param type
+	 */
+	private void processType(TypeDeclaration type) {
 		if (type instanceof ClassOrInterfaceDeclaration) {
 			ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration) type;
 			if (coid != null && coid.getExtends() != null)
@@ -594,6 +673,29 @@ public class I18NConverter {
 		for (BodyDeclaration member : members) {
 			processMember(member);
 		}
+	}
+
+	/**
+	 * enables or disables literal extraction
+	 * 
+	 * @param extractlits
+	 */
+	public void setExtractlits(boolean extractlits) {
+		this.extractlits = extractlits;
+	}
+
+	/**
+	 * This method enables package rename of destination classes. This has
+	 * nothing to do with the file pathname. The pathname will be changed
+	 * accordingly by the calling class
+	 * 
+	 * @param prefixSrcPackage
+	 * @param prefixDstPackage
+	 */
+	public void setRenameBasePackage(String prefixSrcPackage, String prefixDstPackage) {
+		this.prefixSrcPackage = prefixSrcPackage;
+		this.prefixDstPackage = prefixDstPackage;
+		renamepackage = prefixSrcPackage != null && prefixDstPackage != null && !prefixSrcPackage.equals(prefixDstPackage);
 	}
 
 	/**
@@ -624,9 +726,10 @@ public class I18NConverter {
 		// huboModificaciones = true;
 		// }
 		processArgs(oce.getArgs());
-		if (newname != null && oce.getArgs() != null && oce.getArgs().size() > 0) {
-			extractLiterals(oce.getArgs(), newname);
-		}
+		if (extractlits)
+			if (newname != null && oce.getArgs() != null && oce.getArgs().size() > 0) {
+				extractLiterals(oce.getArgs(), newname);
+			}
 		if (oce.getAnonymousClassBody() != null) {
 			List<BodyDeclaration> members = oce.getAnonymousClassBody();
 			for (BodyDeclaration member : members) {
@@ -635,4 +738,5 @@ public class I18NConverter {
 		}
 		return expr;
 	}
+
 }
