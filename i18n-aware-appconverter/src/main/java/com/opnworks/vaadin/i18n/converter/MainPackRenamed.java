@@ -12,45 +12,63 @@ import java.io.FileOutputStream;
  */
 public class MainPackRenamed {
 	public static void main(String[] args) throws Exception {
-		String src = "G:/eclisewshelios/VaadinSamplerOriginal/WebContent/WEB-INF/src", dst = "G:/eclisewshelios/VaadinSamplerI18ned/src";
+		String dirsrc = "G:/eclisewshelios/VaadinSamplerOriginal/WebContent/WEB-INF/src", dirdst = "G:/eclisewshelios/VaadinSamplerI18ned/src";
 		String basesrcpack = "com.vaadin.demo.sampler", basedstpack = "com.vaadin.demo.i18.sampler";
+		boolean extractlits = false;
 		for (int i = 0; i < args.length; i++) {
-			if (args[i].equals("-s")) {
-				src = args[++i];
-			} else if (args[i].equals("-d")) {
-				dst = args[++i];
+			if (args[i].equals("-dirsrc")) {
+				dirsrc = args[++i];
+			} else if (args[i].equals("-dirdst")) {
+				dirdst = args[++i];
 			} else if (args[i].equals("-basesrcpack")) {
 				basesrcpack = args[++i];
 			} else if (args[i].equals("-basedstpack")) {
 				basedstpack = args[++i];
+			} else if (args[i].equals("-extractlits")) {
+				extractlits = Boolean.parseBoolean(args[++i]);
 			}
 		}
 
-		new MainPackRenamed(src, dst, basesrcpack, basedstpack);
+		new MainPackRenamed(dirsrc, dirdst, basesrcpack, basedstpack, extractlits);
 	}
 
 	private File appdirBaseSrc, appdirBaseDst;
 	private String prefixSrcPackage, prefixDstPackage;
+	private boolean extractlits = false;
 
 	/**
 	 * 
-	 * @param dirbaseSrc
+	 * @param baseSrc
 	 *            path to original Vaadin app
-	 * @param dirbaseDst
+	 * @param baseDst
 	 *            path to i18n-aware api
 	 */
-	MainPackRenamed(String dirbaseSrc, String dirbaseDst, String prefixSrcPackage, String prefixDstPackage) {
+	MainPackRenamed(String baseSrc, String baseDst, String prefixSrcPackage, String prefixDstPackage, boolean extractlits) {
+		System.out.println("Called " + baseSrc + ", " + baseDst + ", " + prefixSrcPackage + ", " + prefixDstPackage + ", " + extractlits);
+		this.extractlits = extractlits;
 		this.prefixSrcPackage = prefixSrcPackage;
 		this.prefixDstPackage = prefixDstPackage;
-		File dirBaseSrc = new File(dirbaseSrc);
-		File dirBaseDst = new File(dirbaseDst);
+		File dirBaseSrc = new File(baseSrc);
+		File dirBaseDst = new File(baseDst);
 		this.appdirBaseSrc = dirBaseSrc;
 		this.appdirBaseDst = dirBaseDst;
 		if (!appdirBaseDst.exists()) {
 			appdirBaseDst.mkdir();
 		}
-		recursivedelete(dirBaseDst);
-		navigate(dirBaseSrc, dirBaseDst);
+		String partialSrcPath = dirBaseSrc.getAbsolutePath().replace("\\", "/");
+		if (prefixSrcPackage != null && prefixSrcPackage.trim().length() > 0 && prefixDstPackage != null && prefixDstPackage.trim().length() > 0) {
+			if (!partialSrcPath.endsWith("/"))
+				partialSrcPath += "/";
+			partialSrcPath += prefixSrcPackage.replace(".", "/");
+		}
+		String partialDstPath = dirBaseDst.getAbsolutePath().replace("\\", "/");
+		if (prefixSrcPackage != null && prefixSrcPackage.trim().length() > 0 && prefixDstPackage != null && prefixDstPackage.trim().length() > 0) {
+			if (!partialDstPath.endsWith("/"))
+				partialDstPath += "/";
+			partialDstPath += prefixDstPackage.replace(".", "/");
+		}
+		recursivedelete(new File(partialDstPath));
+		navigate(new File(partialSrcPath), new File(partialDstPath));
 		System.out.println(I18NConverter.literales);
 	}
 
@@ -114,6 +132,7 @@ public class MainPackRenamed {
 						System.out.println(filesrc.toString());
 						I18NConverter conv = new I18NConverter();
 						String currentSrcPackage = getCurrentSrcPackage(filesrc);
+						conv.setExtractlits(extractlits);
 						String currentDstPackage = I18NConverter.getCurrentDstPackage(currentSrcPackage, prefixSrcPackage, prefixDstPackage);
 						conv.setRenameBasePackage(prefixSrcPackage, prefixDstPackage);
 						newClassContent = conv.proccessJavaFile(filesrc.getAbsolutePath());

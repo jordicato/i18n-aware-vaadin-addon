@@ -26,8 +26,10 @@ public class Main {
 
 	/**
 	 * 
-	 * @param dirbaseSrc path to original Vaadin app
-	 * @param dirbaseDst path to i18n-aware api
+	 * @param dirbaseSrc
+	 *            path to original Vaadin app
+	 * @param dirbaseDst
+	 *            path to i18n-aware api
 	 */
 	Main(String dirbaseSrc, String dirbaseDst) {
 		File dirBaseSrc = new File(dirbaseSrc);
@@ -39,8 +41,10 @@ public class Main {
 
 	/**
 	 * 
-	 * @param dirbaseSrc path to original Vaadin app
-	 * @param dirbaseDst path to i18n-aware api
+	 * @param dirbaseSrc
+	 *            path to original Vaadin app
+	 * @param dirbaseDst
+	 *            path to i18n-aware api
 	 */
 	void navigate(File dirBaseSrc, File dirBaseDst) {
 		if (!dirBaseDst.exists()) {
@@ -56,14 +60,15 @@ public class Main {
 			} else {
 				try {
 					String newClassContent;
-					//this is only to set breakpoints
+					// this is only to set breakpoints
 					if (filesrc.getName().equals("AccordionDisabledExample.java")) {
 						newClassContent = null;
 					}
 					if (filesrc.getName().endsWith(".java")) {
 						System.out.println(filesrc.toString());
 						I18NConverter conv = new I18NConverter();
-						newClassContent = conv.proccessJavaFile(filesrc.getAbsolutePath() );
+						conv.setExtractlits(false);
+						newClassContent = conv.proccessJavaFile(filesrc.getAbsolutePath());
 						FileOutputStream fos = new FileOutputStream(filedst);
 						fos.write(newClassContent.getBytes());
 						fos.close();
@@ -78,17 +83,18 @@ public class Main {
 						fis.close();
 					}
 				} catch (Exception e) {
-					//don't interrupt processing, but print trace
+					// don't interrupt processing, but print trace
 					e.printStackTrace();
 				}
 			}
 		}
-		
+
 	}
 
 	/**
 	 * 
-	 * @param dirBaseDst deletes this folder and descendant folders
+	 * @param dirBaseDst
+	 *            deletes this folder and descendant folders
 	 */
 	void recursivedelete(File dirBaseDst) {
 		if (!dirBaseDst.exists())
