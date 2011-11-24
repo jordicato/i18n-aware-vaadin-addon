@@ -59,6 +59,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.opnworks.vaadin.i18n.I18NAware;
+import com.opnworks.vaadin.i18n.I18NAwareCaption;
+import com.opnworks.vaadin.i18n.I18NAwareValue;
 import com.opnworks.vaadin.i18n.service_impl.I18NAwareFactory;
 import com.opnworks.vaadin.i18n.service_impl.I18NAwareMessageParametersHelper;
 import com.opnworks.vaadin.i18n.ui.I18NCustomComponent;
@@ -72,7 +74,21 @@ import com.opnworks.vaadin.i18n.ui.I18NCustomComponent;
  * 
  */
 public class I18NConverter {
+	private class I18NSupportReplacement {
+		String methodorig, methodrepl;
+		int posnstring;
+		Class<?> replacement;
+
+		I18NSupportReplacement(Class<?> replacement, String methodorig, String methodrepl, int posnstring) {
+			this.replacement = replacement;
+			this.methodorig = methodorig;
+			this.methodrepl = methodrepl;
+			this.posnstring = posnstring;
+		}
+	}
+
 	private static int contadorLiterales = 0;
+
 	public static List<String> literales = new ArrayList<String>();
 
 	/**
@@ -98,12 +114,16 @@ public class I18NConverter {
 
 	private boolean extractlits = false;
 	private boolean huboModificaciones = false;
+	private String i18nreplacementpreffix = "i18n:";
+	private final I18NSupportReplacement[] i18nsr = new I18NSupportReplacement[] { new I18NSupportReplacement(I18NAwareCaption.class, "setCaption", "setCaptionMessage", 0),
+			new I18NSupportReplacement(I18NAwareValue.class, "setValue", "setValueMessage", 0), new I18NSupportReplacement(null, "addTab", "addTab", 1) };
 	private List<String> lidfactory = new ArrayList<String>();
 	private List<ImportDeclaration> lidfactoryd = new ArrayList<ImportDeclaration>();
 	private List<ImportDeclaration> lidtarget;
 	private String prefixDstPackage = null;
 	private String prefixSrcPackage = null;
 	private boolean renamepackage = false;
+	private boolean replaceI18nMethods = true;
 
 	public I18NConverter() {
 
@@ -221,6 +241,7 @@ public class I18NConverter {
 
 	/**
 	 * Returns the class of an expression. LOTS OF WORK TO DO
+	 * 
 	 * @param expr
 	 * @return
 	 */
@@ -256,10 +277,23 @@ public class I18NConverter {
 
 	/**
 	 * Gets the extraction of literals setting
+	 * 
 	 * @return
 	 */
 	public boolean isExtractlits() {
 		return extractlits;
+	}
+
+	private I18NSupportReplacement isI18Method(MethodCallExpr mce) {
+		if (mce.getArgs() != null && mce.getArgs().size() > 0)
+			for (I18NSupportReplacement is : i18nsr) {
+				if (is.methodorig.equals(mce.getName()) && mce.getArgs().size() > is.posnstring && mce.getArgs().get(is.posnstring) instanceof StringLiteralExpr) {
+					StringLiteralExpr sle = (StringLiteralExpr) mce.getArgs().get(is.posnstring);
+					if (sle.getValue().startsWith(i18nreplacementpreffix))
+						return is;
+				}
+			}
+		return null;
 	}
 
 	/**
@@ -404,6 +438,7 @@ public class I18NConverter {
 
 	/**
 	 * proccess a block statement
+	 * 
 	 * @param blockStmt
 	 */
 	void processBlockStmt(BlockStmt blockStmt) {
@@ -451,6 +486,9 @@ public class I18NConverter {
 			}
 		} else if (expression instanceof MethodCallExpr) {
 			processArgs(((MethodCallExpr) expression).getArgs());
+			if (replaceI18nMethods) {
+				processReplaceI18nMethods((MethodCallExpr) expression);
+			}
 		} else if (expression instanceof CastExpr) {
 			CastExpr ce = (CastExpr) expression;
 			if (ce.getExpr() instanceof ObjectCreationExpr) {
@@ -525,6 +563,7 @@ public class I18NConverter {
 				ReferenceType rt = (ReferenceType) fd.getType();
 				ClassOrInterfaceType coi = (ClassOrInterfaceType) rt.getType();
 				String newclassname = getI18NCompositeName(coi.getName());
+
 				// coi.setName(newclassname);
 				for (VariableDeclarator vd : fd.getVariables()) {
 					changeVaadinVarDeclaratorNewReqPrecheck(vd);
@@ -563,6 +602,36 @@ public class I18NConverter {
 			// member).getMembers())
 			// processMember(member1);
 		}
+	}
+
+	/**
+	 * This function replaces every 1st argument in a method call expression
+	 * that begins with the value of i18nreplacementpreffix. Besides, if the
+	 * method is replaceable, it is replaced with it's replacement and a casting
+	 * 
+	 * @param mce
+	 */
+	void processReplaceI18nMethods(MethodCallExpr mce) {
+		if (mce.getScope() instanceof NameExpr) {
+			I18NSupportReplacement isr = isI18Method(mce);
+			if (isr != null) {
+				mce.setName(isr.methodrepl);
+				StringLiteralExpr sle = (StringLiteralExpr) mce.getArgs().get(isr.posnstring);
+				sle.setValue(sle.getValue().substring(i18nreplacementpreffix.length()));
+				if (isr.replacement != null) {
+					EnclosedExpr ee = new EnclosedExpr();
+					CastExpr ce = new CastExpr();
+					ce.setExpr(mce.getScope());
+					ReferenceType rt = new ReferenceType();
+					ClassOrInterfaceType coi = new ClassOrInterfaceType(isr.replacement.getName());
+					rt.setType(coi);
+					ce.setType(rt);
+					ee.setInner(ce);
+					mce.setScope(ee);
+				}
+			}
+		}
+
 	}
 
 	/**
@@ -653,6 +722,7 @@ public class I18NConverter {
 
 	/**
 	 * Process every type
+	 * 
 	 * @param type
 	 */
 	private void processType(TypeDeclaration type) {
@@ -738,5 +808,4 @@ public class I18NConverter {
 		}
 		return expr;
 	}
-
 }
