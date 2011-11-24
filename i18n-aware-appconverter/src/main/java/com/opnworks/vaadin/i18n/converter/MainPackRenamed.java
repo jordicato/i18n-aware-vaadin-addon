@@ -125,7 +125,7 @@ public class MainPackRenamed {
 				try {
 					String newClassContent;
 					// this is only to set breakpoints
-					if (filesrc.getName().equals("LinkCurrentWindow.java")) {
+					if (filesrc.getName().equals("AccordionDisabledExample.java")) {
 						newClassContent = null;
 					}
 					if (filesrc.getName().endsWith(".java")) {
