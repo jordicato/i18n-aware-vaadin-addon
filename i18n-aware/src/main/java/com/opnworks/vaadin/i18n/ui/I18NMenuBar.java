@@ -8,6 +8,7 @@ import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
+import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
@@ -20,6 +21,7 @@ import com.vaadin.ui.MenuBar;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
+@GenerateInstantiateSubclassAspect
 public class I18NMenuBar extends MenuBar implements I18NAwareComponent,
 		I18NAwareCaption {
 
@@ -65,10 +67,30 @@ public class I18NMenuBar extends MenuBar implements I18NAwareComponent,
 	}
 
 	@Override
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
+	}
+
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+	
+	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
 	}
 
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
+	}
+	
+	@Override
+	public void setDescription(String descriptionKey) {
+		setDescriptionMessage(descriptionKey);
+	}
+	
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {

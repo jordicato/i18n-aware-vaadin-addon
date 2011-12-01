@@ -27,7 +27,7 @@ public class I18NAwareFieldSupport implements Serializable {
 			new ValueContainer() {
 				@Override
 				public void setValue(String value) {
-					originalField.setRequiredError(value);
+					originalField.setRealRequiredError(value);
 				}
 			});
 

@@ -9,6 +9,8 @@ import com.vaadin.ui.Component;
  */
 public interface I18NAwareComponent extends Component, I18NAwareCaption {
 
+	void setRealDescription(String description);
+	
 	void setDescription(String description);
 
 	void setDescriptionMessage(@I18NAwareMessage String descriptionKey,

@@ -15,16 +15,21 @@ public class I18NCaptionSupport extends I18NAwareValueSupport implements
 		super(new ValueContainer() {
 			@Override
 			public void setValue(String value) {
-				captionContainer.setCaption(value);
+				captionContainer.setRealCaption(value);
 			}
 		});
 	}
 
+	@Override
+	public void setRealCaption(String caption) {
+		valueContainer.setValue(caption);
+	}
+	
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		setValueMessage(captionKey, params);
 	}
 
 	public interface CaptionContainer {
-		void setCaption(String caption);
+		void setRealCaption(String caption);
 	}
 }

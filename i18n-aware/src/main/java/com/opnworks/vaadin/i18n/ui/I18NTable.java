@@ -5,6 +5,7 @@ import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
+import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
@@ -17,6 +18,7 @@ import com.vaadin.ui.Table;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
+@GenerateInstantiateSubclassAspect
 public class I18NTable extends Table implements I18NAwareComponent,
 		I18NAwareCaption {
 
@@ -24,8 +26,7 @@ public class I18NTable extends Table implements I18NAwareComponent,
 
 	private I18NAwareSupport i18NAwareSupport = new I18NAwareSupport();
 
-	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(
-			this);
+	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 
 	private String[] columnHeadersKeys;
 
@@ -64,20 +65,42 @@ public class I18NTable extends Table implements I18NAwareComponent,
 	 */
 	public void setColumnHeadersKeys(String[] columnHeadersKeys) {
 		this.columnHeadersKeys = columnHeadersKeys;
-		if( I18NServiceImpl.getInstance() != null ) {
-			updateColumnHeaders( I18NServiceImpl.getInstance() );
+		if (I18NServiceImpl.getInstance() != null) {
+			updateColumnHeaders(I18NServiceImpl.getInstance());
 		}
 	}
 
 	@Override
-	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
+	}
+
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+
+	@Override
+	public void setCaptionMessage(@I18NAwareMessage String captionKey,
+			Object... params) {
+		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey, params);
+	}
+
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
+	}
+
+	@Override
+	public void setDescription(String descriptionKey) {
+		setDescriptionMessage(descriptionKey);
 	}
 
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {
-		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
+		getI18NAwareComponentCaptionSupport().setDescriptionMessage(descriptionKey,
+				descriptionParams);
 	}
 
 	@Override
@@ -95,7 +118,7 @@ public class I18NTable extends Table implements I18NAwareComponent,
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 
-		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
+		getI18NAwareComponentCaptionSupport().i18NUpdate(i18N);
 
 		updateColumnHeaders(i18N);
 
@@ -129,5 +152,14 @@ public class I18NTable extends Table implements I18NAwareComponent,
 				i18NAwareSupport.add(actions[i]);
 			}
 		}
+	}
+	
+	public I18NAwareComponentCaptionSupport getI18NAwareComponentCaptionSupport() {
+
+		if (i18NAwareComponentCaptionSupport == null) {
+			i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(
+					this);
+		}
+		return i18NAwareComponentCaptionSupport;
 	}
 }

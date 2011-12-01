@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import com.opnworks.vaadin.i18n.I18NAwareValidator;
 import com.opnworks.vaadin.i18n.I18NService;
+import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 import com.vaadin.data.validator.StringLengthValidator;
 
@@ -12,6 +13,7 @@ import com.vaadin.data.validator.StringLengthValidator;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
+@GenerateInstantiateSubclassAspect
 public class I18NStringLengthValidator extends StringLengthValidator implements
 		I18NAwareValidator {
 

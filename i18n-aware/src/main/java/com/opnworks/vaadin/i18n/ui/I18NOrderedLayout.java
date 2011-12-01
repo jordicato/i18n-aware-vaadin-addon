@@ -3,6 +3,7 @@ package com.opnworks.vaadin.i18n.ui;
 import com.opnworks.vaadin.i18n.I18NAwareLayout;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
+import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.vaadin.ui.Component;
@@ -14,6 +15,7 @@ import com.vaadin.ui.OrderedLayout;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @Deprecated
+@GenerateInstantiateSubclassAspect
 public class I18NOrderedLayout extends OrderedLayout implements I18NAwareLayout {
 
 	private static final long serialVersionUID = -4162410642504114947L;
@@ -58,10 +60,30 @@ public class I18NOrderedLayout extends OrderedLayout implements I18NAwareLayout 
 	}
 
 	@Override
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
+	}
+
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+	
+	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
 	}
 
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
+	}
+	
+	@Override
+	public void setDescription(String descriptionKey) {
+		setDescriptionMessage(descriptionKey);
+	}
+	
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {

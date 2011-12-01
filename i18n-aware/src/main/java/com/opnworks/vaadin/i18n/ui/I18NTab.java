@@ -31,6 +31,16 @@ public class I18NTab implements Tab, I18NAwareCaption, CaptionContainer {
 		this.delegate = delegate;
 	}
 
+	@Override
+	public void setRealCaption(String caption) {
+		delegate.setCaption(caption);
+	}
+
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+	
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... captionParams) {
 		i18NCaptionSupport.setCaptionMessage(captionKey, captionParams);
 	}
@@ -61,10 +71,6 @@ public class I18NTab implements Tab, I18NAwareCaption, CaptionContainer {
 
 	public void setEnabled(boolean enabled) {
 		delegate.setEnabled(enabled);
-	}
-
-	public void setCaption(String caption) {
-		delegate.setCaption(caption);
 	}
 
 	public String getCaption() {
