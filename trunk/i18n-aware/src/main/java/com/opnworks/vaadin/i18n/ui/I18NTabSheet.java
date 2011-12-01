@@ -3,6 +3,7 @@ package com.opnworks.vaadin.i18n.ui;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
+import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.vaadin.terminal.Resource;
@@ -14,6 +15,7 @@ import com.vaadin.ui.TabSheet;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
+@GenerateInstantiateSubclassAspect
 public class I18NTabSheet extends TabSheet implements I18NAwareComponent {
 
 	private static final long serialVersionUID = -7070663953414272939L;
@@ -54,10 +56,30 @@ public class I18NTabSheet extends TabSheet implements I18NAwareComponent {
 	}
 
 	@Override
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
+	}
+
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+
+	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
 	}
 
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
+	}
+	
+	@Override
+	public void setDescription(String descriptionKey) {
+		setDescriptionMessage(descriptionKey);
+	}
+	
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {
@@ -78,7 +100,14 @@ public class I18NTabSheet extends TabSheet implements I18NAwareComponent {
 		
 		i18NAwareSupport.add(c);
 
-		I18NTab result = new I18NTab(tab);
+		I18NTab result;
+		
+		if( tab instanceof I18NTab ) {
+			result = (I18NTab)tab;
+		}
+		else {
+			result = new I18NTab(tab);
+		}
 
 		i18NAwareSupport.add(result);
 		

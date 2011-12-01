@@ -12,12 +12,46 @@ import java.util.Locale;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public interface I18NService extends I18NMessageProvider {
+public interface I18NService {
+
+	/**
+	 * Change current Locale
+	 * 
+	 * @param locale
+	 */
+	void setLocale(Locale locale);
 
 	/**
 	 * @return current Locale
 	 */
 	Locale getLocale();
+	
+	/**
+	 * Retrieve a message using the current locale ( may contain {@link java.text.MessageFormat}
+	 * arguments).
+	 * 
+	 * @param key
+	 *            the message key
+	 * @param args
+	 *            the message arguments (if any).
+	 * @return the resolved message
+	 */
+	String getMessage(String key, Object... args);
+	
+	/**
+	 * Retrieve a message using an specific locale ( may contain {@link java.text.MessageFormat}
+	 * arguments).
+	 * 
+	 * @param locale
+	 *            the locale
+	 * @param key
+	 *            the message key
+	 * @param args
+	 *            the message arguments (if any).
+	 * @return the resolved message
+	 */
+	String getMessage(Locale locale, String key, Object... args);
+	
 	
 	/**
 	 * Register a top level I18NAware

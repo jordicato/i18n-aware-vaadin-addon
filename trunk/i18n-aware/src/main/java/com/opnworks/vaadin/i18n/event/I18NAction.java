@@ -5,6 +5,7 @@ import java.util.Locale;
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
+import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport.CaptionContainer;
 import com.vaadin.event.Action;
@@ -15,6 +16,7 @@ import com.vaadin.terminal.Resource;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
+@GenerateInstantiateSubclassAspect
 public class I18NAction extends Action implements I18NAwareCaption, CaptionContainer {
 
 	private static final long serialVersionUID = -4241515863916987115L;
@@ -48,6 +50,16 @@ public class I18NAction extends Action implements I18NAwareCaption, CaptionConta
 		i18NCaptionSupport.setCaptionMessage(captionKey);
 	}
 
+	@Override
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
+	}
+	
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+	
 	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... captionParams) {
 		i18NCaptionSupport.setCaptionMessage(captionKey, captionParams);

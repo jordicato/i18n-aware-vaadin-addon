@@ -15,10 +15,10 @@ public interface I18NMessageProvider {
 	 * @param locale
 	 */
 	void setLocale(Locale locale);
-	
+
 	/**
-	 * Retrieve a message using the current locale ( may contain {@link java.text.MessageFormat}
-	 * arguments).
+	 * Retrieve a message using the current locale ( may contain
+	 * {@link java.text.MessageFormat} arguments).
 	 * 
 	 * @param key
 	 *            the message key
@@ -27,10 +27,10 @@ public interface I18NMessageProvider {
 	 * @return the resolved message
 	 */
 	String getMessage(String key, Object... args);
-	
+
 	/**
-	 * Retrieve a message using an specific locale ( may contain {@link java.text.MessageFormat}
-	 * arguments).
+	 * Retrieve a message using an specific locale ( may contain
+	 * {@link java.text.MessageFormat} arguments).
 	 * 
 	 * @param locale
 	 *            the locale
@@ -41,5 +41,4 @@ public interface I18NMessageProvider {
 	 * @return the resolved message
 	 */
 	String getMessage(Locale locale, String key, Object... args);
-
 }

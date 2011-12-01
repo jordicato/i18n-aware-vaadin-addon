@@ -4,6 +4,7 @@ import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareContainer;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
+import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
@@ -17,11 +18,13 @@ import com.vaadin.ui.Window;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareCaption {
+@GenerateInstantiateSubclassAspect
+public class I18NWindow extends Window implements I18NAwareContainer,
+		I18NAwareCaption {
 
 	private static final long serialVersionUID = 6357950198553382989L;
 
-	private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(this);
+	private I18NAwareComponentCaptionSupport captionSupport;
 
 	private I18NAwareValueSupport i18NDescriptionSupport = new I18NAwareValueSupport(
 			new ValueContainer() {
@@ -31,7 +34,7 @@ public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareC
 
 				}
 			});
-	
+
 	private I18NAwareSupport i18nAwareSupport;
 
 	/**
@@ -51,7 +54,7 @@ public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareC
 	 */
 	public I18NWindow(@I18NAwareMessage String captionKey) {
 		super(captionKey);
-		captionSupport.setCaptionMessage(captionKey);
+		getCaptionSupport().setCaptionMessage(captionKey);
 		setContent(new I18NVerticalLayout());
 	}
 
@@ -63,20 +66,43 @@ public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareC
 	 * @param content
 	 *            the contents of the window
 	 */
-	public I18NWindow(@I18NAwareMessage String captionKey, ComponentContainer content) {
+	public I18NWindow(@I18NAwareMessage String captionKey,
+			ComponentContainer content) {
 		super(captionKey, content);
-		captionSupport.setCaptionMessage(captionKey);
+		getCaptionSupport().setCaptionMessage(captionKey);
 	}
 
 	@Override
-	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		captionSupport.setCaptionMessage(captionKey, params);
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
+	}
+
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+
+	@Override
+	public void setCaptionMessage(@I18NAwareMessage String captionKey,
+			Object... params) {
+		getCaptionSupport().setCaptionMessage(captionKey, params);
+	}
+
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
+	}
+
+	@Override
+	public void setDescription(String descriptionKey) {
+		setDescriptionMessage(descriptionKey);
 	}
 
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
 			Object... descriptionParams) {
-		i18NDescriptionSupport.setValueMessage(descriptionKey, descriptionParams);
+		i18NDescriptionSupport.setValueMessage(descriptionKey,
+				descriptionParams);
 	}
 
 	@Override
@@ -93,7 +119,7 @@ public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareC
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		captionSupport.i18NUpdate(i18N);
+		getCaptionSupport().i18NUpdate(i18N);
 		i18NDescriptionSupport.i18NUpdate(i18N);
 		ComponentContainer container = getContent();
 		if (container instanceof I18NAwareContainer) {
@@ -106,5 +132,14 @@ public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareC
 			i18nAwareSupport = new I18NAwareSupport();
 		}
 		return i18nAwareSupport;
+	}
+
+	private I18NAwareComponentCaptionSupport getCaptionSupport() {
+
+		if (captionSupport == null) {
+			captionSupport = new I18NAwareComponentCaptionSupport(this);
+		}
+
+		return captionSupport;
 	}
 }

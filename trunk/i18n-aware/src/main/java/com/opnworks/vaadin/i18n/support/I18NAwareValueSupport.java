@@ -13,7 +13,7 @@ import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
  */
 public class I18NAwareValueSupport implements I18NAwareValue {
 
-	private ValueContainer valueContainer;
+	protected ValueContainer valueContainer;
 
 	private String valueKey;
 	private Object[] valueParams;

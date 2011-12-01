@@ -102,9 +102,9 @@ public class I18NServiceImpl implements I18NService {
 
 	@Override
 	public String getMessage(String key, Object... args) {
-		return i18NMessageProvider.getMessage(key, args);
+		return getMessage(locale, key, args);
 	}
-	
+
 	@Override
 	public String getMessage(Locale locale, String key, Object... args) {
 		return i18NMessageProvider.getMessage(locale, key, args);
