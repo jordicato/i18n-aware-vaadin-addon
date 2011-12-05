@@ -418,7 +418,18 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</pluginRepository>
-		
+
+		<pluginRepository>
+			<id>sonatype-nexus-releases</id>
+			<url>https://oss.sonatype.org/content/repositories/releases</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+
 	</pluginRepositories>
 
 	<modules>
