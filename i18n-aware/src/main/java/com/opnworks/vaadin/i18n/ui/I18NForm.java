@@ -72,7 +72,16 @@ public class I18NForm extends Form implements I18NAwareField {
 		super.setFormFieldFactory(new I18NAwareFormFieldFactorySupport(
 				(I18NAwareFormFieldFactory) fieldFactory));
 	}
+	public void setFormI18NFieldFactory(I18NAwareFormFieldFactory fieldFactory) {
 
+		if (!(fieldFactory instanceof I18NAwareFormFieldFactory)) {
+			throw new IllegalArgumentException(
+					"Expecting a I18NFormFieldFactory");
+		}
+
+		super.setFormFieldFactory(new I18NAwareFormFieldFactorySupport(
+				(I18NAwareFormFieldFactory) fieldFactory));
+	}
 	@Override
 	public void setRealRequiredError(String requiredMessage) {
 		super.setRequiredError(requiredMessage);
