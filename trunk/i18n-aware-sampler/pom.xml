@@ -36,7 +36,19 @@
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
 			<version>2.4.0</version>
-			<scope>provided</scope>
+			<scope>provided</scope> 
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.6.11</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.opnworks.vaadin</groupId>
+			<artifactId>i18n-aware-aspects</artifactId>
+			<version>0.1.0-SNAPSHOT</version>
 		</dependency>
 
 	</dependencies>
@@ -74,11 +86,36 @@
 					<execution>
 						<configuration>
 							<!-- if you don't specify any modules, the plugin will find them -->
-							<!-- <modules> <module>${package}.gwt.MyWidgetSet</module> </modules>  -->
-							<modules> <module>com.vaadin.demo.sampler.gwt.SamplerWidgetSet</module> </modules>
+							<!-- <modules> <module>${package}.gwt.MyWidgetSet</module> </modules> -->
+							<modules>
+								<module>com.vaadin.demo.sampler.gwt.SamplerWidgetSet</module>
+							</modules>
 						</configuration>
 						<goals>
 							<goal>update-widgetset</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>aspectj-maven-plugin</artifactId>
+				<version>1.4</version>
+				<configuration>
+					<verbose>true</verbose>
+					<complianceLevel>1.6</complianceLevel>
+					<aspectLibraries>
+						<aspectLibrary>
+							<groupId>com.opnworks.vaadin</groupId>
+							<artifactId>i18n-aware-aspects</artifactId>
+						</aspectLibrary>
+					</aspectLibraries>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
 						</goals>
 					</execution>
 				</executions>

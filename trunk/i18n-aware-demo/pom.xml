@@ -35,17 +35,17 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.neodoo</groupId>
 			<artifactId>microsoft-api-translate-java-maven-plugin</artifactId>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.memetix</groupId>
 			<artifactId>microsoft-translator-java-api</artifactId>
-			<version>0.5-SNAPSHOT</version>
+			<version>0.5</version>
 		</dependency>
 
 		<dependency>
@@ -86,7 +86,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>com.neodoo</groupId>
 				<artifactId>microsoft-api-translate-java-maven-plugin</artifactId>
@@ -117,10 +117,10 @@
 					<dependency>
 						<groupId>com.memetix</groupId>
 						<artifactId>microsoft-translator-java-api</artifactId>
-						<version>0.5-SNAPSHOT</version>
+						<version>0.5</version>
 					</dependency>
 				</dependencies>
-				
+
 			</plugin>
 
 		</plugins>
@@ -149,6 +149,23 @@
 										</versionRange>
 										<goals>
 											<goal>generate</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>com.neodoo</groupId>
+										<artifactId>
+											microsoft-api-translate-java-maven-plugin
+										</artifactId>
+										<versionRange>
+											[0.1-SNAPSHOT,)
+										</versionRange>
+										<goals>
+											<goal>localize</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
