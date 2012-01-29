@@ -50,8 +50,9 @@ public class I18NLabel extends Label implements I18NAwareComponent,
 	 * 
 	 * @param content
 	 */
-	public I18NLabel(String content) {
-		super(content);
+	public I18NLabel(String contentKey) {
+		super(contentKey);
+		setValueMessage(contentKey);
 	}
 
 	/**
@@ -70,8 +71,9 @@ public class I18NLabel extends Label implements I18NAwareComponent,
 	 * @param content
 	 * @param contentMode
 	 */
-	public I18NLabel(String content, int contentMode) {
-		super(content, contentMode);
+	public I18NLabel(String contentKey, int contentMode) {
+		super(contentKey, contentMode);
+		setValueMessage(contentKey);
 	}
 
 	/**
