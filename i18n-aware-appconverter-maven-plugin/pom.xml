@@ -53,4 +53,9 @@
       </plugin>
     </plugins>
   </build>
+  <parent>
+  	<groupId>com.opnworks.vaadin</groupId>
+  	<artifactId>i18n-aware-parent</artifactId>
+  	<version>0.1.0-SNAPSHOT</version>
+  </parent>
 </project>
