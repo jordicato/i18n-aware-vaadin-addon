@@ -70,6 +70,7 @@ public class I18NServiceImpl implements I18NService {
 
 	public I18NServiceImpl(I18NMessageProvider i18NMessageProvider) {
 		this.i18NMessageProvider = i18NMessageProvider;
+		locale=Locale.getDefault();
 	}
 
 	@Override
@@ -102,11 +103,19 @@ public class I18NServiceImpl implements I18NService {
 
 	@Override
 	public String getMessage(String key, Object... args) {
-		return getMessage(locale, key, args);
+		try {
+			return getMessage(locale, key, args);
+		} catch (Exception e) {
+			return "" + locale + ":" + key;
+		}
 	}
 
 	@Override
 	public String getMessage(Locale locale, String key, Object... args) {
-		return i18NMessageProvider.getMessage(locale, key, args);
+		try {
+			return i18NMessageProvider.getMessage(locale, key, args);
+		} catch (Exception e) {
+			return "" + locale + ":" + key;
+		}
 	}
 }
