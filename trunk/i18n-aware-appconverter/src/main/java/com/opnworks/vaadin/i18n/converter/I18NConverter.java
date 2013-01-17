@@ -1,4 +1,4 @@
-package com.opnworks.vaadin.i18n.converter;
+﻿package com.opnworks.vaadin.i18n.converter;
 
 import japa.parser.JavaParser;
 import japa.parser.ast.Comment;
@@ -86,7 +86,7 @@ public class I18NConverter {
 			this.posnstring = posnstring;
 		}
 	}
-
+	//Test
 	private static int contadorLiterales = 0;
 
 	public static List<String> literales = new ArrayList<String>();
