@@ -1,8 +1,16 @@
 package com.opnworks.vaadin.i18n.converter;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.opnworks.vaadin.i18n.converter.I18NConverter.Tkey;
 
 /**
  * Main class wrapper to convert common Vaadin apps into I18n-aware Vaadin apps
@@ -12,33 +20,31 @@ import java.io.FileOutputStream;
  */
 public class Main {
 	public static void main(String[] args) throws Exception {
-		String src = "G:/eclisewshelios/VaadinSamplerOriginal/WebContent/WEB-INF/src", dst = "G:/eclisewshelios/VaadinSamplerI18ned/src";
+		String src = "C:/SVN-OpnWorks/i18n-aware-vaadin-addon/i18n-aware-sampler/src";
 		for (int i = 0; i < args.length; i++) {
 			if (args[i].equals("-s")) {
 				src = args[++i];
-			} else if (args[i].equals("-d")) {
-				dst = args[++i];
-			}
+			} 
 		}
 
-		new Main(src, dst);
+		new Main(src);
 	}
 
 	/**
 	 * 
 	 * @param dirbaseSrc
 	 *            path to original Vaadin app
-	 * @param dirbaseDst
-	 *            path to i18n-aware api
+	 *            
 	 */
-	Main(String dirbaseSrc, String dirbaseDst) {
+	Main(String dirbaseSrc) {
 		File dirBaseSrc = new File(dirbaseSrc);
-		File dirBaseDst = new File(dirbaseDst);
-		recursivedelete(dirBaseDst);
-		navigate(dirBaseSrc, dirBaseDst);
-		System.out.println(I18NConverter.literales);
+		File delete = new File(dirbaseSrc+"/main/resources/bundle.properties");
+		if (delete.exists()){
+			delete.delete();
+		}
+		navigate(dirBaseSrc, dirbaseSrc);
 	}
-
+	
 	/**
 	 * 
 	 * @param dirbaseSrc
@@ -46,70 +52,25 @@ public class Main {
 	 * @param dirbaseDst
 	 *            path to i18n-aware api
 	 */
-	void navigate(File dirBaseSrc, File dirBaseDst) {
-		if (!dirBaseDst.exists()) {
-			dirBaseDst.mkdirs();
-		}
-		for (File filesrc : dirBaseSrc.listFiles()) {
-			File filedst = new File(dirBaseDst.getAbsolutePath() + File.separatorChar + filesrc.getName());
-			if (filesrc.isDirectory()) {
-				boolean created = filedst.mkdir();
-				if (!created)
-					throw new RuntimeException("No puedo crear " + filedst.getAbsolutePath());
-				navigate(filesrc, filedst);
-			} else {
-				try {
-					String newClassContent;
-					// this is only to set breakpoints
-					if (filesrc.getName().equals("AccordionDisabledExample.java")) {
-						newClassContent = null;
-					}
-					if (filesrc.getName().endsWith(".java")) {
-						System.out.println(filesrc.toString());
-						I18NConverter conv = new I18NConverter();
-						conv.setExtractlits(false);
-						newClassContent = conv.proccessJavaFile(filesrc.getAbsolutePath());
-						FileOutputStream fos = new FileOutputStream(filedst);
-						fos.write(newClassContent.getBytes());
-						fos.close();
-					} else {
-						byte[] b = new byte[10000];
-						int leidos = 0;
-						FileOutputStream fos = new FileOutputStream(filedst);
-						FileInputStream fis = new FileInputStream(filesrc);
-						while ((leidos = fis.read(b)) > 0)
-							fos.write(b, 0, leidos);
-						fos.close();
-						fis.close();
-					}
-				} catch (Exception e) {
-					// don't interrupt processing, but print trace
-					e.printStackTrace();
-				}
-			}
-		}
-
+	 public void escribir(String ruta, String cadena){		  
+		  File archivo = new File(ruta);
+		   try {
+			    FileWriter escribirArchivo = new FileWriter(archivo, true);
+			    BufferedWriter buffer = new BufferedWriter(escribirArchivo);
+			    buffer.write(cadena);
+			    buffer.newLine();
+			    buffer.close();
+		   }catch (Exception ex) {
+		   }
 	}
-
-	/**
-	 * 
-	 * @param dirBaseDst
-	 *            deletes this folder and descendant folders
-	 */
-	void recursivedelete(File dirBaseDst) {
-		if (!dirBaseDst.exists())
-			return;
-		for (File file : dirBaseDst.listFiles()) {
-			if (file.isDirectory()) {
-				recursivedelete(file);
-				boolean deleted = file.delete();
-				if (!deleted)
-					throw new RuntimeException("No puedo borrar " + file.getAbsolutePath());
-			} else {
-				boolean deleted = file.delete();
-				if (!deleted)
-					throw new RuntimeException("No puedo borrar " + file.getAbsolutePath());
-			}
+	 	
+	void navigate(File dirBaseSrc, String path) {
+		
+		I18NConverter conv = new I18NConverter();
+		conv.proccessProject(dirBaseSrc, path);
+		
+		for (Tkey k : conv.getGeneralListKey()){
+			escribir(path+"/main/resources/bundle.properties", k.key + " = " + k.value);
 		}
 
 	}
