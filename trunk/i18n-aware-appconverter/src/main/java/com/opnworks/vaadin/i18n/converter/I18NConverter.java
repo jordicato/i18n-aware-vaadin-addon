@@ -3,6 +3,7 @@ package com.opnworks.vaadin.i18n.converter;
 import japa.parser.JavaParser;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.ImportDeclaration;
+import japa.parser.ast.PackageDeclaration;
 import japa.parser.ast.body.BodyDeclaration;
 import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 import japa.parser.ast.body.ConstructorDeclaration;
@@ -85,11 +86,21 @@ public class I18NConverter {
 	class Tkey
 	{
 		String key;
-		String value;		
-		public Tkey(String key, String value) {
+		String value;
+		String fullClassName;
+		int suffix;
+		int maxSuffixClass;
+			
+		public Tkey(String key, String value, String fullClassName, int suffix, int maxSuffixClass) {
 			this.key = key;
+			this.fullClassName = fullClassName;
 			this.value = value;
+			this.suffix = suffix;
+			this.maxSuffixClass = maxSuffixClass;
 		}		
+		public void setSuffixClass(int suffix){
+			this.maxSuffixClass = suffix;
+		}
 	}
 		
 	class TStringValue
@@ -102,6 +113,8 @@ public class I18NConverter {
 		}		
 	}
 	
+	private String javaFileName;
+	private String javaFileFullClassName;
 	private String[] validMethods = {"setCaption","setDescription", "addComponent", "showNotification", "setDescriptionMessage"};
 	private List<Tkey> listKey = new ArrayList<Tkey>();
 	private List<Tkey> generalListKey = new ArrayList<Tkey>();
@@ -112,7 +125,8 @@ public class I18NConverter {
 
 	}
 	
-	public boolean isInKeyList(String key, List<Tkey> list){		
+	
+	private boolean isInKeyList(String key, List<Tkey> list){		
 		//listKey.contains(k);
 		for (Tkey k : list){
 			if (k.key.equals(key)){
@@ -121,18 +135,109 @@ public class I18NConverter {
 		}
 		return false;		
 	}
+
+	//Determina si un objeto Tkey contiene un value
+	private boolean isValueInKeyList(String value, List<Tkey> list){		
+		//listKey.contains(k);
+		for (Tkey k : list){
+			if (k.value.equals(value)){
+				return true;
+			}
+		}
+		return false;		
+	}
 	
+	//Determina si un objeto Tkey contiene una determinada key y value
+	private int valueAndKeyInList(String key, String value, List<Tkey> list){
+		int v = 0;
+		if (isInKeyList(key, list)){
+			v = 1;
+			if (isValueInKeyList(value, list)){
+				v = 2;
+			}
+		} else {
+			v = 3;
+		}
+		
+		return v;
+		
+	}
+	
+	private void sumSuffix(String key, int count, List<Tkey> list){
+		for (Tkey k : list){
+			if (k.key.equals(key)){
+				k.setSuffixClass(count);
+			}
+		}
+	}
+	
+	//Actualizar el estado de los sufijos para cada Tkey
+	private void updateSuffixMax(String key, List<Tkey> list){
+		if (!list.isEmpty()){
+			int count = 0;
+			for (Tkey k : list){
+				if (k.key.equals(key)){
+					count++;
+				}
+			}
+			sumSuffix(key, count, list);
+			count = 0;
+		}		
+	}
+	
+	/*private int existSuffix(String caption){
+		int pos = 0;
+		int num = 0;
+		if (caption.contains("_")){
+			pos = caption.indexOf("_"); 
+			num = Integer.parseInt(caption.substring(pos+1, caption.length()));
+		}	
+		
+		return num;
+	}*/
+	
+	//Para obtener los objeto Tkey que contienen una determinada key
+	public Tkey getKey(String key){
+		for (Tkey k : listKey){
+			if (k.key.equals(key)){
+				return k;
+			}
+		}
+		return null;
+	}
+	
+	//Adiciona las llaves creadas
 	private void addKey(String key){
 		if (key.length() > 1){
 			String gKey = generateKey(key);
-				if (!isInKeyList(gKey, listKey)){
-					Tkey newKey = new Tkey(gKey,key);
-					listKey.add(newKey);
-				}
+			int select = valueAndKeyInList(gKey, key, listKey);
 			
-		}
-	}
+			
+			switch (select) {
+				case 1: {					
+					Tkey keyAux = getKey(gKey);
+					
+					Tkey newKey = new Tkey(gKey,key,javaFileFullClassName,keyAux.maxSuffixClass+1,keyAux.maxSuffixClass+1);
+					updateSuffixMax(gKey,listKey);
+					listKey.add(newKey);					
+					int a = 9;
+					
+				};break;
+				case 2: {
+					
+				};break;
+				case 3: {
+					Tkey newKey = new Tkey(gKey,key,javaFileFullClassName,0,0);
+					listKey.add(newKey);					
+				};break;
+					
+			}
 
+		}
+		
+	}	
+
+	//Determina si un texto esta asignado a una variable de tipo String en la clase
 	private boolean isValueInStringValueList(String value){		
 		for (TStringValue s : listStringValue){
 			if (s.value.equals(value)){
@@ -142,6 +247,7 @@ public class I18NConverter {
 		return false;		
 	}
 	
+	//Determina si una cadena es un ID de variable de tipo String en la clase
 	private boolean isIdInStringValueList(String id){		
 		for (TStringValue s : listStringValue){
 			if (s.id.equals(id)){
@@ -151,6 +257,7 @@ public class I18NConverter {
 		return false;		
 	}
 
+	//Obtiene el valor de cada variable de tipo String valida declarada en la clase
 	private String getValueById(String id){		
 		for (TStringValue s : listStringValue){
 			if (s.id.equals(id)){
@@ -160,6 +267,7 @@ public class I18NConverter {
 		return "";
 	}
 	
+	//Almacena todos los valores de las variables de tipo String en cada clase
 	private void addStringVarValue(String id, String value){
 		if (value.length() > 0){
 			if (!isValueInStringValueList(value)){
@@ -170,18 +278,23 @@ public class I18NConverter {
 		}		
 	}
 	
-	private String getCompositeName(String vaadinName) {
+	/*private String getCompositeName(String vaadinName) {
 		if (vaadinName != null) {
 			if (vaadinName.startsWith("com.vaadin.ui.")){
 				return vaadinName;
 			}				
 		}
 		return null;
-	}
+	}*/
 	
 	public List<Tkey> getGeneralListKey(){
 		return generalListKey;
 	}
+	
+	public List<Tkey> getListKey(){
+		return listKey;
+	}
+
 	
 	public void proccessProject(File dirBaseSrc, String path){
 		
@@ -196,19 +309,18 @@ public class I18NConverter {
 						
 						listStringValue.clear();
 						
-						List<Tkey> tempListKey = proccessJavaFile(filesrc.getAbsolutePath());	
-											
-						if (generalListKey.isEmpty()){
-							generalListKey.addAll(tempListKey);
-						}
+						javaFileName = filesrc.getName().replaceAll(".java", "");
 						
-						for (Tkey localkey : tempListKey){
-							if (!isInKeyList(localkey.key, generalListKey)){
-								System.out.println(localkey.key + " = " + localkey.value);
-								generalListKey.add(localkey);
-							}
-						}
+						proccessJavaFile(filesrc.getAbsolutePath());	
+												
 
+						for (Tkey localkey : listKey){
+							//if (!isInKeyList(localkey.key, generalListKey)){
+								System.out.println(localkey.key + "_" + localkey.suffix + " = " + localkey.value);
+								//addKeyToGeneralListKey(localkey.key);
+								//generalListKey.add(localkey);
+							//}
+						}						
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -244,7 +356,7 @@ public class I18NConverter {
 		
 		return key;
 	}
-	
+	//Genera llaves de 30 caractéres
 	private String generateKey(String caption){
 		String key = detectDelimiters(caption);
 		
@@ -269,8 +381,9 @@ public class I18NConverter {
 	 * @return the converted i18n-aware class
 	 * @throws Exception
 	 */
-	public List<Tkey> proccessJavaFile(String filename) throws Exception {
+	public void proccessJavaFile(String filename) throws Exception {
 		lidtarget = new ArrayList<ImportDeclaration>();
+		//listKey.clear();
 		// creates an input stream for the file to be parsed
 		FileInputStream in = new FileInputStream(filename);
 		CompilationUnit cutarget/* , xcufactory */;
@@ -290,16 +403,17 @@ public class I18NConverter {
 				if (name.startsWith("com.vaadin.ui.")) {
 					lidtarget.add(id);
 				}
-			}
-
+			}		
+		
+		javaFileFullClassName = cutarget.getPackage().getName().toString().replace(".", "_") + "_" + javaFileName + "_";
+		
 		List<TypeDeclaration> types = cutarget.getTypes();
 
 		// ahora miramos en cada clase
 		for (TypeDeclaration type : types) {
 			processType(type);
 		}
-		
-		return listKey;
+
 	}
 
 	private boolean isVaadinComponent(String name){
@@ -346,7 +460,7 @@ public class I18NConverter {
 	
 	private boolean isValidMethod(String name){
 		boolean is = false;
-		for (int i = 1; i < validMethods.length; i++){
+		for (int i = 0; i < validMethods.length-1; i++){
 			if (validMethods[i].equals(name)){
 				is = true;
 			}
@@ -373,7 +487,7 @@ public class I18NConverter {
 					}
 				}
 			}
-		}	
+		} 	
 	}
 	
 	private void processArgs(List<Expression> largs) {
@@ -456,12 +570,6 @@ public class I18NConverter {
 		} else if (expression instanceof MethodCallExpr) {
 		
 			processArgs(((MethodCallExpr) expression).getArgs(), ((MethodCallExpr) expression).getName());
-			
-			/*if (!processArgs(((MethodCallExpr) expression).getArgs())){
-				if (expression.toString().contains(".setCaption(")){
-					System.out.print(removeQuotation(((MethodCallExpr) expression).getArgs().get(0).toString()));
-				}
-			}*/
 
 		} else if (expression instanceof CastExpr) {
 			CastExpr ce = (CastExpr) expression;
