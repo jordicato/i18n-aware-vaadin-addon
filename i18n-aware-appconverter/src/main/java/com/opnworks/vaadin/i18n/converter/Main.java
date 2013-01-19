@@ -20,8 +20,8 @@ import com.opnworks.vaadin.i18n.converter.I18NConverter.Tkey;
  */
 public class Main {
 	public static void main(String[] args) throws Exception {
-		//String src = "C:/SVN-OpnWorks/i18n-aware-vaadin-addon/i18n-aware-sampler/src";
-		String src = "C:/SVN-OpnWorks/i18n-aware-vaadin-addon/i18n-aware-demo/src";
+		String src = "C:/SVN-OpnWorks/i18n-aware-vaadin-addon/i18n-aware-sampler/src";
+		//String src = "C:/SVN-OpnWorks/i18n-aware-vaadin-addon/i18n-aware-demo/src";
 		for (int i = 0; i < args.length; i++) {
 			if (args[i].equals("-s")) {
 				src = args[++i];
@@ -74,9 +74,9 @@ public class Main {
 		
 		for (Tkey k : conv.getListKey()){
 			if (k.suffix > 0){
-				escribir(path+"/main/resources/bundle.properties", k.fullClassName + k.key + "_" + k.suffix + " = " + k.value);
+				escribir(path+"/main/resources/bundle.properties", k.key + "_" + k.suffix + " = " + k.value);
 			}else{
-				escribir(path+"/main/resources/bundle.properties", k.fullClassName + k.key + " = " + k.value);
+				escribir(path+"/main/resources/bundle.properties", k.key + " = " + k.value);
 			}
 		}
 
