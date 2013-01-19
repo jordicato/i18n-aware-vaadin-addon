@@ -137,7 +137,7 @@ public class I18NConverter {
 		return false;		
 	}
 
-	//Determina si un objeto Tkey contiene un value
+	//It determines if any Tkey object contains "value"
 	private boolean isValueInKeyList(String value, List<Tkey> list){		
 		//listKey.contains(k);
 		for (Tkey k : list){
@@ -148,7 +148,7 @@ public class I18NConverter {
 		return false;		
 	}
 	
-	//Determina si un objeto Tkey contiene una determinada key y value
+	//It determines if an Tkey object contains a certain key and value
 	private int valueAndKeyInList(String key, String value, List<Tkey> list){
 		int v = 0;
 		if (isInKeyList(key, list)){
@@ -172,7 +172,7 @@ public class I18NConverter {
 		}
 	}
 	
-	//Actualizar el estado de los sufijos para cada Tkey
+	//Update the state of the suffixes for each Tkey objects
 	private void updateSuffixMax(String key, List<Tkey> list){
 		if (!list.isEmpty()){
 			int count = 0;
@@ -197,7 +197,7 @@ public class I18NConverter {
 		return num;
 	}*/
 	
-	//Para obtener los objeto Tkey que contienen una determinada key
+	//To obtain the Tkey object that contain a certain key
 	public Tkey getKey(String key){
 		for (Tkey k : listKey){
 			if (k.key.equals(key)){
@@ -207,7 +207,7 @@ public class I18NConverter {
 		return null;
 	}
 	
-	//Adiciona las llaves creadas
+	//Add the created key to listKey
 	private void addKey(String key){
 		if (key.length() > 1){
 			String gKey = generateKey(key);
@@ -236,7 +236,7 @@ public class I18NConverter {
 		
 	}	
 
-	//Determina si un texto esta asignado a una variable de tipo String en la clase
+	//It determines if a text is assigned to a variable of String type in the class
 	private boolean isValueInStringValueList(String value){		
 		for (TStringValue s : listStringValue){
 			if (s.value.equals(value)){
@@ -246,7 +246,7 @@ public class I18NConverter {
 		return false;		
 	}
 	
-	//Determina si una cadena es un ID de variable de tipo String en la clase
+	//It determines if a string is an ID of String variable in the class
 	private boolean isIdInStringValueList(String id){		
 		for (TStringValue s : listStringValue){
 			if (s.id.equals(id)){
@@ -256,7 +256,7 @@ public class I18NConverter {
 		return false;		
 	}
 
-	//Obtiene el valor de cada variable de tipo String valida declarada en la clase
+	//Obtains the value of each String variable declared in the class
 	private String getValueById(String id){		
 		for (TStringValue s : listStringValue){
 			if (s.id.equals(id)){
@@ -266,7 +266,7 @@ public class I18NConverter {
 		return "";
 	}
 	
-	//Almacena todos los valores de las variables de tipo String en cada clase
+	//Stores values of all String variables in each class
 	private void addStringVarValue(String id, String value){
 		if (value.length() > 0){
 			if (!isValueInStringValueList(value)){
@@ -350,7 +350,7 @@ public class I18NConverter {
         return sum;
     }
     
-    //Genera llaves de 30 caractéres
+    //It generates keys of 30 characters
 	private String generateKey(String caption){
 		String key = detectDelimiters(caption);
 		String keyNumber = String.valueOf(generateKeyNumber(caption));
