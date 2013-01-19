@@ -120,14 +120,12 @@ public class I18NConverter {
 	private String varName;
 	private String[] validMethods = {"setCaption","setDescription", "addComponent", "showNotification", "setDescriptionMessage", "addTab"};
 	private List<Tkey> listKey = new ArrayList<Tkey>();
-	private List<Tkey> generalListKey = new ArrayList<Tkey>();
 	private List<TStringValue> listStringValue = new ArrayList<TStringValue>();
 	private List<ImportDeclaration> lidtarget;
 	
 	public I18NConverter() {
 
-	}
-	
+	}	
 	
 	private boolean isInKeyList(String key, List<Tkey> list){		
 		//listKey.contains(k);
@@ -215,8 +213,6 @@ public class I18NConverter {
 			String gKey = generateKey(key);
 			int select = valueAndKeyInList(gKey, key, listKey);
 			
-			System.out.println("---------------------------  " + varName);
-			
 			switch (select) {
 				case 1: {					
 					
@@ -227,7 +223,6 @@ public class I18NConverter {
 					Tkey newKey = new Tkey(gKey,key,javaFileFullClassName,keyAux.maxSuffixClass+1,keyAux.maxSuffixClass+1);
 					updateSuffixMax(gKey,listKey);
 					listKey.add(newKey);					
-					int a = 9;
 					
 				};break;
 				case 3: {
@@ -281,24 +276,10 @@ public class I18NConverter {
 		
 		}		
 	}
-	
-	/*private String getCompositeName(String vaadinName) {
-		if (vaadinName != null) {
-			if (vaadinName.startsWith("com.vaadin.ui.")){
-				return vaadinName;
-			}				
-		}
-		return null;
-	}*/
-	
-	public List<Tkey> getGeneralListKey(){
-		return generalListKey;
-	}
-	
+		
 	public List<Tkey> getListKey(){
 		return listKey;
 	}
-
 	
 	public void proccessProject(File dirBaseSrc, String path){
 		
@@ -315,8 +296,7 @@ public class I18NConverter {
 						
 						javaFileName = filesrc.getName().replaceAll(".java", "");
 						
-						proccessJavaFile(filesrc.getAbsolutePath());	
-												
+						proccessJavaFile(filesrc.getAbsolutePath());												
 
 						for (Tkey localkey : listKey){
 							//if (!isInKeyList(localkey.key, generalListKey)){
@@ -360,22 +340,6 @@ public class I18NConverter {
 		
 		return key;
 	}
-	//Genera llaves de 30 caractéres
-	/*private String generateKey(String caption){
-		String key = detectDelimiters(caption);
-		
-		String finalKey = splitKey(key, 30);
-		
-        if (finalKey.startsWith(".")){
-        	finalKey = finalKey.replaceFirst(".", "");
-        }
-        if (finalKey.endsWith(".")){
-        	finalKey = finalKey.substring(0, finalKey.length()-1);
-        } 
-		
-		return finalKey;
-		
-	}*/
 	
     private int generateKeyNumber(String caption){
         int sum = 0;
@@ -385,7 +349,8 @@ public class I18NConverter {
         }
         return sum;
     }
-	
+    
+    //Genera llaves de 30 caractéres
 	private String generateKey(String caption){
 		String key = detectDelimiters(caption);
 		String keyNumber = String.valueOf(generateKeyNumber(caption));
