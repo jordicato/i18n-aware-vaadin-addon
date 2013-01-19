@@ -58,13 +58,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.text.DefaultEditorKit.CutAction;
+
 import com.vaadin.data.util.filter.IsNull;
 
 /**
  * Class to get all vaadin widgets captions key
- *
+ * 
  * @author opnworks
- *
+ * 
  */
 public class I18NConverter {
 
@@ -90,63 +92,64 @@ public class I18NConverter {
 		String fullClassName;
 		int suffix;
 		int maxSuffixClass;
-
+			
 		public Tkey(String key, String value, String fullClassName, int suffix, int maxSuffixClass) {
 			this.key = key;
 			this.fullClassName = fullClassName;
 			this.value = value;
 			this.suffix = suffix;
 			this.maxSuffixClass = maxSuffixClass;
-		}
+		}		
 		public void setSuffixClass(int suffix){
 			this.maxSuffixClass = suffix;
 		}
 	}
-
+		
 	class TStringValue
 	{
 		String id;
-		String value;
+		String value;		
 		public TStringValue(String id, String value) {
 			this.id = id;
 			this.value = value;
-		}
+		}		
 	}
-
+	
 	private String javaFileName;
 	private String javaFileFullClassName;
-	private String[] validMethods = {"setCaption","setDescription", "addComponent", "showNotification", "setDescriptionMessage"};
+	private String varName;
+	private String[] validMethods = {"setCaption","setDescription", "addComponent", "showNotification", "setDescriptionMessage", "addTab"};
 	private List<Tkey> listKey = new ArrayList<Tkey>();
 	private List<Tkey> generalListKey = new ArrayList<Tkey>();
 	private List<TStringValue> listStringValue = new ArrayList<TStringValue>();
 	private List<ImportDeclaration> lidtarget;
-
+	
 	public I18NConverter() {
 
 	}
-
-
-	private boolean isInKeyList(String key, List<Tkey> list){
+	
+	
+	private boolean isInKeyList(String key, List<Tkey> list){		
 		//listKey.contains(k);
 		for (Tkey k : list){
 			if (k.key.equals(key)){
 				return true;
 			}
 		}
-		return false;
+		return false;		
 	}
 
 	//Determina si un objeto Tkey contiene un value
-	private boolean isValueInKeyList(String value, List<Tkey> list){
+	private boolean isValueInKeyList(String value, List<Tkey> list){		
 		//listKey.contains(k);
 		for (Tkey k : list){
 			if (k.value.equals(value)){
 				return true;
 			}
 		}
-		return false;
+		return false;		
 	}
-
+	
 	//Determina si un objeto Tkey contiene una determinada key y value
 	private int valueAndKeyInList(String key, String value, List<Tkey> list){
 		int v = 0;
@@ -158,11 +161,11 @@ public class I18NConverter {
 		} else {
 			v = 3;
 		}
-
+		
 		return v;
-
+		
 	}
-
+	
 	private void sumSuffix(String key, int count, List<Tkey> list){
 		for (Tkey k : list){
 			if (k.key.equals(key)){
@@ -170,7 +173,7 @@ public class I18NConverter {
 			}
 		}
 	}
-
+	
 	//Actualizar el estado de los sufijos para cada Tkey
 	private void updateSuffixMax(String key, List<Tkey> list){
 		if (!list.isEmpty()){
@@ -182,20 +185,20 @@ public class I18NConverter {
 			}
 			sumSuffix(key, count, list);
 			count = 0;
-		}
+		}		
 	}
-
+	
 	/*private int existSuffix(String caption){
 		int pos = 0;
 		int num = 0;
 		if (caption.contains("_")){
-			pos = caption.indexOf("_");
+			pos = caption.indexOf("_"); 
 			num = Integer.parseInt(caption.substring(pos+1, caption.length()));
-		}
-
+		}	
+		
 		return num;
 	}*/
-
+	
 	//Para obtener los objeto Tkey que contienen una determinada key
 	public Tkey getKey(String key){
 		for (Tkey k : listKey){
@@ -205,60 +208,61 @@ public class I18NConverter {
 		}
 		return null;
 	}
-
+	
 	//Adiciona las llaves creadas
 	private void addKey(String key){
 		if (key.length() > 1){
 			String gKey = generateKey(key);
 			int select = valueAndKeyInList(gKey, key, listKey);
-
-
+			
+			System.out.println("---------------------------  " + varName);
+			
 			switch (select) {
-				case 1: {
-					Tkey keyAux = getKey(gKey);
-
-					Tkey newKey = new Tkey(gKey,key,javaFileFullClassName,keyAux.maxSuffixClass+1,keyAux.maxSuffixClass+1);
-					updateSuffixMax(gKey,listKey);
-					listKey.add(newKey);
-					int a = 9;
-
+				case 1: {					
+					
 				};break;
 				case 2: {
-
+					Tkey keyAux = getKey(gKey);
+					
+					Tkey newKey = new Tkey(gKey,key,javaFileFullClassName,keyAux.maxSuffixClass+1,keyAux.maxSuffixClass+1);
+					updateSuffixMax(gKey,listKey);
+					listKey.add(newKey);					
+					int a = 9;
+					
 				};break;
 				case 3: {
 					Tkey newKey = new Tkey(gKey,key,javaFileFullClassName,0,0);
-					listKey.add(newKey);
+					listKey.add(newKey);					
 				};break;
-
+					
 			}
 
 		}
-
-	}
+		
+	}	
 
 	//Determina si un texto esta asignado a una variable de tipo String en la clase
-	private boolean isValueInStringValueList(String value){
+	private boolean isValueInStringValueList(String value){		
 		for (TStringValue s : listStringValue){
 			if (s.value.equals(value)){
 				return true;
 			}
 		}
-		return false;
+		return false;		
 	}
-
+	
 	//Determina si una cadena es un ID de variable de tipo String en la clase
-	private boolean isIdInStringValueList(String id){
+	private boolean isIdInStringValueList(String id){		
 		for (TStringValue s : listStringValue){
 			if (s.id.equals(id)){
 				return true;
 			}
 		}
-		return false;
+		return false;		
 	}
 
 	//Obtiene el valor de cada variable de tipo String valida declarada en la clase
-	private String getValueById(String id){
+	private String getValueById(String id){		
 		for (TStringValue s : listStringValue){
 			if (s.id.equals(id)){
 				return s.value;
@@ -266,7 +270,7 @@ public class I18NConverter {
 		}
 		return "";
 	}
-
+	
 	//Almacena todos los valores de las variables de tipo String en cada clase
 	private void addStringVarValue(String id, String value){
 		if (value.length() > 0){
@@ -274,30 +278,30 @@ public class I18NConverter {
 				TStringValue newStringValue = new TStringValue(id,value);
 				listStringValue.add(newStringValue);
 			}
-
-		}
+		
+		}		
 	}
-
+	
 	/*private String getCompositeName(String vaadinName) {
 		if (vaadinName != null) {
 			if (vaadinName.startsWith("com.vaadin.ui.")){
 				return vaadinName;
-			}
+			}				
 		}
 		return null;
 	}*/
-
+	
 	public List<Tkey> getGeneralListKey(){
 		return generalListKey;
 	}
-
+	
 	public List<Tkey> getListKey(){
 		return listKey;
 	}
 
-
+	
 	public void proccessProject(File dirBaseSrc, String path){
-
+		
 		for (File filesrc : dirBaseSrc.listFiles()) {
 			if (filesrc.isDirectory()) {
 				proccessProject(filesrc, path);
@@ -306,13 +310,13 @@ public class I18NConverter {
 
 					if (filesrc.getName().endsWith(".java")) {
 						System.out.println(filesrc.toString());
-
+						
 						listStringValue.clear();
-
+						
 						javaFileName = filesrc.getName().replaceAll(".java", "");
-
-						proccessJavaFile(filesrc.getAbsolutePath());
-
+						
+						proccessJavaFile(filesrc.getAbsolutePath());	
+												
 
 						for (Tkey localkey : listKey){
 							//if (!isInKeyList(localkey.key, generalListKey)){
@@ -320,13 +324,13 @@ public class I18NConverter {
 								//addKeyToGeneralListKey(localkey.key);
 								//generalListKey.add(localkey);
 							//}
-						}
+						}						
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
-		}
+		}		
 	}
 
 	private String detectDelimiters(String caption){
@@ -353,30 +357,57 @@ public class I18NConverter {
 		if (key.length() > size){
 			return key.substring(0, size);
 		}
-
+		
 		return key;
 	}
-
-	//Genera llaves de 30 caracteres
-	private String generateKey(String caption){
+	//Genera llaves de 30 caractéres
+	/*private String generateKey(String caption){
 		String key = detectDelimiters(caption);
-
+		
 		String finalKey = splitKey(key, 30);
-
+		
         if (finalKey.startsWith(".")){
         	finalKey = finalKey.replaceFirst(".", "");
         }
         if (finalKey.endsWith(".")){
         	finalKey = finalKey.substring(0, finalKey.length()-1);
-        }
-
+        } 
+		
 		return finalKey;
-
+		
+	}*/
+	
+    private int generateKeyNumber(String caption){
+        int sum = 0;
+        for (int i = 0; i < caption.length(); i++){
+            int I = caption.charAt(i);
+            sum = sum + I;
+        }
+        return sum;
+    }
+	
+	private String generateKey(String caption){
+		String key = detectDelimiters(caption);
+		String keyNumber = String.valueOf(generateKeyNumber(caption));
+		String finalKey = splitKey(key, 30);
+		
+        if (finalKey.startsWith(".")){
+        	finalKey = finalKey.replaceFirst(".", "");
+        }
+        if (finalKey.endsWith(".")){
+        	finalKey = finalKey.substring(0, finalKey.length()-1);
+        } 
+        
+        finalKey = finalKey.replace("!", "");
+		
+		return javaFileFullClassName+finalKey+"_"+keyNumber;
+		
 	}
-
+	
+	
 	/**
 	 * Entry point to process every class file
-	 *
+	 * 
 	 * @param filename
 	 *            class filename
 	 * @return the converted i18n-aware class
@@ -397,17 +428,16 @@ public class I18NConverter {
 			in.close();
 		}
 		// Obtener la lista de imports de componentes vaadin soportados en cada clase
-
 		if (cutarget.getImports() != null)
 			for (ImportDeclaration id : cutarget.getImports()) {
 				String name = id.getName().toString();
 				if (name.startsWith("com.vaadin.ui.")) {
 					lidtarget.add(id);
 				}
-			}
-
+			}		
+		
 		javaFileFullClassName = cutarget.getPackage().getName().toString().replace(".", "_") + "_" + javaFileName + "_";
-
+		
 		List<TypeDeclaration> types = cutarget.getTypes();
 
 		// ahora miramos en cada clase
@@ -418,38 +448,38 @@ public class I18NConverter {
 	}
 
 	private boolean isVaadinComponent(String name){
-
+		
 		for (ImportDeclaration id : lidtarget){
 			if (id.getName().getName().equals(name)){
 				return true;
 			} else if (("I18N"+id.getName().getName()).equals(name)){
 				return true;
 			}
-		}
-		return false;
+		}		
+		return false;		
 	}
-
+	
 	/**
 	 * Process method arguments
-	 *
+	 * 
 	 * @param largs
 	 */
-
+	
 	private String extactExprCaption(ObjectCreationExpr exp){
-
+		
 		Type type = exp.getType();
 			if (isVaadinComponent(type.toString())){
-
+			
 				boolean flag = false;
-
+				
 				try {
 					flag = !exp.getArgs().isEmpty();
 				} catch (Exception e) {
-					// TODO: handle exception
-				}
-
+					// TODO: handle exception					
+				}				
+				
 				if (flag){
-					if (exp.getArgs().get(0) instanceof StringLiteralExpr){
+					if (exp.getArgs().get(0) instanceof StringLiteralExpr){						
 						return ((StringLiteralExpr) exp.getArgs().get(0)).getValue();
 					} else if (isIdInStringValueList(exp.getArgs().get(0).toString())) {
 						addKey(getValueById(exp.getArgs().get(0).toString()));
@@ -458,7 +488,7 @@ public class I18NConverter {
 			}
 		return "";
 	}
-
+	
 	private boolean isValidMethod(String name){
 		boolean is = false;
 		for (int i = 0; i < validMethods.length-1; i++){
@@ -468,29 +498,29 @@ public class I18NConverter {
 		}
 		return is;
 	}
-
+	
 	private void processArgs(List<Expression> largs, String methodName) {
-		if (isValidMethod(methodName)){
+		if (isValidMethod(methodName)){	
 			if (largs != null) {
 				for (int i = 0; i < largs.size(); i++) {
 					if (largs.get(i) instanceof ObjectCreationExpr) {
+
 						ObjectCreationExpr exp = (ObjectCreationExpr) largs.get(i);
 						addKey(extactExprCaption(exp));
 
 					} else if (largs.get(i) instanceof MethodCallExpr) {
-						processArgs(((MethodCallExpr) largs.get(i)).getArgs(), ((MethodCallExpr) largs.get(i)).getName());
-
-
+						processArgs(((MethodCallExpr) largs.get(i)).getArgs(), ((MethodCallExpr) largs.get(i)).getName());	
+	
 					} else if (largs.get(i) instanceof StringLiteralExpr){
-						addKey(((StringLiteralExpr) largs.get(i)).getValue());
+						addKey(((StringLiteralExpr) largs.get(i)).getValue());						
 					} else if (isIdInStringValueList(largs.get(i).toString())){
 						addKey(getValueById(largs.get(i).toString()));
 					}
 				}
 			}
-		}
+		} 	
 	}
-
+	
 	private void processArgs(List<Expression> largs) {
 		if (largs != null) {
 				for (int i = 0; i < largs.size(); i++) {
@@ -500,25 +530,25 @@ public class I18NConverter {
 
 					} else if (largs.get(i) instanceof MethodCallExpr) {
 						processArgs(((MethodCallExpr) largs.get(i)).getArgs(), ((MethodCallExpr) largs.get(i)).getName());
-
-
+						
+	
 					} else if (largs.get(i) instanceof StringLiteralExpr){
-						addKey(((StringLiteralExpr) largs.get(i)).getValue());
+						addKey(((StringLiteralExpr) largs.get(i)).getValue());						
 					}
 				}
-			}
+			}	
 	}
 
 	private String removeQuotation(String param){
-		if (param.length() > 2){
+		if (param.length() > 2){			
 			return param.substring(1, param.length()-1);
 		}
 		return "";
 	}
-
+	
 	/**
 	 * proccess a block statement
-	 *
+	 * 
 	 * @param blockStmt
 	 */
 	void processBlockStmt(BlockStmt blockStmt) {
@@ -531,7 +561,7 @@ public class I18NConverter {
 
 	/**
 	 * Process every expression
-	 *
+	 * 
 	 * @param expression
 	 *            expression
 	 * @return
@@ -539,28 +569,30 @@ public class I18NConverter {
 	private Expression processExpression(Expression expression) {
 		if (expression == null)
 			return null;
-
+		
 		if (expression instanceof AssignExpr) {
 			AssignExpr ae = (AssignExpr) expression;
 			if (ae.getTarget() instanceof NameExpr) {
 				if (ae.getValue() instanceof ObjectCreationExpr) {
-
+					varName = ae.getTarget().toString();
 					ObjectCreationExpr exp = (ObjectCreationExpr) ae.getValue();
 					addKey(extactExprCaption(exp));
-
+					
 				} else if (ae.getValue() instanceof MethodCallExpr) {
+					varName = ae.getTarget().toString();
 					processArgs(((MethodCallExpr) ae.getValue()).getArgs(), ((MethodCallExpr) ae.getValue()).getName());
 				}
 			}
 		} else if (expression instanceof VariableDeclarationExpr) {
 			VariableDeclarationExpr vde = (VariableDeclarationExpr) expression;
-
+			
 			if (vde.getType() instanceof ReferenceType) {
 
 				for (VariableDeclarator vd : vde.getVars()) {
+					varName = vd.getId().getName();
 					if (vd.getInit() != null) {
 						if (vd.getInit() instanceof ObjectCreationExpr) {
-
+							
 							ObjectCreationExpr exp = (ObjectCreationExpr) vd.getInit();
 							addKey(extactExprCaption(exp));
 
@@ -569,17 +601,18 @@ public class I18NConverter {
 				}
 			}
 		} else if (expression instanceof MethodCallExpr) {
-
+			varName = expression.toString().split(((MethodCallExpr) expression).getName())[0].replace(".", "");
 			processArgs(((MethodCallExpr) expression).getArgs(), ((MethodCallExpr) expression).getName());
 
 		} else if (expression instanceof CastExpr) {
 			CastExpr ce = (CastExpr) expression;
 			if (ce.getExpr() instanceof ObjectCreationExpr) {
-
+				
 				ObjectCreationExpr exp = (ObjectCreationExpr) ce.getExpr();
 				addKey(extactExprCaption(exp));
-
+				
 			} else if (ce.getExpr() instanceof MethodCallExpr) {
+				//varName = expression.toString().split(((MethodCallExpr) expression).getName())[0].replace(".", "");
 				processArgs(((MethodCallExpr) ce.getExpr()).getArgs(), ((MethodCallExpr) ce.getExpr()).getName());
 			}
 		} else if (expression instanceof ArrayCreationExpr) {
@@ -594,10 +627,10 @@ public class I18NConverter {
 					}
 			}
 		} else if (expression instanceof ObjectCreationExpr) {
-
+			
 			ObjectCreationExpr exp = (ObjectCreationExpr) expression;
 			addKey(extactExprCaption(exp));
-
+			
 		} else if (expression instanceof ClassExpr) {
 			ClassExpr ce = (ClassExpr) expression;
 			ReferenceType rt = (ReferenceType) ce.getType();
@@ -619,25 +652,25 @@ public class I18NConverter {
 		}
 		return expression;
 	}
-
+	
 	/**
 	 * Process every member
-	 *
+	 * 
 	 * @param member
 	 *            member to process
 	 */
 	private void processMember(BodyDeclaration member) {
-		if (member instanceof FieldDeclaration){
-
+		if (member instanceof FieldDeclaration){	
+			
 			FieldDeclaration fd = (FieldDeclaration) member;
-
+			
 			if (!(fd.getType() instanceof PrimitiveType)){
 				if (fd.getType().toString().equals("String")){
 					for (VariableDeclarator vd : fd.getVariables()) {
 						if (vd.getInit() != null) {
 							if ((!vd.getInit().toString().contains("+")) & (!vd.getInit().toString().contains("null"))){
 								String v = ((StringLiteralExpr) vd.getInit()).getValue();
-								if (!isValueInStringValueList(v)){
+								if (!isValueInStringValueList(v)){									
 									addStringVarValue(vd.getId().toString(), v);
 								}
 							}
@@ -647,20 +680,20 @@ public class I18NConverter {
 					for (VariableDeclarator vd : fd.getVariables()) {
 						if (vd.getInit() != null) {
 							if (vd.getInit() instanceof ObjectCreationExpr) {
-
+								
 								ObjectCreationExpr exp = (ObjectCreationExpr) vd.getInit();
 								addKey(extactExprCaption(exp));
-
+		
 							}
 						}
 					}
 				}
 			}
-
+			
 		}else if (member instanceof ClassOrInterfaceDeclaration) {
 				for (BodyDeclaration member1 : ((ClassOrInterfaceDeclaration) member).getMembers()) {
 					processMember(member1);
-				}
+				}				
 		} else if (member instanceof MethodDeclaration || member instanceof ConstructorDeclaration) {
 
 			BlockStmt blockStmk;
@@ -677,12 +710,12 @@ public class I18NConverter {
 
 			processBlockStmt(blockStmk);
 
-		}
+		} 
 	}
-
+	
 	/**
 	 * Process every statement. Maybe not all Java statements be supported
-	 *
+	 * 
 	 * @param statement
 	 *            statement to process
 	 */
@@ -690,14 +723,14 @@ public class I18NConverter {
 		if (statement instanceof ExpressionStmt) {
 			ExpressionStmt es = (ExpressionStmt) statement;
 			processExpression(es.getExpression());
-
+			
 		} else if (statement instanceof BlockStmt) {
 			BlockStmt bs = (BlockStmt) statement;
 			processBlockStmt(bs);
 		} else if (statement instanceof SynchronizedStmt) {
 			SynchronizedStmt bs = (SynchronizedStmt) statement;
 			BlockStmt bs1 = (BlockStmt) bs.getBlock();
-			processBlockStmt(bs1);
+			processBlockStmt(bs1);	
 		} else if (statement instanceof SwitchStmt) {
 			SwitchStmt bs = (SwitchStmt) statement;
 			for (SwitchEntryStmt swe : bs.getEntries()) {
@@ -767,7 +800,7 @@ public class I18NConverter {
 
 	/**
 	 * Process every type
-	 *
+	 * 
 	 * @param type
 	 */
 	private void processType(TypeDeclaration type) {
