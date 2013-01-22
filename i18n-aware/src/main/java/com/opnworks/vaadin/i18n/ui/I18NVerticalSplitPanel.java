@@ -15,9 +15,8 @@ import com.vaadin.ui.VerticalSplitPanel;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NVerticalSplitPanel extends VerticalSplitPanel implements I18NAwareContainer {
-
-	private static final long serialVersionUID = -8899641796596962022L;
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 	private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();

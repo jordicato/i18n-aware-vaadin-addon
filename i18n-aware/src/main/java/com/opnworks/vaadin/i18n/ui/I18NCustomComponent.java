@@ -15,9 +15,8 @@ import com.vaadin.ui.CustomComponent;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NCustomComponent extends CustomComponent implements I18NAwareComponent {
-
-	private static final long serialVersionUID = 7454615691570069153L;
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 

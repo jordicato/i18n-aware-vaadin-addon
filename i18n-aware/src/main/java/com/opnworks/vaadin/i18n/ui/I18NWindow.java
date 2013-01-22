@@ -19,9 +19,8 @@ import com.vaadin.ui.Window;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareCaption {
-
-	private static final long serialVersionUID = 6357950198553382989L;
 
 	private I18NAwareComponentCaptionSupport captionSupport;
 

@@ -17,6 +17,7 @@ import com.vaadin.ui.PopupView;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NPopupView extends PopupView implements I18NAwareComponent {
 
 	/**
@@ -24,8 +25,6 @@ public class I18NPopupView extends PopupView implements I18NAwareComponent {
 	 * neither of these methods ever return null.
 	 */
 	public abstract static class I18NContent implements Content, I18NAware {
-
-		private static final long serialVersionUID = 1472420206441355537L;
 
 		private String minimizedValueAsHTML;
 

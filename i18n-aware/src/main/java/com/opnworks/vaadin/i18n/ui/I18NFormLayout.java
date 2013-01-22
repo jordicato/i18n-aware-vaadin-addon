@@ -17,8 +17,6 @@ import com.vaadin.ui.FormLayout;
 @GenerateInstantiateSubclassAspect
 public class I18NFormLayout extends FormLayout implements I18NAwareLayout {
 
-	private static final long serialVersionUID = -6103979352836315594L;
-
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 	private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();
 

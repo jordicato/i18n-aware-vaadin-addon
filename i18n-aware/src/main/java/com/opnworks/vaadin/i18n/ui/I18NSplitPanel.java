@@ -18,9 +18,8 @@ import com.vaadin.ui.SplitPanel;
  */
 @Deprecated
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NSplitPanel extends SplitPanel implements I18NAwareContainer {
-
-	private static final long serialVersionUID = 1060456585902319374L;
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 	private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();

@@ -16,9 +16,8 @@ import com.vaadin.ui.TwinColSelect;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField {
-
-	private static final long serialVersionUID = -4627014612484874917L;
 
 	private I18NAwareFieldSupport i18NAwareFieldSupport;
 

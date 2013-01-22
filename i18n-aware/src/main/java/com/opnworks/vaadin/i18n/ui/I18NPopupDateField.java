@@ -18,9 +18,8 @@ import com.vaadin.ui.PopupDateField;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NPopupDateField extends PopupDateField implements I18NAwareField {
-
-	private static final long serialVersionUID = 8283053228212397120L;
 
 	private I18NAwareFieldSupport i18NAwareFieldSupport;
 

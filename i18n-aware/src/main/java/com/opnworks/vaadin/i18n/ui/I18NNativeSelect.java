@@ -16,9 +16,8 @@ import com.vaadin.ui.NativeSelect;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NNativeSelect extends NativeSelect implements I18NAwareField {
-
-	private static final long serialVersionUID = 8270811873561229151L;
 
 	private I18NAwareFieldSupport i18NAwareFieldSupport;
 

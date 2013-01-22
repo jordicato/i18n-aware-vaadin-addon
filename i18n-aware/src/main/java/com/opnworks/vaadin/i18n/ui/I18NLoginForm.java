@@ -14,9 +14,8 @@ import com.vaadin.ui.LoginForm;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NLoginForm extends LoginForm implements I18NAwareCaption {
-
-	private static final long serialVersionUID = -959986070759266148L;
 
 	private I18NCaptionSupport captionSupport = new I18NCaptionSupport(new CaptionContainer() {
 		@Override

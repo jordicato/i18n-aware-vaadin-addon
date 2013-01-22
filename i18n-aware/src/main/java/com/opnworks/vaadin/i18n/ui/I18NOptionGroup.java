@@ -19,9 +19,8 @@ import com.vaadin.ui.OptionGroup;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NOptionGroup extends OptionGroup implements I18NAwareField {
-
-	private static final long serialVersionUID = 9024460858748646949L;
 
 	private I18NAwareFieldSupport i18NAwareFieldSupport;
 

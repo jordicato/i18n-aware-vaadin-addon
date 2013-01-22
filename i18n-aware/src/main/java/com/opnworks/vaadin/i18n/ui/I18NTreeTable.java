@@ -19,9 +19,8 @@ import com.vaadin.ui.TreeTable;
  * @author Aniceto Perez ( Ipse )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NTreeTable extends TreeTable implements I18NAwareComponent, I18NAwareCaption {
-
-	private static final long serialVersionUID = -812252356204823009L;
 
 	private I18NAwareSupport i18NAwareSupport = new I18NAwareSupport();
 

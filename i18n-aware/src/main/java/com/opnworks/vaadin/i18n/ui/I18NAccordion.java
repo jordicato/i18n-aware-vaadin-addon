@@ -16,12 +16,10 @@ import com.vaadin.ui.Component;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NAccordion extends Accordion implements I18NAwareComponent {
 
-	private static final long serialVersionUID = -891019186115514452L;
-
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
-
 	private I18NAwareSupport i18NAwareSupport = new I18NAwareSupport();
 
 	public I18NTab addI18NTab(Component c) {

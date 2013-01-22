@@ -16,9 +16,8 @@ import com.vaadin.ui.DateField;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NDateField extends DateField implements I18NAwareField {
-
-	private static final long serialVersionUID = 1555819731368279548L;
 
 	private I18NAwareFieldSupport i18NAwareFieldSupport;
 

@@ -19,9 +19,8 @@ import com.vaadin.ui.Panel;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NPanel extends Panel implements I18NAwareContainer, I18NAwareCaption {
-
-	private static final long serialVersionUID = 6357950198553382989L;
 
 	private I18NAwareComponentCaptionSupport captionSupport;
 

@@ -18,9 +18,8 @@ import com.vaadin.ui.CustomLayout;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NCustomLayout extends CustomLayout implements I18NAwareLayout {
-
-	private static final long serialVersionUID = -6862053468403081465L;
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 	private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();

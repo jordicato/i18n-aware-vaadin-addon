@@ -16,9 +16,8 @@ import com.vaadin.ui.ComboBox;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NComboBox extends ComboBox implements I18NAwareField {
-
-	private static final long serialVersionUID = -7385824210862452162L;
 
 	private I18NAwareFieldSupport i18NAwareFieldSupport;
 

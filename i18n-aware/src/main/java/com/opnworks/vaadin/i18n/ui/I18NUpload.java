@@ -16,9 +16,8 @@ import com.vaadin.ui.Upload;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NUpload extends Upload implements I18NAwareComponent, I18NAwareCaption {
-
-	private static final long serialVersionUID = -6645271211086047948L;
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 
