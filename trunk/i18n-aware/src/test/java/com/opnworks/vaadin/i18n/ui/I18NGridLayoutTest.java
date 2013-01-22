@@ -22,14 +22,17 @@ public class I18NGridLayoutTest extends AbstractI18NTest {
 
 		performTest(i18NGridLayout, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return component.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -47,14 +50,17 @@ public class I18NGridLayoutTest extends AbstractI18NTest {
 
 		performTest(i18NGridLayout, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return component.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -72,14 +78,17 @@ public class I18NGridLayoutTest extends AbstractI18NTest {
 
 		performTest(i18NGridLayout, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return component.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}

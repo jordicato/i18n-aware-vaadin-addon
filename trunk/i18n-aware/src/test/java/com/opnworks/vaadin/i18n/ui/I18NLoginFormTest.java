@@ -20,14 +20,17 @@ public class I18NLoginFormTest extends AbstractI18NTest {
 
 		performTest(i18NLoginForm, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NLoginForm.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -46,14 +49,17 @@ public class I18NLoginFormTest extends AbstractI18NTest {
 
 		performTest(i18NLoginForm, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
-				return (String) i18NLoginForm.getCaption();
+				return i18NLoginForm.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_3;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return params;
 			}
@@ -61,22 +67,25 @@ public class I18NLoginFormTest extends AbstractI18NTest {
 	}
 
 	@Test
-	public void testSetUsernameCaptionKey() {
+	public void testSetLoginButtonCaptionKey() {
 
 		final I18NLoginForm i18NLoginForm = new I18NLoginForm();
 
-		i18NLoginForm.setUsernameCaptionKey(TEST_KEY_2);
+		i18NLoginForm.setLoginButtonCaptionKey(TEST_KEY_2);
 
 		performTest(i18NLoginForm, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
-				return i18NLoginForm.getUsernameCaption();
+				return i18NLoginForm.getLoginButtonCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -92,14 +101,17 @@ public class I18NLoginFormTest extends AbstractI18NTest {
 
 		performTest(i18NLoginForm, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NLoginForm.getPasswordCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -107,22 +119,25 @@ public class I18NLoginFormTest extends AbstractI18NTest {
 	}
 
 	@Test
-	public void testSetLoginButtonCaptionKey() {
+	public void testSetUsernameCaptionKey() {
 
 		final I18NLoginForm i18NLoginForm = new I18NLoginForm();
 
-		i18NLoginForm.setLoginButtonCaptionKey(TEST_KEY_2);
+		i18NLoginForm.setUsernameCaptionKey(TEST_KEY_2);
 
 		performTest(i18NLoginForm, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
-				return i18NLoginForm.getLoginButtonCaption();
+				return i18NLoginForm.getUsernameCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}

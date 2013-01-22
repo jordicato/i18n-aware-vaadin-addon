@@ -29,25 +29,7 @@ public class I18NTextField extends TextField implements I18NAwareField {
 	}
 
 	/**
-	 * Constructs an empty i18n <code>TextField</code> with given caption
-	 * message key.
-	 * 
-	 * @param captionKey
-	 *            the caption message key for the editor.
-	 */
-	public I18NTextField(@I18NAwareMessage String captionKey) {
-		super(captionKey);
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
-	}
-
-	public I18NTextField(@I18NAwareMessage String captionKey, String value) {
-		super(captionKey, value);
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
-	}
-
-	/**
-	 * Constructs a new i18n <code>TextField</code> that's bound to the
-	 * specified <code>Property</code> and has no caption.
+	 * Constructs a new i18n <code>TextField</code> that's bound to the specified <code>Property</code> and has no caption.
 	 * 
 	 * @param dataSource
 	 *            the Property to be edited with this editor.
@@ -57,9 +39,18 @@ public class I18NTextField extends TextField implements I18NAwareField {
 	}
 
 	/**
-	 * Constructs a new i18n <code>TextField</code> that's bound to the
-	 * specified <code>Property</code> and has the given caption
-	 * <code>String</code>.
+	 * Constructs an empty i18n <code>TextField</code> with given caption message key.
+	 * 
+	 * @param captionKey
+	 *            the caption message key for the editor.
+	 */
+	public I18NTextField(@I18NAwareMessage String captionKey) {
+		super(captionKey);
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
+	}
+
+	/**
+	 * Constructs a new i18n <code>TextField</code> that's bound to the specified <code>Property</code> and has the given caption <code>String</code>.
 	 * 
 	 * @param captionKey
 	 *            the caption message key for the editor.
@@ -71,6 +62,46 @@ public class I18NTextField extends TextField implements I18NAwareField {
 		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
 	}
 
+	public I18NTextField(@I18NAwareMessage String captionKey, String value) {
+		super(captionKey, value);
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
+	}
+
+	@Override
+	public void i18NUpdate(I18NService i18N) {
+		getI18NAwareFieldSupport().i18NUpdate(i18N);
+	}
+
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+
+	@Override
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
+	}
+
+	@Override
+	public void setDescription(String descriptionKey) {
+		setDescriptionMessage(descriptionKey);
+	}
+
+	@Override
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
+		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
+	}
+
+	@Override
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
+	}
+
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
+	}
+
 	@Override
 	public void setRealRequiredError(String requiredMessage) {
 		super.setRequiredError(requiredMessage);
@@ -80,54 +111,18 @@ public class I18NTextField extends TextField implements I18NAwareField {
 	public void setRequiredError(String requiredErrorKey) {
 		setRequiredErrorMessage(requiredErrorKey);
 	}
-	
+
 	@Override
 	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
 		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
-	@Override
-	public void setRealCaption(String caption) {
-		super.setCaption(caption);
-	}
-
-	@Override
-	public void setCaption(String captionKey) {
-		setCaptionMessage(captionKey);
-	}
-	
-	@Override
-	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
-	}
-
-	@Override
-	public void setRealDescription(String description) {
-		super.setDescription(description);
-	}
-	
-	@Override
-	public void setDescription(String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
-	}
-	
-	@Override
-	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
-			Object... descriptionParams) {
-		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
-	}
-
-	@Override
-	public void i18NUpdate(I18NService i18N) {
-		getI18NAwareFieldSupport().i18NUpdate(i18N);
-	}
-	
 	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
-		
-		if( i18NAwareFieldSupport == null) {
+
+		if (i18NAwareFieldSupport == null) {
 			i18NAwareFieldSupport = new I18NAwareFieldSupport(this);
 		}
-		
+
 		return i18NAwareFieldSupport;
 	}
 

@@ -14,19 +14,21 @@ public class I18NNativeButtonTest extends AbstractI18NTest {
 	@Test
 	public void testConstructorCaptionKey() {
 
-		final I18NNativeButton i18NNativeButton = new I18NNativeButton(
-				TEST_KEY_1);
+		final I18NNativeButton i18NNativeButton = new I18NNativeButton(TEST_KEY_1);
 
 		performTest(i18NNativeButton, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NNativeButton.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -37,21 +39,23 @@ public class I18NNativeButtonTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionKey() {
 
-		final I18NNativeButton i18NNativeButton = new I18NNativeButton(
-				TEST_KEY_1);
+		final I18NNativeButton i18NNativeButton = new I18NNativeButton(TEST_KEY_1);
 
 		i18NNativeButton.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NNativeButton, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NNativeButton.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -70,14 +74,17 @@ public class I18NNativeButtonTest extends AbstractI18NTest {
 
 		performTest(i18NNativeButton, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NNativeButton.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_3;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return params;
 			}

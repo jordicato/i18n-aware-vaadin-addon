@@ -49,14 +49,36 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField {
 	 * @param captionKey
 	 * @param dataSource
 	 */
-	public I18NTwinColSelect(@I18NAwareMessage String captionKey,
-			Container dataSource) {
+	public I18NTwinColSelect(@I18NAwareMessage String captionKey, Container dataSource) {
 		super(captionKey, dataSource);
 		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
 	}
 
-	public void setLeftColumnRealCaption(String leftColumnCaption) {
-		super.setLeftColumnCaption(leftColumnCaption);
+	@Override
+	public void i18NUpdate(I18NService i18N) {
+		getI18NAwareFieldSupport().i18NUpdate(i18N);
+		getLeftColumnCaptionSupport().i18NUpdate(i18N);
+		getRightColumnCaptionSupport().i18NUpdate(i18N);
+	}
+
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+
+	@Override
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
+	}
+
+	@Override
+	public void setDescription(String descriptionKey) {
+		setDescriptionMessage(descriptionKey);
+	}
+
+	@Override
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
+		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
@@ -64,25 +86,22 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField {
 		setLeftColumnCaptionKey(leftColumnCaptionKey);
 	}
 
-	public void setLeftColumnCaptionKey(String leftColumnCaptionKey,
-			Object... leftColumnCaptionParams) {
-		getLeftColumnCaptionSupport().setCaptionMessage(leftColumnCaptionKey,
-				leftColumnCaptionParams);
+	public void setLeftColumnCaptionKey(String leftColumnCaptionKey, Object... leftColumnCaptionParams) {
+		getLeftColumnCaptionSupport().setCaptionMessage(leftColumnCaptionKey, leftColumnCaptionParams);
+	}
+
+	public void setLeftColumnRealCaption(String leftColumnCaption) {
+		super.setLeftColumnCaption(leftColumnCaption);
 	}
 
 	@Override
-	public void setRightColumnCaption(String rightColumnCaption) {
-		setRightColumnRealCaption(rightColumnCaption);
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
 	}
 
-	public void setRightColumnRealCaption(String rightColumnCaption) {
-		super.setRightColumnCaption(rightColumnCaption);
-	}
-
-	public void setRightColumnCaptionKey(String rightColumnCaptionKey,
-			Object... rightColumnCaptionParams) {
-		getRightColumnCaptionSupport().setCaptionMessage(rightColumnCaptionKey,
-				rightColumnCaptionParams);
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
 	}
 
 	@Override
@@ -96,51 +115,21 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField {
 	}
 
 	@Override
-	public void setRequiredErrorMessage(
-			@I18NAwareMessage String requiredErrorKey,
-			Object... requiredErrorParams) {
-		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey,
-				requiredErrorParams);
+	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
+		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
 	@Override
-	public void setRealCaption(String caption) {
-		super.setCaption(caption);
+	public void setRightColumnCaption(String rightColumnCaption) {
+		setRightColumnRealCaption(rightColumnCaption);
 	}
 
-	@Override
-	public void setCaption(String captionKey) {
-		setCaptionMessage(captionKey);
+	public void setRightColumnCaptionKey(String rightColumnCaptionKey, Object... rightColumnCaptionParams) {
+		getRightColumnCaptionSupport().setCaptionMessage(rightColumnCaptionKey, rightColumnCaptionParams);
 	}
 
-	@Override
-	public void setCaptionMessage(@I18NAwareMessage String captionKey,
-			Object... params) {
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
-	}
-
-	@Override
-	public void setRealDescription(String description) {
-		super.setDescription(description);
-	}
-
-	@Override
-	public void setDescription(String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
-	}
-
-	@Override
-	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
-			Object... descriptionParams) {
-		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey,
-				descriptionParams);
-	}
-
-	@Override
-	public void i18NUpdate(I18NService i18N) {
-		getI18NAwareFieldSupport().i18NUpdate(i18N);
-		getLeftColumnCaptionSupport().i18NUpdate(i18N);
-		getRightColumnCaptionSupport().i18NUpdate(i18N);
+	public void setRightColumnRealCaption(String rightColumnCaption) {
+		super.setRightColumnCaption(rightColumnCaption);
 	}
 
 	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
@@ -155,13 +144,12 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField {
 	private I18NCaptionSupport getLeftColumnCaptionSupport() {
 
 		if (leftColumnCaptionSupport == null) {
-			leftColumnCaptionSupport = new I18NCaptionSupport(
-					new CaptionContainer() {
-						@Override
-						public void setRealCaption(String caption) {
-							setLeftColumnRealCaption(caption);
-						}
-					});
+			leftColumnCaptionSupport = new I18NCaptionSupport(new CaptionContainer() {
+				@Override
+				public void setRealCaption(String caption) {
+					setLeftColumnRealCaption(caption);
+				}
+			});
 		}
 
 		return leftColumnCaptionSupport;
@@ -170,13 +158,12 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField {
 	private I18NCaptionSupport getRightColumnCaptionSupport() {
 
 		if (rightColumnCaptionSupport == null) {
-			rightColumnCaptionSupport = new I18NCaptionSupport(
-					new CaptionContainer() {
-						@Override
-						public void setRealCaption(String caption) {
-							setRightColumnRealCaption(caption);
-						}
-					});
+			rightColumnCaptionSupport = new I18NCaptionSupport(new CaptionContainer() {
+				@Override
+				public void setRealCaption(String caption) {
+					setRightColumnRealCaption(caption);
+				}
+			});
 		}
 
 		return rightColumnCaptionSupport;

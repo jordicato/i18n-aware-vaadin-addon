@@ -15,8 +15,7 @@ import com.vaadin.ui.Embedded;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
-public class I18NEmbedded extends Embedded implements I18NAwareComponent,
-		I18NAwareCaption {
+public class I18NEmbedded extends Embedded implements I18NAwareComponent, I18NAwareCaption {
 
 	private static final long serialVersionUID = 2480062310104748180L;
 
@@ -40,8 +39,7 @@ public class I18NEmbedded extends Embedded implements I18NAwareComponent,
 	}
 
 	/**
-	 * Creates a new i18n Embedded object with a caption message key whose
-	 * contents is loaded from given resource. The dimensions are assumed if
+	 * Creates a new i18n Embedded object with a caption message key whose contents is loaded from given resource. The dimensions are assumed if
 	 * possible. The type is guessed from resource.
 	 * 
 	 * @param captionKey
@@ -54,48 +52,46 @@ public class I18NEmbedded extends Embedded implements I18NAwareComponent,
 	}
 
 	@Override
-	public void setRealCaption(String caption) {
-		super.setCaption(caption);
+	public void i18NUpdate(I18NService i18N) {
+		getI18NAwareComponentCaptionSupport().i18NUpdate(i18N);
 	}
-	
+
 	@Override
 	public void setCaption(String captionKey) {
 		setCaptionMessage(captionKey);
 	}
-	
+
 	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setRealDescription(String description) {
-		super.setDescription(description);
-	}
-	
-	@Override
 	public void setDescription(String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
 	}
-	
+
 	@Override
-	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
-			Object... descriptionParams) {
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
 		getI18NAwareComponentCaptionSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
-	
+
 	@Override
-	public void i18NUpdate(I18NService i18N) {
-		getI18NAwareComponentCaptionSupport().i18NUpdate(i18N);
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
+	}
+
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
 	}
 
 	private I18NAwareComponentCaptionSupport getI18NAwareComponentCaptionSupport() {
-		
-		if(i18NAwareComponentCaptionSupport==null) {
-			i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(
-					this);
+
+		if (i18NAwareComponentCaptionSupport == null) {
+			i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 		}
-		
+
 		return i18NAwareComponentCaptionSupport;
 	}
 }

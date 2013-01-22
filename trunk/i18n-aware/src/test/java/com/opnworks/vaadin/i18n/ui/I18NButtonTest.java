@@ -12,22 +12,6 @@ import com.vaadin.ui.Button.ClickListener;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 public class I18NButtonTest extends AbstractI18NTest {
-	
-	@Test
-	public void testI18NAwareMessagePresent() throws Exception {
-		
-		// Constructors
-		assertI18NAwareMessagePresent( I18NButton.class, 0, String.class );
-		assertI18NAwareMessagePresent( I18NButton.class, 0, String.class, ClickListener.class );
-		assertI18NAwareMessagePresent( I18NButton.class, 0, String.class, Object.class, String.class );
-		assertI18NAwareMessagePresent( I18NButton.class, 0, String.class, Boolean.TYPE );
-		assertI18NAwareMessagePresent( I18NButton.class, 0, String.class, Property.class );
-
-		// Methods
-		assertI18NAwareMessagePresent( I18NButton.class, "setRequiredErrorMessage",  0, String.class, Object[].class );
-		assertI18NAwareMessagePresent( I18NButton.class, "setCaptionMessage",  0, String.class, Object[].class );
-		assertI18NAwareMessagePresent( I18NButton.class, "setDescriptionMessage",  0, String.class, Object[].class );
-	}
 
 	@Test
 	public void testConstructorCaptionKey() {
@@ -36,19 +20,38 @@ public class I18NButtonTest extends AbstractI18NTest {
 
 		performTest(i18NButton, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NButton.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
 		});
 
+	}
+
+	@Test
+	public void testI18NAwareMessagePresent() throws Exception {
+
+		// Constructors
+		assertI18NAwareMessagePresent(I18NButton.class, 0, String.class);
+		assertI18NAwareMessagePresent(I18NButton.class, 0, String.class, ClickListener.class);
+		assertI18NAwareMessagePresent(I18NButton.class, 0, String.class, Object.class, String.class);
+		assertI18NAwareMessagePresent(I18NButton.class, 0, String.class, Boolean.TYPE);
+		assertI18NAwareMessagePresent(I18NButton.class, 0, String.class, Property.class);
+
+		// Methods
+		assertI18NAwareMessagePresent(I18NButton.class, "setRequiredErrorMessage", 0, String.class, Object[].class);
+		assertI18NAwareMessagePresent(I18NButton.class, "setCaptionMessage", 0, String.class, Object[].class);
+		assertI18NAwareMessagePresent(I18NButton.class, "setDescriptionMessage", 0, String.class, Object[].class);
 	}
 
 	@Test
@@ -60,14 +63,17 @@ public class I18NButtonTest extends AbstractI18NTest {
 
 		performTest(i18NButton, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NButton.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -86,14 +92,17 @@ public class I18NButtonTest extends AbstractI18NTest {
 
 		performTest(i18NButton, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NButton.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_3;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return params;
 			}

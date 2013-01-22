@@ -2,7 +2,6 @@ package com.opnworks.vaadin.i18n.service_impl;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Date;
 
@@ -100,7 +99,6 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.PopupView;
-import com.vaadin.ui.PopupView.Content;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.Select;
@@ -119,481 +117,32 @@ import com.vaadin.ui.VerticalSplitPanel;
 import com.vaadin.ui.Window;
 
 /**
- * I18NAware Factory main purpose is to minimize the coupling between the
- * I18NAware addon and your code.
+ * I18NAware Factory main purpose is to minimize the coupling between the I18NAware addon and your code.
  * 
  * @author Pedro Rodriguez
  */
-@SuppressWarnings("deprecation")
+@SuppressWarnings("all")
 public class I18NAwareFactory {
 
 	// Components
 
 	/**
-	 * Creates a Button
-	 * 
-	 * @return new i18n-aware Button
-	 */
-	public static Button newButton() {
-		return new I18NButton();
-	}
-
-	/**
-	 * Creates a Button
-	 * 
-	 * @param captionKey
-	 *            key for the Button caption
-	 * @return new i18n-aware Button
-	 */
-	public static Button newButton(@I18NAwareMessage String captionKey) {
-		return new I18NButton(captionKey);
-	}
-
-	/**
-	 * Creates a Button
-	 * 
-	 * @param captionKey
-	 *            key for the Button caption
-	 * @param listener
-	 *            ClickListener for the Button
-	 * @return new i18n-aware Button
-	 */
-	public static Button newButton(@I18NAwareMessage String captionKey, ClickListener listener) {
-		return new I18NButton(captionKey, listener);
-	}
-
-	/**
-	 * Creates a new push button with a method listening button clicks. Using
-	 * this method is discouraged because it cannot be checked during
-	 * compilation. Use
-	 * {@link #Button(String, com.vaadin.ui.Button.ClickListener)} instead. The
-	 * method must have either no parameters, or only one parameter of
-	 * Button.ClickEvent type.
-	 * 
-	 * @param captionKey
-	 *            key for the Button caption
-	 * @param target
-	 *            the Object having the method for listening button clicks.
-	 * @param methodName
-	 *            the name of the method in target object, that receives button
-	 *            click events.
-	 */
-	public static Button newButton(@I18NAwareMessage String captionKey, Object target,
-			String methodName) {
-		return new I18NButton(captionKey, target, methodName);
-	}
-
-	/**
-	 * Creates a new switch button with initial value.
-	 * 
-	 * @param captionKey
-	 *            key for the Button caption
-	 * @param state
-	 *            the Initial state of the switch-button.
-	 * @param initialState
-	 * @deprecated use {@link CheckBox} instead of Button in "switchmode"
-	 */
-	@Deprecated
-	public static Button newButton(@I18NAwareMessage String captionKey, boolean initialState) {
-		return new I18NButton(captionKey, initialState);
-	}
-
-	/**
-	 * Creates a new switch button that is connected to a boolean property.
-	 * 
-	 * @param captionKey
-	 *            key for the Button caption
-	 * @param state
-	 *            the Initial state of the switch-button.
-	 * @param dataSource
-	 * @deprecated use {@link CheckBox} instead of Button in "switchmode"
-	 */
-	@Deprecated
-	public static Button newButton(@I18NAwareMessage String captionKey, Property dataSource) {
-		return new I18NButton(captionKey, dataSource);
-	}
-
-	/**
-	 * Creates a NativeButton
-	 * 
-	 * @return new i18n-aware NativeButton
-	 */
-	public static NativeButton newNativeButton() {
-		return new I18NNativeButton();
-	}
-
-	/**
-	 * Creates a NativeButton
-	 * 
-	 * @param captionKey
-	 *            key for the NativeButton caption
-	 * @return new i18n-aware NativeButton
-	 */
-	public static NativeButton newNativeButton(@I18NAwareMessage String captionKey) {
-		return new I18NNativeButton(captionKey);
-	}
-
-	/**
-	 * Creates a NativeButton
-	 * 
-	 * @param captionKey
-	 *            key for the NativeButton caption
-	 * @param listener
-	 *            ClickListener for the NativeButton
-	 * @return new i18n-aware NativeButton
-	 */
-	public static NativeButton newNativeButton(@I18NAwareMessage String captionKey,
-			ClickListener listener) {
-		return new I18NNativeButton(captionKey, listener);
-	}
-
-	/**
-	 * Creates a NativeButton
-	 * 
-	 * @param captionKey
-	 *            key for the NativeButton caption
-	 * @param target
-	 * @param methodName
-	 * @return new i18n-aware NativeButton
-	 */
-	public static NativeButton newNativeButton(@I18NAwareMessage String captionKey,
-			Object target, String methodName) {
-		return new I18NNativeButton(captionKey, target, methodName);
-	}
-
-	/**
-	 * Creates an Embedded
-	 * 
-	 * @return new i18n-aware Embedded
-	 */
-	public static Embedded newEmbedded() {
-		return new I18NEmbedded();
-	}
-
-	/**
-	 * Creates an Embedded
-	 * 
-	 * @param captionKey
-	 *            key for the Embedded caption
-	 * @return new i18n-aware Embedded
-	 */
-	public static Embedded newEmbedded(@I18NAwareMessage String captionKey) {
-		return new I18NEmbedded(captionKey);
-	}
-
-	/**
-	 * Creates an Embedded
-	 * 
-	 * @param captionKey
-	 *            key for the Embedded caption
-	 * @param resource
-	 *            Resource to embed
-	 * @return new i18n-aware Embedded
-	 */
-	public static Embedded newEmbedded(@I18NAwareMessage String captionKey, Resource resource) {
-		return new I18NEmbedded(captionKey, resource);
-	}
-
-	/**
-	 * Creates a I18NLabel
-	 * 
-	 * @return new i18n-aware I18NLabel
-	 */
-	public static  Label newLabel() {
-		return new I18NLabel();
-	}
-
-	/**
-	 * Creates a I18NLabel
-	 * 
-	 * @param valueKey
-	 *            key for the I18NLabel value
-	 * @return new i18n-aware I18NLabel
-	 */
-	public static  Label newLabel(String valueKey) {
-		return new I18NLabel(valueKey);
-	}
-
-	/**
-	 * Creates a new instance of I18NLabel with text-contents read from given
-	 * datasource.
-	 * 
-	 * @param contentSource
-	 */
-	public static  Label newLabel(Property contentSource) {
-		return new I18NLabel(contentSource);
-	}
-
-	/**
-	 * Creates a new instance of I18NLabel with text-contents.
-	 * 
-	 * @param content
-	 * @param contentMode
-	 */
-	public static  Label newLabel(String content, int contentMode) {
-		return new I18NLabel(content, contentMode);
-	}
-
-	/**
-	 * Creates a new instance of I18NLabel with text-contents read from given
-	 * datasource.
-	 * 
-	 * @param contentSource
-	 * @param contentMode
-	 */
-	public static  Label newLabel(Property contentSource, int contentMode) {
-		return new I18NLabel(contentSource, contentMode);
-	}
-
-	/**
-	 * Create a new slider with the caption given as parameter. All slider
-	 * values set to defaults.
+	 * Add a new item to the menu bar. Icon and command can be null, but a caption must be given.
 	 * 
 	 * @param caption
-	 *            The caption for this Slider (e.g. "Volume").
+	 *            the text for the menu item
+	 * @param icon
+	 *            the icon for the menu item
+	 * @param command
+	 *            the command for the menu item @
 	 */
-	public static Slider newSlider(@I18NAwareMessage String captionKey) {
-		return new I18NSlider(captionKey);
-	}
+	public static MenuBar.MenuItem addItem(MenuBar menuBar, @I18NAwareMessage String captionKey, Resource icon, MenuBar.Command command) {
 
-	/**
-	 * Create a new slider with given range and resolution
-	 * 
-	 * @param min
-	 * @param max
-	 * @param resolution
-	 */
-	public static Slider newSlider(double min, double max, int resolution) {
-		return new I18NSlider(min, max, resolution);
-	}
-
-	/**
-	 * Create a new slider with given range
-	 * 
-	 * @param min
-	 * @param max
-	 */
-	public static Slider newSlider(int min, int max) {
-		return new I18NSlider(min, max);
-	}
-
-	/**
-	 * Create a new slider with given caption and range
-	 * 
-	 * @param caption
-	 * @param min
-	 * @param max
-	 */
-	public static Slider newSlider(@I18NAwareMessage String captionKey, int min, int max) {
-		return new I18NSlider(captionKey, min, max);
-	}
-
-	/**
-	 * Creates a Link
-	 * 
-	 * @return new i18n-aware Link
-	 */
-	public static Link newLink() {
-		return new I18NLink();
-	}
-
-	/**
-	 * Creates a Link
-	 * 
-	 * @param captionKey
-	 *            key for the Link caption
-	 * @param resource
-	 *            Resource for the Link
-	 * @return new i18n-aware Link
-	 */
-	public static Link newLink(@I18NAwareMessage String captionKey, Resource resource) {
-		return new I18NLink(captionKey, resource);
-	}
-
-	/**
-	 * Creates a Link
-	 * 
-	 * @param captionKey
-	 *            key for the Link caption
-	 * @param resource
-	 *            Resource for the Link
-	 * @param targetName
-	 *            target for the Link
-	 * @param width
-	 *            width of the Link
-	 * @param height
-	 *            height of the Link
-	 * @param border
-	 *            border of the Link
-	 * @return new i18n-aware Link
-	 */
-	public static Link newLink(@I18NAwareMessage String captionKey, Resource resource,
-			String targetName, int width, int height, int border) {
-		return new I18NLink(captionKey, resource, targetName, width, height,
-				border);
-	}
-
-	/**
-	 * Creates a ProgressIndicator
-	 * 
-	 * @return new i18n-aware ProgressIndicator
-	 */
-	public static ProgressIndicator newProgressIndicator() {
-		return new I18NProgressIndicator();
-	}
-
-	/**
-	 * Creates a new instance of i18n-aware ProgressIndicator with given state.
-	 * 
-	 * @param value
-	 */
-	public static ProgressIndicator newProgressIndicator(Float value) {
-		return new I18NProgressIndicator(value);
-	}
-
-	/**
-	 * Creates a new instance of i18n-aware ProgressIndicator with stae read
-	 * from given datasource.
-	 * 
-	 * @param contentSource
-	 */
-	public static ProgressIndicator newProgressIndicator(Property contentSource) {
-		return new I18NProgressIndicator(contentSource);
-	}
-
-	/**
-	 * Creates a TabSheet
-	 * 
-	 * @return new i18n-aware TabSheet
-	 */
-	public static TabSheet newTabSheet() {
-		return new I18NTabSheet();
-	}
-
-	/**
-	 * Creates a Accordion
-	 * 
-	 * @return new i18n-aware Accordion
-	 */
-	public static Accordion newAccordion() {
-		return new I18NAccordion();
-	}
-
-	/**
-	 * Creates an Upload
-	 * 
-	 * @return new i18n-aware Upload
-	 */
-	public static Upload newUpload() {
-		return new I18NUpload();
-	}
-
-	/**
-	 * Creates an Upload
-	 * 
-	 * @param captionKey
-	 *            key for the Upload caption
-	 * @param receiver
-	 *            for the Upload
-	 * @return new i18n-aware Upload
-	 */
-	public static Upload newUpload(@I18NAwareMessage String captionKey, Receiver receiver) {
-		return new I18NUpload(captionKey, receiver);
-	}
-
-	/**
-	 * Sets caption key for an Upload
-	 * 
-	 * @param Upload
-	 *            component to be set
-	 * @param buttonCaptionKey
-	 *            key for the Button caption
-	 * @param buttonCaptionParams
-	 *            params for the Button caption key
-	 */
-	public static void setButtonCaptionKey(Upload upload,
-			String buttonCaptionKey, Object... buttonCaptionParams) {
-		if (!(upload instanceof I18NUpload)) {
-			throw new IllegalArgumentException("Expecting a I18NUpload");
+		if (!(menuBar instanceof I18NMenuBar)) {
+			throw new IllegalArgumentException("Expecting a I18NMenuBar");
 		}
-		((I18NUpload) upload).setButtonCaptionMessage(buttonCaptionKey, buttonCaptionParams);
-	}
 
-	// Containers
-
-	/**
-	 * Constructs an empty grid layout that is extended as needed.
-	 */
-	public static GridLayout newGridLayout() {
-		return new I18NGridLayout();
-	}
-
-	/**
-	 * Creates a GridLayout
-	 * 
-	 * @param columns
-	 *            number of columns
-	 * @param rows
-	 *            number of rows
-	 * @return new i18n-aware GridLayout
-	 */
-	public static GridLayout newGridLayout(int columns, int rows) {
-		return new I18NGridLayout(columns, rows);
-	}
-
-	/**
-	 * Creates an HorizontalLayout
-	 * 
-	 * @return new i18n-aware HorizontalLayout
-	 */
-	public static HorizontalLayout newHorizontalLayout() {
-		return new I18NHorizontalLayout();
-	}
-
-	/**
-	 * Creates a VerticalLayout
-	 * 
-	 * @return new i18n-aware VerticalLayout
-	 */
-	public static VerticalLayout newVerticalLayout() {
-		return new I18NVerticalLayout();
-	}
-
-	/**
-	 * Creates a FormLayout
-	 * 
-	 * @return new i18n-aware FormLayout
-	 */
-	public static FormLayout newFormLayout() {
-		return new I18NFormLayout();
-	}
-
-	/**
-	 * Creates a HorizontalSplitPanel
-	 * 
-	 * @return new i18n-aware HorizontalSplitPanel
-	 */
-	public static HorizontalSplitPanel newHorizontalSplitPanel() {
-		return new I18NHorizontalSplitPanel();
-	}
-
-	/**
-	 * Creates a new i18n VerticalSplitPanel.
-	 * 
-	 * @return new i18n-aware VerticalSplitPanel
-	 */
-	public static VerticalSplitPanel newVerticalSplitPanel() {
-		return new I18NVerticalSplitPanel();
-	}
-
-	/**
-	 * Creates a new i18n split panel. The orientation of the panels is
-	 * <code>ORIENTATION_VERTICAL</code>.
-	 * 
-	 * @return new i18n-aware SplitPanel
-	 */
-	public static SplitPanel newSplitPanel() {
-		return new I18NSplitPanel();
+		return ((I18NMenuBar) menuBar).addItem(captionKey, icon, command);
 	}
 
 	/**
@@ -606,137 +155,13 @@ public class I18NAwareFactory {
 	}
 
 	/**
-	 * Creates a CssLayout
+	 * Creates a Accordion
 	 * 
-	 * @return new i18n-aware CssLayout
+	 * @return new i18n-aware Accordion
 	 */
-	public static CssLayout newCssLayout() {
-		return new I18NCssLayout();
+	public static Accordion newAccordion() {
+		return new I18NAccordion();
 	}
-
-	/**
-	 * Creates an i18n custom layout with the template given in the stream.
-	 * 
-	 * @param templateStream
-	 *            Stream containing template data. Must be using UTF-8 encoding.
-	 *            To use a String as a template use for instance new
-	 *            ByteArrayInputStream("<template>".getBytes()).
-	 * @param streamLength
-	 *            Length of the templateStream
-	 * @throws IOException
-	 */
-	public static CustomLayout newCustomLayout(InputStream templateStream)
-			throws IOException {
-		return new I18NCustomLayout(templateStream);
-	}
-
-	/**
-	 * Creates an i18n custom layout with given template name. Template file is
-	 * fetched from "<theme>/layout/<templateName>".
-	 */
-	public static CustomLayout newCustomLayout(String template) {
-		return new I18NCustomLayout(template);
-	}
-
-	/**
-	 * Creates a OrderedLayout
-	 * 
-	 * @return new i18n-aware CssLayout
-	 */
-	public static OrderedLayout newOrderedLayout() {
-		return new I18NOrderedLayout();
-	}
-
-	/**
-	 * Create a new ordered layout. The orientation of the layout is given as
-	 * parameters.
-	 * 
-	 * @param orientation
-	 *            the Orientation of the layout.
-	 * 
-	 * @deprecated Use VerticalLayout/HorizontalLayout instead.
-	 */
-	@Deprecated
-	public static OrderedLayout newOrderedLayout(int orientation) {
-		return new I18NOrderedLayout(orientation);
-	}
-
-	/**
-	 * Creates a Panel
-	 * 
-	 * @return new i18n-aware Panel
-	 */
-	public static Panel newPanel() {
-		return new I18NPanel();
-	}
-
-	/**
-	 * Sets caption key for a Panel
-	 * 
-	 * @param captionKey
-	 *            key for the Panel caption
-	 * @return new i18n-aware
-	 */
-	public static Panel newPanel(@I18NAwareMessage String captionKey) {
-		return new I18NPanel(captionKey);
-	}
-
-	/**
-	 * Creates a new empty panel which contains the given content. The content
-	 * cannot be null.
-	 * 
-	 * @param content
-	 *            the content for the panel.
-	 */
-	public static Panel newPanel(ComponentContainer content) {
-		return new I18NPanel(content);
-	}
-
-	/**
-	 * Creates a new empty panel with the given caption and content.
-	 * 
-	 * @param captionKey
-	 *            the caption message key used in the panel.
-	 * @param content
-	 *            the content used in the panel.
-	 */
-	public static Panel newPanel(@I18NAwareMessage String captionKey, ComponentContainer content) {
-		return new I18NPanel(captionKey, content);
-	}
-
-	/**
-	 * Creates a Window
-	 * 
-	 * @return new i18n-aware Window
-	 */
-	public static Window newWindow() {
-		return new I18NWindow();
-	}
-
-	/**
-	 * Creates a Window
-	 * 
-	 * @param captionKey
-	 *            key for the Window caption
-	 * @return new i18n-aware Window
-	 */
-	public static Window newWindow(@I18NAwareMessage String captionKey) {
-		return new I18NWindow(captionKey);
-	}
-
-	/**
-	 * Creates a new unnamed i18n window with the given content and title.
-	 * 
-	 * @param captionKey
-	 *            the title message key of the window.
-	 * @param content
-	 *            the contents of the window
-	 */
-	public static Window newWindow(@I18NAwareMessage String captionKey, ComponentContainer content) {
-		return new I18NWindow(captionKey, content);
-	}
-
-	// Events
 
 	/**
 	 * Creates an Action
@@ -762,7 +187,84 @@ public class I18NAwareFactory {
 		return new I18NAction(captionKey, icon);
 	}
 
-	// Fields
+	/**
+	 * Creates a Button
+	 * 
+	 * @return new i18n-aware Button
+	 */
+	public static Button newButton() {
+		return new I18NButton();
+	}
+
+	/**
+	 * Creates a Button
+	 * 
+	 * @param captionKey
+	 *            key for the Button caption
+	 * @return new i18n-aware Button
+	 */
+	public static Button newButton(@I18NAwareMessage String captionKey) {
+		return new I18NButton(captionKey);
+	}
+
+	/**
+	 * Creates a new switch button with initial value.
+	 * 
+	 * @param captionKey
+	 *            key for the Button caption
+	 * @param state
+	 *            the Initial state of the switch-button.
+	 * @param initialState
+	 * @deprecated use {@link CheckBox} instead of Button in "switchmode"
+	 */
+	@Deprecated
+	public static Button newButton(@I18NAwareMessage String captionKey, boolean initialState) {
+		return new I18NButton(captionKey, initialState);
+	}
+
+	/**
+	 * Creates a Button
+	 * 
+	 * @param captionKey
+	 *            key for the Button caption
+	 * @param listener
+	 *            ClickListener for the Button
+	 * @return new i18n-aware Button
+	 */
+	public static Button newButton(@I18NAwareMessage String captionKey, ClickListener listener) {
+		return new I18NButton(captionKey, listener);
+	}
+
+	/**
+	 * Creates a new push button with a method listening button clicks. Using this method is discouraged because it cannot be checked during
+	 * compilation. Use {@link #Button(String, com.vaadin.ui.Button.ClickListener)} instead. The method must have either no parameters, or only one
+	 * parameter of Button.ClickEvent type.
+	 * 
+	 * @param captionKey
+	 *            key for the Button caption
+	 * @param target
+	 *            the Object having the method for listening button clicks.
+	 * @param methodName
+	 *            the name of the method in target object, that receives button click events.
+	 */
+	public static Button newButton(@I18NAwareMessage String captionKey, Object target, String methodName) {
+		return new I18NButton(captionKey, target, methodName);
+	}
+
+	/**
+	 * Creates a new switch button that is connected to a boolean property.
+	 * 
+	 * @param captionKey
+	 *            key for the Button caption
+	 * @param state
+	 *            the Initial state of the switch-button.
+	 * @param dataSource
+	 * @deprecated use {@link CheckBox} instead of Button in "switchmode"
+	 */
+	@Deprecated
+	public static Button newButton(@I18NAwareMessage String captionKey, Property dataSource) {
+		return new I18NButton(captionKey, dataSource);
+	}
 
 	/**
 	 * Creates a CheckBox
@@ -785,6 +287,18 @@ public class I18NAwareFactory {
 	}
 
 	/**
+	 * Creates a new switch button with a caption and a set initial state.
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the switch button
+	 * @param initialState
+	 *            the initial state of the switch button
+	 */
+	public static CheckBox newCheckBox(@I18NAwareMessage String captionKey, boolean initialState) {
+		return new I18NCheckBox(captionKey, initialState);
+	}
+
+	/**
 	 * Creates a CheckBox
 	 * 
 	 * @param captionKey
@@ -798,36 +312,18 @@ public class I18NAwareFactory {
 	}
 
 	/**
-	 * Creates a new switch button with a caption and a set initial state.
-	 * 
-	 * @param captionKey
-	 *            the caption message key of the switch button
-	 * @param initialState
-	 *            the initial state of the switch button
-	 */
-	public static CheckBox newCheckBox(@I18NAwareMessage String captionKey, boolean initialState) {
-		return new I18NCheckBox(captionKey, initialState);
-	}
-
-	/**
-	 * Convenience method for creating a new switch button with a method
-	 * listening button clicks. Using this method is discouraged because it
-	 * cannot be checked during compilation. Use
-	 * {@link #addListener(Class, Object, Method)} or
-	 * {@link #addListener(com.vaadin.ui.Component.Listener)} instead. The
-	 * method must have either no parameters, or only one parameter of
-	 * Button.ClickEvent type.
+	 * Convenience method for creating a new switch button with a method listening button clicks. Using this method is discouraged because it cannot
+	 * be checked during compilation. Use {@link #addListener(Class, Object, _Method)} or {@link #addListener(com.vaadin.ui.Component.Listener)}
+	 * instead. The method must have either no parameters, or only one parameter of Button.ClickEvent type.
 	 * 
 	 * @param captionKey
 	 *            the caption message key of the switch button
 	 * @param target
 	 *            the Object having the method for listening button clicks.
 	 * @param methodName
-	 *            the name of the method in target object, that receives button
-	 *            click events.
+	 *            the name of the method in target object, that receives button click events.
 	 */
-	public static CheckBox newCheckBox(@I18NAwareMessage String captionKey, Object target,
-			String methodName) {
+	public static CheckBox newCheckBox(@I18NAwareMessage String captionKey, Object target, String methodName) {
 		return new I18NCheckBox(captionKey, target, methodName);
 	}
 
@@ -888,12 +384,52 @@ public class I18NAwareFactory {
 	}
 
 	/**
+	 * Creates a CssLayout
+	 * 
+	 * @return new i18n-aware CssLayout
+	 */
+	public static CssLayout newCssLayout() {
+		return new I18NCssLayout();
+	}
+
+	/**
+	 * Creates an i18n custom layout with the template given in the stream.
+	 * 
+	 * @param templateStream
+	 *            Stream containing template data. Must be using UTF-8 encoding. To use a String as a template use for instance new
+	 *            ByteArrayInputStream("<template>".getBytes()).
+	 * @param streamLength
+	 *            Length of the templateStream
+	 * @throws IOException
+	 */
+	public static CustomLayout newCustomLayout(InputStream templateStream) throws IOException {
+		return new I18NCustomLayout(templateStream);
+	}
+
+	/**
+	 * Creates an i18n custom layout with given template name. Template file is fetched from "<theme>/layout/<templateName>".
+	 */
+	public static CustomLayout newCustomLayout(String template) {
+		return new I18NCustomLayout(template);
+	}
+
+	/**
 	 * Creates a DateField
 	 * 
 	 * @return new i18n-aware DateField
 	 */
 	public static DateField newDateField() {
 		return new I18NDateField();
+	}
+
+	/**
+	 * Constructs a new <code>DateField</code> that's bound to the specified <code>Property</code> and has no caption.
+	 * 
+	 * @param dataSource
+	 *            the Property to be edited with this editor.
+	 */
+	public static DateField newDateField(Property dataSource) {
+		return new I18NDateField(dataSource);
 	}
 
 	/**
@@ -908,36 +444,8 @@ public class I18NAwareFactory {
 	}
 
 	/**
-	 * Constructs a new <code>DateField</code> that's bound to the specified
-	 * <code>Property</code> and has the given caption <code>String</code>.
-	 * 
-	 * @param caption
-	 *            the caption <code>String</code> for the editor.
-	 * @param dataSource
-	 *            the Property to be edited with this editor.
-	 */
-	public static DateField newDateField(@I18NAwareMessage String captionKey, Property dataSource) {
-		return new I18NDateField(captionKey, dataSource);
-	}
-
-	/**
-	 * Constructs a new <code>DateField</code> that's bound to the specified
-	 * <code>Property</code> and has no caption.
-	 * 
-	 * @param dataSource
-	 *            the Property to be edited with this editor.
-	 */
-	public static DateField newDateField(Property dataSource)
-			throws IllegalArgumentException {
-		return new I18NDateField(dataSource);
-	}
-
-	/**
-	 * Constructs a new <code>DateField</code> with the given caption and
-	 * initial text contents. The editor constructed this way will not be bound
-	 * to a Property unless
-	 * {@link com.vaadin.data.Property.Viewer#setPropertyDataSource(Property)}
-	 * is called to bind it.
+	 * Constructs a new <code>DateField</code> with the given caption and initial text contents. The editor constructed this way will not be bound to
+	 * a Property unless {@link com.vaadin.data.Property.Viewer#setPropertyDataSource(Property)} is called to bind it.
 	 * 
 	 * @param caption
 	 *            the caption <code>String</code> for the editor.
@@ -949,65 +457,173 @@ public class I18NAwareFactory {
 	}
 
 	/**
-	 * Creates an empty i18n <code>PopupDateField</code> with no caption.
-	 */
-	public static PopupDateField newPopupDateField() {
-		return new I18NPopupDateField();
-	}
-
-	/**
-	 * Creates an i18n <code>PopupDateField</code> with a dataSource.
+	 * Constructs a new <code>DateField</code> that's bound to the specified <code>Property</code> and has the given caption <code>String</code>.
 	 * 
+	 * @param caption
+	 *            the caption <code>String</code> for the editor.
 	 * @param dataSource
+	 *            the Property to be edited with this editor.
 	 */
-	public static PopupDateField newPopupDateField(Property dataSource)
-			throws IllegalArgumentException {
-		return new I18NPopupDateField(dataSource);
+	public static DateField newDateField(@I18NAwareMessage String captionKey, Property dataSource) {
+		return new I18NDateField(captionKey, dataSource);
 	}
 
 	/**
-	 * Creates an i18n <code>PopupDateField</code> with caption message key and
-	 * initial value.
+	 * Creates a I18NDefaultFieldFactory
 	 * 
-	 * @param captionKey
-	 *            the caption message key of the datefield.
-	 * @param value
+	 * @return new i18n-aware I18NDefaultFieldFactory
 	 */
-	public static PopupDateField newPopupDateField(@I18NAwareMessage String captionKey, Date value) {
-		return new I18NPopupDateField(captionKey, value);
+	public static I18NDefaultFieldFactory newDefaultFieldFactory() {
+		return new I18NDefaultFieldFactory();
 	}
 
 	/**
-	 * Creates an i18n <code>PopupDateField</code> with caption message key and
-	 * dataSource.
+	 * Creates an EmailValidator
 	 * 
-	 * @param captionKey
-	 *            the caption message key of the PopupDateField.
-	 * @param dataSource
+	 * @param errorMessageKey
+	 *            key for error message
+	 * @param fieldNameKey
+	 *            key for field name
+	 * @return new i18n-aware EmailValidator
 	 */
-	public static PopupDateField newPopupDateField(@I18NAwareMessage String captionKey,
-			Property dataSource) {
-		return new I18NPopupDateField(captionKey, dataSource);
+	public static EmailValidator newEmailValidator(String errorMessageKey, String fieldNameKey) {
+		return new I18NEmailValidator(errorMessageKey, fieldNameKey);
 	}
 
 	/**
-	 * Creates an empty i18n <code>PopupDateField</code> with caption message
-	 * key.
+	 * Creates an Embedded
 	 * 
-	 * @param captionKey
-	 *            the caption message key of the PopupDateField.
+	 * @return new i18n-aware Embedded
 	 */
-	public static PopupDateField newPopupDateField(@I18NAwareMessage String captionKey) {
-		return new I18NPopupDateField(captionKey);
+	public static Embedded newEmbedded() {
+		return new I18NEmbedded();
 	}
 
-	public static void setInputPromptKey(PopupDateField popupDateField,
-			String inputPromptKey, Object... inputPromptParams) {
+	/**
+	 * Creates an Embedded
+	 * 
+	 * @param captionKey
+	 *            key for the Embedded caption
+	 * @return new i18n-aware Embedded
+	 */
+	public static Embedded newEmbedded(@I18NAwareMessage String captionKey) {
+		return new I18NEmbedded(captionKey);
+	}
 
-		if (!(popupDateField instanceof I18NPopupDateField)) {
-			throw new IllegalArgumentException("Expecting a I18NPopupDateField");
+	// Containers
+
+	/**
+	 * Creates an Embedded
+	 * 
+	 * @param captionKey
+	 *            key for the Embedded caption
+	 * @param resource
+	 *            Resource to embed
+	 * @return new i18n-aware Embedded
+	 */
+	public static Embedded newEmbedded(@I18NAwareMessage String captionKey, Resource resource) {
+		return new I18NEmbedded(captionKey, resource);
+	}
+
+	/**
+	 * Creates a Form
+	 * 
+	 * @return new i18n-aware Form
+	 */
+	public static Form newForm() {
+		return new I18NForm();
+	}
+
+	/**
+	 * Constructs a new i18n form with given {@link I18NAwareLayout}.
+	 * 
+	 * @param formLayout
+	 *            the layout of the form.
+	 */
+	public static Form newForm(Layout formLayout) {
+
+		if (!(formLayout instanceof I18NAwareLayout)) {
+			throw new IllegalArgumentException("Expecting a I18NAwareLayout");
 		}
-		((I18NPopupDateField) popupDateField).setInputPromptKey(inputPromptKey, inputPromptParams);
+
+		return new I18NForm((I18NAwareLayout) formLayout);
+	}
+
+	/**
+	 * Constructs a new form with given {@link I18NAwareLayout} and {@link I18NAwareFormFieldFactory}.
+	 * 
+	 * @param formLayout
+	 *            the layout of the form.
+	 * @param fieldFactory
+	 *            the FieldFactory of the form.
+	 */
+	public static Form newForm(Layout formLayout, FormFieldFactory fieldFactory) {
+
+		if (!(formLayout instanceof I18NAwareLayout)) {
+			throw new IllegalArgumentException("Expecting a I18NAwareLayout");
+		}
+
+		if (!(fieldFactory instanceof I18NAwareFormFieldFactory)) {
+			throw new IllegalArgumentException("Expecting a I18NFormFieldFactory");
+		}
+
+		return new I18NForm((I18NAwareLayout) formLayout, (I18NAwareFormFieldFactory) fieldFactory);
+	}
+
+	/**
+	 * Creates a FormLayout
+	 * 
+	 * @return new i18n-aware FormLayout
+	 */
+	public static FormLayout newFormLayout() {
+		return new I18NFormLayout();
+	}
+
+	/**
+	 * Constructs an empty grid layout that is extended as needed.
+	 */
+	public static GridLayout newGridLayout() {
+		return new I18NGridLayout();
+	}
+
+	/**
+	 * Creates a GridLayout
+	 * 
+	 * @param columns
+	 *            number of columns
+	 * @param rows
+	 *            number of rows
+	 * @return new i18n-aware GridLayout
+	 */
+	public static GridLayout newGridLayout(int columns, int rows) {
+		return new I18NGridLayout(columns, rows);
+	}
+
+	/**
+	 * Creates an HorizontalLayout
+	 * 
+	 * @return new i18n-aware HorizontalLayout
+	 */
+	public static HorizontalLayout newHorizontalLayout() {
+		return new I18NHorizontalLayout();
+	}
+
+	/**
+	 * Creates a HorizontalSplitPanel
+	 * 
+	 * @return new i18n-aware HorizontalSplitPanel
+	 */
+	public static HorizontalSplitPanel newHorizontalSplitPanel() {
+		return new I18NHorizontalSplitPanel();
+	}
+
+	/**
+	 * Creates an IndexedContainer
+	 * 
+	 * @return new i18n-aware IndexedContainer
+	 */
+	public static IndexedContainer newIndexedContainer() {
+		return new I18NIndexedContainer();
 	}
 
 	/**
@@ -1022,40 +638,12 @@ public class I18NAwareFactory {
 	 * 
 	 * @param dataSource
 	 */
-	public static InlineDateField newInlineDateField(Property dataSource)
-			throws IllegalArgumentException {
+	public static InlineDateField newInlineDateField(Property dataSource) {
 		return new I18NInlineDateField(dataSource);
 	}
 
 	/**
-	 * Creates an i18n <code>InlineDateField</code> with caption message key and
-	 * initial value.
-	 * 
-	 * @param captionKey
-	 *            the caption message key of the datefield.
-	 * @param value
-	 */
-	public static InlineDateField newInlineDateField(@I18NAwareMessage String captionKey,
-			Date value) {
-		return new I18NInlineDateField(captionKey, value);
-	}
-
-	/**
-	 * Creates an i18n <code>InlineDateField</code> with caption message key and
-	 * dataSource.
-	 * 
-	 * @param captionKey
-	 *            the caption message key of the InlineDateField.
-	 * @param dataSource
-	 */
-	public static InlineDateField newInlineDateField(@I18NAwareMessage String captionKey,
-			Property dataSource) {
-		return new I18NInlineDateField(captionKey, dataSource);
-	}
-
-	/**
-	 * Creates an empty i18n <code>InlineDateField</code> with caption message
-	 * key.
+	 * Creates an empty i18n <code>InlineDateField</code> with caption message key.
 	 * 
 	 * @param captionKey
 	 *            the caption message key of the InlineDateField.
@@ -1065,41 +653,204 @@ public class I18NAwareFactory {
 	}
 
 	/**
-	 * Creates a Select
+	 * Creates an i18n <code>InlineDateField</code> with caption message key and initial value.
 	 * 
 	 * @param captionKey
-	 *            the caption message key of the Select.
-	 * @param options
-	 * 
-	 * @return new i18n-aware Select
+	 *            the caption message key of the datefield.
+	 * @param value
 	 */
-	public static Select newSelect(@I18NAwareMessage String captionKey, Collection<?> options) {
-		return new I18NSelect(captionKey, options);
+	public static InlineDateField newInlineDateField(@I18NAwareMessage String captionKey, Date value) {
+		return new I18NInlineDateField(captionKey, value);
 	}
 
 	/**
-	 * Creates a Select
+	 * Creates an i18n <code>InlineDateField</code> with caption message key and dataSource.
 	 * 
 	 * @param captionKey
-	 *            the caption message key of the Select.
+	 *            the caption message key of the InlineDateField.
 	 * @param dataSource
-	 * 
-	 * @return new i18n-aware Select
 	 */
-	public static Select newSelect(@I18NAwareMessage String captionKey, Container dataSource) {
-		return new I18NSelect(captionKey, dataSource);
+	public static InlineDateField newInlineDateField(@I18NAwareMessage String captionKey, Property dataSource) {
+		return new I18NInlineDateField(captionKey, dataSource);
 	}
 
 	/**
-	 * Creates a Select
+	 * Creates a I18NLabel
+	 * 
+	 * @return new i18n-aware I18NLabel
+	 */
+	public static Label newLabel() {
+		return new I18NLabel();
+	}
+
+	/**
+	 * Creates a new instance of I18NLabel with text-contents read from given datasource.
+	 * 
+	 * @param contentSource
+	 */
+	public static Label newLabel(Property contentSource) {
+		return new I18NLabel(contentSource);
+	}
+
+	/**
+	 * Creates a new instance of I18NLabel with text-contents read from given datasource.
+	 * 
+	 * @param contentSource
+	 * @param contentMode
+	 */
+	public static Label newLabel(Property contentSource, int contentMode) {
+		return new I18NLabel(contentSource, contentMode);
+	}
+
+	/**
+	 * Creates a I18NLabel
+	 * 
+	 * @param valueKey
+	 *            key for the I18NLabel value
+	 * @return new i18n-aware I18NLabel
+	 */
+	public static Label newLabel(String valueKey) {
+		return new I18NLabel(valueKey);
+	}
+
+	/**
+	 * Creates a new instance of I18NLabel with text-contents.
+	 * 
+	 * @param content
+	 * @param contentMode
+	 */
+	public static Label newLabel(String content, int contentMode) {
+		return new I18NLabel(content, contentMode);
+	}
+
+	/**
+	 * Creates a Link
+	 * 
+	 * @return new i18n-aware Link
+	 */
+	public static Link newLink() {
+		return new I18NLink();
+	}
+
+	// Events
+
+	/**
+	 * Creates a Link
 	 * 
 	 * @param captionKey
-	 *            the caption message key of the Select.
-	 * 
-	 * @return new i18n-aware Select
+	 *            key for the Link caption
+	 * @param resource
+	 *            Resource for the Link
+	 * @return new i18n-aware Link
 	 */
-	public static Select newSelect(@I18NAwareMessage String captionKey) {
-		return new I18NSelect(captionKey);
+	public static Link newLink(@I18NAwareMessage String captionKey, Resource resource) {
+		return new I18NLink(captionKey, resource);
+	}
+
+	/**
+	 * Creates a Link
+	 * 
+	 * @param captionKey
+	 *            key for the Link caption
+	 * @param resource
+	 *            Resource for the Link
+	 * @param targetName
+	 *            target for the Link
+	 * @param width
+	 *            width of the Link
+	 * @param height
+	 *            height of the Link
+	 * @param border
+	 *            border of the Link
+	 * @return new i18n-aware Link
+	 */
+	public static Link newLink(@I18NAwareMessage String captionKey, Resource resource, String targetName, int width, int height, int border) {
+		return new I18NLink(captionKey, resource, targetName, width, height, border);
+	}
+
+	// Fields
+
+	/**
+	 * Creates a ListSelect
+	 * 
+	 * @param captionKey
+	 *            key for the ListSelect caption
+	 * @return
+	 */
+	public static ListSelect newListSelect(@I18NAwareMessage String captionKey) {
+		return new I18NListSelect(captionKey);
+	}
+
+	/**
+	 * Creates a ListSelect
+	 * 
+	 * @param captionKey
+	 *            key for the ListSelect caption
+	 * @param options
+	 * @return
+	 */
+	public static ListSelect newListSelect(@I18NAwareMessage String captionKey, Collection<?> options) {
+		return new I18NListSelect(captionKey, options);
+	}
+
+	/**
+	 * Creates a LoginForm
+	 */
+	public static LoginForm newLoginForm() {
+		return new I18NLoginForm();
+	}
+
+	/**
+	 * Creates a MenuBar
+	 */
+	public static MenuBar newMenuBar() {
+		return new I18NMenuBar();
+	}
+
+	/**
+	 * Creates a NativeButton
+	 * 
+	 * @return new i18n-aware NativeButton
+	 */
+	public static NativeButton newNativeButton() {
+		return new I18NNativeButton();
+	}
+
+	/**
+	 * Creates a NativeButton
+	 * 
+	 * @param captionKey
+	 *            key for the NativeButton caption
+	 * @return new i18n-aware NativeButton
+	 */
+	public static NativeButton newNativeButton(@I18NAwareMessage String captionKey) {
+		return new I18NNativeButton(captionKey);
+	}
+
+	/**
+	 * Creates a NativeButton
+	 * 
+	 * @param captionKey
+	 *            key for the NativeButton caption
+	 * @param listener
+	 *            ClickListener for the NativeButton
+	 * @return new i18n-aware NativeButton
+	 */
+	public static NativeButton newNativeButton(@I18NAwareMessage String captionKey, ClickListener listener) {
+		return new I18NNativeButton(captionKey, listener);
+	}
+
+	/**
+	 * Creates a NativeButton
+	 * 
+	 * @param captionKey
+	 *            key for the NativeButton caption
+	 * @param target
+	 * @param methodName
+	 * @return new i18n-aware NativeButton
+	 */
+	public static NativeButton newNativeButton(@I18NAwareMessage String captionKey, Object target, String methodName) {
+		return new I18NNativeButton(captionKey, target, methodName);
 	}
 
 	/**
@@ -1130,8 +881,7 @@ public class I18NAwareFactory {
 	 * @param options
 	 * @return
 	 */
-	public static NativeSelect newNativeSelect(@I18NAwareMessage String captionKey,
-			Collection<?> options) {
+	public static NativeSelect newNativeSelect(@I18NAwareMessage String captionKey, Collection<?> options) {
 		return new I18NNativeSelect(captionKey, options);
 	}
 
@@ -1143,118 +893,8 @@ public class I18NAwareFactory {
 	 * @param dataSource
 	 * @return
 	 */
-	public static NativeSelect newNativeSelect(@I18NAwareMessage String captionKey,
-			Container dataSource) {
+	public static NativeSelect newNativeSelect(@I18NAwareMessage String captionKey, Container dataSource) {
 		return new I18NNativeSelect(captionKey, dataSource);
-	}
-
-	/**
-	 * Creates a ListSelect
-	 * 
-	 * @param captionKey
-	 *            key for the ListSelect caption
-	 * @param options
-	 * @return
-	 */
-	public static ListSelect newListSelect(@I18NAwareMessage String captionKey,
-			Collection<?> options) {
-		return new I18NListSelect(captionKey, options);
-	}
-
-	/**
-	 * Creates a ListSelect
-	 * 
-	 * @param captionKey
-	 *            key for the ListSelect caption
-	 * @param dataSource
-	 * @return
-	 */
-	public ListSelect newListSelect(@I18NAwareMessage String captionKey, Container dataSource) {
-		return new I18NListSelect(captionKey, dataSource);
-	}
-
-	/**
-	 * Creates a ListSelect
-	 * 
-	 * @param captionKey
-	 *            key for the ListSelect caption
-	 * @return
-	 */
-	public static ListSelect newListSelect(@I18NAwareMessage String captionKey) {
-		return new I18NListSelect(captionKey);
-	}
-
-	/**
-	 * Creates a new empty tree.
-	 */
-	public static Tree newTree() {
-		return new I18NTree();
-	}
-
-	/**
-	 * Creates a new empty tree with caption.
-	 * 
-	 * @param caption
-	 */
-	public static Tree newTree(@I18NAwareMessage String captionKey) {
-		return new I18NTree(captionKey);
-	}
-
-	/**
-	 * Creates a new tree with caption and connect it to a Container.
-	 * 
-	 * @param caption
-	 * @param dataSource
-	 */
-	public static Tree newTree(@I18NAwareMessage String captionKey, Container dataSource) {
-		return new I18NTree(captionKey);
-	}
-
-	/**
-	 * Construct a I18NTwinColSelect
-	 */
-	public static TwinColSelect newTwinColSelect() {
-		return new I18NTwinColSelect();
-	}
-
-	/**
-	 * Construct a I18NTwinColSelect
-	 * 
-	 * @param caption
-	 */
-	public static TwinColSelect newTwinColSelect(@I18NAwareMessage String captionKey) {
-		return new I18NTwinColSelect(captionKey);
-	}
-
-	/**
-	 * Construct a I18NTwinColSelect
-	 * 
-	 * @param captionKey
-	 * @param dataSource
-	 */
-	public static TwinColSelect newTwinColSelect(@I18NAwareMessage String captionKey,
-			Container dataSource) {
-		return new I18NTwinColSelect(captionKey, dataSource);
-	}
-
-	public static void setLeftColumnCaptionKey(TwinColSelect twinColSelect,
-			String leftColumnCaptionKey, Object... leftColumnCaptionParams) {
-
-		if (!(twinColSelect instanceof I18NTwinColSelect)) {
-			throw new IllegalArgumentException("Expecting a I18NTwinColSelect");
-		}
-		((I18NTwinColSelect) twinColSelect)
-				.setLeftColumnCaptionKey(leftColumnCaptionKey, leftColumnCaptionParams);
-	}
-
-	public static void setRightColumnCaptionKey(TwinColSelect twinColSelect,
-			String rightColumnCaptionKey, Object... rightColumnCaptionParams) {
-
-		if (!(twinColSelect instanceof I18NTwinColSelect)) {
-			throw new IllegalArgumentException("Expecting a I18NTwinColSelect");
-		}
-		((I18NTwinColSelect) twinColSelect)
-				.setRightColumnCaptionKey(rightColumnCaptionKey, rightColumnCaptionParams);
 	}
 
 	/**
@@ -1285,8 +925,7 @@ public class I18NAwareFactory {
 	 * @param options
 	 * @return new i18n-aware OptionGroup
 	 */
-	public static OptionGroup newOptionGroup(@I18NAwareMessage String captionKey,
-			Collection<?> options) {
+	public static OptionGroup newOptionGroup(@I18NAwareMessage String captionKey, Collection<?> options) {
 		return new I18NOptionGroup(captionKey, options);
 	}
 
@@ -1298,196 +937,72 @@ public class I18NAwareFactory {
 	 * @param dataSource
 	 * @return new i18n-aware OptionGroup
 	 */
-	public static OptionGroup newOptionGroup(@I18NAwareMessage String captionKey,
-			Container dataSource) {
+	public static OptionGroup newOptionGroup(@I18NAwareMessage String captionKey, Container dataSource) {
 		return new I18NOptionGroup(captionKey, dataSource);
 	}
 
 	/**
-	 * Sets caption key for OptionGroup
+	 * Creates a OrderedLayout
 	 * 
-	 * @param optionGroup
-	 *            OptionGroup to be set
-	 * @param itemId
-	 *            itemid in the form
-	 * @param captionKey
-	 *            key for the OptionGroup caption
+	 * @return new i18n-aware CssLayout
 	 */
-	public static void setItemCaptionKey(OptionGroup optionGroup,
-			Object itemId, @I18NAwareMessage String captionKey) {
-		if (!(optionGroup instanceof I18NOptionGroup)) {
-			throw new IllegalArgumentException("Expecting a OptionGroup");
-		}
-
-		((I18NOptionGroup) optionGroup).setItemCaptionKey(itemId, captionKey);
+	public static OrderedLayout newOrderedLayout() {
+		return new I18NOrderedLayout();
 	}
 
 	/**
-	 * Creates a TextArea
+	 * Create a new ordered layout. The orientation of the layout is given as parameters.
 	 * 
-	 * @return new i18n-aware TextArea
+	 * @param orientation
+	 *            the Orientation of the layout.
+	 * 
+	 * @deprecated Use VerticalLayout/HorizontalLayout instead.
 	 */
-	public static TextArea newTextArea() {
-		return new I18NTextArea();
+	@Deprecated
+	public static OrderedLayout newOrderedLayout(int orientation) {
+		return new I18NOrderedLayout(orientation);
 	}
 
 	/**
-	 * Creates a TextArea
+	 * Creates a Panel
 	 * 
-	 * @param captionKey
-	 *            key for the TextArea caption
-	 * @return new i18n-aware TextArea
+	 * @return new i18n-aware Panel
 	 */
-	public static TextArea newTextArea(@I18NAwareMessage String captionKey) {
-		return new I18NTextArea(captionKey);
+	public static Panel newPanel() {
+		return new I18NPanel();
 	}
 
 	/**
-	 * Constructs a i18n TextArea with given property data source.
+	 * Creates a new empty panel which contains the given content. The content cannot be null.
 	 * 
-	 * @param dataSource
-	 *            the data source for the field
+	 * @param content
+	 *            the content for the panel.
 	 */
-	public static TextArea newTextArea(Property dataSource) {
-		return new I18NTextArea(dataSource);
+	public static Panel newPanel(ComponentContainer content) {
+		return new I18NPanel(content);
 	}
 
 	/**
-	 * Constructs a i18n TextArea with given caption and property data source.
+	 * Sets caption key for a Panel
 	 * 
 	 * @param captionKey
-	 *            the caption message key for the field.
-	 * @param dataSource
-	 *            the data source for the field
+	 *            key for the Panel caption
+	 * @return new i18n-aware
 	 */
-	public static TextArea newTextArea(@I18NAwareMessage String captionKey, Property dataSource) {
-		return new I18NTextArea(captionKey, dataSource);
+	public static Panel newPanel(@I18NAwareMessage String captionKey) {
+		return new I18NPanel(captionKey);
 	}
 
 	/**
-	 * Constructs a i18n TextArea with given caption and value.
+	 * Creates a new empty panel with the given caption and content.
 	 * 
 	 * @param captionKey
-	 *            the caption message key for the field.
-	 * @param value
-	 *            the value for the field
+	 *            the caption message key used in the panel.
+	 * @param content
+	 *            the content used in the panel.
 	 */
-	public static TextArea newTextArea(@I18NAwareMessage String captionKey, String value) {
-		return new I18NTextArea(captionKey, value);
-	}
-
-	/**
-	 * Constructs an empty <code>RichTextArea</code> with no caption.
-	 */
-	public static RichTextArea newRichTextArea() {
-		return new I18NRichTextArea();
-	}
-
-	/**
-	 * 
-	 * Constructs an empty <code>RichTextArea</code> with the given caption.
-	 * 
-	 * @param captionKey
-	 *            the caption key for the editor.
-	 */
-	public static RichTextArea newRichTextArea(@I18NAwareMessage String captionKey) {
-		return new I18NRichTextArea(captionKey);
-	}
-
-	/**
-	 * Constructs a new <code>RichTextArea</code> that's bound to the specified
-	 * <code>Property</code> and has no caption.
-	 * 
-	 * @param dataSource
-	 *            the data source for the editor value
-	 */
-	public static RichTextArea newRichTextArea(Property dataSource) {
-		return new I18NRichTextArea(dataSource);
-	}
-
-	/**
-	 * Constructs a new <code>RichTextArea</code> that's bound to the specified
-	 * <code>Property</code> and has the given caption.
-	 * 
-	 * @param captionKey
-	 *            the caption key for the editor.
-	 * @param dataSource
-	 *            the data source for the editor value
-	 */
-	public static RichTextArea newRichTextArea(@I18NAwareMessage String captionKey,
-			Property dataSource) {
-		return new I18NRichTextArea(captionKey, dataSource);
-	}
-
-	/**
-	 * Constructs a new <code>RichTextArea</code> with the given caption and
-	 * initial text contents.
-	 * 
-	 * @param captionKey
-	 *            the caption key for the editor.
-	 * @param value
-	 *            the initial text content of the editor.
-	 */
-	public static RichTextArea newRichTextArea(@I18NAwareMessage String captionKey, String value) {
-		return new I18NRichTextArea(captionKey, value);
-	}
-
-	/**
-	 * Creates a TextField
-	 * 
-	 * @return new i18n-aware TextField
-	 */
-	public static TextField newTextField() {
-		return new I18NTextField();
-	}
-
-	/**
-	 * Creates a TextField
-	 * 
-	 * @param captionKey
-	 *            key for the TextField caption
-	 * @return new i18n-aware TextField
-	 */
-	public static TextField newTextField(@I18NAwareMessage String captionKey) {
-		return new I18NTextField(captionKey);
-	}
-
-	/**
-	 * Creates a TextField
-	 * 
-	 * @param captionKey
-	 *            key for the TextField caption
-	 * @param value
-	 *            value for the TextField
-	 * @return new i18n-aware TextField
-	 */
-	public static TextField newTextField(@I18NAwareMessage String captionKey, String value) {
-		return new I18NTextField(captionKey, value);
-	}
-
-	/**
-	 * Constructs a new i18n <code>TextField</code> that's bound to the
-	 * specified <code>Property</code> and has no caption.
-	 * 
-	 * @param dataSource
-	 *            the Property to be edited with this editor.
-	 */
-	public static TextField newTextField(Property dataSource) {
-		return new I18NTextField(dataSource);
-	}
-
-	/**
-	 * Constructs a new i18n <code>TextField</code> that's bound to the
-	 * specified <code>Property</code> and has the given caption
-	 * <code>String</code>.
-	 * 
-	 * @param captionKey
-	 *            the caption message key for the editor.
-	 * @param dataSource
-	 *            the Property to be edited with this editor.
-	 */
-	public static TextField newTextField(@I18NAwareMessage String captionKey, Property dataSource) {
-		return new I18NTextField(captionKey, dataSource);
+	public static Panel newPanel(@I18NAwareMessage String captionKey, ComponentContainer content) {
+		return new I18NPanel(captionKey, content);
 	}
 
 	/**
@@ -1508,16 +1023,24 @@ public class I18NAwareFactory {
 	}
 
 	/**
-	 * Constructs a I18NPasswordField with given caption and property data
-	 * source.
+	 * Constructs a I18NPasswordField with given caption.
+	 * 
+	 * @param caption
+	 *            the caption for the field
+	 */
+	public static PasswordField newPasswordField(@I18NAwareMessage String captionKey) {
+		return new I18NPasswordField(captionKey);
+	}
+
+	/**
+	 * Constructs a I18NPasswordField with given caption and property data source.
 	 * 
 	 * @param caption
 	 *            the caption for the field
 	 * @param dataSource
 	 *            the property data source for the field
 	 */
-	public static PasswordField newPasswordField(@I18NAwareMessage String captionKey,
-			Property dataSource) {
+	public static PasswordField newPasswordField(@I18NAwareMessage String captionKey, Property dataSource) {
 		return new I18NPasswordField(captionKey, dataSource);
 	}
 
@@ -1534,83 +1057,262 @@ public class I18NAwareFactory {
 	}
 
 	/**
-	 * Constructs a I18NPasswordField with given caption.
+	 * Creates an empty i18n <code>PopupDateField</code> with no caption.
+	 */
+	public static PopupDateField newPopupDateField() {
+		return new I18NPopupDateField();
+	}
+
+	/**
+	 * Creates an i18n <code>PopupDateField</code> with a dataSource.
+	 * 
+	 * @param dataSource
+	 */
+	public static PopupDateField newPopupDateField(Property dataSource) {
+		return new I18NPopupDateField(dataSource);
+	}
+
+	/**
+	 * Creates an empty i18n <code>PopupDateField</code> with caption message key.
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the PopupDateField.
+	 */
+	public static PopupDateField newPopupDateField(@I18NAwareMessage String captionKey) {
+		return new I18NPopupDateField(captionKey);
+	}
+
+	/**
+	 * Creates an i18n <code>PopupDateField</code> with caption message key and initial value.
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the datefield.
+	 * @param value
+	 */
+	public static PopupDateField newPopupDateField(@I18NAwareMessage String captionKey, Date value) {
+		return new I18NPopupDateField(captionKey, value);
+	}
+
+	/**
+	 * Creates an i18n <code>PopupDateField</code> with caption message key and dataSource.
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the PopupDateField.
+	 * @param dataSource
+	 */
+	public static PopupDateField newPopupDateField(@I18NAwareMessage String captionKey, Property dataSource) {
+		return new I18NPopupDateField(captionKey, dataSource);
+	}
+
+	/**
+	 * A simple way to create a PopupPanel. Note that the minimal representation may not be dynamically updated, in order to achieve this create your
+	 * own Content object and use {@link PopupView#PopupView(_Content)}.
+	 * 
+	 * @param small
+	 *            the minimal textual representation as HTML
+	 * @param large
+	 *            the full, Component-type representation
+	 */
+	public static PopupView newPopupView(final java.lang.String small, final Component large) {
+		return new I18NPopupView(small, large);
+	}
+
+	/**
+	 * Creates a PopupView through the PopupView.Content interface. This allows the creator to dynamically change the contents of the PopupView.
+	 * 
+	 * @param content
+	 *            the PopupView.Content that contains the information for this
+	 */
+	public static PopupView newPopupView(PopupView.Content content) {
+		return new I18NPopupView(content);
+	}
+
+	/**
+	 * Creates a ProgressIndicator
+	 * 
+	 * @return new i18n-aware ProgressIndicator
+	 */
+	public static ProgressIndicator newProgressIndicator() {
+		return new I18NProgressIndicator();
+	}
+
+	/**
+	 * Creates a new instance of i18n-aware ProgressIndicator with given state.
+	 * 
+	 * @param value
+	 */
+	public static ProgressIndicator newProgressIndicator(Float value) {
+		return new I18NProgressIndicator(value);
+	}
+
+	/**
+	 * Creates a new instance of i18n-aware ProgressIndicator with stae read from given datasource.
+	 * 
+	 * @param contentSource
+	 */
+	public static ProgressIndicator newProgressIndicator(Property contentSource) {
+		return new I18NProgressIndicator(contentSource);
+	}
+
+	/**
+	 * Constructs an empty <code>RichTextArea</code> with no caption.
+	 */
+	public static RichTextArea newRichTextArea() {
+		return new I18NRichTextArea();
+	}
+
+	/**
+	 * Constructs a new <code>RichTextArea</code> that's bound to the specified <code>Property</code> and has no caption.
+	 * 
+	 * @param dataSource
+	 *            the data source for the editor value
+	 */
+	public static RichTextArea newRichTextArea(Property dataSource) {
+		return new I18NRichTextArea(dataSource);
+	}
+
+	/**
+	 * 
+	 * Constructs an empty <code>RichTextArea</code> with the given caption.
+	 * 
+	 * @param captionKey
+	 *            the caption key for the editor.
+	 */
+	public static RichTextArea newRichTextArea(@I18NAwareMessage String captionKey) {
+		return new I18NRichTextArea(captionKey);
+	}
+
+	/**
+	 * Constructs a new <code>RichTextArea</code> that's bound to the specified <code>Property</code> and has the given caption.
+	 * 
+	 * @param captionKey
+	 *            the caption key for the editor.
+	 * @param dataSource
+	 *            the data source for the editor value
+	 */
+	public static RichTextArea newRichTextArea(@I18NAwareMessage String captionKey, Property dataSource) {
+		return new I18NRichTextArea(captionKey, dataSource);
+	}
+
+	/**
+	 * Constructs a new <code>RichTextArea</code> with the given caption and initial text contents.
+	 * 
+	 * @param captionKey
+	 *            the caption key for the editor.
+	 * @param value
+	 *            the initial text content of the editor.
+	 */
+	public static RichTextArea newRichTextArea(@I18NAwareMessage String captionKey, String value) {
+		return new I18NRichTextArea(captionKey, value);
+	}
+
+	/**
+	 * Creates a Select
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the Select.
+	 * 
+	 * @return new i18n-aware Select
+	 */
+	public static Select newSelect(@I18NAwareMessage String captionKey) {
+		return new I18NSelect(captionKey);
+	}
+
+	/**
+	 * Creates a Select
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the Select.
+	 * @param options
+	 * 
+	 * @return new i18n-aware Select
+	 */
+	public static Select newSelect(@I18NAwareMessage String captionKey, Collection<?> options) {
+		return new I18NSelect(captionKey, options);
+	}
+
+	/**
+	 * Creates a Select
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the Select.
+	 * @param dataSource
+	 * 
+	 * @return new i18n-aware Select
+	 */
+	public static Select newSelect(@I18NAwareMessage String captionKey, Container dataSource) {
+		return new I18NSelect(captionKey, dataSource);
+	}
+
+	/**
+	 * Create a new slider with given range and resolution
+	 * 
+	 * @param min
+	 * @param max
+	 * @param resolution
+	 */
+	public static Slider newSlider(double min, double max, int resolution) {
+		return new I18NSlider(min, max, resolution);
+	}
+
+	/**
+	 * Create a new slider with given range
+	 * 
+	 * @param min
+	 * @param max
+	 */
+	public static Slider newSlider(int min, int max) {
+		return new I18NSlider(min, max);
+	}
+
+	/**
+	 * Create a new slider with the caption given as parameter. All slider values set to defaults.
 	 * 
 	 * @param caption
-	 *            the caption for the field
+	 *            The caption for this Slider (e.g. "Volume").
 	 */
-	public static PasswordField newPasswordField(@I18NAwareMessage String captionKey) {
-		return new I18NPasswordField(captionKey);
-	}
-
-	// Form
-
-	/**
-	 * Creates a I18NDefaultFieldFactory
-	 * 
-	 * @return new i18n-aware I18NDefaultFieldFactory
-	 */
-	public static I18NDefaultFieldFactory newDefaultFieldFactory() {
-		return new I18NDefaultFieldFactory();
+	public static Slider newSlider(@I18NAwareMessage String captionKey) {
+		return new I18NSlider(captionKey);
 	}
 
 	/**
-	 * Creates a Form
+	 * Create a new slider with given caption and range
 	 * 
-	 * @return new i18n-aware Form
+	 * @param caption
+	 * @param min
+	 * @param max
 	 */
-	public static Form newForm() {
-		return new I18NForm();
+	public static Slider newSlider(@I18NAwareMessage String captionKey, int min, int max) {
+		return new I18NSlider(captionKey, min, max);
 	}
 
 	/**
-	 * Constructs a new i18n form with given {@link I18NAwareLayout}.
+	 * Creates a new i18n split panel. The orientation of the panels is <code>ORIENTATION_VERTICAL</code>.
 	 * 
-	 * @param formLayout
-	 *            the layout of the form.
+	 * @return new i18n-aware SplitPanel
 	 */
-	public static Form newForm(Layout formLayout) {
-
-		if (!(formLayout instanceof I18NAwareLayout)) {
-			throw new IllegalArgumentException("Expecting a I18NAwareLayout");
-		}
-
-		return new I18NForm((I18NAwareLayout) formLayout);
+	public static SplitPanel newSplitPanel() {
+		return new I18NSplitPanel();
 	}
 
 	/**
-	 * Constructs a new form with given {@link I18NAwareLayout} and
-	 * {@link I18NAwareFormFieldFactory}.
+	 * Creates a StringValidatoe
 	 * 
-	 * @param formLayout
-	 *            the layout of the form.
-	 * @param fieldFactory
-	 *            the FieldFactory of the form.
+	 * @param errorMessageKey
+	 *            key for error message
+	 * @param fieldNameKey
+	 *            key for field name
+	 * @param minLength
+	 *            minimum string length
+	 * @param maxLength
+	 *            maximum string length
+	 * @param allowNull
+	 *            null allowed
+	 * @return new i18n-aware StringLengthValidator
 	 */
-	public static Form newForm(Layout formLayout, FormFieldFactory fieldFactory) {
-
-		if (!(formLayout instanceof I18NAwareLayout)) {
-			throw new IllegalArgumentException("Expecting a I18NAwareLayout");
-		}
-
-		if (!(fieldFactory instanceof I18NAwareFormFieldFactory)) {
-			throw new IllegalArgumentException(
-					"Expecting a I18NFormFieldFactory");
-		}
-
-		return new I18NForm((I18NAwareLayout) formLayout,
-				(I18NAwareFormFieldFactory) fieldFactory);
-	}
-
-	// Table
-
-	/**
-	 * Creates an IndexedContainer
-	 * 
-	 * @return new i18n-aware IndexedContainer
-	 */
-	public static IndexedContainer newIndexedContainer() {
-		return new I18NIndexedContainer();
+	public static StringLengthValidator newStringLengthValidator(String errorMessageKey, String fieldNameKey, int minLength, int maxLength,
+			boolean allowNull) {
+		return new I18NStringLengthValidator(errorMessageKey, fieldNameKey, minLength, maxLength, allowNull);
 	}
 
 	/**
@@ -1647,208 +1349,267 @@ public class I18NAwareFactory {
 	}
 
 	/**
-	 * Creates a Table
+	 * Creates a TabSheet
 	 * 
-	 * @param table
-	 *            Table type I18NTable
-	 * @param columnHeadersKeys
-	 *            key array for column header names
-	 * @see I18NTable
+	 * @return new i18n-aware TabSheet
 	 */
-	public static void setColumnHeadersKeys(Table table,
-			String[] columnHeadersKeys) {
-
-		if (!(table instanceof I18NTable)) {
-			throw new IllegalArgumentException("Expecting a I18NTable");
-		}
-
-		((I18NTable) table).setColumnHeadersKeys(columnHeadersKeys);
+	public static TabSheet newTabSheet() {
+		return new I18NTabSheet();
 	}
 
 	/**
-	 * Creates a MenuBar
+	 * Creates a TextArea
+	 * 
+	 * @return new i18n-aware TextArea
 	 */
-	public static MenuBar newMenuBar() {
-		return new I18NMenuBar();
+	public static TextArea newTextArea() {
+		return new I18NTextArea();
 	}
 
 	/**
-	 * Add a new item to the menu bar. Icon and command can be null, but a
-	 * caption must be given.
+	 * Constructs a i18n TextArea with given property data source.
+	 * 
+	 * @param dataSource
+	 *            the data source for the field
+	 */
+	public static TextArea newTextArea(Property dataSource) {
+		return new I18NTextArea(dataSource);
+	}
+
+	/**
+	 * Creates a TextArea
+	 * 
+	 * @param captionKey
+	 *            key for the TextArea caption
+	 * @return new i18n-aware TextArea
+	 */
+	public static TextArea newTextArea(@I18NAwareMessage String captionKey) {
+		return new I18NTextArea(captionKey);
+	}
+
+	/**
+	 * Constructs a i18n TextArea with given caption and property data source.
+	 * 
+	 * @param captionKey
+	 *            the caption message key for the field.
+	 * @param dataSource
+	 *            the data source for the field
+	 */
+	public static TextArea newTextArea(@I18NAwareMessage String captionKey, Property dataSource) {
+		return new I18NTextArea(captionKey, dataSource);
+	}
+
+	/**
+	 * Constructs a i18n TextArea with given caption and value.
+	 * 
+	 * @param captionKey
+	 *            the caption message key for the field.
+	 * @param value
+	 *            the value for the field
+	 */
+	public static TextArea newTextArea(@I18NAwareMessage String captionKey, String value) {
+		return new I18NTextArea(captionKey, value);
+	}
+
+	/**
+	 * Creates a TextField
+	 * 
+	 * @return new i18n-aware TextField
+	 */
+	public static TextField newTextField() {
+		return new I18NTextField();
+	}
+
+	/**
+	 * Constructs a new i18n <code>TextField</code> that's bound to the specified <code>Property</code> and has no caption.
+	 * 
+	 * @param dataSource
+	 *            the Property to be edited with this editor.
+	 */
+	public static TextField newTextField(Property dataSource) {
+		return new I18NTextField(dataSource);
+	}
+
+	/**
+	 * Creates a TextField
+	 * 
+	 * @param captionKey
+	 *            key for the TextField caption
+	 * @return new i18n-aware TextField
+	 */
+	public static TextField newTextField(@I18NAwareMessage String captionKey) {
+		return new I18NTextField(captionKey);
+	}
+
+	/**
+	 * Constructs a new i18n <code>TextField</code> that's bound to the specified <code>Property</code> and has the given caption <code>String</code>.
+	 * 
+	 * @param captionKey
+	 *            the caption message key for the editor.
+	 * @param dataSource
+	 *            the Property to be edited with this editor.
+	 */
+	public static TextField newTextField(@I18NAwareMessage String captionKey, Property dataSource) {
+		return new I18NTextField(captionKey, dataSource);
+	}
+
+	/**
+	 * Creates a TextField
+	 * 
+	 * @param captionKey
+	 *            key for the TextField caption
+	 * @param value
+	 *            value for the TextField
+	 * @return new i18n-aware TextField
+	 */
+	public static TextField newTextField(@I18NAwareMessage String captionKey, String value) {
+		return new I18NTextField(captionKey, value);
+	}
+
+	/**
+	 * Creates a new empty tree.
+	 */
+	public static Tree newTree() {
+		return new I18NTree();
+	}
+
+	/**
+	 * Creates a new empty tree with caption.
 	 * 
 	 * @param caption
-	 *            the text for the menu item
-	 * @param icon
-	 *            the icon for the menu item
-	 * @param command
-	 *            the command for the menu item
-	 * @throws IllegalArgumentException
 	 */
-	public static MenuBar.MenuItem addItem(MenuBar menuBar, @I18NAwareMessage String captionKey,
-			Resource icon, MenuBar.Command command) {
-
-		if (!(menuBar instanceof I18NMenuBar)) {
-			throw new IllegalArgumentException("Expecting a I18NMenuBar");
-		}
-
-		return ((I18NMenuBar) menuBar).addItem(captionKey, icon, command);
+	public static Tree newTree(@I18NAwareMessage String captionKey) {
+		return new I18NTree(captionKey);
 	}
 
 	/**
-	 * Add an item before some item. If the given item does not exist the item
-	 * is added at the end of the menu. Icon and command can be null, but a
-	 * caption must be given.
+	 * Creates a new tree with caption and connect it to a Container.
 	 * 
 	 * @param caption
-	 *            the text for the menu item
-	 * @param icon
-	 *            the icon for the menu item
-	 * @param command
-	 *            the command for the menu item
-	 * @param itemToAddBefore
-	 *            the item that will be after the new item
-	 * @throws IllegalArgumentException
+	 * @param dataSource
 	 */
-	public MenuBar.MenuItem addItemBefore(MenuBar menuBar, @I18NAwareMessage String captionKey,
-			Resource icon, MenuBar.Command command,
-			MenuBar.MenuItem itemToAddBefore) {
-
-		if (!(menuBar instanceof I18NMenuBar)) {
-			throw new IllegalArgumentException("Expecting a I18NMenuBar");
-		}
-
-		return ((I18NMenuBar) menuBar).addItemBefore(captionKey, icon, command,
-				itemToAddBefore);
+	public static Tree newTree(@I18NAwareMessage String captionKey, Container dataSource) {
+		return new I18NTree(captionKey);
 	}
 
 	/**
-	 * A simple way to create a PopupPanel. Note that the minimal representation
-	 * may not be dynamically updated, in order to achieve this create your own
-	 * Content object and use {@link PopupView#PopupView(Content)}.
-	 * 
-	 * @param small
-	 *            the minimal textual representation as HTML
-	 * @param large
-	 *            the full, Component-type representation
+	 * Construct a I18NTwinColSelect
 	 */
-	public static PopupView newPopupView(final java.lang.String small,
-			final Component large) {
-		return new I18NPopupView(small, large);
+	public static TwinColSelect newTwinColSelect() {
+		return new I18NTwinColSelect();
+	}
+
+	// Form
+
+	/**
+	 * Construct a I18NTwinColSelect
+	 * 
+	 * @param caption
+	 */
+	public static TwinColSelect newTwinColSelect(@I18NAwareMessage String captionKey) {
+		return new I18NTwinColSelect(captionKey);
 	}
 
 	/**
-	 * Creates a PopupView through the PopupView.Content interface. This allows
-	 * the creator to dynamically change the contents of the PopupView.
+	 * Construct a I18NTwinColSelect
 	 * 
+	 * @param captionKey
+	 * @param dataSource
+	 */
+	public static TwinColSelect newTwinColSelect(@I18NAwareMessage String captionKey, Container dataSource) {
+		return new I18NTwinColSelect(captionKey, dataSource);
+	}
+
+	/**
+	 * Creates an Upload
+	 * 
+	 * @return new i18n-aware Upload
+	 */
+	public static Upload newUpload() {
+		return new I18NUpload();
+	}
+
+	/**
+	 * Creates an Upload
+	 * 
+	 * @param captionKey
+	 *            key for the Upload caption
+	 * @param receiver
+	 *            for the Upload
+	 * @return new i18n-aware Upload
+	 */
+	public static Upload newUpload(@I18NAwareMessage String captionKey, Receiver receiver) {
+		return new I18NUpload(captionKey, receiver);
+	}
+
+	// Table
+
+	/**
+	 * Creates a VerticalLayout
+	 * 
+	 * @return new i18n-aware VerticalLayout
+	 */
+	public static VerticalLayout newVerticalLayout() {
+		return new I18NVerticalLayout();
+	}
+
+	/**
+	 * Creates a new i18n VerticalSplitPanel.
+	 * 
+	 * @return new i18n-aware VerticalSplitPanel
+	 */
+	public static VerticalSplitPanel newVerticalSplitPanel() {
+		return new I18NVerticalSplitPanel();
+	}
+
+	/**
+	 * Creates a Window
+	 * 
+	 * @return new i18n-aware Window
+	 */
+	public static Window newWindow() {
+		return new I18NWindow();
+	}
+
+	/**
+	 * Creates a Window
+	 * 
+	 * @param captionKey
+	 *            key for the Window caption
+	 * @return new i18n-aware Window
+	 */
+	public static Window newWindow(@I18NAwareMessage String captionKey) {
+		return new I18NWindow(captionKey);
+	}
+
+	/**
+	 * Creates a new unnamed i18n window with the given content and title.
+	 * 
+	 * @param captionKey
+	 *            the title message key of the window.
 	 * @param content
-	 *            the PopupView.Content that contains the information for this
+	 *            the contents of the window
 	 */
-	public static PopupView newPopupView(PopupView.Content content) {
-		return new I18NPopupView(content);
+	public static Window newWindow(@I18NAwareMessage String captionKey, ComponentContainer content) {
+		return new I18NWindow(captionKey, content);
 	}
-
-	// Custom Components
 
 	/**
-	 * Creates a LoginForm
+	 * Sets caption key for an Upload
+	 * 
+	 * @param Upload
+	 *            component to be set
+	 * @param buttonCaptionKey
+	 *            key for the Button caption
+	 * @param buttonCaptionParams
+	 *            params for the Button caption key
 	 */
-	public static LoginForm newLoginForm() {
-		return new I18NLoginForm();
-	}
-
-	public static void setUsernameCaptionKey(LoginForm loginForm,
-			String usernameCaptionKey) {
-		if (!(loginForm instanceof I18NLoginForm)) {
-			throw new IllegalArgumentException("Expecting a I18NLoginForm");
+	public static void setButtonCaptionKey(Upload upload, String buttonCaptionKey, Object... buttonCaptionParams) {
+		if (!(upload instanceof I18NUpload)) {
+			throw new IllegalArgumentException("Expecting a I18NUpload");
 		}
-
-		((I18NLoginForm) loginForm).setUsernameCaptionKey(usernameCaptionKey);
+		((I18NUpload) upload).setButtonCaptionMessage(buttonCaptionKey, buttonCaptionParams);
 	}
-
-	public static void setPasswordCaptionKey(LoginForm loginForm,
-			String passwordCaptionKey) {
-		if (!(loginForm instanceof I18NLoginForm)) {
-			throw new IllegalArgumentException("Expecting a I18NLoginForm");
-		}
-
-		((I18NLoginForm) loginForm).setPasswordCaptionKey(passwordCaptionKey);
-	}
-
-	public static void setLoginButtonCaptionKey(LoginForm loginForm,
-			String loginButtonCaptionKey) {
-		if (!(loginForm instanceof I18NLoginForm)) {
-			throw new IllegalArgumentException("Expecting a I18NLoginForm");
-		}
-
-		((I18NLoginForm) loginForm)
-				.setLoginButtonCaptionKey(loginButtonCaptionKey);
-	}
-
-	// Validators
-
-	/**
-	 * Creates an EmailValidator
-	 * 
-	 * @param errorMessageKey
-	 *            key for error message
-	 * @param fieldNameKey
-	 *            key for field name
-	 * @return new i18n-aware EmailValidator
-	 */
-	public static EmailValidator newEmailValidator(String errorMessageKey,
-			String fieldNameKey) {
-		return new I18NEmailValidator(errorMessageKey, fieldNameKey);
-	}
-
-	/**
-	 * Sets error message key for emailValidator
-	 * 
-	 * @param emailValidator
-	 *            validator to update
-	 * @param errorMessageKey
-	 *            new error message key
-	 */
-	public static void setErrorMessageKey(EmailValidator emailValidator,
-			String errorMessageKey) {
-		emailValidator.setErrorMessage(errorMessageKey);
-	}
-
-	/**
-	 * Creates a StringValidatoe
-	 * 
-	 * @param errorMessageKey
-	 *            key for error message
-	 * @param fieldNameKey
-	 *            key for field name
-	 * @param minLength
-	 *            minimum string length
-	 * @param maxLength
-	 *            maximum string length
-	 * @param allowNull
-	 *            null allowed
-	 * @return new i18n-aware StringLengthValidator
-	 */
-	public static StringLengthValidator newStringLengthValidator(
-			String errorMessageKey, String fieldNameKey, int minLength,
-			int maxLength, boolean allowNull) {
-		return new I18NStringLengthValidator(errorMessageKey, fieldNameKey,
-				minLength, maxLength, allowNull);
-	}
-
-	/**
-	 * Sets error message key for StringValidator
-	 * 
-	 * @param stringLengthValidator
-	 *            validator to update
-	 * @param errorMessageKey
-	 *            new error message key
-	 */
-	public static void setErrorMessageKey(
-			StringLengthValidator stringLengthValidator, String errorMessageKey) {
-		stringLengthValidator.setErrorMessage(errorMessageKey);
-	}
-
-	// Helpers
 
 	/**
 	 * Sets caption key
@@ -1870,6 +1631,137 @@ public class I18NAwareFactory {
 		((I18NAwareCaption) item).setCaptionMessage(captionKey, params);
 	}
 
+	/**
+	 * Creates a Table
+	 * 
+	 * @param table
+	 *            Table type I18NTable
+	 * @param columnHeadersKeys
+	 *            key array for column header names
+	 * @see I18NTable
+	 */
+	public static void setColumnHeadersKeys(Table table, String[] columnHeadersKeys) {
+
+		if (!(table instanceof I18NTable)) {
+			throw new IllegalArgumentException("Expecting a I18NTable");
+		}
+
+		((I18NTable) table).setColumnHeadersKeys(columnHeadersKeys);
+	}
+
+	/**
+	 * Sets error message key for emailValidator
+	 * 
+	 * @param emailValidator
+	 *            validator to update
+	 * @param errorMessageKey
+	 *            new error message key
+	 */
+	public static void setErrorMessageKey(EmailValidator emailValidator, String errorMessageKey) {
+		emailValidator.setErrorMessage(errorMessageKey);
+	}
+
+	/**
+	 * Sets error message key for StringValidator
+	 * 
+	 * @param stringLengthValidator
+	 *            validator to update
+	 * @param errorMessageKey
+	 *            new error message key
+	 */
+	public static void setErrorMessageKey(StringLengthValidator stringLengthValidator, String errorMessageKey) {
+		stringLengthValidator.setErrorMessage(errorMessageKey);
+	}
+
+	// Custom Components
+
+	public static void setInputPromptKey(PopupDateField popupDateField, String inputPromptKey, Object... inputPromptParams) {
+
+		if (!(popupDateField instanceof I18NPopupDateField)) {
+			throw new IllegalArgumentException("Expecting a I18NPopupDateField");
+		}
+		((I18NPopupDateField) popupDateField).setInputPromptKey(inputPromptKey, inputPromptParams);
+	}
+
+	/**
+	 * Sets caption key for OptionGroup
+	 * 
+	 * @param optionGroup
+	 *            OptionGroup to be set
+	 * @param itemId
+	 *            itemid in the form
+	 * @param captionKey
+	 *            key for the OptionGroup caption
+	 */
+	public static void setItemCaptionKey(OptionGroup optionGroup, Object itemId, @I18NAwareMessage String captionKey) {
+		if (!(optionGroup instanceof I18NOptionGroup)) {
+			throw new IllegalArgumentException("Expecting a OptionGroup");
+		}
+
+		((I18NOptionGroup) optionGroup).setItemCaptionKey(itemId, captionKey);
+	}
+
+	public static void setLeftColumnCaptionKey(TwinColSelect twinColSelect, String leftColumnCaptionKey, Object... leftColumnCaptionParams) {
+
+		if (!(twinColSelect instanceof I18NTwinColSelect)) {
+			throw new IllegalArgumentException("Expecting a I18NTwinColSelect");
+		}
+		((I18NTwinColSelect) twinColSelect).setLeftColumnCaptionKey(leftColumnCaptionKey, leftColumnCaptionParams);
+	}
+
+	public static void setLoginButtonCaptionKey(LoginForm loginForm, String loginButtonCaptionKey) {
+		if (!(loginForm instanceof I18NLoginForm)) {
+			throw new IllegalArgumentException("Expecting a I18NLoginForm");
+		}
+
+		((I18NLoginForm) loginForm).setLoginButtonCaptionKey(loginButtonCaptionKey);
+	}
+
+	// Validators
+
+	public static void setPasswordCaptionKey(LoginForm loginForm, String passwordCaptionKey) {
+		if (!(loginForm instanceof I18NLoginForm)) {
+			throw new IllegalArgumentException("Expecting a I18NLoginForm");
+		}
+
+		((I18NLoginForm) loginForm).setPasswordCaptionKey(passwordCaptionKey);
+	}
+
+	/**
+	 * Set key for error required message
+	 * 
+	 * @param item
+	 *            Item to be updated type I18NAwareValue
+	 * @param requiredErrorKey
+	 *            key for required error message
+	 * @see I18NAwareValue
+	 */
+	public static <T> void setRequiredErrorMessage(T item, @I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
+
+		if (!(item instanceof I18NAwareField)) {
+			throw new IllegalArgumentException("Expecting a I18NAwareValue");
+		}
+
+		((I18NAwareField) item).setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
+	}
+
+	public static void setRightColumnCaptionKey(TwinColSelect twinColSelect, String rightColumnCaptionKey, Object... rightColumnCaptionParams) {
+
+		if (!(twinColSelect instanceof I18NTwinColSelect)) {
+			throw new IllegalArgumentException("Expecting a I18NTwinColSelect");
+		}
+		((I18NTwinColSelect) twinColSelect).setRightColumnCaptionKey(rightColumnCaptionKey, rightColumnCaptionParams);
+	}
+
+	public static void setUsernameCaptionKey(LoginForm loginForm, String usernameCaptionKey) {
+		if (!(loginForm instanceof I18NLoginForm)) {
+			throw new IllegalArgumentException("Expecting a I18NLoginForm");
+		}
+
+		((I18NLoginForm) loginForm).setUsernameCaptionKey(usernameCaptionKey);
+	}
+
+	// Helpers
 
 	/**
 	 * Set value key
@@ -1890,21 +1782,38 @@ public class I18NAwareFactory {
 	}
 
 	/**
-	 * Set key for error required message
+	 * Add an item before some item. If the given item does not exist the item is added at the end of the menu. Icon and command can be null, but a
+	 * caption must be given.
 	 * 
-	 * @param item
-	 *            Item to be updated type I18NAwareValue
-	 * @param requiredErrorKey
-	 *            key for required error message
-	 * @see I18NAwareValue
+	 * @param caption
+	 *            the text for the menu item
+	 * @param icon
+	 *            the icon for the menu item
+	 * @param command
+	 *            the command for the menu item
+	 * @param itemToAddBefore
+	 *            the item that will be after the new item @
 	 */
-	public static <T> void setRequiredErrorMessage(T item, @I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
+	public MenuBar.MenuItem addItemBefore(MenuBar menuBar, @I18NAwareMessage String captionKey, Resource icon, MenuBar.Command command,
+			MenuBar.MenuItem itemToAddBefore) {
 
-		if (!(item instanceof I18NAwareField)) {
-			throw new IllegalArgumentException("Expecting a I18NAwareValue");
+		if (!(menuBar instanceof I18NMenuBar)) {
+			throw new IllegalArgumentException("Expecting a I18NMenuBar");
 		}
 
-		((I18NAwareField) item).setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
+		return ((I18NMenuBar) menuBar).addItemBefore(captionKey, icon, command, itemToAddBefore);
+	}
+
+	/**
+	 * Creates a ListSelect
+	 * 
+	 * @param captionKey
+	 *            key for the ListSelect caption
+	 * @param dataSource
+	 * @return
+	 */
+	public ListSelect newListSelect(@I18NAwareMessage String captionKey, Container dataSource) {
+		return new I18NListSelect(captionKey, dataSource);
 	}
 
 }

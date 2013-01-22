@@ -23,14 +23,17 @@ public class I18NOrderedLayoutTest extends AbstractI18NTest {
 
 		performTest(i18NOrderedLayout, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return component.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}

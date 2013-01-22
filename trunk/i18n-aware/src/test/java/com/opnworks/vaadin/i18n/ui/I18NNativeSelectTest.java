@@ -14,19 +14,21 @@ public class I18NNativeSelectTest extends AbstractI18NTest {
 	@Test
 	public void testConstructorCaptionKey() {
 
-		final I18NNativeSelect i18NNativeSelect = new I18NNativeSelect(
-				TEST_KEY_1);
+		final I18NNativeSelect i18NNativeSelect = new I18NNativeSelect(TEST_KEY_1);
 
 		performTest(i18NNativeSelect, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NNativeSelect.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -37,21 +39,23 @@ public class I18NNativeSelectTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionKey() {
 
-		final I18NNativeSelect i18NNativeSelect = new I18NNativeSelect(
-				TEST_KEY_1);
+		final I18NNativeSelect i18NNativeSelect = new I18NNativeSelect(TEST_KEY_1);
 
 		i18NNativeSelect.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NNativeSelect, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NNativeSelect.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -70,14 +74,17 @@ public class I18NNativeSelectTest extends AbstractI18NTest {
 
 		performTest(i18NNativeSelect, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NNativeSelect.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_3;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return params;
 			}
@@ -87,21 +94,23 @@ public class I18NNativeSelectTest extends AbstractI18NTest {
 	@Test
 	public void testsetRequiredErrorMessage() {
 
-		final I18NNativeSelect i18NNativeSelect = new I18NNativeSelect(
-				TEST_KEY_1);
+		final I18NNativeSelect i18NNativeSelect = new I18NNativeSelect(TEST_KEY_1);
 
 		i18NNativeSelect.setRequiredErrorMessage(TEST_KEY_2);
 
 		performTest(i18NNativeSelect, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NNativeSelect.getRequiredError();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}

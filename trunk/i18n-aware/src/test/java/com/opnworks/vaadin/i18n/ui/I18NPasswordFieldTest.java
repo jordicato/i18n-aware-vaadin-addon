@@ -14,19 +14,21 @@ public class I18NPasswordFieldTest extends AbstractI18NTest {
 	@Test
 	public void testConstructorCaptionKey() {
 
-		final I18NPasswordField i18NPasswordField = new I18NPasswordField(
-				TEST_KEY_1);
+		final I18NPasswordField i18NPasswordField = new I18NPasswordField(TEST_KEY_1);
 
 		performTest(i18NPasswordField, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NPasswordField.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -37,21 +39,23 @@ public class I18NPasswordFieldTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionKey() {
 
-		final I18NPasswordField i18NPasswordField = new I18NPasswordField(
-				TEST_KEY_1);
+		final I18NPasswordField i18NPasswordField = new I18NPasswordField(TEST_KEY_1);
 
 		i18NPasswordField.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NPasswordField, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NPasswordField.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -70,14 +74,17 @@ public class I18NPasswordFieldTest extends AbstractI18NTest {
 
 		performTest(i18NPasswordField, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NPasswordField.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_3;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return params;
 			}
@@ -87,21 +94,23 @@ public class I18NPasswordFieldTest extends AbstractI18NTest {
 	@Test
 	public void testsetRequiredErrorMessage() {
 
-		final I18NPasswordField i18NPasswordField = new I18NPasswordField(
-				TEST_KEY_1);
+		final I18NPasswordField i18NPasswordField = new I18NPasswordField(TEST_KEY_1);
 
 		i18NPasswordField.setRequiredErrorMessage(TEST_KEY_2);
 
 		performTest(i18NPasswordField, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NPasswordField.getRequiredError();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}

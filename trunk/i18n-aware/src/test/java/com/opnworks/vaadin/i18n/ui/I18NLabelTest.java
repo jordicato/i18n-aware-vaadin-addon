@@ -17,17 +17,20 @@ public class I18NLabelTest extends AbstractI18NTest {
 		final I18NLabel i18NI18NLabel = new I18NLabel();
 
 		i18NI18NLabel.setValueMessage(TEST_KEY_1);
-		
+
 		performTest(i18NI18NLabel, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
-				return (String)i18NI18NLabel.getValue();
+				return (String) i18NI18NLabel.getValue();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -43,14 +46,17 @@ public class I18NLabelTest extends AbstractI18NTest {
 
 		performTest(i18NI18NLabel, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NI18NLabel.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -69,43 +75,48 @@ public class I18NLabelTest extends AbstractI18NTest {
 
 		performTest(i18NI18NLabel, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
-				return (String)i18NI18NLabel.getCaption();
+				return i18NI18NLabel.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_3;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return params;
 			}
 		});
 	}
 
-	
 	@Test
 	public void testSetValueKey() {
 
 		final I18NLabel i18NI18NLabel = new I18NLabel(TEST_KEY_1);
-		
+
 		i18NI18NLabel.setValueMessage(TEST_KEY_2);
 
 		performTest(i18NI18NLabel, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
-				return (String)i18NI18NLabel.getValue();
+				return (String) i18NI18NLabel.getValue();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
 		});
 
 	}
-	
+
 }

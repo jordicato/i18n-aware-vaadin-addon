@@ -36,24 +36,57 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareField {
 		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
 	}
 
-	public I18NOptionGroup(@I18NAwareMessage String captionKey,
-			Collection<?> options) {
+	public I18NOptionGroup(@I18NAwareMessage String captionKey, Collection<?> options) {
 		super(captionKey, options);
 		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
 	}
 
-	public I18NOptionGroup(@I18NAwareMessage String captionKey,
-			Container dataSource) {
+	public I18NOptionGroup(@I18NAwareMessage String captionKey, Container dataSource) {
 		super(captionKey, dataSource);
 		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
 	}
 
-	public void setItemCaptionKey(Object itemId,
-			@I18NAwareMessage String captionKey) {
+	@Override
+	public void i18NUpdate(I18NService i18N) {
+		getI18NAwareFieldSupport().i18NUpdate(i18N);
+		updateItemCaptionKeys(i18N);
+	}
+
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+
+	@Override
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
+	}
+
+	@Override
+	public void setDescription(String descriptionKey) {
+		setDescriptionMessage(descriptionKey);
+	}
+
+	@Override
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
+		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
+	}
+
+	public void setItemCaptionKey(Object itemId, @I18NAwareMessage String captionKey) {
 		itemCaptionKeys.put(itemId, captionKey);
 		if (I18NServiceImpl.getInstance() != null) {
 			updateItemCaptionKey(itemId, I18NServiceImpl.getInstance());
 		}
+	}
+
+	@Override
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
+	}
+
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
 	}
 
 	@Override
@@ -67,60 +100,17 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareField {
 	}
 
 	@Override
-	public void setRequiredErrorMessage(
-			@I18NAwareMessage String requiredErrorKey,
-			Object... requiredErrorParams) {
-		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey,
-				requiredErrorParams);
+	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
+		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
-	@Override
-	public void setRealCaption(String caption) {
-		super.setCaption(caption);
-	}
+	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
 
-	@Override
-	public void setCaption(String captionKey) {
-		setCaptionMessage(captionKey);
-	}
-
-	@Override
-	public void setCaptionMessage(@I18NAwareMessage String captionKey,
-			Object... params) {
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
-	}
-
-	@Override
-	public void setRealDescription(String description) {
-		super.setDescription(description);
-	}
-
-	@Override
-	public void setDescription(String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
-	}
-
-	@Override
-	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
-			Object... descriptionParams) {
-		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey,
-				descriptionParams);
-	}
-
-	@Override
-	public void i18NUpdate(I18NService i18N) {
-		getI18NAwareFieldSupport().i18NUpdate(i18N);
-		updateItemCaptionKeys(i18N);
-	}
-
-	private void updateItemCaptionKeys(I18NService i18N) {
-		Collection<?> itemIds = getItemIds();
-		Map<Object, String> updatedItemCaptionKeys = new HashMap<Object, String>();
-		for (Object itemId : itemIds) {
-			String itemCaptionKey = updateItemCaptionKey(itemId, i18N);
-			updatedItemCaptionKeys.put(itemId, itemCaptionKey);
+		if (i18NAwareFieldSupport == null) {
+			i18NAwareFieldSupport = new I18NAwareFieldSupport(this);
 		}
-		itemCaptionKeys = updatedItemCaptionKeys;
+
+		return i18NAwareFieldSupport;
 	}
 
 	private String updateItemCaptionKey(Object itemId, I18NService i18N) {
@@ -131,14 +121,15 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareField {
 		setItemCaption(itemId, i18N.getMessage(itemCaptionKey));
 		return itemCaptionKey;
 	}
-	
-	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
 
-		if (i18NAwareFieldSupport == null) {
-			i18NAwareFieldSupport = new I18NAwareFieldSupport(this);
+	private void updateItemCaptionKeys(I18NService i18N) {
+		Collection<?> itemIds = getItemIds();
+		Map<Object, String> updatedItemCaptionKeys = new HashMap<Object, String>();
+		for (Object itemId : itemIds ) {
+			String itemCaptionKey = updateItemCaptionKey(itemId, i18N);
+			updatedItemCaptionKeys.put(itemId, itemCaptionKey);
 		}
-
-		return i18NAwareFieldSupport;
+		itemCaptionKeys = updatedItemCaptionKeys;
 	}
 
 }

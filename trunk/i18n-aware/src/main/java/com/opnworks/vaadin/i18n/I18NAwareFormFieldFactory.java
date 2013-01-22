@@ -10,7 +10,6 @@ import com.vaadin.ui.Component;
  */
 public interface I18NAwareFormFieldFactory {
 
-	I18NAwareField createI18NAwareField(Item item, Object propertyId,
-			Component uiContext);
+	I18NAwareField createI18NAwareField(Item item, Object propertyId, Component uiContext);
 
 }

@@ -12,20 +12,55 @@ import com.opnworks.vaadin.i18n.AbstractI18NTest;
 public class I18NWindowTest extends AbstractI18NTest {
 
 	@Test
+	public void testAddComponent() {
+
+		final I18NWindow i18NWindow = new I18NWindow(TEST_KEY_2);
+
+		I18NVerticalLayout component = new I18NVerticalLayout();
+
+		final I18NButton button = new I18NButton(TEST_KEY_1);
+
+		component.addComponent(button);
+
+		i18NWindow.addComponent(component);
+
+		performTest(i18NWindow, new I18NAwareTest() {
+
+			@Override
+			public String getActualValue() {
+				return button.getCaption();
+			}
+
+			@Override
+			public String getKey() {
+				return TEST_KEY_1;
+			}
+
+			@Override
+			public Object[] getParams() {
+				return null;
+			}
+		});
+	}
+
+	@Test
 	public void testConstructorCaptionKey() {
 
 		final I18NWindow i18NWindow = new I18NWindow(TEST_KEY_1);
 
 		performTest(i18NWindow, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NWindow.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -42,14 +77,17 @@ public class I18NWindowTest extends AbstractI18NTest {
 
 		performTest(i18NWindow, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NWindow.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -68,14 +106,17 @@ public class I18NWindowTest extends AbstractI18NTest {
 
 		performTest(i18NWindow, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NWindow.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_3;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return params;
 			}
@@ -90,50 +131,24 @@ public class I18NWindowTest extends AbstractI18NTest {
 		I18NVerticalLayout component = new I18NVerticalLayout();
 
 		final I18NButton button = new I18NButton(TEST_KEY_1);
-		
+
 		component.addComponent(button);
 
 		i18NWindow.setContent(component);
 
 		performTest(i18NWindow, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return button.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
-			public Object[] getParams() {
-				return null;
-			}
-		});
-	}
-
-	@Test
-	public void testAddComponent() {
-
-		final I18NWindow i18NWindow = new I18NWindow(TEST_KEY_2);
-
-		I18NVerticalLayout component = new I18NVerticalLayout();
-
-		final I18NButton button = new I18NButton(TEST_KEY_1);
-		
-		component.addComponent(button);
-
-		i18NWindow.addComponent(component);
-
-		performTest(i18NWindow, new I18NAwareTest() {
-
-			public String getActualValue() {
-				return button.getCaption();
-			}
-
-			public String getKey() {
-				return TEST_KEY_1;
-			}
-
+			@Override
 			public Object[] getParams() {
 				return null;
 			}

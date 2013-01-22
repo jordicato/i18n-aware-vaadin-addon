@@ -17,12 +17,6 @@ public class I18NServiceImpl implements I18NService {
 
 	private static ThreadLocal<I18NService> threadLocal = new ThreadLocal<I18NService>();
 
-	private I18NMessageProvider i18NMessageProvider;
-
-	private List<I18NAware> i18NAwares = new ArrayList<I18NAware>();
-
-	private Locale locale;
-
 	/**
 	 * Retrieve the current application I18NService instance
 	 * 
@@ -35,9 +29,7 @@ public class I18NServiceImpl implements I18NService {
 	/**
 	 * Set the current application I18NService instance
 	 * 
-	 * Your application must invoke I18NServiceImpl.setInstance on
-	 * HttpServletRequestListener.onRequestStart &
-	 * HttpServletRequestListener.onRequestEnd
+	 * Your application must invoke I18NServiceImpl.setInstance on HttpServletRequestListener.onRequestStart & HttpServletRequestListener.onRequestEnd
 	 * 
 	 * <code> 
 	 * public class MyApplication extends Application implements HttpServletRequestListener {
@@ -68,9 +60,40 @@ public class I18NServiceImpl implements I18NService {
 		threadLocal.set(i18NService);
 	}
 
+	private I18NMessageProvider i18NMessageProvider;
+
+	private List<I18NAware> i18NAwares = new ArrayList<I18NAware>();
+
+	private Locale locale;
+
 	public I18NServiceImpl(I18NMessageProvider i18NMessageProvider) {
 		this.i18NMessageProvider = i18NMessageProvider;
-		locale=Locale.getDefault();
+		locale = Locale.getDefault();
+	}
+
+	@Override
+	public Locale getLocale() {
+		return locale;
+	}
+
+	@Override
+	public String getMessage(Locale locale, String key, Object... args) {
+		try {
+			return i18NMessageProvider.getMessage(locale, key, args);
+		}
+		catch (Exception e) {
+			return locale.toString() + ":" + key;
+		}
+	}
+
+	@Override
+	public String getMessage(String key, Object... args) {
+		try {
+			return getMessage(locale, key, args);
+		}
+		catch (Exception e) {
+			return locale.toString() + ":" + key;
+		}
 	}
 
 	@Override
@@ -90,32 +113,9 @@ public class I18NServiceImpl implements I18NService {
 		i18nUpdate();
 	}
 
-	@Override
-	public Locale getLocale() {
-		return locale;
-	}
-
 	private void i18nUpdate() {
-		for (I18NAware i18NAware : i18NAwares) {
+		for (I18NAware i18NAware : i18NAwares ) {
 			i18NAware.i18NUpdate(this);
-		}
-	}
-
-	@Override
-	public String getMessage(String key, Object... args) {
-		try {
-			return getMessage(locale, key, args);
-		} catch (Exception e) {
-			return "" + locale + ":" + key;
-		}
-	}
-
-	@Override
-	public String getMessage(Locale locale, String key, Object... args) {
-		try {
-			return i18NMessageProvider.getMessage(locale, key, args);
-		} catch (Exception e) {
-			return "" + locale + ":" + key;
 		}
 	}
 }

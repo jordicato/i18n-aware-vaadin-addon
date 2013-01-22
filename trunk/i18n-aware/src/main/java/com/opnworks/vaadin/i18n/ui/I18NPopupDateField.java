@@ -18,8 +18,7 @@ import com.vaadin.ui.PopupDateField;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
-public class I18NPopupDateField extends PopupDateField implements
-		I18NAwareField {
+public class I18NPopupDateField extends PopupDateField implements I18NAwareField {
 
 	private static final long serialVersionUID = 8283053228212397120L;
 
@@ -39,14 +38,23 @@ public class I18NPopupDateField extends PopupDateField implements
 	 * 
 	 * @param dataSource
 	 */
-	public I18NPopupDateField(Property dataSource)
-			throws IllegalArgumentException {
+	public I18NPopupDateField(Property dataSource) {
 		super(dataSource);
 	}
 
 	/**
-	 * Constructs an i18n <code>PopupDateField</code> with caption message key
-	 * and initial value.
+	 * Constructs an empty i18n <code>PopupDateField</code> with caption message key.
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the PopupDateField.
+	 */
+	public I18NPopupDateField(@I18NAwareMessage String captionKey) {
+		super(captionKey);
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
+	}
+
+	/**
+	 * Constructs an i18n <code>PopupDateField</code> with caption message key and initial value.
 	 * 
 	 * @param captionKey
 	 *            the caption message key of the datefield.
@@ -58,35 +66,58 @@ public class I18NPopupDateField extends PopupDateField implements
 	}
 
 	/**
-	 * Constructs an i18n <code>PopupDateField</code> with caption message key
-	 * and dataSource.
+	 * Constructs an i18n <code>PopupDateField</code> with caption message key and dataSource.
 	 * 
 	 * @param captionKey
 	 *            the caption message key of the PopupDateField.
 	 * @param dataSource
 	 */
-	public I18NPopupDateField(@I18NAwareMessage String captionKey,
-			Property dataSource) {
+	public I18NPopupDateField(@I18NAwareMessage String captionKey, Property dataSource) {
 		super(captionKey, dataSource);
 		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
 	}
 
-	/**
-	 * Constructs an empty i18n <code>PopupDateField</code> with caption message
-	 * key.
-	 * 
-	 * @param captionKey
-	 *            the caption message key of the PopupDateField.
-	 */
-	public I18NPopupDateField(@I18NAwareMessage String captionKey) {
-		super(captionKey);
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
+	@Override
+	public void i18NUpdate(I18NService i18N) {
+
+		setLocale(i18N.getLocale());
+
+		getI18NAwareFieldSupport().i18NUpdate(i18N);
+		getI18NInputPromptSupport().i18NUpdate(i18N);
 	}
 
-	public void setInputPromptKey(String inputPromptKey,
-			Object... inputPromptParams) {
-		getI18NInputPromptSupport().setValueMessage(inputPromptKey,
-				inputPromptParams);
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+
+	@Override
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
+	}
+
+	@Override
+	public void setDescription(String descriptionKey) {
+		setDescriptionMessage(descriptionKey);
+	}
+
+	@Override
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
+		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
+	}
+
+	public void setInputPromptKey(String inputPromptKey, Object... inputPromptParams) {
+		getI18NInputPromptSupport().setValueMessage(inputPromptKey, inputPromptParams);
+	}
+
+	@Override
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
+	}
+
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
 	}
 
 	@Override
@@ -100,53 +131,8 @@ public class I18NPopupDateField extends PopupDateField implements
 	}
 
 	@Override
-	public void setRequiredErrorMessage(
-			@I18NAwareMessage String requiredErrorKey,
-			Object... requiredErrorParams) {
-		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey,
-				requiredErrorParams);
-	}
-
-	@Override
-	public void setRealCaption(String caption) {
-		super.setCaption(caption);
-	}
-
-	@Override
-	public void setCaption(String captionKey) {
-		setCaptionMessage(captionKey);
-	}
-
-	@Override
-	public void setCaptionMessage(@I18NAwareMessage String captionKey,
-			Object... params) {
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
-	}
-
-	@Override
-	public void setRealDescription(String description) {
-		super.setDescription(description);
-	}
-
-	@Override
-	public void setDescription(String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
-	}
-
-	@Override
-	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
-			Object... descriptionParams) {
-		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey,
-				descriptionParams);
-	}
-
-	@Override
-	public void i18NUpdate(I18NService i18N) {
-
-		setLocale(i18N.getLocale());
-
-		getI18NAwareFieldSupport().i18NUpdate(i18N);
-		getI18NInputPromptSupport().i18NUpdate(i18N);
+	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
+		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
 	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
@@ -161,13 +147,12 @@ public class I18NPopupDateField extends PopupDateField implements
 	private I18NAwareValueSupport getI18NInputPromptSupport() {
 
 		if (i18NInputPromptSupport == null) {
-			i18NInputPromptSupport = new I18NAwareValueSupport(
-					new ValueContainer() {
-						@Override
-						public void setValue(String value) {
-							setInputPrompt(value);
-						}
-					});
+			i18NInputPromptSupport = new I18NAwareValueSupport(new ValueContainer() {
+				@Override
+				public void setValue(String value) {
+					setInputPrompt(value);
+				}
+			});
 		}
 
 		return i18NInputPromptSupport;

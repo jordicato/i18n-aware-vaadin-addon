@@ -20,7 +20,7 @@ public class I18NEmailValidator extends EmailValidator implements I18NAwareValid
 
 	private String errorMessageKey;
 	private String fieldNameKey;
-	
+
 	private Locale locale;
 
 	public I18NEmailValidator(String errorMessageKey, String fieldNameKey) {
@@ -29,38 +29,37 @@ public class I18NEmailValidator extends EmailValidator implements I18NAwareValid
 
 		this.errorMessageKey = errorMessageKey;
 		this.fieldNameKey = fieldNameKey;
-		
+
 		i18NUpdate();
+	}
+
+	@Override
+	public Locale getLocale() {
+		return locale;
+	}
+
+	@Override
+	public void i18NUpdate(I18NService i18N) {
+
+		setLocale(i18N.getLocale());
+
+		setErrorMessage(i18N.getMessage(errorMessageKey, "{0}", i18N.getMessage(fieldNameKey)));
 	}
 
 	public void setErrorMessageKey(String errorMessageKey) {
 		this.errorMessageKey = errorMessageKey;
 		i18NUpdate();
 	}
-	
+
 	@Override
 	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
-	
-	@Override
-	public Locale getLocale() {
-		return locale;
-	}
 
 	private void i18NUpdate() {
-		if( I18NServiceImpl.getInstance() != null ) {
-			i18NUpdate( I18NServiceImpl.getInstance() );
+		if (I18NServiceImpl.getInstance() != null) {
+			i18NUpdate(I18NServiceImpl.getInstance());
 		}
-	}
-	
-	@Override
-	public void i18NUpdate(I18NService i18N) {
-
-		setLocale( i18N.getLocale() );
-		
-		setErrorMessage(i18N.getMessage(errorMessageKey, "{0}",
-				i18N.getMessage(fieldNameKey)));
 	}
 
 }

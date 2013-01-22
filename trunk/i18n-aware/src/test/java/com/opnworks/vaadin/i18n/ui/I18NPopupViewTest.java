@@ -16,22 +16,54 @@ import com.vaadin.ui.PopupView;
 public class I18NPopupViewTest extends AbstractI18NTest {
 
 	@Test
-	public void testConstructorWithSmallLarge() {
+	public void testConstructorWithI18NPopupViewContent() {
 
 		final I18NButton component = new I18NButton(TEST_KEY_1);
 
-		final I18NPopupView i18NPopupView = new I18NPopupView("ABC", component);
+		@SuppressWarnings("serial")
+		final I18NPopupView.I18NContent content = new I18NPopupView.I18NContent() {
+			@Override
+			public String getI18NMinimizedValueAsHTML(I18NService i18nService) {
+				return i18nService.getMessage(TEST_KEY_2);
+			}
+
+			@Override
+			public I18NAwareComponent getI18nPopupComponent() {
+				return component;
+			}
+		};
+
+		final I18NPopupView i18NPopupView = new I18NPopupView(content);
 
 		performTest(i18NPopupView, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
-				return component.getCaption();
+				return content.getMinimizedValueAsHTML();
 			}
 
+			@Override
+			public String getKey() {
+				return TEST_KEY_2;
+			}
+
+			@Override
+			public Object[] getParams() {
+				return null;
+			}
+		}, new I18NAwareTest() {
+
+			@Override
+			public String getActualValue() {
+				return content.getPopupComponent().getCaption();
+			}
+
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -60,14 +92,17 @@ public class I18NPopupViewTest extends AbstractI18NTest {
 
 		performTest(i18NPopupView, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return component.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -75,46 +110,25 @@ public class I18NPopupViewTest extends AbstractI18NTest {
 	}
 
 	@Test
-	public void testConstructorWithI18NPopupViewContent() {
+	public void testConstructorWithSmallLarge() {
 
 		final I18NButton component = new I18NButton(TEST_KEY_1);
 
-		@SuppressWarnings("serial")
-		final I18NPopupView.I18NContent content = new I18NPopupView.I18NContent() {
-			public String getI18NMinimizedValueAsHTML(I18NService i18nService) {
-				return i18nService.getMessage(TEST_KEY_2);
-			}
-
-			public I18NAwareComponent getI18nPopupComponent() {
-				return component;
-			}
-		};
-
-		final I18NPopupView i18NPopupView = new I18NPopupView(content);
+		final I18NPopupView i18NPopupView = new I18NPopupView("ABC", component);
 
 		performTest(i18NPopupView, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
-				return content.getMinimizedValueAsHTML();
+				return component.getCaption();
 			}
 
-			public String getKey() {
-				return TEST_KEY_2;
-			}
-
-			public Object[] getParams() {
-				return null;
-			}
-		}, new I18NAwareTest() {
-
-			public String getActualValue() {
-				return content.getPopupComponent().getCaption();
-			}
-
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -130,14 +144,17 @@ public class I18NPopupViewTest extends AbstractI18NTest {
 
 		performTest(i18NPopupView, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NPopupView.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -156,14 +173,17 @@ public class I18NPopupViewTest extends AbstractI18NTest {
 
 		performTest(i18NPopupView, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NPopupView.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_3;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return params;
 			}

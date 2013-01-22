@@ -18,27 +18,22 @@ public class I18NIndexedContainer extends IndexedContainer implements I18NAware 
 	private static final long serialVersionUID = 4796387361379052615L;
 
 	private Locale locale;
-	
-	@Override
-	public void setLocale(Locale locale) {
-		this.locale = locale;
-	}
-	
+
 	@Override
 	public Locale getLocale() {
 		return locale;
 	}
-	
+
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		
+
 		setLocale(i18N.getLocale());
 
-		for (Object itemId : getItemIds()) {
+		for (Object itemId : getItemIds() ) {
 
 			Item item = getItem(itemId);
 
-			for (Object propertyId : item.getItemPropertyIds()) {
+			for (Object propertyId : item.getItemPropertyIds() ) {
 
 				Property property = item.getItemProperty(propertyId);
 
@@ -55,6 +50,11 @@ public class I18NIndexedContainer extends IndexedContainer implements I18NAware 
 			}
 		}
 
+	}
+
+	@Override
+	public void setLocale(Locale locale) {
+		this.locale = locale;
 	}
 
 }

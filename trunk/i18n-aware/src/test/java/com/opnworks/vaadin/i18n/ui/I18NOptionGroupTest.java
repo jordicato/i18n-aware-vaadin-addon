@@ -18,14 +18,17 @@ public class I18NOptionGroupTest extends AbstractI18NTest {
 
 		performTest(i18NOptionGroup, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NOptionGroup.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -41,14 +44,17 @@ public class I18NOptionGroupTest extends AbstractI18NTest {
 
 		performTest(i18NOptionGroup, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NOptionGroup.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -67,39 +73,19 @@ public class I18NOptionGroupTest extends AbstractI18NTest {
 
 		performTest(i18NOptionGroup, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NOptionGroup.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_3;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return params;
-			}
-		});
-	}
-
-	@Test
-	public void testsetRequiredErrorMessage() {
-
-		final I18NOptionGroup i18NOptionGroup = new I18NOptionGroup(TEST_KEY_1);
-
-		i18NOptionGroup.setRequiredErrorMessage(TEST_KEY_2);
-
-		performTest(i18NOptionGroup, new I18NAwareTest() {
-
-			public String getActualValue() {
-				return i18NOptionGroup.getRequiredError();
-			}
-
-			public String getKey() {
-				return TEST_KEY_2;
-			}
-
-			public Object[] getParams() {
-				return null;
 			}
 		});
 	}
@@ -117,32 +103,64 @@ public class I18NOptionGroupTest extends AbstractI18NTest {
 
 		performTest(i18NOptionGroup, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NOptionGroup.getItemCaption("Item1");
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
 		}, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NOptionGroup.getItemCaption("Item2");
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
 		});
 
+	}
+
+	@Test
+	public void testsetRequiredErrorMessage() {
+
+		final I18NOptionGroup i18NOptionGroup = new I18NOptionGroup(TEST_KEY_1);
+
+		i18NOptionGroup.setRequiredErrorMessage(TEST_KEY_2);
+
+		performTest(i18NOptionGroup, new I18NAwareTest() {
+
+			@Override
+			public String getActualValue() {
+				return i18NOptionGroup.getRequiredError();
+			}
+
+			@Override
+			public String getKey() {
+				return TEST_KEY_2;
+			}
+
+			@Override
+			public Object[] getParams() {
+				return null;
+			}
+		});
 	}
 
 }

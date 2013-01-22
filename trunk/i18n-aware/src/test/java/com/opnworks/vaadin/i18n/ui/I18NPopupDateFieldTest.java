@@ -18,14 +18,17 @@ public class I18NPopupDateFieldTest extends AbstractI18NTest {
 
 		performTest(i18NPopupDateField, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NPopupDateField.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -42,14 +45,17 @@ public class I18NPopupDateFieldTest extends AbstractI18NTest {
 
 		performTest(i18NPopupDateField, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NPopupDateField.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -68,44 +74,23 @@ public class I18NPopupDateFieldTest extends AbstractI18NTest {
 
 		performTest(i18NPopupDateField, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NPopupDateField.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_3;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return params;
 			}
 		});
 	}
 
-	@Test
-	public void testsetRequiredErrorMessage() {
-
-		final I18NPopupDateField i18NPopupDateField = new I18NPopupDateField(TEST_KEY_1);
-
-		i18NPopupDateField.setRequiredErrorMessage(TEST_KEY_2);
-
-		performTest(i18NPopupDateField, new I18NAwareTest() {
-
-			public String getActualValue() {
-				return i18NPopupDateField.getRequiredError();
-			}
-
-			public String getKey() {
-				return TEST_KEY_2;
-			}
-
-			public Object[] getParams() {
-				return null;
-			}
-		});
-	}
-
-	
 	@Test
 	public void testSetInputPromptKey() {
 
@@ -115,14 +100,17 @@ public class I18NPopupDateFieldTest extends AbstractI18NTest {
 
 		performTest(i18NPopupDateField, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NPopupDateField.getInputPrompt();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -140,18 +128,47 @@ public class I18NPopupDateFieldTest extends AbstractI18NTest {
 
 		performTest(i18NPopupDateField, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NPopupDateField.getInputPrompt();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return params;
 			}
 		});
 	}
-	
+
+	@Test
+	public void testsetRequiredErrorMessage() {
+
+		final I18NPopupDateField i18NPopupDateField = new I18NPopupDateField(TEST_KEY_1);
+
+		i18NPopupDateField.setRequiredErrorMessage(TEST_KEY_2);
+
+		performTest(i18NPopupDateField, new I18NAwareTest() {
+
+			@Override
+			public String getActualValue() {
+				return i18NPopupDateField.getRequiredError();
+			}
+
+			@Override
+			public String getKey() {
+				return TEST_KEY_2;
+			}
+
+			@Override
+			public Object[] getParams() {
+				return null;
+			}
+		});
+	}
+
 }
