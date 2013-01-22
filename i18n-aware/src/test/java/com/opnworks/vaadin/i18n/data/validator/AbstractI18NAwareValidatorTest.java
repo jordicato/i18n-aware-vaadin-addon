@@ -15,33 +15,26 @@ import com.opnworks.vaadin.i18n.I18NAwareValidator;
  */
 public class AbstractI18NAwareValidatorTest extends AbstractI18NTest {
 
-	protected void performTest(I18NAwareValidator i18NServiceAwareValidator,
-			I18NAwareValidatorTest test) {
-
-		i18NService.setLocale(Locale.ENGLISH);
-		i18NServiceAwareValidator.i18NUpdate(i18NService);
-
-		assertThat(
-				test.getActualValue(),
-				is(i18NService.getMessage(test.getKey(),
-						i18NService.getMessage(test.getFieldKey()))));
-
-		i18NService.setLocale(Locale.FRENCH);
-		i18NServiceAwareValidator.i18NUpdate(i18NService);
-
-		assertThat(
-				test.getActualValue(),
-				is(i18NService.getMessage(test.getKey(),
-						i18NService.getMessage(test.getFieldKey()))));
-	}
-
 	public interface I18NAwareValidatorTest {
 
 		String getActualValue();
 
-		String getKey();
-
 		String getFieldKey();
+
+		String getKey();
+	}
+
+	protected void performTest(I18NAwareValidator i18NServiceAwareValidator, I18NAwareValidatorTest test) {
+
+		i18NService.setLocale(Locale.ENGLISH);
+		i18NServiceAwareValidator.i18NUpdate(i18NService);
+
+		assertThat(test.getActualValue(), is(i18NService.getMessage(test.getKey(), i18NService.getMessage(test.getFieldKey()))));
+
+		i18NService.setLocale(Locale.FRENCH);
+		i18NServiceAwareValidator.i18NUpdate(i18NService);
+
+		assertThat(test.getActualValue(), is(i18NService.getMessage(test.getKey(), i18NService.getMessage(test.getFieldKey()))));
 	}
 
 }

@@ -19,20 +19,23 @@ import com.vaadin.ui.TableFieldFactory;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public class I18NDefaultFieldFactory implements I18NAwareFormFieldFactory,
-		I18NAwareTableFieldFactory, FormFieldFactory, TableFieldFactory {
+public class I18NDefaultFieldFactory implements I18NAwareFormFieldFactory, I18NAwareTableFieldFactory, FormFieldFactory, TableFieldFactory {
 
 	private static final long serialVersionUID = 4477342039842651573L;
-	
-	private static final I18NDefaultFieldFactory singleton = new I18NDefaultFieldFactory();
+
+	private static final I18NDefaultFieldFactory SINGLETON = new I18NDefaultFieldFactory();
 
 	public static I18NDefaultFieldFactory getInstance() {
-		return singleton;
+		return SINGLETON;
+	}
+
+	public String createCaptionKeyByPropertyId(Object propertyId, Component uiContext) {
+
+		return uiContext.getClass().getSimpleName() + "." + propertyId;
 	}
 
 	@Override
-	public Field createField(Container container, Object itemId,
-			Object propertyId, Component uiContext) {
+	public Field createField(Container container, Object itemId, Object propertyId, Component uiContext) {
 
 		return createI18NAwareField(container, itemId, propertyId, uiContext);
 	}
@@ -42,28 +45,21 @@ public class I18NDefaultFieldFactory implements I18NAwareFormFieldFactory,
 		return createI18NAwareField(item, propertyId, uiContext);
 	}
 
-	public I18NAwareField createI18NAwareField(Item item, Object propertyId,
-			Component uiContext) {
-		Class<?> type = item.getItemProperty(propertyId).getType();
-		I18NAwareField field = createI18NFieldByPropertyType(type);
-		field.setCaptionMessage(createCaptionKeyByPropertyId(propertyId, uiContext));
-		return field;
-	}
-
-	public I18NAwareField createI18NAwareField(Container container,
-			Object itemId, Object propertyId, Component uiContext) {
-		Property containerProperty = container.getContainerProperty(itemId,
-				propertyId);
+	@Override
+	public I18NAwareField createI18NAwareField(Container container, Object itemId, Object propertyId, Component uiContext) {
+		Property containerProperty = container.getContainerProperty(itemId, propertyId);
 		Class<?> type = containerProperty.getType();
 		I18NAwareField field = createI18NFieldByPropertyType(type);
 		field.setCaptionMessage(createCaptionKeyByPropertyId(propertyId, uiContext));
 		return field;
 	}
 
-	public String createCaptionKeyByPropertyId(Object propertyId,
-			Component uiContext) {
-
-		return uiContext.getClass().getSimpleName() + "." + propertyId;
+	@Override
+	public I18NAwareField createI18NAwareField(Item item, Object propertyId, Component uiContext) {
+		Class<?> type = item.getItemProperty(propertyId).getType();
+		I18NAwareField field = createI18NFieldByPropertyType(type);
+		field.setCaptionMessage(createCaptionKeyByPropertyId(propertyId, uiContext));
+		return field;
 	}
 
 	public I18NAwareField createI18NFieldByPropertyType(Class<?> type) {

@@ -18,14 +18,17 @@ public class I18NSliderTest extends AbstractI18NTest {
 
 		performTest(i18NSlider, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NSlider.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -42,14 +45,17 @@ public class I18NSliderTest extends AbstractI18NTest {
 
 		performTest(i18NSlider, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NSlider.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -68,14 +74,17 @@ public class I18NSliderTest extends AbstractI18NTest {
 
 		performTest(i18NSlider, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NSlider.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_3;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return params;
 			}
@@ -91,14 +100,17 @@ public class I18NSliderTest extends AbstractI18NTest {
 
 		performTest(i18NSlider, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NSlider.getRequiredError();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}

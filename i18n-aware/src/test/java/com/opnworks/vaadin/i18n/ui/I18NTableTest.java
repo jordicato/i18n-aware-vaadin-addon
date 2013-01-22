@@ -17,14 +17,98 @@ public class I18NTableTest extends AbstractI18NTest {
 
 		performTest(i18NTable, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NTable.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
+			public Object[] getParams() {
+				return null;
+			}
+		});
+
+	}
+
+	@Test
+	public void testI18NAwareAction() {
+
+		final I18NTable i18NTable = new I18NTable();
+
+		final I18NAction testAction = new I18NAction(TEST_KEY_1);
+
+		Action.Handler actionHandler = new Action.Handler() {
+			private static final long serialVersionUID = 2901525218606074985L;
+
+			@Override
+			public Action[] getActions(Object target, Object sender) {
+				return new Action[] { testAction };
+			}
+
+			@Override
+			public void handleAction(Action action, Object sender, Object target) {
+			}
+		};
+
+		i18NTable.addActionHandler(actionHandler);
+
+		performTest(i18NTable, new I18NAwareTest() {
+
+			@Override
+			public String getActualValue() {
+				return testAction.getCaption();
+			}
+
+			@Override
+			public String getKey() {
+				return TEST_KEY_1;
+			}
+
+			@Override
+			public Object[] getParams() {
+				return null;
+			}
+		});
+
+	}
+
+	@Test
+	public void testI18NAwareItem() {
+
+		final I18NTable i18NTable = new I18NTable();
+
+		final I18NTable component = new I18NTable(TEST_KEY_2);
+
+		I18NIndexedContainer container = new I18NIndexedContainer();
+
+		container.addContainerProperty("A", I18NTable.class, null);
+
+		Item item = container.addItem(1);
+
+		item.getItemProperty("A").setValue(component);
+
+		i18NTable.setContainerDataSource(container);
+
+		i18NTable.setColumnHeadersKeys(new String[] { TEST_KEY_1 });
+
+		performTest(i18NTable, new I18NAwareTest() {
+
+			@Override
+			public String getActualValue() {
+				return component.getCaption();
+			}
+
+			@Override
+			public String getKey() {
+				return TEST_KEY_2;
+			}
+
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -41,14 +125,17 @@ public class I18NTableTest extends AbstractI18NTest {
 
 		performTest(i18NTable, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NTable.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -67,14 +154,17 @@ public class I18NTableTest extends AbstractI18NTest {
 
 		performTest(i18NTable, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NTable.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_3;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return params;
 			}
@@ -100,91 +190,21 @@ public class I18NTableTest extends AbstractI18NTest {
 
 		performTest(i18NTable, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NTable.getColumnHeaders()[0];
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
 		});
-	}
-
-	@Test
-	public void testI18NAwareItem() {
-
-		final I18NTable i18NTable = new I18NTable();
-
-		final I18NTable component = new I18NTable(TEST_KEY_2);
-
-		I18NIndexedContainer container = new I18NIndexedContainer();
-
-		container.addContainerProperty("A", I18NTable.class, null);
-
-		Item item = container.addItem(1);
-
-		item.getItemProperty("A").setValue(component);
-
-		i18NTable.setContainerDataSource(container);
-
-		i18NTable.setColumnHeadersKeys(new String[] { TEST_KEY_1 });
-
-		performTest(i18NTable, new I18NAwareTest() {
-
-			public String getActualValue() {
-				return component.getCaption();
-			}
-
-			public String getKey() {
-				return TEST_KEY_2;
-			}
-
-			public Object[] getParams() {
-				return null;
-			}
-		});
-
-	}
-
-	@Test
-	public void testI18NAwareAction() {
-
-		final I18NTable i18NTable = new I18NTable();
-
-		final I18NAction testAction = new I18NAction(TEST_KEY_1);
-
-		Action.Handler actionHandler = new Action.Handler() {
-			private static final long serialVersionUID = 2901525218606074985L;
-
-			public Action[] getActions(Object target, Object sender) {
-				return new Action[] { testAction };
-			}
-
-			public void handleAction(Action action, Object sender, Object target) {
-			}
-		};
-
-		i18NTable.addActionHandler(actionHandler);
-
-		performTest(i18NTable, new I18NAwareTest() {
-
-			public String getActualValue() {
-				return testAction.getCaption();
-			}
-
-			public String getKey() {
-				return TEST_KEY_1;
-			}
-
-			public Object[] getParams() {
-				return null;
-			}
-		});
-
 	}
 
 }

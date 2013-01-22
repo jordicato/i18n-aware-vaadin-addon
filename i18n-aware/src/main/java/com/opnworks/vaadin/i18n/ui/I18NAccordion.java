@@ -20,17 +20,9 @@ public class I18NAccordion extends Accordion implements I18NAwareComponent {
 
 	private static final long serialVersionUID = -891019186115514452L;
 
-	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(
-			this);
-	
-	private I18NAwareSupport i18NAwareSupport = new I18NAwareSupport();
+	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 
-	/**
-	 * Constructs a new i18n Accordion.
-	 */
-	public I18NAccordion() {
-		super();
-	}
+	private I18NAwareSupport i18NAwareSupport = new I18NAwareSupport();
 
 	public I18NTab addI18NTab(Component c) {
 		return (I18NTab) addTab(c);
@@ -47,50 +39,13 @@ public class I18NAccordion extends Accordion implements I18NAwareComponent {
 	}
 
 	@Override
-	public Tab addTab(Component c, @I18NAwareMessage String captionKey,
-			Resource icon) {
-		return addI18NTabSupport(c, super.addTab(c, captionKey, icon),
-				captionKey);
+	public Tab addTab(Component c, @I18NAwareMessage String captionKey, Resource icon) {
+		return addI18NTabSupport(c, super.addTab(c, captionKey, icon), captionKey);
 	}
 
 	@Override
-	public Tab addTab(Component c, @I18NAwareMessage String captionKey,
-			Resource icon, int position) {
-		return addI18NTabSupport(c,
-				super.addTab(c, captionKey, icon, position), captionKey);
-	}
-
-	@Override
-	public void setRealCaption(String caption) {
-		super.setCaption(caption);
-	}
-	
-	@Override
-	public void setCaption(String captionKey) {
-		setCaptionMessage(captionKey);
-	}
-	
-	@Override
-	public void setCaptionMessage(@I18NAwareMessage String captionKey,
-			Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
-	}
-
-	@Override
-	public void setRealDescription(String description) {
-		super.setDescription(description);
-	}
-	
-	@Override
-	public void setDescription(String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
-	}
-	
-	@Override
-	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
-			Object... descriptionParams) {
-		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey,
-				descriptionParams);
+	public Tab addTab(Component c, @I18NAwareMessage String captionKey, Resource icon, int position) {
+		return addI18NTabSupport(c, super.addTab(c, captionKey, icon, position), captionKey);
 	}
 
 	@Override
@@ -99,19 +54,48 @@ public class I18NAccordion extends Accordion implements I18NAwareComponent {
 		i18NAwareSupport.i18NUpdate(i18N);
 	}
 
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+
+	@Override
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
+		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
+	}
+
+	@Override
+	public void setDescription(String descriptionKey) {
+		setDescriptionMessage(descriptionKey);
+	}
+
+	@Override
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
+		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
+	}
+
+	@Override
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
+	}
+
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
+	}
+
 	private I18NTab addI18NTabSupport(Component c, Tab tab) {
 		return addI18NTabSupport(c, tab, null);
 	}
 
-	private I18NTab addI18NTabSupport(Component c, Tab tab, String captionKey,
-			Object... captionParams) {
+	private I18NTab addI18NTabSupport(Component c, Tab tab, String captionKey, Object... captionParams) {
 
 		i18NAwareSupport.add(c);
 
 		I18NTab result;
-		
-		if( tab instanceof I18NTab) {
-			result = (I18NTab)tab;
+
+		if (tab instanceof I18NTab) {
+			result = (I18NTab) tab;
 		}
 		else {
 			result = new I18NTab(tab);

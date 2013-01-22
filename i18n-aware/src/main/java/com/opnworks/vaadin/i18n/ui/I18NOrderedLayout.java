@@ -24,18 +24,17 @@ public class I18NOrderedLayout extends OrderedLayout implements I18NAwareLayout 
 	private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();
 
 	/**
-	 * Creates a new i18n ordered layout. The order of the layout is
-	 * <code>ORIENTATION_VERTICAL</code>.
+	 * Creates a new i18n ordered layout. The order of the layout is <code>ORIENTATION_VERTICAL</code>.
 	 * 
 	 * @deprecated Use I18NVerticalLayout instead.
 	 */
+	@Deprecated
 	public I18NOrderedLayout() {
 		super();
 	}
 
 	/**
-	 * Create a new ordered layout. The orientation of the layout is given as
-	 * parameters.
+	 * Create a new ordered layout. The orientation of the layout is given as parameters.
 	 * 
 	 * @param orientation
 	 *            the Orientation of the layout.
@@ -54,9 +53,35 @@ public class I18NOrderedLayout extends OrderedLayout implements I18NAwareLayout 
 	}
 
 	@Override
+	public void i18NUpdate(I18NService i18N) {
+		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
+		i18nAwareSupport.i18NUpdate(i18N);
+	}
+
+	@Override
 	public void removeComponent(Component c) {
 		super.removeComponent(c);
 		i18nAwareSupport.remove(c);
+	}
+
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+
+	@Override
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
+		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
+	}
+
+	@Override
+	public void setDescription(String descriptionKey) {
+		setDescriptionMessage(descriptionKey);
+	}
+
+	@Override
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
+		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
@@ -65,34 +90,7 @@ public class I18NOrderedLayout extends OrderedLayout implements I18NAwareLayout 
 	}
 
 	@Override
-	public void setCaption(String captionKey) {
-		setCaptionMessage(captionKey);
-	}
-	
-	@Override
-	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
-	}
-
-	@Override
 	public void setRealDescription(String description) {
 		super.setDescription(description);
-	}
-	
-	@Override
-	public void setDescription(String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
-	}
-	
-	@Override
-	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
-			Object... descriptionParams) {
-		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
-	}
-
-	@Override
-	public void i18NUpdate(I18NService i18N) {
-		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
-		i18nAwareSupport.i18NUpdate(i18N);
 	}
 }

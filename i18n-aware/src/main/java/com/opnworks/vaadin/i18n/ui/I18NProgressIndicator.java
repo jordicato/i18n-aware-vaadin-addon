@@ -38,8 +38,7 @@ public class I18NProgressIndicator extends ProgressIndicator implements I18NAwar
 	}
 
 	/**
-	 * Creates a new instance of i18n ProgressIndicator with stae read from
-	 * given datasource.
+	 * Creates a new instance of i18n ProgressIndicator with stae read from given datasource.
 	 * 
 	 * @param contentSource
 	 */
@@ -48,39 +47,38 @@ public class I18NProgressIndicator extends ProgressIndicator implements I18NAwar
 	}
 
 	@Override
-	public void setRealCaption(String caption) {
-		super.setCaption(caption);
+	public void i18NUpdate(I18NService i18N) {
+		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
 	}
 
 	@Override
 	public void setCaption(String captionKey) {
 		setCaptionMessage(captionKey);
 	}
-	
+
 	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
 	}
 
 	@Override
-	public void setRealDescription(String description) {
-		super.setDescription(description);
-	}
-	
-	@Override
 	public void setDescription(String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
 	}
-	
+
 	@Override
-	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
-			Object... descriptionParams) {
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
 		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
-	public void i18NUpdate(I18NService i18N) {
-		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
+	}
+
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
 	}
 
 }

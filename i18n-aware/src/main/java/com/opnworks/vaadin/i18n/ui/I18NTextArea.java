@@ -29,6 +29,16 @@ public class I18NTextArea extends TextArea implements I18NAwareField {
 	}
 
 	/**
+	 * Constructs a i18n TextArea with given property data source.
+	 * 
+	 * @param dataSource
+	 *            the data source for the field
+	 */
+	public I18NTextArea(Property dataSource) {
+		super(dataSource);
+	}
+
+	/**
 	 * Constructs an empty i18n TextArea with given caption message key.
 	 * 
 	 * @param captionKey
@@ -37,16 +47,6 @@ public class I18NTextArea extends TextArea implements I18NAwareField {
 	public I18NTextArea(@I18NAwareMessage String captionKey) {
 		super(captionKey);
 		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
-	}
-
-	/**
-	 * Constructs a i18n TextArea with given property data source.
-	 * 
-	 * @param dataSource
-	 *            the data source for the field
-	 */
-	public I18NTextArea(Property dataSource) {
-		super(dataSource);
 	}
 
 	/**
@@ -76,6 +76,41 @@ public class I18NTextArea extends TextArea implements I18NAwareField {
 	}
 
 	@Override
+	public void i18NUpdate(I18NService i18N) {
+		getI18NAwareFieldSupport().i18NUpdate(i18N);
+	}
+
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+
+	@Override
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
+	}
+
+	@Override
+	public void setDescription(String descriptionKey) {
+		setDescriptionMessage(descriptionKey);
+	}
+
+	@Override
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
+		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
+	}
+
+	@Override
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
+	}
+
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
+	}
+
+	@Override
 	public void setRealRequiredError(String requiredMessage) {
 		super.setRequiredError(requiredMessage);
 	}
@@ -86,49 +121,8 @@ public class I18NTextArea extends TextArea implements I18NAwareField {
 	}
 
 	@Override
-	public void setRequiredErrorMessage(
-			@I18NAwareMessage String requiredErrorKey,
-			Object... requiredErrorParams) {
-		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey,
-				requiredErrorParams);
-	}
-
-	@Override
-	public void setRealCaption(String caption) {
-		super.setCaption(caption);
-	}
-
-	@Override
-	public void setCaption(String captionKey) {
-		setCaptionMessage(captionKey);
-	}
-
-	@Override
-	public void setCaptionMessage(@I18NAwareMessage String captionKey,
-			Object... params) {
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
-	}
-
-	@Override
-	public void setRealDescription(String description) {
-		super.setDescription(description);
-	}
-
-	@Override
-	public void setDescription(String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
-	}
-
-	@Override
-	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
-			Object... descriptionParams) {
-		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey,
-				descriptionParams);
-	}
-
-	@Override
-	public void i18NUpdate(I18NService i18N) {
-		getI18NAwareFieldSupport().i18NUpdate(i18N);
+	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
+		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
 	private I18NAwareFieldSupport getI18NAwareFieldSupport() {

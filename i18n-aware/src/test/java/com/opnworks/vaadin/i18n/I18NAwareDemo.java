@@ -34,8 +34,7 @@ public class I18NAwareDemo {
 
 		mainWindow.addComponent(tabSheet);
 
-		I18NService i18NService = new I18NServiceImpl(
-				new ResourceBundleI18NMessageProvider("messages"));
+		I18NService i18NService = new I18NServiceImpl(new ResourceBundleI18NMessageProvider("messages"));
 
 		i18NService.registerI18NAware(mainWindow);
 

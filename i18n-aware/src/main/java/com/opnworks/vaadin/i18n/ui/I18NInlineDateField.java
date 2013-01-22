@@ -16,16 +16,14 @@ import com.vaadin.ui.InlineDateField;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
-public class I18NInlineDateField extends InlineDateField implements
-		I18NAwareField {
+public class I18NInlineDateField extends InlineDateField implements I18NAwareField {
 
 	private static final long serialVersionUID = 8673251203466814145L;
 
 	private I18NAwareFieldSupport i18NAwareFieldSupport;
 
 	/**
-	 * Constructs an empty i18n <code>I18NInlineDateField</code> with no
-	 * caption.
+	 * Constructs an empty i18n <code>I18NInlineDateField</code> with no caption.
 	 */
 	public I18NInlineDateField() {
 		super();
@@ -36,14 +34,23 @@ public class I18NInlineDateField extends InlineDateField implements
 	 * 
 	 * @param dataSource
 	 */
-	public I18NInlineDateField(Property dataSource)
-			throws IllegalArgumentException {
+	public I18NInlineDateField(Property dataSource) {
 		super(dataSource);
 	}
 
 	/**
-	 * Constructs an i18n <code>I18NInlineDateField</code> with caption message
-	 * key and initial value.
+	 * Constructs an empty i18n <code>I18NInlineDateField</code> with caption message key.
+	 * 
+	 * @param captionKey
+	 *            the caption message key of the I18NInlineDateField.
+	 */
+	public I18NInlineDateField(@I18NAwareMessage String captionKey) {
+		super(captionKey);
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
+	}
+
+	/**
+	 * Constructs an i18n <code>I18NInlineDateField</code> with caption message key and initial value.
 	 * 
 	 * @param captionKey
 	 *            the caption message key of the I18NInlineDateField.
@@ -55,29 +62,52 @@ public class I18NInlineDateField extends InlineDateField implements
 	}
 
 	/**
-	 * Constructs an i18n <code>I18NInlineDateField</code> with caption message
-	 * key and dataSource.
+	 * Constructs an i18n <code>I18NInlineDateField</code> with caption message key and dataSource.
 	 * 
 	 * @param captionKey
 	 *            the caption message key of the I18NInlineDateField.
 	 * @param dataSource
 	 */
-	public I18NInlineDateField(@I18NAwareMessage String captionKey,
-			Property dataSource) {
+	public I18NInlineDateField(@I18NAwareMessage String captionKey, Property dataSource) {
 		super(captionKey, dataSource);
 		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
 	}
 
-	/**
-	 * Constructs an empty i18n <code>I18NInlineDateField</code> with caption
-	 * message key.
-	 * 
-	 * @param captionKey
-	 *            the caption message key of the I18NInlineDateField.
-	 */
-	public I18NInlineDateField(@I18NAwareMessage String captionKey) {
-		super(captionKey);
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
+	@Override
+	public void i18NUpdate(I18NService i18N) {
+
+		setLocale(i18N.getLocale());
+		getI18NAwareFieldSupport().i18NUpdate(i18N);
+	}
+
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+
+	@Override
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
+	}
+
+	@Override
+	public void setDescription(String descriptionKey) {
+		setDescriptionMessage(descriptionKey);
+	}
+
+	@Override
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
+		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
+	}
+
+	@Override
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
+	}
+
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
 	}
 
 	@Override
@@ -91,51 +121,8 @@ public class I18NInlineDateField extends InlineDateField implements
 	}
 
 	@Override
-	public void setRequiredErrorMessage(
-			@I18NAwareMessage String requiredErrorKey,
-			Object... requiredErrorParams) {
-		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey,
-				requiredErrorParams);
-	}
-
-	@Override
-	public void setRealCaption(String caption) {
-		super.setCaption(caption);
-	}
-
-	@Override
-	public void setCaption(String captionKey) {
-		setCaptionMessage(captionKey);
-	}
-
-	@Override
-	public void setCaptionMessage(@I18NAwareMessage String captionKey,
-			Object... params) {
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
-	}
-
-	@Override
-	public void setRealDescription(String description) {
-		super.setDescription(description);
-	}
-
-	@Override
-	public void setDescription(String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
-	}
-
-	@Override
-	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
-			Object... descriptionParams) {
-		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey,
-				descriptionParams);
-	}
-
-	@Override
-	public void i18NUpdate(I18NService i18N) {
-
-		setLocale(i18N.getLocale());
-		getI18NAwareFieldSupport().i18NUpdate(i18N);
+	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
+		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
 	private I18NAwareFieldSupport getI18NAwareFieldSupport() {

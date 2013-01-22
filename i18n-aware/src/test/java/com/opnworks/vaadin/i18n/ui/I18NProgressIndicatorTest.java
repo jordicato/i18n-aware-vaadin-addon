@@ -20,14 +20,17 @@ public class I18NProgressIndicatorTest extends AbstractI18NTest {
 
 		performTest(i18NProgressIndicator, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NProgressIndicator.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -46,14 +49,17 @@ public class I18NProgressIndicatorTest extends AbstractI18NTest {
 
 		performTest(i18NProgressIndicator, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NProgressIndicator.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_3;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return params;
 			}

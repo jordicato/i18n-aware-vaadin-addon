@@ -36,9 +36,35 @@ public class I18NFormLayout extends FormLayout implements I18NAwareLayout {
 	}
 
 	@Override
+	public void i18NUpdate(I18NService i18N) {
+		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
+		i18nAwareSupport.i18NUpdate(i18N);
+	}
+
+	@Override
 	public void removeComponent(Component c) {
 		super.removeComponent(c);
 		i18nAwareSupport.remove(c);
+	}
+
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+
+	@Override
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
+		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
+	}
+
+	@Override
+	public void setDescription(String descriptionKey) {
+		setDescriptionMessage(descriptionKey);
+	}
+
+	@Override
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
+		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
@@ -47,34 +73,7 @@ public class I18NFormLayout extends FormLayout implements I18NAwareLayout {
 	}
 
 	@Override
-	public void setCaption(String captionKey) {
-		setCaptionMessage(captionKey);
-	}
-	
-	@Override
-	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
-	}
-
-	@Override
 	public void setRealDescription(String description) {
 		super.setDescription(description);
-	}
-	
-	@Override
-	public void setDescription(String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
-	}
-	
-	@Override
-	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
-			Object... descriptionParams) {
-		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
-	}
-	
-	@Override
-	public void i18NUpdate(I18NService i18N) {
-		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
-		i18nAwareSupport.i18NUpdate(i18N);
 	}
 }

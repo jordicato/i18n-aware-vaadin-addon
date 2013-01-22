@@ -16,12 +16,12 @@ public interface I18NAwareContainer extends I18NAwareComponent {
 	 *            the Component.
 	 */
 	void addComponent(Component c);
-	
-    /**
-     * Removes the component from this container.
-     * 
-     * @param c
-     *            the component to be removed.
-     */
+
+	/**
+	 * Removes the component from this container.
+	 * 
+	 * @param c
+	 *            the component to be removed.
+	 */
 	void removeComponent(Component c);
 }

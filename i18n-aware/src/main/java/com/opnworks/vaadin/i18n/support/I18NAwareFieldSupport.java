@@ -23,34 +23,16 @@ public class I18NAwareFieldSupport implements Serializable {
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 
-	private I18NAwareValueSupport i18NRequiredErrorSupport = new I18NAwareValueSupport(
-			new ValueContainer() {
-				@Override
-				public void setValue(String value) {
-					originalField.setRealRequiredError(value);
-				}
-			});
+	private I18NAwareValueSupport i18NRequiredErrorSupport = new I18NAwareValueSupport(new ValueContainer() {
+		@Override
+		public void setValue(String value) {
+			originalField.setRealRequiredError(value);
+		}
+	});
 
 	public I18NAwareFieldSupport(I18NAwareField originalField) {
 		this.originalField = originalField;
-		i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(
-				originalField);
-	}
-
-	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
-	}
-
-	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
-			Object... descriptionParams) {
-		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey,
-				descriptionParams);
-	}
-
-	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey,
-			Object[] requiredErrorParams) {
-		i18NRequiredErrorSupport.setValueMessage(requiredErrorKey,
-				requiredErrorParams);
+		i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(originalField);
 	}
 
 	public void i18NUpdate(I18NService i18N) {
@@ -60,8 +42,7 @@ public class I18NAwareFieldSupport implements Serializable {
 		// Perform RequiredError internationalization
 		if (i18NRequiredErrorSupport.getValueKey() != null) {
 
-			Object[] requiredErrorParams = i18NRequiredErrorSupport
-					.getValueParams();
+			Object[] requiredErrorParams = i18NRequiredErrorSupport.getValueParams();
 
 			if (requiredErrorParams != null) {
 
@@ -69,14 +50,13 @@ public class I18NAwareFieldSupport implements Serializable {
 
 				params[0] = originalField.getCaption();
 
-				System.arraycopy(requiredErrorParams, 0, params, 1,
-						requiredErrorParams.length);
+				System.arraycopy(requiredErrorParams, 0, params, 1, requiredErrorParams.length);
 
 				i18NRequiredErrorSupport.setValueParams(params);
 
-			} else {
-				i18NRequiredErrorSupport.setValueParams(originalField
-						.getCaption());
+			}
+			else {
+				i18NRequiredErrorSupport.setValueParams(originalField.getCaption());
 			}
 
 			i18NRequiredErrorSupport.i18NUpdate(i18N);
@@ -86,13 +66,25 @@ public class I18NAwareFieldSupport implements Serializable {
 		Collection<Validator> validators = originalField.getValidators();
 
 		if (validators != null) {
-			for (Validator validator : validators) {
+			for (Validator validator : validators ) {
 				if (validator instanceof I18NAwareValidator) {
 					((I18NAwareValidator) validator).i18NUpdate(i18N);
 				}
 			}
 		}
 
+	}
+
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
+		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
+	}
+
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
+		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
+	}
+
+	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object[] requiredErrorParams) {
+		i18NRequiredErrorSupport.setValueMessage(requiredErrorKey, requiredErrorParams);
 	}
 
 }

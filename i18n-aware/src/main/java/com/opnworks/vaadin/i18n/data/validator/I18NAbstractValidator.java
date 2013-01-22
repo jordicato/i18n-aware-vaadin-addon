@@ -10,8 +10,7 @@ import com.vaadin.data.validator.AbstractValidator;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public abstract class I18NAbstractValidator extends AbstractValidator implements
-		I18NAwareValidator {
+public abstract class I18NAbstractValidator extends AbstractValidator implements I18NAwareValidator {
 
 	private static final long serialVersionUID = -633288038283553961L;
 
@@ -24,8 +23,14 @@ public abstract class I18NAbstractValidator extends AbstractValidator implements
 
 		this.errorMessageKey = errorMessageKey;
 		this.fieldNameKey = fieldNameKey;
-		
+
 		i18NUpdate();
+	}
+
+	@Override
+	public void i18NUpdate(I18NService i18N) {
+
+		setErrorMessage(i18N.getMessage(errorMessageKey, "{0}", i18N.getMessage(fieldNameKey)));
 	}
 
 	public void setErrorMessageKey(String errorMessageKey) {
@@ -34,16 +39,9 @@ public abstract class I18NAbstractValidator extends AbstractValidator implements
 	}
 
 	private void i18NUpdate() {
-		if( I18NServiceImpl.getInstance() != null ) {
-			i18NUpdate( I18NServiceImpl.getInstance() );
+		if (I18NServiceImpl.getInstance() != null) {
+			i18NUpdate(I18NServiceImpl.getInstance());
 		}
-	}
-	
-	@Override
-	public void i18NUpdate(I18NService i18N) {
-
-		setErrorMessage(i18N.getMessage(errorMessageKey, "{0}",
-				i18N.getMessage(fieldNameKey)));
 	}
 
 }

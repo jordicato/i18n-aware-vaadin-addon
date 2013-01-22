@@ -9,7 +9,7 @@ import com.opnworks.vaadin.i18n.AbstractI18NTest;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public class I18NEmbeddedTest  extends AbstractI18NTest {
+public class I18NEmbeddedTest extends AbstractI18NTest {
 
 	@Test
 	public void testConstructorCaptionKey() {
@@ -18,14 +18,17 @@ public class I18NEmbeddedTest  extends AbstractI18NTest {
 
 		performTest(i18NEmbedded, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NEmbedded.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -42,14 +45,17 @@ public class I18NEmbeddedTest  extends AbstractI18NTest {
 
 		performTest(i18NEmbedded, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NEmbedded.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -68,14 +74,17 @@ public class I18NEmbeddedTest  extends AbstractI18NTest {
 
 		performTest(i18NEmbedded, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NEmbedded.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_3;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return params;
 			}

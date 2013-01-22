@@ -30,8 +30,7 @@ public class I18NGridLayout extends GridLayout implements I18NAwareLayout {
 	}
 
 	/**
-	 * Constructor for i18n grid of given size (number of cells). Note that
-	 * grid's final size depends on the items that are added into the grid. Grid
+	 * Constructor for i18n grid of given size (number of cells). Note that grid's final size depends on the items that are added into the grid. Grid
 	 * grows if you add components outside the grid's area.
 	 * 
 	 * @param columns
@@ -43,37 +42,6 @@ public class I18NGridLayout extends GridLayout implements I18NAwareLayout {
 		super(columns, rows);
 	}
 
-	@Override
-	public void setRealCaption(String caption) {
-		super.setCaption(caption);
-	}
-
-	@Override
-	public void setCaption(String captionKey) {
-		setCaptionMessage(captionKey);
-	}
-	
-	@Override
-	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
-	}
-
-	@Override
-	public void setRealDescription(String description) {
-		super.setDescription(description);
-	}
-	
-	@Override
-	public void setDescription(String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
-	}
-	
-	@Override
-	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
-			Object... descriptionParams) {
-		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
-	}
-	
 	@Override
 	public void addComponent(Component component) {
 		super.addComponent(component);
@@ -96,5 +64,35 @@ public class I18NGridLayout extends GridLayout implements I18NAwareLayout {
 	public void i18NUpdate(I18NService i18N) {
 		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
 		i18nAwareSupport.i18NUpdate(i18N);
+	}
+
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+
+	@Override
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
+		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
+	}
+
+	@Override
+	public void setDescription(String descriptionKey) {
+		setDescriptionMessage(descriptionKey);
+	}
+
+	@Override
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
+		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
+	}
+
+	@Override
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
+	}
+
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
 	}
 }

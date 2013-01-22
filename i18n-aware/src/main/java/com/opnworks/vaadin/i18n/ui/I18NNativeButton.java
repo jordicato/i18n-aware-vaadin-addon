@@ -15,8 +15,7 @@ import com.vaadin.ui.NativeButton;
  */
 @SuppressWarnings("unchecked")
 @GenerateInstantiateSubclassAspect
-public class I18NNativeButton extends NativeButton implements
-		I18NAwareComponent, I18NAwareCaption {
+public class I18NNativeButton extends NativeButton implements I18NAwareComponent, I18NAwareCaption {
 
 	private static final long serialVersionUID = -4271192367394219614L;
 
@@ -31,21 +30,19 @@ public class I18NNativeButton extends NativeButton implements
 		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey);
 	}
 
-	public I18NNativeButton(@I18NAwareMessage String captionKey,
-			ClickListener listener) {
+	public I18NNativeButton(@I18NAwareMessage String captionKey, ClickListener listener) {
 		super(captionKey, listener);
 		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey);
 	}
 
-	public I18NNativeButton(@I18NAwareMessage String captionKey, Object target,
-			String methodName) {
+	public I18NNativeButton(@I18NAwareMessage String captionKey, Object target, String methodName) {
 		super(captionKey, target, methodName);
 		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey);
 	}
 
 	@Override
-	public void setRealCaption(String caption) {
-		super.setCaption(caption);
+	public void i18NUpdate(I18NService i18N) {
+		getI18NAwareComponentCaptionSupport().i18NUpdate(i18N);
 	}
 
 	@Override
@@ -54,15 +51,8 @@ public class I18NNativeButton extends NativeButton implements
 	}
 
 	@Override
-	public void setCaptionMessage(@I18NAwareMessage String captionKey,
-			Object... params) {
-		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey,
-				params);
-	}
-
-	@Override
-	public void setRealDescription(String description) {
-		super.setDescription(description);
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
+		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey, params);
 	}
 
 	@Override
@@ -71,22 +61,24 @@ public class I18NNativeButton extends NativeButton implements
 	}
 
 	@Override
-	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
-			Object... descriptionParams) {
-		getI18NAwareComponentCaptionSupport().setDescriptionMessage(
-				descriptionKey, descriptionParams);
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
+		getI18NAwareComponentCaptionSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
-	public void i18NUpdate(I18NService i18N) {
-		getI18NAwareComponentCaptionSupport().i18NUpdate(i18N);
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
+	}
+
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
 	}
 
 	private I18NAwareComponentCaptionSupport getI18NAwareComponentCaptionSupport() {
 
 		if (i18NAwareComponentCaptionSupport == null) {
-			i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(
-					this);
+			i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 		}
 
 		return i18NAwareComponentCaptionSupport;

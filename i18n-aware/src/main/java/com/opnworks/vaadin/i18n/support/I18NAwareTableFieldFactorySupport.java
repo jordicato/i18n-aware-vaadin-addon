@@ -14,17 +14,16 @@ import com.vaadin.ui.TableFieldFactory;
 public abstract class I18NAwareTableFieldFactorySupport implements TableFieldFactory {
 
 	private static final long serialVersionUID = -292185919909516292L;
-	
+
 	private I18NAwareTableFieldFactory delegate;
-	
+
 	public I18NAwareTableFieldFactorySupport(I18NAwareTableFieldFactory delegate) {
 		this.delegate = delegate;
 	}
 
 	@Override
-	public Field createField(Container container, Object itemId,
-			Object propertyId, Component uiContext) {
-		
+	public Field createField(Container container, Object itemId, Object propertyId, Component uiContext) {
+
 		return delegate.createI18NAwareField(container, itemId, propertyId, uiContext);
 	}
 

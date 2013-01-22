@@ -14,8 +14,7 @@ import com.vaadin.ui.SplitPanel;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  * 
- * @deprecated in 6.5. Use {@link I18NHorizontalSplitPanel} or
- *             {@link I18NVerticalSplitPanel} instead.
+ * @deprecated in 6.5. Use {@link I18NHorizontalSplitPanel} or {@link I18NVerticalSplitPanel} instead.
  */
 @Deprecated
 @GenerateInstantiateSubclassAspect
@@ -27,16 +26,14 @@ public class I18NSplitPanel extends SplitPanel implements I18NAwareContainer {
 	private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();
 
 	/**
-	 * Creates a new i18n split panel. The orientation of the panels is
-	 * <code>ORIENTATION_VERTICAL</code>.
+	 * Creates a new i18n split panel. The orientation of the panels is <code>ORIENTATION_VERTICAL</code>.
 	 */
 	public I18NSplitPanel() {
 		super();
 	}
 
 	/**
-	 * Create a new split panels. The orientation of the panel is given as
-	 * parameters.
+	 * Create a new split panels. The orientation of the panel is given as parameters.
 	 * 
 	 * @param orientation
 	 *            the Orientation of the layout.
@@ -52,9 +49,35 @@ public class I18NSplitPanel extends SplitPanel implements I18NAwareContainer {
 	}
 
 	@Override
+	public void i18NUpdate(I18NService i18N) {
+		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
+		i18nAwareSupport.i18NUpdate(i18N);
+	}
+
+	@Override
 	public void removeComponent(Component c) {
 		super.removeComponent(c);
 		i18nAwareSupport.remove(c);
+	}
+
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+
+	@Override
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
+		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
+	}
+
+	@Override
+	public void setDescription(String descriptionKey) {
+		setDescriptionMessage(descriptionKey);
+	}
+
+	@Override
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
+		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
@@ -63,34 +86,7 @@ public class I18NSplitPanel extends SplitPanel implements I18NAwareContainer {
 	}
 
 	@Override
-	public void setCaption(String captionKey) {
-		setCaptionMessage(captionKey);
-	}
-	
-	@Override
-	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
-	}
-
-	@Override
 	public void setRealDescription(String description) {
 		super.setDescription(description);
-	}
-	
-	@Override
-	public void setDescription(String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
-	}
-	
-	@Override
-	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
-			Object... descriptionParams) {
-		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
-	}
-
-	@Override
-	public void i18NUpdate(I18NService i18N) {
-		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
-		i18nAwareSupport.i18NUpdate(i18N);
 	}
 }

@@ -27,14 +27,17 @@ public class I18NCustomComponentTest extends AbstractI18NTest {
 
 		performTest(myCustomComponent, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return component.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -57,14 +60,17 @@ public class I18NCustomComponentTest extends AbstractI18NTest {
 
 		performTest(myCustomComponent, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return component.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}

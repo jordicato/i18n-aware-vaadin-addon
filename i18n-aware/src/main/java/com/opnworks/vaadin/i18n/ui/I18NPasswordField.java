@@ -39,16 +39,25 @@ public class I18NPasswordField extends PasswordField implements I18NAwareField {
 	}
 
 	/**
-	 * Constructs a I18NPasswordField with given caption and property data
-	 * source.
+	 * Constructs a I18NPasswordField with given caption.
+	 * 
+	 * @param caption
+	 *            the caption for the field
+	 */
+	public I18NPasswordField(@I18NAwareMessage String captionKey) {
+		super(captionKey);
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
+	}
+
+	/**
+	 * Constructs a I18NPasswordField with given caption and property data source.
 	 * 
 	 * @param caption
 	 *            the caption for the field
 	 * @param dataSource
 	 *            the property data source for the field
 	 */
-	public I18NPasswordField(@I18NAwareMessage String captionKey,
-			Property dataSource) {
+	public I18NPasswordField(@I18NAwareMessage String captionKey, Property dataSource) {
 		super(captionKey, dataSource);
 		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
 	}
@@ -66,15 +75,39 @@ public class I18NPasswordField extends PasswordField implements I18NAwareField {
 		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
 	}
 
-	/**
-	 * Constructs a I18NPasswordField with given caption.
-	 * 
-	 * @param caption
-	 *            the caption for the field
-	 */
-	public I18NPasswordField(@I18NAwareMessage String captionKey) {
-		super(captionKey);
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
+	@Override
+	public void i18NUpdate(I18NService i18N) {
+		getI18NAwareFieldSupport().i18NUpdate(i18N);
+	}
+
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
+
+	@Override
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
+	}
+
+	@Override
+	public void setDescription(String descriptionKey) {
+		setDescriptionMessage(descriptionKey);
+	}
+
+	@Override
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
+		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
+	}
+
+	@Override
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
+	}
+
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
 	}
 
 	@Override
@@ -88,49 +121,8 @@ public class I18NPasswordField extends PasswordField implements I18NAwareField {
 	}
 
 	@Override
-	public void setRequiredErrorMessage(
-			@I18NAwareMessage String requiredErrorKey,
-			Object... requiredErrorParams) {
-		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey,
-				requiredErrorParams);
-	}
-
-	@Override
-	public void setRealCaption(String caption) {
-		super.setCaption(caption);
-	}
-
-	@Override
-	public void setCaption(String captionKey) {
-		setCaptionMessage(captionKey);
-	}
-
-	@Override
-	public void setCaptionMessage(@I18NAwareMessage String captionKey,
-			Object... params) {
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
-	}
-
-	@Override
-	public void setRealDescription(String description) {
-		super.setDescription(description);
-	}
-
-	@Override
-	public void setDescription(String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
-	}
-
-	@Override
-	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
-			Object... descriptionParams) {
-		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey,
-				descriptionParams);
-	}
-
-	@Override
-	public void i18NUpdate(I18NService i18N) {
-		getI18NAwareFieldSupport().i18NUpdate(i18N);
+	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
+		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
 	private I18NAwareFieldSupport getI18NAwareFieldSupport() {

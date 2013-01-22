@@ -19,100 +19,38 @@ import com.vaadin.ui.PopupView;
 @GenerateInstantiateSubclassAspect
 public class I18NPopupView extends PopupView implements I18NAwareComponent {
 
-	private static final long serialVersionUID = 3994292451004562581L;
-
-	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(
-			this);
-
 	/**
-	 * A simple way to create a PopupPanel. Note that the minimal representation
-	 * may not be dynamically updated, in order to achieve this create your own
-	 * Content object and use {@link PopupView#PopupView(Content)}.
-	 * 
-	 * @param small
-	 *            the minimal textual representation as HTML
-	 * @param large
-	 *            the full, Component-type representation
-	 */
-	public I18NPopupView(final java.lang.String small, final Component large) {
-		super(small, large);
-	}
-
-	/**
-	 * Creates a PopupView through the PopupView.Content interface. This allows
-	 * the creator to dynamically change the contents of the PopupView.
-	 * 
-	 * @param content
-	 *            the PopupView.Content that contains the information for this
-	 */
-	public I18NPopupView(PopupView.Content content) {
-		super(content);
-	}
-
-	@Override
-	public void setRealCaption(String caption) {
-		super.setCaption(caption);
-	}
-
-	@Override
-	public void setCaption(String captionKey) {
-		setCaptionMessage(captionKey);
-	}
-	
-	@Override
-	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
-	}
-
-	@Override
-	public void setRealDescription(String description) {
-		super.setDescription(description);
-	}
-	
-	@Override
-	public void setDescription(String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
-	}
-	
-	@Override
-	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey,
-			Object... descriptionParams) {
-		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
-	}
-
-	@Override
-	public void i18NUpdate(I18NService i18nService) {
-
-		i18NAwareComponentCaptionSupport.i18NUpdate(i18nService);
-
-		PopupView.Content content = getContent();
-
-		if (content != null && content instanceof I18NAware) {
-			((I18NAware) content).i18NUpdate(i18nService);
-		} else {
-			Component popupComponent = content.getPopupComponent();
-			if (popupComponent != null && popupComponent instanceof I18NAware) {
-				((I18NAware) popupComponent).i18NUpdate(i18nService);
-			}
-		}
-	}
-
-	/**
-	 * Used to deliver customized content-packages to the PopupView. These are
-	 * dynamically loaded when they are redrawn. The user must take care that
+	 * Used to deliver customized content-packages to the PopupView. These are dynamically loaded when they are redrawn. The user must take care that
 	 * neither of these methods ever return null.
 	 */
-	public static abstract class I18NContent implements Content, I18NAware {
+	public abstract static class I18NContent implements Content, I18NAware {
 
 		private static final long serialVersionUID = 1472420206441355537L;
 
 		private String minimizedValueAsHTML;
+
+		public abstract String getI18NMinimizedValueAsHTML(I18NService i18nService);
+
+		public abstract I18NAwareComponent getI18nPopupComponent();
+
+		@Override
+		public Locale getLocale() {
+
+			I18NAwareComponent i18NAwareComponent = getI18nPopupComponent();
+
+			if (i18NAwareComponent != null) {
+				return i18NAwareComponent.getLocale();
+			}
+
+			return null;
+		}
 
 		/**
 		 * This should return a small view of the full data.
 		 * 
 		 * @return value in HTML format
 		 */
+		@Override
 		public String getMinimizedValueAsHTML() {
 			return minimizedValueAsHTML;
 		}
@@ -122,6 +60,7 @@ public class I18NPopupView extends PopupView implements I18NAwareComponent {
 		 * 
 		 * @return a Component for the value
 		 */
+		@Override
 		public Component getPopupComponent() {
 			return getI18nPopupComponent();
 		}
@@ -147,23 +86,81 @@ public class I18NPopupView extends PopupView implements I18NAwareComponent {
 				i18NAwareComponent.setLocale(locale);
 			}
 		}
+	}
 
-		@Override
-		public Locale getLocale() {
+	private static final long serialVersionUID = 3994292451004562581L;
 
-			I18NAwareComponent i18NAwareComponent = getI18nPopupComponent();
+	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 
-			if (i18NAwareComponent != null) {
-				return i18NAwareComponent.getLocale();
-			}
+	/**
+	 * A simple way to create a PopupPanel. Note that the minimal representation may not be dynamically updated, in order to achieve this create your
+	 * own Content object and use {@link PopupView#PopupView(Content)}.
+	 * 
+	 * @param small
+	 *            the minimal textual representation as HTML
+	 * @param large
+	 *            the full, Component-type representation
+	 */
+	public I18NPopupView(final java.lang.String small, final Component large) {
+		super(small, large);
+	}
 
-			return null;
+	/**
+	 * Creates a PopupView through the PopupView.Content interface. This allows the creator to dynamically change the contents of the PopupView.
+	 * 
+	 * @param content
+	 *            the PopupView.Content that contains the information for this
+	 */
+	public I18NPopupView(PopupView.Content content) {
+		super(content);
+	}
+
+	@Override
+	public void i18NUpdate(I18NService i18nService) {
+
+		i18NAwareComponentCaptionSupport.i18NUpdate(i18nService);
+
+		PopupView.Content content = getContent();
+
+		if (content instanceof I18NAware) {
+			((I18NAware) content).i18NUpdate(i18nService);
 		}
+		else {
+			Component popupComponent = content.getPopupComponent();
+			if (popupComponent instanceof I18NAware) {
+				((I18NAware) popupComponent).i18NUpdate(i18nService);
+			}
+		}
+	}
 
-		public abstract I18NAwareComponent getI18nPopupComponent();
+	@Override
+	public void setCaption(String captionKey) {
+		setCaptionMessage(captionKey);
+	}
 
-		public abstract String getI18NMinimizedValueAsHTML(
-				I18NService i18nService);
+	@Override
+	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
+		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
+	}
+
+	@Override
+	public void setDescription(String descriptionKey) {
+		setDescriptionMessage(descriptionKey);
+	}
+
+	@Override
+	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
+		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
+	}
+
+	@Override
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
+	}
+
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
 	}
 
 }

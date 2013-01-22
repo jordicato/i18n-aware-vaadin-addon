@@ -19,30 +19,30 @@ public class I18NAwareSupport implements Serializable {
 
 	public <T> void add(T item) {
 
-		if (item != null && item instanceof I18NAware) {
+		if (item instanceof I18NAware) {
 			i18nAwares.add((I18NAware) item);
 		}
-	}
-
-	public void remove(Object item) {
-
-		i18nAwares.remove(item);
 	}
 
 	public void clear() {
 
 		i18nAwares.clear();
 	}
-	
+
+	public List<I18NAware> getI18nAwares() {
+		return i18nAwares;
+	}
+
 	public void i18NUpdate(I18NService i18N) {
 
-		for (I18NAware i18nAware : i18nAwares) {
+		for (I18NAware i18nAware : i18nAwares ) {
 			i18nAware.i18NUpdate(i18N);
 		}
 	}
 
-	public List<I18NAware> getI18nAwares() {
-		return i18nAwares;
+	public void remove(Object item) {
+
+		i18nAwares.remove(item);
 	}
 
 }

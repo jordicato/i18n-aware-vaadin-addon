@@ -22,7 +22,7 @@ public class I18NAction extends Action implements I18NAwareCaption, CaptionConta
 	private static final long serialVersionUID = -4241515863916987115L;
 
 	private I18NCaptionSupport i18NCaptionSupport = new I18NCaptionSupport(this);
-	
+
 	private Locale locale;
 
 	/**
@@ -37,8 +37,7 @@ public class I18NAction extends Action implements I18NAwareCaption, CaptionConta
 	}
 
 	/**
-	 * Constructs a new i18n action with the given caption message key string
-	 * and icon.
+	 * Constructs a new i18n action with the given caption message key string and icon.
 	 * 
 	 * @param captionKey
 	 *            the caption message key for the new action.
@@ -51,15 +50,23 @@ public class I18NAction extends Action implements I18NAwareCaption, CaptionConta
 	}
 
 	@Override
-	public void setRealCaption(String caption) {
-		super.setCaption(caption);
+	public Locale getLocale() {
+		return locale;
 	}
-	
+
+	@Override
+	public void i18NUpdate(I18NService i18N) {
+
+		setLocale(i18N.getLocale());
+
+		i18NCaptionSupport.i18NUpdate(i18N);
+	}
+
 	@Override
 	public void setCaption(String captionKey) {
 		setCaptionMessage(captionKey);
 	}
-	
+
 	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... captionParams) {
 		i18NCaptionSupport.setCaptionMessage(captionKey, captionParams);
@@ -69,17 +76,9 @@ public class I18NAction extends Action implements I18NAwareCaption, CaptionConta
 	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
-	
-	@Override
-	public Locale getLocale() {
-		return locale;
-	}
 
 	@Override
-	public void i18NUpdate(I18NService i18N) {
-
-		setLocale( i18N.getLocale() );
-		
-		i18NCaptionSupport.i18NUpdate(i18N);
+	public void setRealCaption(String caption) {
+		super.setCaption(caption);
 	}
 }

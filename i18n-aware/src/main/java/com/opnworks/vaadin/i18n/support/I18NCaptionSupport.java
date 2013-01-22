@@ -8,8 +8,13 @@ import com.opnworks.vaadin.i18n.I18NAwareMessage;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public class I18NCaptionSupport extends I18NAwareValueSupport implements
-		I18NAwareCaption {
+public class I18NCaptionSupport extends I18NAwareValueSupport implements I18NAwareCaption {
+
+	private static final long serialVersionUID = 7258724316612228119L;
+
+	public interface CaptionContainer {
+		void setRealCaption(String caption);
+	}
 
 	public I18NCaptionSupport(final CaptionContainer captionContainer) {
 		super(new ValueContainer() {
@@ -21,15 +26,12 @@ public class I18NCaptionSupport extends I18NAwareValueSupport implements
 	}
 
 	@Override
-	public void setRealCaption(String caption) {
-		valueContainer.setValue(caption);
-	}
-	
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		setValueMessage(captionKey, params);
 	}
 
-	public interface CaptionContainer {
-		void setRealCaption(String caption);
+	@Override
+	public void setRealCaption(String caption) {
+		valueContainer.setValue(caption);
 	}
 }

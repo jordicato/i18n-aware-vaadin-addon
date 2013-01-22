@@ -14,19 +14,21 @@ public class I18NInlineDateFieldTest extends AbstractI18NTest {
 	@Test
 	public void testConstructorCaptionKey() {
 
-		final I18NInlineDateField i18NInlineDateField = new I18NInlineDateField(
-				TEST_KEY_1);
+		final I18NInlineDateField i18NInlineDateField = new I18NInlineDateField(TEST_KEY_1);
 
 		performTest(i18NInlineDateField, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NInlineDateField.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -37,21 +39,23 @@ public class I18NInlineDateFieldTest extends AbstractI18NTest {
 	@Test
 	public void testSetCaptionKey() {
 
-		final I18NInlineDateField i18NInlineDateField = new I18NInlineDateField(
-				TEST_KEY_1);
+		final I18NInlineDateField i18NInlineDateField = new I18NInlineDateField(TEST_KEY_1);
 
 		i18NInlineDateField.setCaptionMessage(TEST_KEY_2);
 
 		performTest(i18NInlineDateField, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NInlineDateField.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -70,14 +74,17 @@ public class I18NInlineDateFieldTest extends AbstractI18NTest {
 
 		performTest(i18NInlineDateField, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NInlineDateField.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_3;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return params;
 			}
@@ -87,21 +94,23 @@ public class I18NInlineDateFieldTest extends AbstractI18NTest {
 	@Test
 	public void testsetRequiredErrorMessage() {
 
-		final I18NInlineDateField i18NInlineDateField = new I18NInlineDateField(
-				TEST_KEY_1);
+		final I18NInlineDateField i18NInlineDateField = new I18NInlineDateField(TEST_KEY_1);
 
 		i18NInlineDateField.setRequiredErrorMessage(TEST_KEY_2);
 
 		performTest(i18NInlineDateField, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NInlineDateField.getRequiredError();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}

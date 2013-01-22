@@ -18,14 +18,17 @@ public class I18NActionTest extends AbstractI18NTest {
 
 		performTest(i18NAction, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NAction.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -42,14 +45,17 @@ public class I18NActionTest extends AbstractI18NTest {
 
 		performTest(i18NAction, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NAction.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -63,19 +69,22 @@ public class I18NActionTest extends AbstractI18NTest {
 		final I18NAction i18NAction = new I18NAction(TEST_KEY_3);
 
 		final Object[] params = new Object[] { 1, 2, 3 };
-		
+
 		i18NAction.setCaptionMessage(TEST_KEY_3, params);
 
 		performTest(i18NAction, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NAction.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_3;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return params;
 			}

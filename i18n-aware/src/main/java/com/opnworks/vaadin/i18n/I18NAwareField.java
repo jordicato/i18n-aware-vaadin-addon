@@ -7,8 +7,15 @@ import com.vaadin.ui.Field;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public interface I18NAwareField extends I18NAwareComponent, I18NAwareCaption,
-		Field {
+public interface I18NAwareField extends I18NAwareComponent, I18NAwareCaption, Field {
+
+	/**
+	 * Set the required error
+	 * 
+	 * @param requiredError
+	 *            the requiredError message.
+	 */
+	void setRealRequiredError(String requiredError);
 
 	/**
 	 * Set the required error message
@@ -18,14 +25,5 @@ public interface I18NAwareField extends I18NAwareComponent, I18NAwareCaption,
 	 * @param requiredErrorParams
 	 *            the requiredError message parameters.
 	 */
-	void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey,
-			Object... requiredErrorParams);
-
-	/**
-	 * Set the required error
-	 * 
-	 * @param requiredError
-	 *            the requiredError message.
-	 */
-	void setRealRequiredError(String requiredError);
+	void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams);
 }

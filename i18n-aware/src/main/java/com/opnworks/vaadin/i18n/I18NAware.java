@@ -1,5 +1,6 @@
 package com.opnworks.vaadin.i18n;
 
+import java.io.Serializable;
 import java.util.Locale;
 
 /**
@@ -7,10 +8,8 @@ import java.util.Locale;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public interface I18NAware {
+public interface I18NAware extends Serializable {
 
-	void setLocale( Locale locale );
-	
 	Locale getLocale();
 
 	/**
@@ -20,5 +19,7 @@ public interface I18NAware {
 	 *            the I18NService.
 	 */
 	void i18NUpdate(I18NService i18NService);
+
+	void setLocale(Locale locale);
 
 }

@@ -21,131 +21,77 @@ import javax.tools.Diagnostic;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 
-@SupportedAnnotationTypes({ "com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect" })
+/**
+ * The Aspect Generator
+ * 
+ * @author Pedro Rodriguez
+ */
+@SupportedAnnotationTypes("com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect")
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
-public class GenerateInstantiateSubclassAspectProcessor extends
-		AbstractProcessor {
+public class GenerateInstantiateSubclassAspectProcessor extends AbstractProcessor {
 
-	public final static Map<String, String> primitiveNameToWrapperName = new HashMap<String, String>();
+	public static final Map<String, String> PRIMITIVE_NAME_TO_WRAPPER_NAME = new HashMap<String, String>();
 	static {
-		primitiveNameToWrapperName.put("boolean", "Boolean");
-		primitiveNameToWrapperName.put("byte", "Byte");
-		primitiveNameToWrapperName.put("short", "Short");
-		primitiveNameToWrapperName.put("char", "Character");
-		primitiveNameToWrapperName.put("int", "Integer");
-		primitiveNameToWrapperName.put("long", "Long");
-		primitiveNameToWrapperName.put("float", "Float");
-		primitiveNameToWrapperName.put("double", "Double");
+		PRIMITIVE_NAME_TO_WRAPPER_NAME.put("boolean", "Boolean");
+		PRIMITIVE_NAME_TO_WRAPPER_NAME.put("byte", "Byte");
+		PRIMITIVE_NAME_TO_WRAPPER_NAME.put("short", "Short");
+		PRIMITIVE_NAME_TO_WRAPPER_NAME.put("char", "Character");
+		PRIMITIVE_NAME_TO_WRAPPER_NAME.put("int", "Integer");
+		PRIMITIVE_NAME_TO_WRAPPER_NAME.put("long", "Long");
+		PRIMITIVE_NAME_TO_WRAPPER_NAME.put("float", "Float");
+		PRIMITIVE_NAME_TO_WRAPPER_NAME.put("double", "Double");
 	}
 
 	@Override
-	public boolean process(Set<? extends TypeElement> annotations,
-			RoundEnvironment roundEnv) {
+	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 
-		for (TypeElement te : annotations) {
+		for (TypeElement te : annotations ) {
 
-			for (Element e : roundEnv.getElementsAnnotatedWith(te))
+			for (Element e : roundEnv.getElementsAnnotatedWith(te) ) {
 				processAnnotation(e);
+			}
 		}
 
 		return true;
 	}
 
-	private void processAnnotation(Element element) {
+	private String createParamCast(String paramClassName) {
 
-		GenerateInstantiateSubclassAspect annotation = element
-				.getAnnotation(GenerateInstantiateSubclassAspect.class);
+		String wrapperName = PRIMITIVE_NAME_TO_WRAPPER_NAME.get(paramClassName);
 
-		String packageName = element.getEnclosingElement().toString();
-		String className = element.getSimpleName().toString();
-
-		generateInstantiateSubclassAspect(annotation.superclassFullName(),
-				packageName, className);
-	}
-
-	private void generateInstantiateSubclassAspect(String superclassFullName,
-			String packageName, String className) {
-
-		Messager messager = processingEnv.getMessager();
-		Filer filer = processingEnv.getFiler();
-
-		try {
-			String aspectName = className + "Aspect";
-
-			FileObject fileObject = filer.createResource(
-					StandardLocation.SOURCE_OUTPUT, packageName, aspectName
-							+ ".aj");
-
-			Writer writer = fileObject.openWriter();
-
-			writer.write("/* Generated on " + new Date() + " */\n");
-
-			writer.write("package " + packageName + ";\n");
-
-			writer.write("public aspect " + aspectName + " {\n");
-
-			Class<?> clazz = Class.forName(packageName + "." + className);
-
-			if (superclassFullName == null || superclassFullName.isEmpty()) {
-				superclassFullName = clazz.getSuperclass().getName();
-			}
-
-			Constructor<?>[] constructors = clazz.getDeclaredConstructors();
-
-			for (int i = 0; i < constructors.length; i++) {
-				generateConstructorPointcut(writer, superclassFullName, clazz,
-						constructors[i].getParameterTypes(), constructors[i].getExceptionTypes() );
-			}
-
-			writer.write("}\n");
-
-			writer.flush();
-			writer.close();
-
-		} catch (Exception e) {
-			messager.printMessage(Diagnostic.Kind.ERROR, e.getMessage());
-			// e.printStackTrace();
+		if (wrapperName != null) {
+			return wrapperName;
 		}
 
+		return paramClassName.replace('$', '.');
 	}
 
-	private void generateConstructorPointcut(Writer writer,
-			String superclassFullName, Class<?> subclass,
-			Class<?>[] constructorParamTypes, Class<?>[] constructorExceptionTypes ) throws IOException {
+	private String createParams(Class<?>[] constructorParamTypes) {
 
-		String pointcutName = createPointcutName(superclassFullName,
-				constructorParamTypes);
+		StringBuilder result = new StringBuilder();
 
-		writer.write("private pointcut " + pointcutName + "() : call ("
-				+ superclassFullName + ".new("
-				+ createTypesAsList(constructorParamTypes) + ")) ;\n");
+		if (constructorParamTypes != null && constructorParamTypes.length > 0) {
 
-		writer.write(superclassFullName + " around ()");
-		
-		if( constructorExceptionTypes != null && constructorExceptionTypes.length > 0 ) {
-			writer.write(" throws " + createTypesAsList(constructorExceptionTypes) );
+			for (int i = 0; i < constructorParamTypes.length; i++ ) {
+				if (result.length() > 0) {
+					result.append(",");
+				}
+				result.append("(" + createParamCast(constructorParamTypes[i].getName()) + ")(thisJoinPoint.getArgs()[" + i + "])");
+			}
 		}
 
-		writer.write(" : " + pointcutName + "()");
-		
-		writer.write(" {\n");
-
-		writer.write("return new " + subclass.getSimpleName() + "( "
-				+ createParams(constructorParamTypes) + " );\n");
-
-		writer.write("}\n");
+		return result.toString();
 	}
 
-	private String createPointcutName(String superclassFullName,
-			Class<?>[] constructorParamTypes) {
+	private String createPointcutName(Class<?>[] constructorParamTypes) {
 
 		StringBuilder result = new StringBuilder("constructor");
 
 		if (constructorParamTypes != null && constructorParamTypes.length > 0) {
 
-			for (int i = 0; i < constructorParamTypes.length; i++) {
+			for (Class<?> constructorParamType : constructorParamTypes ) {
 				result.append("_");
-				result.append(constructorParamTypes[i].getSimpleName());
+				result.append(constructorParamType.getSimpleName());
 			}
 		}
 
@@ -158,45 +104,90 @@ public class GenerateInstantiateSubclassAspectProcessor extends
 
 		if (constructorParamTypes != null && constructorParamTypes.length > 0) {
 
-			for (int i = 0; i < constructorParamTypes.length; i++) {
+			for (Class<?> constructorParamType : constructorParamTypes ) {
 				if (result.length() > 0) {
 					result.append(",");
 				}
-				result.append(constructorParamTypes[i].getName().replace('$',
-						'.'));
+				result.append(constructorParamType.getName().replace('$', '.'));
 			}
 		}
 
 		return result.toString();
 	}
 
-	private String createParams(Class<?>[] constructorParamTypes) {
+	private void generateConstructorPointcut(Writer writer, String superclassFullName, Class<?> subclass, Class<?>[] constructorParamTypes,
+			Class<?>[] constructorExceptionTypes) throws IOException {
 
-		StringBuilder result = new StringBuilder();
+		String pointcutName = createPointcutName(constructorParamTypes);
 
-		if (constructorParamTypes != null && constructorParamTypes.length > 0) {
+		writer.write("private pointcut " + pointcutName + "() : call (" + superclassFullName + ".new(" + createTypesAsList(constructorParamTypes)
+				+ ")) ;\n");
 
-			for (int i = 0; i < constructorParamTypes.length; i++) {
-				if (result.length() > 0) {
-					result.append(",");
-				}
-				result.append("("
-						+ createParamCast(constructorParamTypes[i].getName())
-						+ ")(thisJoinPoint.getArgs()[" + i + "])");
-			}
+		writer.write(superclassFullName + " around ()");
+
+		if (constructorExceptionTypes != null && constructorExceptionTypes.length > 0) {
+			writer.write(" throws " + createTypesAsList(constructorExceptionTypes));
 		}
 
-		return result.toString();
+		writer.write(" : " + pointcutName + "()");
+
+		writer.write(" {\n");
+
+		writer.write("return new " + subclass.getSimpleName() + "( " + createParams(constructorParamTypes) + " );\n");
+
+		writer.write("}\n");
 	}
 
-	private String createParamCast(String paramClassName) {
+	private void generateInstantiateSubclassAspect(String superClassName, String packageName, String className) {
 
-		String wrapperName = primitiveNameToWrapperName.get(paramClassName);
+		Messager messager = processingEnv.getMessager();
+		Filer filer = processingEnv.getFiler();
 
-		if (wrapperName != null) {
-			return wrapperName;
+		try {
+			String aspectName = className + "Aspect";
+
+			FileObject fileObject = filer.createResource(StandardLocation.SOURCE_OUTPUT, packageName, aspectName + ".aj");
+
+			Writer writer = fileObject.openWriter();
+
+			writer.write("/* Generated on " + new Date() + " */\n");
+
+			writer.write("package " + packageName + ";\n");
+
+			writer.write("public aspect " + aspectName + " {\n");
+
+			Class<?> clazz = Class.forName(packageName + "." + className);
+
+			String superclassFullName = superClassName;
+
+			if (superclassFullName == null || superclassFullName.isEmpty()) {
+				superclassFullName = clazz.getSuperclass().getName();
+			}
+
+			Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+
+			for (Constructor<?> constructor : constructors ) {
+				generateConstructorPointcut(writer, superclassFullName, clazz, constructor.getParameterTypes(), constructor.getExceptionTypes());
+			}
+
+			writer.write("}\n");
+
+			writer.flush();
+			writer.close();
+
 		}
+		catch (Exception e) {
+			messager.printMessage(Diagnostic.Kind.ERROR, e.getMessage());
+		}
+	}
 
-		return paramClassName.replace('$', '.');
+	private void processAnnotation(Element element) {
+
+		GenerateInstantiateSubclassAspect annotation = element.getAnnotation(GenerateInstantiateSubclassAspect.class);
+
+		String packageName = element.getEnclosingElement().toString();
+		String className = element.getSimpleName().toString();
+
+		generateInstantiateSubclassAspect(annotation.superclassFullName(), packageName, className);
 	}
 }

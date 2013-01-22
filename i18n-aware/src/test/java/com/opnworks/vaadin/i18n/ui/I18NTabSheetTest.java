@@ -24,14 +24,17 @@ public class I18NTabSheetTest extends AbstractI18NTest {
 
 		performTest(i18NTabSheet, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return component.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_1;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
@@ -39,14 +42,17 @@ public class I18NTabSheetTest extends AbstractI18NTest {
 
 		performTest(i18NTabSheet, new I18NAwareTest() {
 
+			@Override
 			public String getActualValue() {
 				return i18NTab.getCaption();
 			}
 
+			@Override
 			public String getKey() {
 				return TEST_KEY_2;
 			}
 
+			@Override
 			public Object[] getParams() {
 				return null;
 			}
