@@ -13,11 +13,9 @@ import com.vaadin.ui.PasswordField;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-@SuppressWarnings("unchecked")
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings({"serial","unchecked"})
 public class I18NPasswordField extends PasswordField implements I18NAwareField {
-
-	private static final long serialVersionUID = 1398328850698530271L;
 
 	private I18NAwareFieldSupport i18NAwareFieldSupport;
 

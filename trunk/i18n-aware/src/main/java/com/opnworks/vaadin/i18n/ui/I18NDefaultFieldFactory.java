@@ -19,9 +19,8 @@ import com.vaadin.ui.TableFieldFactory;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
+@SuppressWarnings("serial")
 public class I18NDefaultFieldFactory implements I18NAwareFormFieldFactory, I18NAwareTableFieldFactory, FormFieldFactory, TableFieldFactory {
-
-	private static final long serialVersionUID = 4477342039842651573L;
 
 	private static final I18NDefaultFieldFactory SINGLETON = new I18NDefaultFieldFactory();
 

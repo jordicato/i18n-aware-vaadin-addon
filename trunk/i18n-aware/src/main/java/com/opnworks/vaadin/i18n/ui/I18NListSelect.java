@@ -16,9 +16,8 @@ import com.vaadin.ui.ListSelect;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NListSelect extends ListSelect implements I18NAwareField {
-
-	private static final long serialVersionUID = -1928197703885890292L;
 
 	private I18NAwareFieldSupport i18NAwareFieldSupport;
 

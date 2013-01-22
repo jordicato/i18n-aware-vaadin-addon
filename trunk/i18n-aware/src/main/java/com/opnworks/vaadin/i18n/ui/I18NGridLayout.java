@@ -15,9 +15,8 @@ import com.vaadin.ui.GridLayout;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NGridLayout extends GridLayout implements I18NAwareLayout {
-
-	private static final long serialVersionUID = 7259048281272984884L;
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 	private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();

@@ -16,9 +16,8 @@ import com.vaadin.ui.OrderedLayout;
  */
 @Deprecated
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NOrderedLayout extends OrderedLayout implements I18NAwareLayout {
-
-	private static final long serialVersionUID = -4162410642504114947L;
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 	private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();

@@ -14,9 +14,8 @@ import com.vaadin.ui.Tree;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NTree extends Tree implements I18NAwareField {
-
-	private static final long serialVersionUID = 2339541755733427762L;
 
 	private I18NAwareFieldSupport i18NAwareFieldSupport;
 

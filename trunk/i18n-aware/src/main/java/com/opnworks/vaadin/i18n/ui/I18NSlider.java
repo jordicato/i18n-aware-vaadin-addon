@@ -12,11 +12,9 @@ import com.vaadin.ui.Slider;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-@SuppressWarnings("unchecked")
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings({"serial","unchecked"})
 public class I18NSlider extends Slider implements I18NAwareField {
-
-	private static final long serialVersionUID = 8853467560637420140L;
 
 	private I18NAwareFieldSupport i18NAwareFieldSupport;
 

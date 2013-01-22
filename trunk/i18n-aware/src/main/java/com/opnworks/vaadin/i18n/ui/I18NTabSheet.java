@@ -16,9 +16,8 @@ import com.vaadin.ui.TabSheet;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NTabSheet extends TabSheet implements I18NAwareComponent {
-
-	private static final long serialVersionUID = -7070663953414272939L;
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 	private I18NAwareSupport i18NAwareSupport = new I18NAwareSupport();

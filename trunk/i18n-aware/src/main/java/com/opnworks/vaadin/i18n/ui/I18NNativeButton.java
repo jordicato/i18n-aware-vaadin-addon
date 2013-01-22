@@ -13,11 +13,9 @@ import com.vaadin.ui.NativeButton;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-@SuppressWarnings("unchecked")
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings({"serial","unchecked"})
 public class I18NNativeButton extends NativeButton implements I18NAwareComponent, I18NAwareCaption {
-
-	private static final long serialVersionUID = -4271192367394219614L;
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 

@@ -15,9 +15,8 @@ import com.vaadin.ui.HorizontalSplitPanel;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NHorizontalSplitPanel extends HorizontalSplitPanel implements I18NAwareLayout {
-
-	private static final long serialVersionUID = 1060456585902319374L;
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 	private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();

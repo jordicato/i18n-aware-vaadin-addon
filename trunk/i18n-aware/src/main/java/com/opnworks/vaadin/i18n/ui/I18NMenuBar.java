@@ -22,11 +22,10 @@ import com.vaadin.ui.MenuBar;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NMenuBar extends MenuBar implements I18NAwareComponent, I18NAwareCaption {
 
 	public class I18NMenuItem extends MenuItem implements I18NAware {
-
-		private static final long serialVersionUID = 1625725562623099227L;
 
 		private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();
 

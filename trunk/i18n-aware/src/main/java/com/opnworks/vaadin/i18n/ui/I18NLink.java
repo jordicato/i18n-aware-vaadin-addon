@@ -15,9 +15,8 @@ import com.vaadin.ui.Link;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NLink extends Link implements I18NAwareComponent, I18NAwareCaption {
-
-	private static final long serialVersionUID = 3731071248238555705L;
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 

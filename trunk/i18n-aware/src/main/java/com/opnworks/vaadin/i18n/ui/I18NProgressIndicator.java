@@ -15,9 +15,8 @@ import com.vaadin.ui.ProgressIndicator;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NProgressIndicator extends ProgressIndicator implements I18NAwareComponent, I18NAwareCaption {
-
-	private static final long serialVersionUID = 1516381605599417078L;
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 

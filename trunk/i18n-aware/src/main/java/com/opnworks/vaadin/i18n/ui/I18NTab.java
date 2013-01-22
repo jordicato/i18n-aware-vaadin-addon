@@ -17,9 +17,8 @@ import com.vaadin.ui.TabSheet.Tab;
  * 
  * @author Pedro Rodriguez (OpnWorks)
  */
+@SuppressWarnings("serial")
 public class I18NTab implements Tab, I18NAwareCaption, CaptionContainer {
-
-	private static final long serialVersionUID = 800297056670016442L;
 
 	private Tab delegate;
 

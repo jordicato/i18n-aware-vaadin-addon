@@ -13,11 +13,9 @@ import com.vaadin.ui.CheckBox;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-@SuppressWarnings("unchecked")
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings({ "unchecked", "serial" })
 public class I18NCheckBox extends CheckBox implements I18NAwareField {
-
-	private static final long serialVersionUID = 6357950198553382989L;
 
 	private I18NAwareFieldSupport i18NAwareFieldSupport;
 

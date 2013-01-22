@@ -19,9 +19,8 @@ import com.vaadin.ui.Table;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NTable extends Table implements I18NAwareComponent, I18NAwareCaption {
-
-	private static final long serialVersionUID = -8122523562074823009L;
 
 	private I18NAwareSupport i18NAwareSupport = new I18NAwareSupport();
 

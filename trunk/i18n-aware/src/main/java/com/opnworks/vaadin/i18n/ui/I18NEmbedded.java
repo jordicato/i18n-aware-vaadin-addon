@@ -15,9 +15,8 @@ import com.vaadin.ui.Embedded;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings("serial")
 public class I18NEmbedded extends Embedded implements I18NAwareComponent, I18NAwareCaption {
-
-	private static final long serialVersionUID = 2480062310104748180L;
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 

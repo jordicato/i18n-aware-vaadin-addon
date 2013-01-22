@@ -13,11 +13,9 @@ import com.vaadin.ui.TextField;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-@SuppressWarnings("unchecked")
 @GenerateInstantiateSubclassAspect
+@SuppressWarnings({"serial","unchecked"})
 public class I18NTextField extends TextField implements I18NAwareField {
-
-	private static final long serialVersionUID = 6357950198553382989L;
 
 	private I18NAwareFieldSupport i18NAwareFieldSupport;
 
