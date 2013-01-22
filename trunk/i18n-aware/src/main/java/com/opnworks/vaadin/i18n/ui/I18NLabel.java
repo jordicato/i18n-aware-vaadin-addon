@@ -18,7 +18,7 @@ import com.vaadin.ui.Label;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
-@SuppressWarnings({"unchecked","serial"})
+@SuppressWarnings({ "unchecked", "serial" })
 public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCaption, I18NAwareValue, ValueContainer {
 
 	private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(this);

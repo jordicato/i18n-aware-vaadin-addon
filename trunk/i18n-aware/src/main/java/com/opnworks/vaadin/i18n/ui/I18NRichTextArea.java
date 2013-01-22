@@ -14,7 +14,7 @@ import com.vaadin.ui.RichTextArea;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
-@SuppressWarnings({"serial","unchecked"})
+@SuppressWarnings({ "serial", "unchecked" })
 public class I18NRichTextArea extends RichTextArea implements I18NAwareField {
 
 	private I18NAwareFieldSupport i18NAwareFieldSupport;
