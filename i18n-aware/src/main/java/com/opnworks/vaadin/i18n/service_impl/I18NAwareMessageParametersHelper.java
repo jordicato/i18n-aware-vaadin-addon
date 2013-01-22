@@ -14,7 +14,7 @@ import com.opnworks.vaadin.i18n.I18NAwareMessage;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public class I18NAwareMessageParametersHelper { //NOSONAR
+public class I18NAwareMessageParametersHelper { // NOSONAR
 
 	/**
 	 * Return the positions of I18NAwareMessage parameters in a constructor
