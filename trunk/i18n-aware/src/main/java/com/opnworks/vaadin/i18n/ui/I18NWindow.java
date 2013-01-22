@@ -94,7 +94,7 @@ public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareC
 	}
 
 	@Override
-	public void setContent(ComponentContainer newContent) {
+	public final void setContent(ComponentContainer newContent) {
 		super.setContent(newContent);
 		getI18nAwareSupport().add(newContent);
 	}
