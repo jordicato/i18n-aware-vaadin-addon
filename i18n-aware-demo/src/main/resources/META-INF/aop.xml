@@ -1,6 +1,0 @@
-<aspectj>
-	<weaver options="-showWeaveInfo">
-		<include within="com.opnworks.vaadin.i18n..*"/>
-	</weaver>
-</aspectj>
-

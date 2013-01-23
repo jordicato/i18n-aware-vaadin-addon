@@ -1,0 +1,57 @@
+<aspectj>
+<aspects>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NWindowAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NSliderAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NRichTextAreaAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NComboBoxAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NLinkAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NUploadAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NCustomLayoutAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.data.validator.I18NStringLengthValidatorAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.data.validator.I18NEmailValidatorAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NFormLayoutAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NTextFieldAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NNativeButtonAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NTextAreaAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NHorizontalSplitPanelAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NInlineDateFieldAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NTreeAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NProgressIndicatorAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NTabSheetAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NPasswordFieldAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NNativeSelectAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NOrderedLayoutAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NVerticalSplitPanelAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NVerticalLayoutAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NFormAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NMenuBarAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NHorizontalLayoutAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NOptionGroupAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NButtonAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NTableAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NGridLayoutAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NPopupViewAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NPopupDateFieldAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NPanelAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NCheckBoxAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NCustomComponentAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NSelectAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NLabelAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NLoginFormAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NCssLayoutAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NTwinColSelectAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NEmbeddedAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NListSelectAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NAccordionAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NSplitPanelAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.event.I18NActionAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NAbsoluteLayoutAspect"/>
+<aspect name="com.opnworks.vaadin.i18n.ui.I18NDateFieldAspect"/>
+</aspects>
+
+    <weaver options="-verbose -showWeaveInfo">
+    	<include within="org.aspectprogrammer.samples..*"/>
+    </weaver>
+    
+</aspectj>
+
