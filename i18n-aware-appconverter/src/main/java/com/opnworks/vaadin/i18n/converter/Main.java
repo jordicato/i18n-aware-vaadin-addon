@@ -49,6 +49,9 @@ public class Main {
 		 */
 
 		KeyConverter conv = new KeyConverter();
+		
+		//Option to substitute texts to keys, 
+		//1 = Change texts for keys, 2 = Return texts in the resource/bundle directly to the class
 		conv.setChangeOptionKey(2);
 		conv.proccessProject(FileBaseSrc, dirbaseSrc, bundlePath, bundleName);
 
