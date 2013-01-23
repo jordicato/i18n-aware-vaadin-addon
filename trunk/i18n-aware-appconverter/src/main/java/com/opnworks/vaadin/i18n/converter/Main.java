@@ -2,15 +2,17 @@ package com.opnworks.vaadin.i18n.converter;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
 
-import com.opnworks.vaadin.i18n.converter.I18NConverter.Tkey;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.PosixParser;
+
+import com.opnworks.vaadin.i18n.converter.aop_mode.KeyConverter;
+import com.opnworks.vaadin.i18n.converter.aop_mode.KeyConverter.Tkey;
 
 /**
  * Main class wrapper to convert common Vaadin apps into I18n-aware Vaadin apps
@@ -20,15 +22,18 @@ import com.opnworks.vaadin.i18n.converter.I18NConverter.Tkey;
  */
 public class Main {
 	public static void main(String[] args) throws Exception {
-		String src = "C:/SVN-OpnWorks/i18n-aware-vaadin-addon/i18n-aware-sampler/src";
+		String projectPath = "C:/SVN-OpnWorks/i18n-aware-vaadin-addon/i18n-aware-sampler/src";
+		String projectDstPath = "C:/SVN-OpnWorks/i18n-aware-vaadin-addon/i18n-aware-sampler/src";
+		String bundlePath = "/main/resources/";
+		String bundleName = "bundle";
 		// String src = "C:/SVN-OpnWorks/i18n-aware-vaadin-addon/i18n-aware-demo/src";
 		for (int i = 0; i < args.length; i++ ) {
 			if (args[i].equals("-s")) {
-				src = args[++i];
+				projectPath = args[++i];
 			}
 		}
 
-		new Main(src);
+		new Main(projectPath, bundlePath, bundleName);
 	}
 
 	/**
@@ -37,13 +42,20 @@ public class Main {
 	 *            path to original Vaadin app
 	 * 
 	 */
-	Main(String dirbaseSrc) {
-		File dirBaseSrc = new File(dirbaseSrc);
-		File delete = new File(dirbaseSrc + "/main/resources/bundle.properties");
-		if (delete.exists()) {
-			delete.delete();
+	Main(String dirbaseSrc, String bundlePath, String bundleName) {
+		File FileBaseSrc = new File(dirbaseSrc);
+		/*
+		 * File delete = new File(dirbaseSrc + "/main/resources/bundle.properties"); if (delete.exists()) { delete.delete(); }
+		 */
+
+		KeyConverter conv = new KeyConverter();
+		conv.setChangeOptionKey(2);
+		conv.proccessProject(FileBaseSrc, dirbaseSrc, bundlePath, bundleName);
+
+		for (Tkey k : conv.getListKey() ) {
+			writeFile(dirbaseSrc + bundlePath + bundleName + ".properties", k.getKey() + k.getSuffix() + " = " + k.getValue());
 		}
-		navigate(dirBaseSrc, dirbaseSrc);
+
 	}
 
 	/**
@@ -53,33 +65,17 @@ public class Main {
 	 * @param dirbaseDst
 	 *            path to i18n-aware api
 	 */
-	public void escribir(String ruta, String cadena) {
-		File archivo = new File(ruta);
+	public void writeFile(String path, String param) {
+		File archivo = new File(path);
 		try {
 			FileWriter escribirArchivo = new FileWriter(archivo, true);
 			BufferedWriter buffer = new BufferedWriter(escribirArchivo);
-			buffer.write(cadena);
+			buffer.write(param);
 			buffer.newLine();
 			buffer.close();
 		}
 		catch (Exception ex) {
 		}
-	}
-
-	void navigate(File dirBaseSrc, String path) {
-
-		I18NConverter conv = new I18NConverter();
-		conv.proccessProject(dirBaseSrc, path);
-
-		for (Tkey k : conv.getListKey() ) {
-			if (k.suffix > 0) {
-				escribir(path + "/main/resources/bundle.properties", k.key + "_" + k.suffix + " = " + k.value);
-			}
-			else {
-				escribir(path + "/main/resources/bundle.properties", k.key + " = " + k.value);
-			}
-		}
-
 	}
 
 }
