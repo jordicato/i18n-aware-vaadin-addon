@@ -13,10 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 import com.opnworks.vaadin.i18n.service_impl.ResourceBundleI18NMessageProvider;
-import com.opnworks.vaadin.i18n.ui.I18NHorizontalSplitPanel;
-import com.opnworks.vaadin.i18n.ui.I18NNativeSelect;
-import com.opnworks.vaadin.i18n.ui.I18NVerticalLayout;
-import com.opnworks.vaadin.i18n.ui.I18NWindow;
 import com.vaadin.Application;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -43,8 +39,10 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.NativeButton;
+import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.PopupView;
 import com.vaadin.ui.PopupView.PopupVisibilityEvent;
@@ -53,6 +51,7 @@ import com.vaadin.ui.Tree;
 import com.vaadin.ui.UriFragmentUtility;
 import com.vaadin.ui.UriFragmentUtility.FragmentChangedEvent;
 import com.vaadin.ui.UriFragmentUtility.FragmentChangedListener;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.BaseTheme;
 import com.vaadin.ui.themes.Reindeer;
@@ -60,6 +59,10 @@ import com.vaadin.ui.themes.Reindeer;
 @SuppressWarnings("serial")
 public class SamplerApplication extends Application implements HttpServletRequestListener {
 
+    private static final String CAPTION = "ButtonPushExample.CAPTION";
+    private static final String TOOLTIP = "ButtonPushExample.TOOLTIP";
+	
+	
     // All features in one container
     private static final HierarchicalContainer allFeatures = FeatureSet.FEATURES
             .getContainer(true);
@@ -180,7 +183,7 @@ public class SamplerApplication extends Application implements HttpServletReques
      * The main window for Sampler, contains the full application UI.
      * 
      */
-    class SamplerWindow extends I18NWindow {
+    class SamplerWindow extends Window {
         private final String TITLE = "Vaadin Sampler";
 
         private final ThemeResource EMPTY_THEME_ICON = new ThemeResource(
@@ -194,7 +197,7 @@ public class SamplerApplication extends Application implements HttpServletReques
         private final ObjectProperty<Feature> currentFeature = new ObjectProperty<Feature>(
                 null, Feature.class);
 
-        private final I18NHorizontalSplitPanel mainSplit;
+        private final HorizontalSplitPanel mainSplit;
         private final Tree navigationTree;
         // itmill: UA-658457-6
         private final GoogleAnalytics webAnalytics = new GoogleAnalytics(
@@ -220,7 +223,7 @@ public class SamplerApplication extends Application implements HttpServletReques
 
         SamplerWindow() {
             // Main top/expanded-bottom layout
-            I18NVerticalLayout mainExpand = new I18NVerticalLayout();
+            VerticalLayout mainExpand = new VerticalLayout();
             setContent(mainExpand);
             setSizeFull();
             mainExpand.setSizeFull();
@@ -263,7 +266,7 @@ public class SamplerApplication extends Application implements HttpServletReques
             });
 
             // Main left/right split; hidden menu tree
-            mainSplit = new I18NHorizontalSplitPanel();
+            mainSplit = new HorizontalSplitPanel();
             mainSplit.setSizeFull();
             mainSplit.setStyleName("main-split");
             mainExpand.addComponent(mainSplit);
@@ -274,8 +277,12 @@ public class SamplerApplication extends Application implements HttpServletReques
             // nav.addComponent(themeSelect);
             // nav.setComponentAlignment(themeSelect, Alignment.MIDDLE_LEFT);
 
+            Button b = new Button(CAPTION);
+            b.setDescription(TOOLTIP);
+            nav.addComponent(b);
+            
             // Select language
-            I18NNativeSelect languageSelector = createLanguageSelector();
+            NativeSelect languageSelector = createLanguageSelector();
 			nav.addComponent( languageSelector );
 			nav.setComponentAlignment(languageSelector, Alignment.MIDDLE_LEFT);
             
@@ -606,9 +613,9 @@ public class SamplerApplication extends Application implements HttpServletReques
 
         }
         
-    	private I18NNativeSelect createLanguageSelector() {
+    	private NativeSelect createLanguageSelector() {
 
-    		I18NNativeSelect languageSelector = new I18NNativeSelect();
+    		NativeSelect languageSelector = new NativeSelect();
 
     		languageSelector.setImmediate(true);
     		languageSelector.setNullSelectionAllowed(false);
@@ -631,7 +638,7 @@ public class SamplerApplication extends Application implements HttpServletReques
 
     }
     
-    private void addLocale( Locale locale, I18NNativeSelect languageSelector ) {
+    private void addLocale( Locale locale, NativeSelect languageSelector ) {
     	
 		languageSelector.addItem(locale);
 		languageSelector.setItemCaption(locale, i18NService.getMessage(locale, "SamplerApplication.language"));
