@@ -19,7 +19,7 @@ public class CommandLineOutput {
 	private static final String FORMAT = "yyyy-MM-dd HH:mm:ss";
 
 	private SimpleDateFormat dateFormat = new SimpleDateFormat(FORMAT);
-	
+
 	private PrintStream output;
 
 	public CommandLineOutput() {
@@ -32,7 +32,7 @@ public class CommandLineOutput {
 
 	public void println(String message) {
 		LOGGER.info(message);
-		output.println( dateFormat.format(new Date()) + " " + message);
+		output.println(dateFormat.format(new Date()) + " " + message);
 	}
 
 	public PrintStream getOutput() {
