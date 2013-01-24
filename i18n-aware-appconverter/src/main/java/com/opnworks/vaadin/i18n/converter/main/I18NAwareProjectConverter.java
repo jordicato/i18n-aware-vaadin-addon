@@ -1,6 +1,10 @@
 package com.opnworks.vaadin.i18n.converter.main;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
@@ -16,6 +20,10 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
+import com.opnworks.vaadin.i18n.converter.aop_mode.KeyConverter;
+import com.opnworks.vaadin.i18n.converter.aop_mode.KeyConverter.Tkey;
+import com.opnworks.vaadin.i18n.converter.explicit_mode.I18NConverter;
+
 public class I18NAwareProjectConverter {
 
 	private static final Logger LOGGER = Logger.getLogger(I18NAwareProjectConverter.class);
@@ -26,7 +34,7 @@ public class I18NAwareProjectConverter {
 
 	public static CommandLineOutput commandLineOutput = new CommandLineOutput();
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 
 		CommandLineParser parser = new GnuParser();
 
@@ -85,6 +93,21 @@ public class I18NAwareProjectConverter {
 		commandLineOutput.println("rollback: " + rollback);
 
 		// TODO: Continue here !!!!
+		KeyConverter keyConverter = new KeyConverter();
+
+		if (conversionMethod.equals(conversionMethod.explicit_mode)) {
+			recursivedelete(sourceDir);
+			navigate(sourceDir, sourceDir);
+		}
+		else if (conversionMethod.equals(conversionMethod.aop_mode)) {
+			keyConverter.setChangeOptionKey(rollback);
+			keyConverter.proccessProject(sourceDir, sourceDir.getAbsolutePath(), "/main/resources/", "bundle");
+
+			for (Tkey k : keyConverter.getListKey() ) {
+				writeFile(sourceDir.getAbsolutePath() + "/main/resources/" + "bundle" + ".properties", k.getCompleteKey() + " = " + k.getValue());
+			}
+
+		}
 
 	}
 
@@ -148,6 +171,91 @@ public class I18NAwareProjectConverter {
 		};
 
 		formatter.printHelp("I18NAwareProjectConverter", options, true);
+	}
+
+	private static void navigate(File dirBaseSrc, File dirBaseDst) {
+		if (!dirBaseDst.exists()) {
+			dirBaseDst.mkdirs();
+		}
+		for (File filesrc : dirBaseSrc.listFiles() ) {
+			File filedst = new File(dirBaseDst.getAbsolutePath() + File.separatorChar + filesrc.getName());
+			if (filesrc.isDirectory()) {
+				boolean created = filedst.mkdir();
+				if (!created)
+					throw new RuntimeException("No puedo crear " + filedst.getAbsolutePath());
+				navigate(filesrc, filedst);
+			}
+			else {
+				try {
+					String newClassContent;
+					// this is only to set breakpoints
+					if (filesrc.getName().equals("AccordionDisabledExample.java")) {
+						newClassContent = null;
+					}
+					if (filesrc.getName().endsWith(".java")) {
+						System.out.println(filesrc.toString());
+						I18NConverter conv = new I18NConverter();
+						conv.setExtractlits(false);
+						newClassContent = conv.proccessJavaFile(filesrc.getAbsolutePath());
+						FileOutputStream fos = new FileOutputStream(filedst);
+						fos.write(newClassContent.getBytes());
+						fos.close();
+					}
+					else {
+						byte[] b = new byte[10000];
+						int leidos = 0;
+						FileOutputStream fos = new FileOutputStream(filedst);
+						FileInputStream fis = new FileInputStream(filesrc);
+						while ((leidos = fis.read(b)) > 0)
+							fos.write(b, 0, leidos);
+						fos.close();
+						fis.close();
+					}
+				}
+				catch (Exception e) {
+					// don't interrupt processing, but print trace
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param dirBaseDst
+	 *            deletes this folder and descendant folders
+	 */
+	private static void recursivedelete(File dirBaseDst) {
+		if (!dirBaseDst.exists())
+			return;
+		for (File file : dirBaseDst.listFiles() ) {
+			if (file.isDirectory()) {
+				recursivedelete(file);
+				boolean deleted = file.delete();
+				if (!deleted)
+					throw new RuntimeException("No puedo borrar " + file.getAbsolutePath());
+			}
+			else {
+				boolean deleted = file.delete();
+				if (!deleted)
+					throw new RuntimeException("No puedo borrar " + file.getAbsolutePath());
+			}
+		}
+
+	}
+
+	public static void writeFile(String path, String param) {
+		File archivo = new File(path);
+		try {
+			FileWriter escribirArchivo = new FileWriter(archivo, true);
+			BufferedWriter buffer = new BufferedWriter(escribirArchivo);
+			buffer.write(param);
+			buffer.newLine();
+			buffer.close();
+		}
+		catch (Exception ex) {
+		}
 	}
 
 }

@@ -63,6 +63,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.swing.text.html.HTMLDocument.Iterator;
+
 /**
  * Class to get all vaadin widgets captions key
  * 
@@ -73,12 +75,19 @@ public class KeyConverter {
 
 	public class Tkey {
 		private String key;
+		private String completeKey;
 		private String value;
 		private String fullClassName;
 		private int suffix;
 		private int maxSuffixClass;
 
 		public Tkey(String key, String value, String fullClassName, int suffix, int maxSuffixClass) {
+			if (suffix > 0) {
+				this.completeKey = key + "_" + suffix;
+			}
+			else {
+				this.completeKey = key;
+			}
 			this.key = key;
 			this.fullClassName = fullClassName;
 			this.value = value;
@@ -94,15 +103,16 @@ public class KeyConverter {
 			return this.maxSuffixClass;
 		}
 
-		public String getSuffix() {
-			if (this.suffix > 0) {
-				return "_" + String.valueOf(this.suffix);
-			}
-			return "";
+		public int getSuffix() {
+			return this.suffix;
 		}
 
 		public String getKey() {
 			return this.key;
+		}
+
+		public String getCompleteKey() {
+			return this.completeKey;
 		}
 
 		public String getValue() {
@@ -128,18 +138,21 @@ public class KeyConverter {
 		}
 	}
 
-	private int optionChangeKey;
+	int contador = 0;
+
+	private boolean beginFlag = false;
+	private boolean optionChangeKey;
 	private String javaFileName;
 	private String javaFileFullClassName;
 	private String varName;
 	private String[] validMethods = { "setCaption", "setDescription", "addComponent", "showNotification", "setDescriptionMessage", "addTab",
-			"setItemCaption", "setCaptionMessage" };
+			"setItemCaption", "setCaptionMessage", "showNotification", "setValue" };
 	private String[] validClasses = { "EmailValidator", "StringLengthValidator" };
+	private String[] stringToDiscard = { "<a href=", "alert(" };
 	private List<Tkey> listKey = new ArrayList<Tkey>();
 	private List<TStringValue> listStringValue = new ArrayList<TStringValue>();
 	private List<ImportDeclaration> lidtarget;
 	private ResourceBundle bundle = null;
-	private static final String BUNDLE_NAME = "content/bundle";
 
 	// Temp vars
 	private String projectPath;
@@ -150,8 +163,12 @@ public class KeyConverter {
 
 	}
 
-	public void setChangeOptionKey(int opt) {
+	public void setChangeOptionKey(boolean opt) {
 		this.optionChangeKey = opt;
+	}
+
+	public boolean getChangeOptionKey() {
+		return this.optionChangeKey;
 	}
 
 	private boolean isInKeyList(String key, List<Tkey> list) {
@@ -162,6 +179,10 @@ public class KeyConverter {
 			}
 		}
 		return false;
+	}
+
+	public int getContador() {
+		return contador;
 	}
 
 	// It determines if any Tkey object contains "value"
@@ -181,7 +202,7 @@ public class KeyConverter {
 		if (isInKeyList(key, list)) {
 			v = 1;
 			if (isValueInKeyList(value, list)) {
-				v = 2;
+				v = 1;
 			}
 		}
 		else {
@@ -245,68 +266,69 @@ public class KeyConverter {
 	 * } } }
 	 */
 
-	private void addKey(StringLiteralExpr key, int option) {
+	private void addKey(StringLiteralExpr key, boolean option) {
 		try {
 			if (key.getValue().length() > 0) {
-				String opt = String.valueOf(option);
-				if (opt.equals("1")) {
-					String value = key.getValue();
-					String gKey = key.getValue();
-					if (!isIdInStringValueList(gKey)) {
-						if (!isKey(gKey)) {
-							gKey = generateKey(key.getValue());
-							key.setValue(gKey);
-						}
-						else {
-							if (!gKey.startsWith(javaFileFullClassName)) {
-								gKey = javaFileFullClassName + gKey;
-								if (isKeyInBundle(gKey)) {
-									value = getBundleKey(gKey);
+				boolean insert = true;
+				if (key instanceof StringLiteralExpr) {
+					if (!isStringToDiscard(key.getValue())) {
+						if (option) {
+							String value = key.getValue().replace("\\n", "//n");
+							String gKey = key.getValue();
+
+							if (!isKey(gKey)) {
+								gKey = generateKey(gKey);
+							}
+							else {
+								if (!gKey.startsWith(javaFileFullClassName)) {
+									gKey = javaFileFullClassName + gKey;
+								}
+								else {
+									if (isInKeyList(gKey, listKey)) {
+										insert = false;
+									}
 								}
 							}
-							else if (isKeyInBundle(gKey)) {
-								value = getBundleKey(gKey);
+
+							if (insert) {
+								int select = valueAndKeyInList(gKey, value, listKey);
+
+								switch (select) {
+									case 2: {
+
+									}
+										;
+									break;
+									case 1: {
+										Tkey keyAux = getKey(gKey);
+
+										Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, keyAux.getMaxSuffixClass() + 1,
+												keyAux.getMaxSuffixClass() + 1);
+
+										key.setValue(newKey.getCompleteKey());
+
+										listKey.add(newKey);
+										updateSuffixMax(gKey, listKey);
+									}
+										;
+									break;
+									case 3: {
+										Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, 0, 0);
+										key.setValue(newKey.getCompleteKey());
+										listKey.add(newKey);
+									}
+										;
+									break;
+
+								}
 							}
 						}
-					}
-					else {
-						gKey = getValueById(gKey);
-						if (isKeyInBundle(gKey)) {
-							value = getBundleKey(gKey);
-						}
-					}
-
-					int select = valueAndKeyInList(gKey, value, listKey);
-
-					switch (select) {
-						case 2: {
-
-						}
-							;
-						break;
-						case 1: {
-							Tkey keyAux = getKey(gKey);
-
-							Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, keyAux.getMaxSuffixClass() + 1, keyAux.getMaxSuffixClass() + 1);
-							updateSuffixMax(gKey, listKey);
-							listKey.add(newKey);
-
-						}
-							;
-						break;
-						case 3: {
-							Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, 0, 0);
-							listKey.add(newKey);
-						}
-							;
-						break;
-
-					}
-				}
-				else if (opt.equals("2")) {
-					if (isKey(key.getValue())) {
-						if (isKeyInBundle(key.getValue())) {
-							key.setValue(getBundleKey(key.getValue()));
+						else {
+							if (isKey(key.getValue())) {
+								if (isInKeyList(key.getValue(), listKey)) {
+									key.setValue(getKey(key.getValue()).getValue());
+								}
+							}
 						}
 					}
 				}
@@ -317,40 +339,9 @@ public class KeyConverter {
 		}
 	}
 
-	private void addKey(StringLiteralExpr key, String value) {
-		if (key.getValue().length() > 1) {
-			String gKey = key.getValue();
-			if (!isKey(key.getValue())) {
-				gKey = generateKey(key.getValue());
-				key.setValue(gKey);
-			}
-			int select = valueAndKeyInList(gKey, value, listKey);
-
-			switch (select) {
-				case 2: {
-
-				}
-					;
-				break;
-				case 1: {
-					Tkey keyAux = getKey(gKey);
-
-					Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, keyAux.getMaxSuffixClass() + 1, keyAux.getMaxSuffixClass() + 1);
-					updateSuffixMax(gKey, listKey);
-					listKey.add(newKey);
-
-				}
-					;
-				break;
-				case 3: {
-					Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, 0, 0);
-					listKey.add(newKey);
-				}
-					;
-				break;
-
-			}
-		}
+	private void addKeyFromBundle(String key, String value) {
+		Tkey newKey = new Tkey(key, value, javaFileFullClassName, 0, 0);
+		listKey.add(newKey);
 	}
 
 	// It determines if a text is assigned to a variable of String type in the class
@@ -404,14 +395,12 @@ public class KeyConverter {
 		while (bundleKeys.hasMoreElements()) {
 			String key = bundleKeys.nextElement();
 			String value = bundle.getString(key);
-			StringLiteralExpr sKey = new StringLiteralExpr(key);
-			addKey(sKey, value);
+			addKeyFromBundle(key, value);
 		}
 
 	}
 
 	private boolean existBundle() {
-
 		try {
 			File file = new File(projectPath + bundlePath);
 			URL[] url = { file.toURI().toURL() };
@@ -458,6 +447,23 @@ public class KeyConverter {
 		this.projectPath = projectPath;
 		this.bundlePath = pathBundle;
 		this.bundleName = bundleName;
+
+		if (optionChangeKey) {
+			boolean exist = existBundle();
+
+			if (exist) {
+				deleteBundleFile(projectPath + bundlePath + bundleName);
+			}
+		}
+		else if (listKey.isEmpty()) {
+			boolean exist = existBundle();
+
+			if (exist) {
+				updateListKeyWithBundle();
+				deleteBundleFile(projectPath + bundlePath + bundleName);
+			}
+		}
+
 		for (File filesrc : dirBaseSrc.listFiles() ) {
 			if (filesrc.isDirectory()) {
 				proccessProject(filesrc, projectPath, pathBundle, bundleName);
@@ -476,7 +482,7 @@ public class KeyConverter {
 
 						for (Tkey localkey : listKey ) {
 							// if (!isInKeyList(localkey.key, generalListKey)){
-							System.out.println(localkey.getKey() + "_" + localkey.getSuffix() + " = " + localkey.getValue());
+							System.out.println(localkey.completeKey + "_" + localkey.getSuffix() + " = " + localkey.getValue());
 							// addKeyToGeneralListKey(localkey.key);
 							// generalListKey.add(localkey);
 							// }
@@ -523,14 +529,10 @@ public class KeyConverter {
 		return key;
 	}
 
-	private int generateKeyNumber(String caption) {
-		int sum = 0;
-		for (int i = 0; i < caption.length(); i++ ) {
-			int I = caption.charAt(i);
-			sum = sum + I;
-		}
-		return sum;
-	}
+	/*
+	 * private int generateKeyNumber(String caption) { int sum = 0; for (int i = 0; i < caption.length(); i++ ) { int I = caption.charAt(i); sum = sum
+	 * + I; } return sum; }
+	 */
 
 	// It generates keys of 30 characters
 	private String generateKey(String caption) {
@@ -585,17 +587,6 @@ public class KeyConverter {
 
 		javaFileFullClassName = cutarget.getPackage().getName().toString() + "." + javaFileName + ".";
 
-		if (!String.valueOf(optionChangeKey).equals(2)) {
-			if (listKey.isEmpty()) {
-				boolean exist = existBundle();
-
-				if (exist) {
-					updateListKeyWithBundle();
-					deleteBundleFile(projectPath + bundlePath + bundleName);
-				}
-			}
-		}
-
 		List<TypeDeclaration> types = cutarget.getTypes();
 
 		// ahora miramos en cada clase
@@ -641,14 +632,27 @@ public class KeyConverter {
 
 			if (flag) {
 				if (exp.getArgs().get(0) instanceof StringLiteralExpr) {
-					return ((StringLiteralExpr) exp.getArgs().get(0));
+					if (!isNumberParameter(exp.getArgs().get(0).toString())) {
+						return ((StringLiteralExpr) exp.getArgs().get(0));
+					}
 				}
 				else if (isIdInStringValueList(exp.getArgs().get(0).toString())) {
-					addKey(new StringLiteralExpr(getValueById(exp.getArgs().get(0).toString())), optionChangeKey);
+					// addKey(new StringLiteralExpr(getValueById(exp.getArgs().get(0).toString())), optionChangeKey);
 				}
 			}
 		}
 		return new StringLiteralExpr();
+	}
+
+	private boolean isNumberParameter(String parameter) {
+		try {
+			float param1 = Float.parseFloat(parameter);
+			return true;
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
 	}
 
 	private boolean isValidMethod(String name) {
@@ -671,6 +675,16 @@ public class KeyConverter {
 		return is;
 	}
 
+	private boolean isStringToDiscard(String name) {
+		boolean is = false;
+		for (int i = 0; i < stringToDiscard.length; i++ ) {
+			if (name.contains(stringToDiscard[i])) {
+				is = true;
+			}
+		}
+		return is;
+	}
+
 	private void processArgs(List<Expression> largs, String methodName) {
 		if (isValidMethod(methodName)) {
 			if (largs != null) {
@@ -683,10 +697,12 @@ public class KeyConverter {
 						processArgs(((MethodCallExpr) largs.get(i)).getArgs(), ((MethodCallExpr) largs.get(i)).getName());
 					}
 					else if (largs.get(i) instanceof StringLiteralExpr) {
-						addKey((StringLiteralExpr) largs.get(i), optionChangeKey);
+						if (!isNumberParameter(largs.get(i).toString())) {
+							addKey((StringLiteralExpr) largs.get(i), optionChangeKey);
+						}
 					}
 					else if (isIdInStringValueList(largs.get(i).toString())) {
-						addKey(new StringLiteralExpr(getValueById(largs.get(i).toString())), optionChangeKey);
+						// addKey(new StringLiteralExpr(getValueById(largs.get(i).toString())), optionChangeKey);
 					}
 				}
 			}
@@ -704,7 +720,9 @@ public class KeyConverter {
 					processArgs(((MethodCallExpr) largs.get(i)).getArgs(), ((MethodCallExpr) largs.get(i)).getName());
 				}
 				else if (largs.get(i) instanceof StringLiteralExpr) {
-					addKey((StringLiteralExpr) largs.get(i), optionChangeKey);
+					if (!isNumberParameter(largs.get(i).toString())) {
+						addKey((StringLiteralExpr) largs.get(i), optionChangeKey);
+					}
 				}
 			}
 		}
