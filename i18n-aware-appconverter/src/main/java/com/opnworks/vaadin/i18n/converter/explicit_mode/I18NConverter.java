@@ -1,4 +1,4 @@
-﻿package com.opnworks.vaadin.i18n.converter.explicit_mode;
+package com.opnworks.vaadin.i18n.converter.explicit_mode; 
 
 import japa.parser.JavaParser;
 import japa.parser.ast.Comment;
