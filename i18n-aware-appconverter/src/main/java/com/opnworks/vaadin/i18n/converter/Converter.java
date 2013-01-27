@@ -8,12 +8,16 @@ import java.io.File;
 public interface Converter {
 
 	/**
-	 * Perform project conversion
-	 * 
 	 * @param sourceDir
-	 *            The source directory
+	 *            The source directory. 
+	 * @param resourcesDir
+	 *            The resources directory
+	 * @param resourceBaseName
+	 *            The resource base name
+	 * @param defaultLanguage
+	 *            The default language
 	 * @param rollback
 	 *            True to rollback conversion
 	 */
-	void performI18NAwareProjectConversion(File sourceDir, boolean rollback);
+	void performI18NAwareProjectConversion(File sourceDir, File resourcesDir, String resourceBaseName, String defaultLanguage, boolean rollback);
 }
