@@ -63,8 +63,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.swing.text.html.HTMLDocument.Iterator;
-
 /**
  * Class to get all vaadin widgets captions key
  * 
@@ -95,8 +93,12 @@ public class KeyConverter {
 			this.maxSuffixClass = maxSuffixClass;
 		}
 
-		public void setSuffixClass(int suffix) {
-			this.maxSuffixClass = suffix;
+		public String getCompleteKey() {
+			return this.completeKey;
+		}
+
+		public String getKey() {
+			return this.key;
 		}
 
 		public int getMaxSuffixClass() {
@@ -107,16 +109,12 @@ public class KeyConverter {
 			return this.suffix;
 		}
 
-		public String getKey() {
-			return this.key;
-		}
-
-		public String getCompleteKey() {
-			return this.completeKey;
-		}
-
 		public String getValue() {
 			return this.value;
+		}
+
+		public void setSuffixClass(int suffix) {
+			this.maxSuffixClass = suffix;
 		}
 	}
 
@@ -163,82 +161,13 @@ public class KeyConverter {
 
 	}
 
-	public void setChangeOptionKey(boolean opt) {
-		this.optionChangeKey = opt;
-	}
-
 	public boolean getChangeOptionKey() {
 		return this.optionChangeKey;
-	}
-
-	private boolean isInKeyList(String key, List<Tkey> list) {
-		// listKey.contains(k);
-		for (Tkey k : list ) {
-			if (k.getKey().equals(key)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public int getContador() {
 		return contador;
 	}
-
-	// It determines if any Tkey object contains "value"
-	private boolean isValueInKeyList(String value, List<Tkey> list) {
-		// listKey.contains(k);
-		for (Tkey k : list ) {
-			if (k.getValue().equals(value)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	// It determines if an Tkey object contains a certain key and value
-	private int valueAndKeyInList(String key, String value, List<Tkey> list) {
-		int v = 0;
-		if (isInKeyList(key, list)) {
-			v = 1;
-			if (isValueInKeyList(value, list)) {
-				v = 1;
-			}
-		}
-		else {
-			v = 3;
-		}
-		return v;
-	}
-
-	private void sumSuffix(String key, int count, List<Tkey> list) {
-		for (Tkey k : list ) {
-			if (k.getKey().equals(key)) {
-				k.setSuffixClass(count);
-			}
-		}
-	}
-
-	// Update the state of the suffixes for each Tkey objects
-	private void updateSuffixMax(String key, List<Tkey> list) {
-		if (!list.isEmpty()) {
-			int count = 0;
-			for (Tkey k : list ) {
-				if (k.getKey().equals(key)) {
-					count++;
-				}
-			}
-			sumSuffix(key, count, list);
-			count = 0;
-		}
-	}
-
-	/*
-	 * private int existSuffix(String caption){ int pos = 0; int num = 0; if (caption.contains("_")){ pos = caption.indexOf("_"); num =
-	 * Integer.parseInt(caption.substring(pos+1, caption.length())); }
-	 * 
-	 * return num; }
-	 */
 
 	// To obtain the Tkey object that contain a certain key
 	public Tkey getKey(String key) {
@@ -250,21 +179,114 @@ public class KeyConverter {
 		return null;
 	}
 
-	// Add the created key to listKey
-	/*
-	 * private void addKey(String key) { if (key.length() > 1) { String gKey = generateKey(key); int select = valueAndKeyInList(gKey, key, listKey);
+	public List<Tkey> getListKey() {
+		return listKey;
+	}
+
+	/**
+	 * Entry point to process every class file
 	 * 
-	 * switch (select) { case 2: {
-	 * 
-	 * } ; break; case 1: { Tkey keyAux = getKey(gKey);
-	 * 
-	 * Tkey newKey = new Tkey(gKey, key, javaFileFullClassName, keyAux.getMaxSuffixClass() + 1, keyAux.getMaxSuffixClass() + 1); updateSuffixMax(gKey,
-	 * listKey); listKey.add(newKey);
-	 * 
-	 * } ; break; case 3: { Tkey newKey = new Tkey(gKey, key, javaFileFullClassName, 0, 0); listKey.add(newKey); } ; break;
-	 * 
-	 * } } }
+	 * @param filename
+	 *            class filename
+	 * @return the converted i18n-aware class
+	 * @throws Exception
 	 */
+	public String proccessJavaFile(String filename) throws Exception {
+		lidtarget = new ArrayList<ImportDeclaration>();
+		// creates an input stream for the file to be parsed
+		FileInputStream in = new FileInputStream(filename);
+		CompilationUnit cutarget/* , xcufactory */;
+		try {
+			// parse the file
+			cutarget = JavaParser.parse(in);
+		}
+		catch (Exception e) {
+			throw e;
+		}
+		finally {
+			in.close();
+		}
+		// Obtener la lista de imports de componentes vaadin soportados en cada clase
+		if (cutarget.getImports() != null) {
+			for (ImportDeclaration id : cutarget.getImports() ) {
+				String name = id.getName().toString();
+				if (name.startsWith("com.vaadin.ui.")) {
+					lidtarget.add(id);
+				}
+				else if (isValidClass(name)) {
+					lidtarget.add(id);
+				}
+			}
+		}
+
+		javaFileFullClassName = cutarget.getPackage().getName().toString() + "." + javaFileName + ".";
+
+		List<TypeDeclaration> types = cutarget.getTypes();
+
+		// ahora miramos en cada clase
+		for (TypeDeclaration type : types ) {
+			processType(type);
+		}
+
+		return cutarget.toString();
+	}
+
+	public void proccessProject(File dirBaseSrc, String projectPath, String pathBundle, String bundleName) {
+		this.projectPath = projectPath;
+		this.bundlePath = pathBundle;
+		this.bundleName = bundleName;
+
+		if (optionChangeKey) {
+			boolean exist = existBundle();
+
+			if (exist) {
+				deleteBundleFile(projectPath + bundlePath + bundleName);
+			}
+		}
+		else if (listKey.isEmpty()) {
+			boolean exist = existBundle();
+
+			if (exist) {
+				updateListKeyWithBundle();
+				deleteBundleFile(projectPath + bundlePath + bundleName);
+			}
+		}
+
+		for (File filesrc : dirBaseSrc.listFiles() ) {
+			if (filesrc.isDirectory()) {
+				proccessProject(filesrc, projectPath, pathBundle, bundleName);
+			}
+			else {
+				try {
+					if (filesrc.getName().endsWith(".java")) {
+						System.out.println(filesrc.toString());
+
+						listStringValue.clear();
+
+						javaFileName = filesrc.getName().replaceAll(".java", "");
+
+						String classJava = proccessJavaFile(filesrc.getAbsolutePath());
+						changeJavaClass(classJava, filesrc.getAbsolutePath());
+
+						for (Tkey localkey : listKey ) {
+							// if (!isInKeyList(localkey.key, generalListKey)){
+							System.out.println(localkey.completeKey + "_" + localkey.getSuffix() + " = " + localkey.getValue());
+							// addKeyToGeneralListKey(localkey.key);
+							// generalListKey.add(localkey);
+							// }
+						}
+					}
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public void setChangeOptionKey(boolean opt) {
+		this.optionChangeKey = opt;
+	}
 
 	private void addKey(StringLiteralExpr key, boolean option) {
 		try {
@@ -339,40 +361,33 @@ public class KeyConverter {
 		}
 	}
 
+	/*
+	 * private int existSuffix(String caption){ int pos = 0; int num = 0; if (caption.contains("_")){ pos = caption.indexOf("_"); num =
+	 * Integer.parseInt(caption.substring(pos+1, caption.length())); }
+	 * 
+	 * return num; }
+	 */
+
 	private void addKeyFromBundle(String key, String value) {
 		Tkey newKey = new Tkey(key, value, javaFileFullClassName, 0, 0);
 		listKey.add(newKey);
 	}
 
-	// It determines if a text is assigned to a variable of String type in the class
-	private boolean isValueInStringValueList(String value) {
-		for (TStringValue s : listStringValue ) {
-			if (s.getValue().equals(value)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	// It determines if a string is an ID of String variable in the class
-	private boolean isIdInStringValueList(String id) {
-		for (TStringValue s : listStringValue ) {
-			if (s.getId().equals(id)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	// Obtains the value of each String variable declared in the class
-	private String getValueById(String id) {
-		for (TStringValue s : listStringValue ) {
-			if (s.getId().equals(id)) {
-				return s.getValue();
-			}
-		}
-		return "";
-	}
+	// Add the created key to listKey
+	/*
+	 * private void addKey(String key) { if (key.length() > 1) { String gKey = generateKey(key); int select = valueAndKeyInList(gKey, key, listKey);
+	 * 
+	 * switch (select) { case 2: {
+	 * 
+	 * } ; break; case 1: { Tkey keyAux = getKey(gKey);
+	 * 
+	 * Tkey newKey = new Tkey(gKey, key, javaFileFullClassName, keyAux.getMaxSuffixClass() + 1, keyAux.getMaxSuffixClass() + 1); updateSuffixMax(gKey,
+	 * listKey); listKey.add(newKey);
+	 * 
+	 * } ; break; case 3: { Tkey newKey = new Tkey(gKey, key, javaFileFullClassName, 0, 0); listKey.add(newKey); } ; break;
+	 * 
+	 * } } }
+	 */
 
 	// Stores values of all String variables in each class
 	private void addStringVarValue(String id, String value) {
@@ -382,51 +397,6 @@ public class KeyConverter {
 				listStringValue.add(newStringValue);
 			}
 
-		}
-	}
-
-	public List<Tkey> getListKey() {
-		return listKey;
-	}
-
-	private void updateListKeyWithBundle() {
-		Enumeration<String> bundleKeys = bundle.getKeys();
-
-		while (bundleKeys.hasMoreElements()) {
-			String key = bundleKeys.nextElement();
-			String value = bundle.getString(key);
-			addKeyFromBundle(key, value);
-		}
-
-	}
-
-	private boolean existBundle() {
-		try {
-			File file = new File(projectPath + bundlePath);
-			URL[] url = { file.toURI().toURL() };
-			ClassLoader loader = new URLClassLoader(url);
-			bundle = ResourceBundle.getBundle(bundleName, Locale.getDefault(), loader);
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-			return false;
-		}
-
-		return true;
-	}
-
-	private boolean isKeyInBundle(String keyName) {
-		return bundle.containsKey(keyName);
-	}
-
-	private String getBundleKey(String keyName) {
-		return bundle.getString(keyName);
-	}
-
-	private void deleteBundleFile(String path) {
-		File delete = new File(path + ".properties");
-		if (delete.exists()) {
-			delete.delete();
 		}
 	}
 
@@ -443,67 +413,11 @@ public class KeyConverter {
 		}
 	}
 
-	public void proccessProject(File dirBaseSrc, String projectPath, String pathBundle, String bundleName) {
-		this.projectPath = projectPath;
-		this.bundlePath = pathBundle;
-		this.bundleName = bundleName;
-
-		if (optionChangeKey) {
-			boolean exist = existBundle();
-
-			if (exist) {
-				deleteBundleFile(projectPath + bundlePath + bundleName);
-			}
+	private void deleteBundleFile(String path) {
+		File delete = new File(path + ".properties");
+		if (delete.exists()) {
+			delete.delete();
 		}
-		else if (listKey.isEmpty()) {
-			boolean exist = existBundle();
-
-			if (exist) {
-				updateListKeyWithBundle();
-				deleteBundleFile(projectPath + bundlePath + bundleName);
-			}
-		}
-
-		for (File filesrc : dirBaseSrc.listFiles() ) {
-			if (filesrc.isDirectory()) {
-				proccessProject(filesrc, projectPath, pathBundle, bundleName);
-			}
-			else {
-				try {
-					if (filesrc.getName().endsWith(".java")) {
-						System.out.println(filesrc.toString());
-
-						listStringValue.clear();
-
-						javaFileName = filesrc.getName().replaceAll(".java", "");
-
-						String classJava = proccessJavaFile(filesrc.getAbsolutePath());
-						changeJavaClass(classJava, filesrc.getAbsolutePath());
-
-						for (Tkey localkey : listKey ) {
-							// if (!isInKeyList(localkey.key, generalListKey)){
-							System.out.println(localkey.completeKey + "_" + localkey.getSuffix() + " = " + localkey.getValue());
-							// addKeyToGeneralListKey(localkey.key);
-							// generalListKey.add(localkey);
-							// }
-						}
-					}
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
-	private boolean isKey(String key) {
-		for (int i = 0; i < key.length(); i++ ) {
-			String ss = key.substring(i, i + 1);
-			if (("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.".indexOf(ss) < 0)) {
-				return false;
-			}
-		}
-		return true;
 	}
 
 	private String detectDelimiters(String caption) {
@@ -522,92 +436,19 @@ public class KeyConverter {
 		return newCaption;
 	}
 
-	private String splitKey(String key, int size) {
-		if (key.length() > size) {
-			return key.substring(0, size);
-		}
-		return key;
-	}
-
-	/*
-	 * private int generateKeyNumber(String caption) { int sum = 0; for (int i = 0; i < caption.length(); i++ ) { int I = caption.charAt(i); sum = sum
-	 * + I; } return sum; }
-	 */
-
-	// It generates keys of 30 characters
-	private String generateKey(String caption) {
-		String key = detectDelimiters(caption);
-		// String keyNumber = String.valueOf(generateKeyNumber(caption));
-		String finalKey = splitKey(key, 30);
-
-		if (finalKey.startsWith(".")) {
-			finalKey = finalKey.replaceFirst(".", "");
-		}
-		if (finalKey.endsWith(".")) {
-			finalKey = finalKey.substring(0, finalKey.length() - 1);
-		}
-
-		return javaFileFullClassName + finalKey; // + keyNumber;
-	}
-
-	/**
-	 * Entry point to process every class file
-	 * 
-	 * @param filename
-	 *            class filename
-	 * @return the converted i18n-aware class
-	 * @throws Exception
-	 */
-	public String proccessJavaFile(String filename) throws Exception {
-		lidtarget = new ArrayList<ImportDeclaration>();
-		// creates an input stream for the file to be parsed
-		FileInputStream in = new FileInputStream(filename);
-		CompilationUnit cutarget/* , xcufactory */;
+	private boolean existBundle() {
 		try {
-			// parse the file
-			cutarget = JavaParser.parse(in);
+			File file = new File(projectPath + bundlePath);
+			URL[] url = { file.toURI().toURL() };
+			ClassLoader loader = new URLClassLoader(url);
+			bundle = ResourceBundle.getBundle(bundleName, Locale.getDefault(), loader);
 		}
 		catch (Exception e) {
-			throw e;
-		}
-		finally {
-			in.close();
-		}
-		// Obtener la lista de imports de componentes vaadin soportados en cada clase
-		if (cutarget.getImports() != null)
-			for (ImportDeclaration id : cutarget.getImports() ) {
-				String name = id.getName().toString();
-				if (name.startsWith("com.vaadin.ui.")) {
-					lidtarget.add(id);
-				}
-				else if (isValidClass(name)) {
-					lidtarget.add(id);
-				}
-			}
-
-		javaFileFullClassName = cutarget.getPackage().getName().toString() + "." + javaFileName + ".";
-
-		List<TypeDeclaration> types = cutarget.getTypes();
-
-		// ahora miramos en cada clase
-		for (TypeDeclaration type : types ) {
-			processType(type);
+			// TODO: handle exception
+			return false;
 		}
 
-		return cutarget.toString();
-	}
-
-	private boolean isVaadinComponent(String name) {
-
-		for (ImportDeclaration id : lidtarget ) {
-			if (id.getName().getName().equals(name)) {
-				return true;
-			}
-			else if (("I18N" + id.getName().getName()).equals(name)) {
-				return true;
-			}
-		}
-		return false;
+		return true;
 	}
 
 	/**
@@ -644,6 +485,70 @@ public class KeyConverter {
 		return new StringLiteralExpr();
 	}
 
+	// It generates keys of 30 characters
+	private String generateKey(String caption) {
+		String key = detectDelimiters(caption);
+		// String keyNumber = String.valueOf(generateKeyNumber(caption));
+		String finalKey = splitKey(key, 30);
+
+		if (finalKey.startsWith(".")) {
+			finalKey = finalKey.replaceFirst(".", "");
+		}
+		if (finalKey.endsWith(".")) {
+			finalKey = finalKey.substring(0, finalKey.length() - 1);
+		}
+
+		return javaFileFullClassName + finalKey; // + keyNumber;
+	}
+
+	private String getBundleKey(String keyName) {
+		return bundle.getString(keyName);
+	}
+
+	// Obtains the value of each String variable declared in the class
+	private String getValueById(String id) {
+		for (TStringValue s : listStringValue ) {
+			if (s.getId().equals(id)) {
+				return s.getValue();
+			}
+		}
+		return "";
+	}
+
+	// It determines if a string is an ID of String variable in the class
+	private boolean isIdInStringValueList(String id) {
+		for (TStringValue s : listStringValue ) {
+			if (s.getId().equals(id)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isInKeyList(String key, List<Tkey> list) {
+		// listKey.contains(k);
+		for (Tkey k : list ) {
+			if (k.getKey().equals(key)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean isKey(String key) {
+		for (int i = 0; i < key.length(); i++ ) {
+			String ss = key.substring(i, i + 1);
+			if (("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.".indexOf(ss) < 0)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean isKeyInBundle(String keyName) {
+		return bundle.containsKey(keyName);
+	}
+
 	private boolean isNumberParameter(String parameter) {
 		try {
 			float param1 = Float.parseFloat(parameter);
@@ -655,34 +560,92 @@ public class KeyConverter {
 		}
 	}
 
-	private boolean isValidMethod(String name) {
+	private boolean isStringToDiscard(String name) {
 		boolean is = false;
-		for (int i = 0; i < validMethods.length; i++ ) {
-			if (validMethods[i].equals(name)) {
+		for (String element : stringToDiscard ) {
+			if (name.contains(element)) {
 				is = true;
 			}
 		}
 		return is;
+	}
+
+	private boolean isVaadinComponent(String name) {
+
+		for (ImportDeclaration id : lidtarget ) {
+			if (id.getName().getName().equals(name)) {
+				return true;
+			}
+			else if (("I18N" + id.getName().getName()).equals(name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private boolean isValidClass(String name) {
 		boolean is = false;
-		for (int i = 0; i < validClasses.length; i++ ) {
-			if (name.endsWith(validClasses[i])) {
+		for (String validClasse : validClasses ) {
+			if (name.endsWith(validClasse)) {
 				is = true;
 			}
 		}
 		return is;
 	}
 
-	private boolean isStringToDiscard(String name) {
+	/*
+	 * private int generateKeyNumber(String caption) { int sum = 0; for (int i = 0; i < caption.length(); i++ ) { int I = caption.charAt(i); sum = sum
+	 * + I; } return sum; }
+	 */
+
+	private boolean isValidMethod(String name) {
 		boolean is = false;
-		for (int i = 0; i < stringToDiscard.length; i++ ) {
-			if (name.contains(stringToDiscard[i])) {
+		for (String validMethod : validMethods ) {
+			if (validMethod.equals(name)) {
 				is = true;
 			}
 		}
 		return is;
+	}
+
+	// It determines if any Tkey object contains "value"
+	private boolean isValueInKeyList(String value, List<Tkey> list) {
+		// listKey.contains(k);
+		for (Tkey k : list ) {
+			if (k.getValue().equals(value)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// It determines if a text is assigned to a variable of String type in the class
+	private boolean isValueInStringValueList(String value) {
+		for (TStringValue s : listStringValue ) {
+			if (s.getValue().equals(value)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void processArgs(List<Expression> largs) {
+		if (largs != null) {
+			for (int i = 0; i < largs.size(); i++ ) {
+				if (largs.get(i) instanceof ObjectCreationExpr) {
+					ObjectCreationExpr exp = (ObjectCreationExpr) largs.get(i);
+					addKey(extactExprCaption(exp), optionChangeKey);
+				}
+				else if (largs.get(i) instanceof MethodCallExpr) {
+					processArgs(((MethodCallExpr) largs.get(i)).getArgs(), ((MethodCallExpr) largs.get(i)).getName());
+				}
+				else if (largs.get(i) instanceof StringLiteralExpr) {
+					if (!isNumberParameter(largs.get(i).toString())) {
+						addKey((StringLiteralExpr) largs.get(i), optionChangeKey);
+					}
+				}
+			}
+		}
 	}
 
 	private void processArgs(List<Expression> largs, String methodName) {
@@ -709,38 +672,6 @@ public class KeyConverter {
 		}
 	}
 
-	private void processArgs(List<Expression> largs) {
-		if (largs != null) {
-			for (int i = 0; i < largs.size(); i++ ) {
-				if (largs.get(i) instanceof ObjectCreationExpr) {
-					ObjectCreationExpr exp = (ObjectCreationExpr) largs.get(i);
-					addKey(extactExprCaption(exp), optionChangeKey);
-				}
-				else if (largs.get(i) instanceof MethodCallExpr) {
-					processArgs(((MethodCallExpr) largs.get(i)).getArgs(), ((MethodCallExpr) largs.get(i)).getName());
-				}
-				else if (largs.get(i) instanceof StringLiteralExpr) {
-					if (!isNumberParameter(largs.get(i).toString())) {
-						addKey((StringLiteralExpr) largs.get(i), optionChangeKey);
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * proccess a block statement
-	 * 
-	 * @param blockStmt
-	 */
-	void processBlockStmt(BlockStmt blockStmt) {
-		if (blockStmt != null && blockStmt.getStmts() != null) {
-			for (Statement s : blockStmt.getStmts() ) {
-				processStmt(s);
-			}
-		}
-	}
-
 	/**
 	 * Process every expression
 	 * 
@@ -749,8 +680,9 @@ public class KeyConverter {
 	 * @return
 	 */
 	private Expression processExpression(Expression expression) {
-		if (expression == null)
+		if (expression == null) {
 			return null;
+		}
 
 		if (expression instanceof AssignExpr) {
 			AssignExpr ae = (AssignExpr) expression;
@@ -801,12 +733,14 @@ public class KeyConverter {
 			ArrayCreationExpr ace = (ArrayCreationExpr) expression;
 			if (ace.getInitializer() != null) {
 				ArrayInitializerExpr aie = ace.getInitializer();
-				if (aie.getValues() != null)
+				if (aie.getValues() != null) {
 					for (int i = 0; i < aie.getValues().size(); i++ ) {
 						Expression expr = aie.getValues().get(i);
-						if (expr != null)
+						if (expr != null) {
 							aie.getValues().set(i, processExpression(expr));
+						}
 					}
+				}
 			}
 		}
 		else if (expression instanceof ObjectCreationExpr) {
@@ -919,16 +853,17 @@ public class KeyConverter {
 		}
 		else if (statement instanceof SynchronizedStmt) {
 			SynchronizedStmt bs = (SynchronizedStmt) statement;
-			BlockStmt bs1 = (BlockStmt) bs.getBlock();
+			BlockStmt bs1 = bs.getBlock();
 			processBlockStmt(bs1);
 		}
 		else if (statement instanceof SwitchStmt) {
 			SwitchStmt bs = (SwitchStmt) statement;
 			for (SwitchEntryStmt swe : bs.getEntries() ) {
-				if (swe.getStmts() != null)
+				if (swe.getStmts() != null) {
 					for (Statement ss : swe.getStmts() ) {
 						processStmt(ss);
 					}
+				}
 			}
 		}
 		else if (statement instanceof IfStmt) {
@@ -978,13 +913,13 @@ public class KeyConverter {
 		}
 		else if (statement instanceof TryStmt) {
 			TryStmt bs = (TryStmt) statement;
-			BlockStmt bs1 = (BlockStmt) bs.getTryBlock();
+			BlockStmt bs1 = bs.getTryBlock();
 			processBlockStmt(bs1);
-			bs1 = (BlockStmt) bs.getFinallyBlock();
+			bs1 = bs.getFinallyBlock();
 			processBlockStmt(bs1);
 			if (bs.getCatchs() != null) {
 				for (CatchClause cc : bs.getCatchs() ) {
-					bs1 = (BlockStmt) cc.getCatchBlock();
+					bs1 = cc.getCatchBlock();
 					processBlockStmt(bs1);
 				}
 			}
@@ -1011,6 +946,74 @@ public class KeyConverter {
 		List<BodyDeclaration> members = type.getMembers();
 		for (BodyDeclaration member : members ) {
 			processMember(member);
+		}
+	}
+
+	private String splitKey(String key, int size) {
+		if (key.length() > size) {
+			return key.substring(0, size);
+		}
+		return key;
+	}
+
+	private void sumSuffix(String key, int count, List<Tkey> list) {
+		for (Tkey k : list ) {
+			if (k.getKey().equals(key)) {
+				k.setSuffixClass(count);
+			}
+		}
+	}
+
+	private void updateListKeyWithBundle() {
+		Enumeration<String> bundleKeys = bundle.getKeys();
+
+		while (bundleKeys.hasMoreElements()) {
+			String key = bundleKeys.nextElement();
+			String value = bundle.getString(key);
+			addKeyFromBundle(key, value);
+		}
+
+	}
+
+	// Update the state of the suffixes for each Tkey objects
+	private void updateSuffixMax(String key, List<Tkey> list) {
+		if (!list.isEmpty()) {
+			int count = 0;
+			for (Tkey k : list ) {
+				if (k.getKey().equals(key)) {
+					count++;
+				}
+			}
+			sumSuffix(key, count, list);
+			count = 0;
+		}
+	}
+
+	// It determines if an Tkey object contains a certain key and value
+	private int valueAndKeyInList(String key, String value, List<Tkey> list) {
+		int v = 0;
+		if (isInKeyList(key, list)) {
+			v = 1;
+			if (isValueInKeyList(value, list)) {
+				v = 1;
+			}
+		}
+		else {
+			v = 3;
+		}
+		return v;
+	}
+
+	/**
+	 * proccess a block statement
+	 * 
+	 * @param blockStmt
+	 */
+	void processBlockStmt(BlockStmt blockStmt) {
+		if (blockStmt != null && blockStmt.getStmts() != null) {
+			for (Statement s : blockStmt.getStmts() ) {
+				processStmt(s);
+			}
 		}
 	}
 

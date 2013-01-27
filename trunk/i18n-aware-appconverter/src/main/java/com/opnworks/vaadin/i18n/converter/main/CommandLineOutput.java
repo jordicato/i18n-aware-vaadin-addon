@@ -30,13 +30,13 @@ public class CommandLineOutput {
 		this.output = output;
 	}
 
+	public PrintStream getOutput() {
+		return output;
+	}
+
 	public void println(String message) {
 		LOGGER.info(message);
 		output.println(dateFormat.format(new Date()) + " " + message);
-	}
-
-	public PrintStream getOutput() {
-		return output;
 	}
 
 	public void setOutput(PrintStream output) {

@@ -61,14 +61,16 @@ public class MainPackRenamed {
 		}
 		String partialSrcPath = dirBaseSrc.getAbsolutePath().replace("\\", "/");
 		if (prefixSrcPackage != null && prefixSrcPackage.trim().length() > 0 && prefixDstPackage != null && prefixDstPackage.trim().length() > 0) {
-			if (!partialSrcPath.endsWith("/"))
+			if (!partialSrcPath.endsWith("/")) {
 				partialSrcPath += "/";
+			}
 			partialSrcPath += prefixSrcPackage.replace(".", "/");
 		}
 		String partialDstPath = dirBaseDst.getAbsolutePath().replace("\\", "/");
 		if (prefixSrcPackage != null && prefixSrcPackage.trim().length() > 0 && prefixDstPackage != null && prefixDstPackage.trim().length() > 0) {
-			if (!partialDstPath.endsWith("/"))
+			if (!partialDstPath.endsWith("/")) {
 				partialDstPath += "/";
+			}
 			partialDstPath += prefixDstPackage.replace(".", "/");
 		}
 		recursivedelete(new File(partialDstPath));
@@ -83,8 +85,9 @@ public class MainPackRenamed {
 			f = new File(f.getAbsolutePath() + File.separatorChar + s);
 			if (!f.exists()) {
 				boolean b = f.mkdirs();
-				if (!b)
+				if (!b) {
 					throw new RuntimeException("Cannot create dir");
+				}
 			}
 		}
 		f = new File(f.getAbsolutePath() + File.separatorChar + filename);
@@ -102,10 +105,12 @@ public class MainPackRenamed {
 		String currentdirpath = currentFile.getAbsolutePath().substring(0, firstletter);
 		String currentrelativepath = currentdirpath.substring(appdirBaseSrc.getAbsolutePath().length());
 		currentrelativepath = currentrelativepath.replace("\\", "/");
-		if (currentrelativepath.startsWith("/"))
+		if (currentrelativepath.startsWith("/")) {
 			currentrelativepath = currentrelativepath.substring(1);
-		if (currentrelativepath.endsWith("/"))
+		}
+		if (currentrelativepath.endsWith("/")) {
 			currentrelativepath = currentrelativepath.substring(0, currentrelativepath.length() - 1);
+		}
 		String currentrelativepackage = currentrelativepath.replace("/", ".");
 		return currentrelativepackage;
 	}
@@ -151,8 +156,9 @@ public class MainPackRenamed {
 						int leidos = 0;
 						FileOutputStream fos = new FileOutputStream(filedst);
 						FileInputStream fis = new FileInputStream(filesrc);
-						while ((leidos = fis.read(b)) > 0)
+						while ((leidos = fis.read(b)) > 0) {
 							fos.write(b, 0, leidos);
+						}
 						fos.close();
 						fis.close();
 					}
@@ -172,19 +178,22 @@ public class MainPackRenamed {
 	 *            deletes this folder and descendant folders
 	 */
 	void recursivedelete(File dirBaseDst) {
-		if (!dirBaseDst.exists())
+		if (!dirBaseDst.exists()) {
 			return;
+		}
 		for (File file : dirBaseDst.listFiles() ) {
 			if (file.isDirectory()) {
 				recursivedelete(file);
 				boolean deleted = file.delete();
-				if (!deleted)
+				if (!deleted) {
 					throw new RuntimeException("No puedo borrar " + file.getAbsolutePath());
+				}
 			}
 			else {
 				boolean deleted = file.delete();
-				if (!deleted)
+				if (!deleted) {
 					throw new RuntimeException("No puedo borrar " + file.getAbsolutePath());
+				}
 			}
 		}
 

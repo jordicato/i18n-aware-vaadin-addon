@@ -12,8 +12,9 @@ public class I18NRuntimeHelper {
 		for (Iterator<Component> it = window.getComponentIterator(); it.hasNext(); ) {
 			try {
 				Component c = it.next();
-				if (c instanceof I18NAwareField)
+				if (c instanceof I18NAwareField) {
 					processComponent((I18NAwareField) c);
+				}
 			}
 			catch (Exception e) {
 
