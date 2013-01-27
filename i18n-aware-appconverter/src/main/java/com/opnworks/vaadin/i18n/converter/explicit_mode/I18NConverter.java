@@ -1,4 +1,4 @@
-package com.opnworks.vaadin.i18n.converter.explicit_mode; 
+package com.opnworks.vaadin.i18n.converter.explicit_mode;
 
 import japa.parser.JavaParser;
 import japa.parser.ast.Comment;
@@ -129,186 +129,12 @@ public class I18NConverter {
 	}
 
 	/**
-	 * adds a literal to the literals list
-	 * 
-	 * @param expr
-	 */
-	private void addLiteral(StringLiteralExpr expr) {
-		String s = expr.getValue();
-		s = " " + s + " ";
-		for (int i = 1; i < s.length() - 1; i++ ) {
-			String ss = s.substring(i, i + 1);
-			if ("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(ss) < 0) {
-				s = s.substring(0, i) + "_" + s.substring(i + 1);
-			}
-		}
-		s = s.trim() + "." + (contadorLiterales++) + "=" + expr.getValue();
-		literales.add(s);
-	}
-
-	/**
-	 * process variable declarator
-	 * 
-	 * @param vd
-	 *            variable declarator to process
-	 */
-	private void changeVaadinVarDeclaratorNewReqPrecheck(VariableDeclarator vd) {
-		if (vd.getInit() != null) {
-			if (vd.getInit() instanceof ObjectCreationExpr) {
-				vd.setInit(vaadinObjectCreationNoReqPrecheck((ObjectCreationExpr) vd.getInit()));
-				huboModificaciones = true;
-			}
-			else if (vd.getInit() instanceof MethodCallExpr) {
-				MethodCallExpr mce0 = (MethodCallExpr) vd.getInit();
-				processArgs(mce0.getArgs());
-			}
-		}
-	}
-
-	/**
-	 * extracts literals from a constructor
-	 * 
-	 * @param largs
-	 * @param i18nclassname
-	 */
-	private void extractLiterals(List<Expression> largs, String i18nclassname) {
-		boolean anyStringLiteralExpr = false;
-		for (int i = 0; i < largs.size(); i++ ) {
-			if (largs.get(i) instanceof StringLiteralExpr) {
-				anyStringLiteralExpr = true;
-				break;
-			}
-		}
-		if (!anyStringLiteralExpr)
-			return;
-		try {
-			Class<I18NAware> clazz = (Class<I18NAware>) Class.forName("com.opnworks.vaadin.i18n.ui." + i18nclassname);
-			int[] anns = I18NAwareMessageParametersHelper.getI18NAwareMessageParameters(getClassConstructor(clazz, largs));
-			if (anns == null)
-				return;
-			for (int indexann = 0; indexann < anns.length; indexann++ ) {
-				if (largs.get(anns[indexann]) instanceof StringLiteralExpr) {
-					addLiteral((StringLiteralExpr) largs.get(anns[indexann]));
-				}
-			}
-		}
-		catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Identifies wich constructor is being used. LOT OF WORK PENDING
-	 * 
-	 * @param clazz
-	 * @param largs
-	 * @return
-	 */
-	private Constructor getClassConstructor(Class<I18NAware> clazz, List<Expression> largs) {
-		// this is quite complicated.
-		// 1st we look for the constructors with shuch number of parameters
-		Constructor[] ac = clazz.getConstructors();
-		List<Constructor> lc = new ArrayList<Constructor>();
-		for (Constructor c : ac ) {
-			if (c.getParameterTypes().length == largs.size()) {
-				lc.add(c);
-			}
-		}
-		if (lc.size() == 1)
-			return lc.get(0);
-		// the easy search didn't worked
-		for (Iterator<Constructor> it = lc.iterator(); it.hasNext(); ) {
-			Constructor c = it.next();
-			for (int i = 0; i < c.getParameterTypes().length; i++ ) {
-				Expression e = largs.get(i);
-				Class cl = c.getParameterTypes()[i];
-				if (cl == getExpressionClass(e)) {
-					continue;
-				}
-				else {
-					it.remove();
-					break;
-				}
-			}
-		}
-		if (lc.size() == 1)
-			return lc.get(0);
-		else
-			throw new RuntimeException("Constructor not found");
-	}
-
-	/**
-	 * Returns the class of an expression. LOTS OF WORK TO DO
-	 * 
-	 * @param expr
-	 * @return
-	 */
-	private Class getExpressionClass(Expression expr) {
-		if (expr instanceof StringLiteralExpr) {
-			return String.class;
-		}
-		else
-			return null;
-	}
-
-	/**
-	 * Gets the I18N equivalent class for a given vaadin ui componet class name
-	 * 
-	 * @param vaadinName
-	 *            vaadin ui component class name
-	 * @return
-	 */
-	private String getI18NCompositeName(String vaadinName) {
-		if (vaadinName != null) {
-			if (vaadinName.startsWith("com.vaadin.ui.")) {
-				vaadinName = vaadinName.replace("com.vaadin.ui.", "");
-			}
-			vaadinName = "I18N" + vaadinName;
-			for (int index = 0; index < lidfactoryd.size(); index++ ) {
-				ImportDeclaration id = lidfactoryd.get(index);
-				if (id.getName().toString().endsWith(vaadinName)) {
-					return vaadinName;
-				}
-			}
-		}
-		return null;
-	}
-
-	/**
 	 * Gets the extraction of literals setting
 	 * 
 	 * @return
 	 */
 	public boolean isExtractlits() {
 		return extractlits;
-	}
-
-	private I18NSupportReplacement isI18Method(MethodCallExpr mce) {
-		if (mce.getArgs() != null && mce.getArgs().size() > 0)
-			for (I18NSupportReplacement is : i18nsr ) {
-				if (is.methodorig.equals(mce.getName()) && mce.getArgs().size() > is.posnstring
-						&& mce.getArgs().get(is.posnstring) instanceof StringLiteralExpr) {
-					StringLiteralExpr sle = (StringLiteralExpr) mce.getArgs().get(is.posnstring);
-					if (sle.getValue().startsWith(i18nreplacementpreffix))
-						return is;
-				}
-			}
-		return null;
-	}
-
-	/**
-	 * Checks if a given class name is a vaadon ui component
-	 * 
-	 * @param name
-	 * @return
-	 */
-	private boolean isVaadinCompositeNameSupported(String name) {
-		return getI18NCompositeName(name) != null;
 	}
 
 	/**
@@ -363,7 +189,7 @@ public class I18NConverter {
 				}
 			}
 		}
-		if (cutarget.getImports() != null)
+		if (cutarget.getImports() != null) {
 			for (ImportDeclaration id : cutarget.getImports() ) {
 				String name = id.getName().toString();
 				if (name.startsWith("com.vaadin.ui.")) {
@@ -375,6 +201,7 @@ public class I18NConverter {
 					}
 				}
 			}
+		}
 
 		List<Comment> lcomments = cutarget.getComments();
 		List<TypeDeclaration> types = cutarget.getTypes();
@@ -386,7 +213,7 @@ public class I18NConverter {
 				cutarget.getPackage().setName(new NameExpr(dp));
 				huboModificaciones = true;
 			}
-			if (cutarget.getImports() != null)
+			if (cutarget.getImports() != null) {
 				for (ImportDeclaration id : cutarget.getImports() ) {
 					String name = id.getName().toString();
 					dp = getCurrentDstPackage(name, prefixSrcPackage, prefixDstPackage);
@@ -395,6 +222,7 @@ public class I18NConverter {
 						huboModificaciones = true;
 					}
 				}
+			}
 		}
 		// ahora miramos en cada clase
 		for (TypeDeclaration type : types ) {
@@ -415,8 +243,9 @@ public class I18NConverter {
 						break;
 					}
 				}
-				if (!found)
+				if (!found) {
 					cutarget.getImports().add(id);
+				}
 			}
 		}
 		else {
@@ -425,6 +254,210 @@ public class I18NConverter {
 		// prints the changed compilation unit
 
 		return cutarget.toString();
+	}
+
+	/**
+	 * enables or disables literal extraction
+	 * 
+	 * @param extractlits
+	 */
+	public void setExtractlits(boolean extractlits) {
+		this.extractlits = extractlits;
+	}
+
+	/**
+	 * This method enables package rename of destination classes. This has nothing to do with the file pathname. The pathname will be changed
+	 * accordingly by the calling class
+	 * 
+	 * @param prefixSrcPackage
+	 * @param prefixDstPackage
+	 */
+	public void setRenameBasePackage(String prefixSrcPackage, String prefixDstPackage) {
+		this.prefixSrcPackage = prefixSrcPackage;
+		this.prefixDstPackage = prefixDstPackage;
+		renamepackage = prefixSrcPackage != null && prefixDstPackage != null && !prefixSrcPackage.equals(prefixDstPackage);
+	}
+
+	/**
+	 * adds a literal to the literals list
+	 * 
+	 * @param expr
+	 */
+	private void addLiteral(StringLiteralExpr expr) {
+		String s = expr.getValue();
+		s = " " + s + " ";
+		for (int i = 1; i < s.length() - 1; i++ ) {
+			String ss = s.substring(i, i + 1);
+			if ("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(ss) < 0) {
+				s = s.substring(0, i) + "_" + s.substring(i + 1);
+			}
+		}
+		s = s.trim() + "." + (contadorLiterales++) + "=" + expr.getValue();
+		literales.add(s);
+	}
+
+	/**
+	 * process variable declarator
+	 * 
+	 * @param vd
+	 *            variable declarator to process
+	 */
+	private void changeVaadinVarDeclaratorNewReqPrecheck(VariableDeclarator vd) {
+		if (vd.getInit() != null) {
+			if (vd.getInit() instanceof ObjectCreationExpr) {
+				vd.setInit(vaadinObjectCreationNoReqPrecheck((ObjectCreationExpr) vd.getInit()));
+				huboModificaciones = true;
+			}
+			else if (vd.getInit() instanceof MethodCallExpr) {
+				MethodCallExpr mce0 = (MethodCallExpr) vd.getInit();
+				processArgs(mce0.getArgs());
+			}
+		}
+	}
+
+	/**
+	 * extracts literals from a constructor
+	 * 
+	 * @param largs
+	 * @param i18nclassname
+	 */
+	private void extractLiterals(List<Expression> largs, String i18nclassname) {
+		boolean anyStringLiteralExpr = false;
+		for (int i = 0; i < largs.size(); i++ ) {
+			if (largs.get(i) instanceof StringLiteralExpr) {
+				anyStringLiteralExpr = true;
+				break;
+			}
+		}
+		if (!anyStringLiteralExpr) {
+			return;
+		}
+		try {
+			Class<I18NAware> clazz = (Class<I18NAware>) Class.forName("com.opnworks.vaadin.i18n.ui." + i18nclassname);
+			int[] anns = I18NAwareMessageParametersHelper.getI18NAwareMessageParameters(getClassConstructor(clazz, largs));
+			if (anns == null) {
+				return;
+			}
+			for (int ann : anns ) {
+				if (largs.get(ann) instanceof StringLiteralExpr) {
+					addLiteral((StringLiteralExpr) largs.get(ann));
+				}
+			}
+		}
+		catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Identifies wich constructor is being used. LOT OF WORK PENDING
+	 * 
+	 * @param clazz
+	 * @param largs
+	 * @return
+	 */
+	private Constructor getClassConstructor(Class<I18NAware> clazz, List<Expression> largs) {
+		// this is quite complicated.
+		// 1st we look for the constructors with shuch number of parameters
+		Constructor[] ac = clazz.getConstructors();
+		List<Constructor> lc = new ArrayList<Constructor>();
+		for (Constructor c : ac ) {
+			if (c.getParameterTypes().length == largs.size()) {
+				lc.add(c);
+			}
+		}
+		if (lc.size() == 1) {
+			return lc.get(0);
+		}
+		// the easy search didn't worked
+		for (Iterator<Constructor> it = lc.iterator(); it.hasNext(); ) {
+			Constructor c = it.next();
+			for (int i = 0; i < c.getParameterTypes().length; i++ ) {
+				Expression e = largs.get(i);
+				Class cl = c.getParameterTypes()[i];
+				if (cl == getExpressionClass(e)) {
+					continue;
+				}
+				else {
+					it.remove();
+					break;
+				}
+			}
+		}
+		if (lc.size() == 1) {
+			return lc.get(0);
+		}
+		else {
+			throw new RuntimeException("Constructor not found");
+		}
+	}
+
+	/**
+	 * Returns the class of an expression. LOTS OF WORK TO DO
+	 * 
+	 * @param expr
+	 * @return
+	 */
+	private Class getExpressionClass(Expression expr) {
+		if (expr instanceof StringLiteralExpr) {
+			return String.class;
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Gets the I18N equivalent class for a given vaadin ui componet class name
+	 * 
+	 * @param vaadinName
+	 *            vaadin ui component class name
+	 * @return
+	 */
+	private String getI18NCompositeName(String vaadinName) {
+		if (vaadinName != null) {
+			if (vaadinName.startsWith("com.vaadin.ui.")) {
+				vaadinName = vaadinName.replace("com.vaadin.ui.", "");
+			}
+			vaadinName = "I18N" + vaadinName;
+			for (int index = 0; index < lidfactoryd.size(); index++ ) {
+				ImportDeclaration id = lidfactoryd.get(index);
+				if (id.getName().toString().endsWith(vaadinName)) {
+					return vaadinName;
+				}
+			}
+		}
+		return null;
+	}
+
+	private I18NSupportReplacement isI18Method(MethodCallExpr mce) {
+		if (mce.getArgs() != null && mce.getArgs().size() > 0) {
+			for (I18NSupportReplacement is : i18nsr ) {
+				if (is.methodorig.equals(mce.getName()) && mce.getArgs().size() > is.posnstring
+						&& mce.getArgs().get(is.posnstring) instanceof StringLiteralExpr) {
+					StringLiteralExpr sle = (StringLiteralExpr) mce.getArgs().get(is.posnstring);
+					if (sle.getValue().startsWith(i18nreplacementpreffix)) {
+						return is;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Checks if a given class name is a vaadon ui component
+	 * 
+	 * @param name
+	 * @return
+	 */
+	private boolean isVaadinCompositeNameSupported(String name) {
+		return getI18NCompositeName(name) != null;
 	}
 
 	/**
@@ -446,19 +479,6 @@ public class I18NConverter {
 	}
 
 	/**
-	 * proccess a block statement
-	 * 
-	 * @param blockStmt
-	 */
-	void processBlockStmt(BlockStmt blockStmt) {
-		if (blockStmt != null && blockStmt.getStmts() != null) {
-			for (Statement s : blockStmt.getStmts() ) {
-				processStmt(s);
-			}
-		}
-	}
-
-	/**
 	 * Process every expression
 	 * 
 	 * @param expression
@@ -466,8 +486,9 @@ public class I18NConverter {
 	 * @return
 	 */
 	private Expression processExpression(Expression expression) {
-		if (expression == null)
+		if (expression == null) {
 			return null;
+		}
 		if (expression instanceof AssignExpr) {
 			AssignExpr ae = (AssignExpr) expression;
 			if (ae.getTarget() instanceof NameExpr) {
@@ -515,12 +536,14 @@ public class I18NConverter {
 			ArrayCreationExpr ace = (ArrayCreationExpr) expression;
 			if (ace.getInitializer() != null) {
 				ArrayInitializerExpr aie = ace.getInitializer();
-				if (aie.getValues() != null)
+				if (aie.getValues() != null) {
 					for (int i = 0; i < aie.getValues().size(); i++ ) {
 						Expression expr = aie.getValues().get(i);
-						if (expr != null)
+						if (expr != null) {
 							aie.getValues().set(i, processExpression(expr));
+						}
 					}
+				}
 			}
 		}
 		else if (expression instanceof ObjectCreationExpr) {
@@ -631,35 +654,6 @@ public class I18NConverter {
 	}
 
 	/**
-	 * This function replaces every 1st argument in a method call expression that begins with the value of i18nreplacementpreffix. Besides, if the
-	 * method is replaceable, it is replaced with it's replacement and a casting
-	 * 
-	 * @param mce
-	 */
-	void processReplaceI18nMethods(MethodCallExpr mce) {
-		if (mce.getScope() instanceof NameExpr) {
-			I18NSupportReplacement isr = isI18Method(mce);
-			if (isr != null) {
-				mce.setName(isr.methodrepl);
-				StringLiteralExpr sle = (StringLiteralExpr) mce.getArgs().get(isr.posnstring);
-				sle.setValue(sle.getValue().substring(i18nreplacementpreffix.length()));
-				if (isr.replacement != null) {
-					EnclosedExpr ee = new EnclosedExpr();
-					CastExpr ce = new CastExpr();
-					ce.setExpr(mce.getScope());
-					ReferenceType rt = new ReferenceType();
-					ClassOrInterfaceType coi = new ClassOrInterfaceType(isr.replacement.getName());
-					rt.setType(coi);
-					ce.setType(rt);
-					ee.setInner(ce);
-					mce.setScope(ee);
-				}
-			}
-		}
-
-	}
-
-	/**
 	 * Process every statement. Maybe not all Java statements be supported
 	 * 
 	 * @param statement
@@ -676,7 +670,7 @@ public class I18NConverter {
 		}
 		else if (statement instanceof SynchronizedStmt) {
 			SynchronizedStmt bs = (SynchronizedStmt) statement;
-			BlockStmt bs1 = (BlockStmt) bs.getBlock();
+			BlockStmt bs1 = bs.getBlock();
 			processBlockStmt(bs1);
 		}
 		else if (statement instanceof EmptyStmt) {
@@ -685,10 +679,11 @@ public class I18NConverter {
 		else if (statement instanceof SwitchStmt) {
 			SwitchStmt bs = (SwitchStmt) statement;
 			for (SwitchEntryStmt swe : bs.getEntries() ) {
-				if (swe.getStmts() != null)
+				if (swe.getStmts() != null) {
 					for (Statement ss : swe.getStmts() ) {
 						processStmt(ss);
 					}
+				}
 			}
 		}
 		else if (statement instanceof IfStmt) {
@@ -738,13 +733,13 @@ public class I18NConverter {
 		}
 		else if (statement instanceof TryStmt) {
 			TryStmt bs = (TryStmt) statement;
-			BlockStmt bs1 = (BlockStmt) bs.getTryBlock();
+			BlockStmt bs1 = bs.getTryBlock();
 			processBlockStmt(bs1);
-			bs1 = (BlockStmt) bs.getFinallyBlock();
+			bs1 = bs.getFinallyBlock();
 			processBlockStmt(bs1);
 			if (bs.getCatchs() != null) {
 				for (CatchClause cc : bs.getCatchs() ) {
-					bs1 = (BlockStmt) cc.getCatchBlock();
+					bs1 = cc.getCatchBlock();
 					processBlockStmt(bs1);
 				}
 			}
@@ -770,7 +765,7 @@ public class I18NConverter {
 	private void processType(TypeDeclaration type) {
 		if (type instanceof ClassOrInterfaceDeclaration) {
 			ClassOrInterfaceDeclaration coid = (ClassOrInterfaceDeclaration) type;
-			if (coid != null && coid.getExtends() != null)
+			if (coid != null && coid.getExtends() != null) {
 				for (ClassOrInterfaceType oneextend : coid.getExtends() ) {
 					String newExtend = getI18NCompositeName(oneextend.getName());
 					if (newExtend != null) {
@@ -778,6 +773,7 @@ public class I18NConverter {
 						huboModificaciones = true;
 					}
 				}
+			}
 		}
 		else {
 			throw new RuntimeException("Type no soportado " + type.getClass());
@@ -786,28 +782,6 @@ public class I18NConverter {
 		for (BodyDeclaration member : members ) {
 			processMember(member);
 		}
-	}
-
-	/**
-	 * enables or disables literal extraction
-	 * 
-	 * @param extractlits
-	 */
-	public void setExtractlits(boolean extractlits) {
-		this.extractlits = extractlits;
-	}
-
-	/**
-	 * This method enables package rename of destination classes. This has nothing to do with the file pathname. The pathname will be changed
-	 * accordingly by the calling class
-	 * 
-	 * @param prefixSrcPackage
-	 * @param prefixDstPackage
-	 */
-	public void setRenameBasePackage(String prefixSrcPackage, String prefixDstPackage) {
-		this.prefixSrcPackage = prefixSrcPackage;
-		this.prefixDstPackage = prefixDstPackage;
-		renamepackage = prefixSrcPackage != null && prefixDstPackage != null && !prefixSrcPackage.equals(prefixDstPackage);
 	}
 
 	/**
@@ -837,10 +811,11 @@ public class I18NConverter {
 		// huboModificaciones = true;
 		// }
 		processArgs(oce.getArgs());
-		if (extractlits)
+		if (extractlits) {
 			if (newname != null && oce.getArgs() != null && oce.getArgs().size() > 0) {
 				extractLiterals(oce.getArgs(), newname);
 			}
+		}
 		if (oce.getAnonymousClassBody() != null) {
 			List<BodyDeclaration> members = oce.getAnonymousClassBody();
 			for (BodyDeclaration member : members ) {
@@ -848,5 +823,47 @@ public class I18NConverter {
 			}
 		}
 		return expr;
+	}
+
+	/**
+	 * proccess a block statement
+	 * 
+	 * @param blockStmt
+	 */
+	void processBlockStmt(BlockStmt blockStmt) {
+		if (blockStmt != null && blockStmt.getStmts() != null) {
+			for (Statement s : blockStmt.getStmts() ) {
+				processStmt(s);
+			}
+		}
+	}
+
+	/**
+	 * This function replaces every 1st argument in a method call expression that begins with the value of i18nreplacementpreffix. Besides, if the
+	 * method is replaceable, it is replaced with it's replacement and a casting
+	 * 
+	 * @param mce
+	 */
+	void processReplaceI18nMethods(MethodCallExpr mce) {
+		if (mce.getScope() instanceof NameExpr) {
+			I18NSupportReplacement isr = isI18Method(mce);
+			if (isr != null) {
+				mce.setName(isr.methodrepl);
+				StringLiteralExpr sle = (StringLiteralExpr) mce.getArgs().get(isr.posnstring);
+				sle.setValue(sle.getValue().substring(i18nreplacementpreffix.length()));
+				if (isr.replacement != null) {
+					EnclosedExpr ee = new EnclosedExpr();
+					CastExpr ce = new CastExpr();
+					ce.setExpr(mce.getScope());
+					ReferenceType rt = new ReferenceType();
+					ClassOrInterfaceType coi = new ClassOrInterfaceType(isr.replacement.getName());
+					rt.setType(coi);
+					ce.setType(rt);
+					ee.setInner(ce);
+					mce.setScope(ee);
+				}
+			}
+		}
+
 	}
 }
