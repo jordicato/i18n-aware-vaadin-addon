@@ -8,15 +8,15 @@ import com.opnworks.vaadin.i18n.converter.explicit_mode.ExplicitModeConverter;
  */
 public enum ConversionMethod {
 
-	aop_mode(AopModeConverter.getInstance()), explicit_mode(ExplicitModeConverter.getInstance());
+    aop_mode(AopModeConverter.getInstance()), explicit_mode(ExplicitModeConverter.getInstance());
 
-	private Converter converter;
+    private Converter converter;
 
-	private ConversionMethod(Converter converter) {
-		this.converter = converter;
-	}
+    private ConversionMethod(Converter converter) {
+        this.converter = converter;
+    }
 
-	public Converter getConverter() {
-		return converter;
-	}
+    public Converter getConverter() {
+        return converter;
+    }
 }

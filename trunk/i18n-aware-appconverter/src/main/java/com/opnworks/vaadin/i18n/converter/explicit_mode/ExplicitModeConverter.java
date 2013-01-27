@@ -18,7 +18,7 @@ public class ExplicitModeConverter implements Converter {
 	}
 
 	@Override
-	public void performI18NAwareProjectConversion(File sourceDir, boolean rollback) {
+	public void performI18NAwareProjectConversion(File sourceDir, File resourcesDir, String resourceBaseName, String defaultLanguage, boolean rollback) {
 		recursivedelete(sourceDir);
 		navigate(sourceDir, sourceDir);
 	}
@@ -39,7 +39,6 @@ public class ExplicitModeConverter implements Converter {
 			else {
 				try {
 					String newClassContent;
-					// this is only to set breakpoints
 					if (filesrc.getName().equals("AccordionDisabledExample.java")) {
 						newClassContent = null;
 					}
@@ -65,12 +64,10 @@ public class ExplicitModeConverter implements Converter {
 					}
 				}
 				catch (Exception e) {
-					// don't interrupt processing, but print trace
 					e.printStackTrace();
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -97,7 +94,5 @@ public class ExplicitModeConverter implements Converter {
 				}
 			}
 		}
-
 	}
-
 }
