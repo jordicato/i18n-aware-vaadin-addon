@@ -7,18 +7,19 @@ import com.vaadin.ui.Component;
 
 public class I18NRuntimeHelper {
 
-    public static void FixCaptionMessages(I18NWindow window) {
-        for (Iterator<Component> it = window.getComponentIterator(); it.hasNext(); ) {
-            try {
-                Component c = it.next();
-                if (c instanceof I18NAwareField) {
-                    processComponent((I18NAwareField) c);
-                }
-            } catch (Exception e) {
-            }
-        }
-    }
+	public static void FixCaptionMessages(I18NWindow window) {
+		for (Iterator<Component> it = window.getComponentIterator(); it.hasNext(); ) {
+			try {
+				Component c = it.next();
+				if (c instanceof I18NAwareField) {
+					processComponent((I18NAwareField) c);
+				}
+			}
+			catch (Exception e) {
+			}
+		}
+	}
 
-    private static void processComponent(I18NAwareField f) {
-    }
+	private static void processComponent(I18NAwareField f) {
+	}
 }
