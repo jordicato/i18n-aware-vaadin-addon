@@ -22,9 +22,11 @@ public class AopModeConverter implements Converter {
 	public void performI18NAwareProjectConversion(File sourceDir, File resourcesDir, String resourceBaseName, String defaultLanguage, boolean rollback) {
 		KeyConverter keyConverter = new KeyConverter();
 		keyConverter.setChangeOptionKey(rollback);
-		keyConverter.proccessProject(sourceDir, sourceDir.getAbsolutePath(), "/main/resources/", "bundle");
-		for (Tkey k : keyConverter.getListKey() ) {
-			writeFile(sourceDir.getAbsolutePath() + "/main/resources/" + "bundle" + ".properties", k.getCompleteKey() + " = " + k.getValue());
+		keyConverter.proccessProject(sourceDir, sourceDir.getAbsolutePath(), resourcesDir.getAbsolutePath(), resourceBaseName);
+		if (!rollback) {
+			for (Tkey k : keyConverter.getListKey() ) {
+				writeFile(resourcesDir.getAbsolutePath() + "/" + resourceBaseName + ".properties", k.getCompleteKey() + " = " + k.getValue());
+			}
 		}
 	}
 

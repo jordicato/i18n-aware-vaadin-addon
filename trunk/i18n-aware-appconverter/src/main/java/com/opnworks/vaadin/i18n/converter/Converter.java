@@ -9,7 +9,7 @@ public interface Converter {
 
 	/**
 	 * @param sourceDir
-	 *            The source directory. 
+	 *            The source directory.
 	 * @param resourcesDir
 	 *            The resources directory
 	 * @param resourceBaseName
