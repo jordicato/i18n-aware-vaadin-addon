@@ -16,12 +16,12 @@
 		<repository>
 			<id>public-releases</id>
 			<name>OpnWorks Public Releases</name>
-			<url>http://aws.opnworks.com/nexus/content/repositories/public-releases</url>
+			<url>http://server01.opnworks.com/nexus/content/repositories/public-releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
 			<name>OpnWorks Snapshots</name>
-			<url>http://aws.opnworks.com/nexus/content/repositories/snapshots/</url>
+			<url>http://server01.opnworks.com/nexus/content/repositories/snapshots/</url>
 			<uniqueVersion>false</uniqueVersion>
 		</snapshotRepository>
 	</distributionManagement>
