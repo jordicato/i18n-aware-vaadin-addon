@@ -42,6 +42,12 @@
 			</dependency>
 
 			<dependency>
+				<groupId>com.memetix</groupId>
+				<artifactId>microsoft-translator-java-api</artifactId>
+				<version>0.5</version>
+			</dependency>
+
+			<dependency>
 				<groupId>org.aspectj</groupId>
 				<artifactId>aspectjrt</artifactId>
 				<version>1.6.11</version>
