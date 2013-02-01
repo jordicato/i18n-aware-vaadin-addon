@@ -5,26 +5,40 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
+
 import com.opnworks.vaadin.i18n.converter.aop_mode.AopModeConverter;
+import com.opnworks.vaadin.i18n.converter.aop_mode.KeyConverter;
+import com.opnworks.vaadin.i18n.converter.aop_mode.KeyConverter.Tkey;
+import com.opnworks.vaadin.i18n.converter.main.CommandLineOutput;
 
 public class AOPModeConverterTest {
 
-	// private static CommandLineOutput commandLineOutput = new CommandLineOutput();
+	private static CommandLineOutput commandLineOutput = new CommandLineOutput();
 
 	private static String testSourceDir = "src/test/resources/source-test";
 	private static String testSourcedest = "src/test/resources/aux-test";
 
-	private static final String RESOURCES_DIR = testSourcedest + "/i18n-aware-sampler/src/main/resources";
+	private static final String RESOURCES_DIR = testSourcedest;//testSourcedest + "/src/main/resources";
 	private static final String RESOURCE_BASE_NAME = "bundle";
 	private static final String DEFAULT_LANGUAGE = "en";
-	private static final boolean ROLLBACK = false;
+	private static final boolean ROLLBACK = true;
+	
+	private AopModeConverter aopMode;
+	private List<Tkey> listKey;
 
 	@Before
 	public void setup() throws Exception {
 
+		AopModeConverter convertionMethod = new AopModeConverter();
+		this.aopMode = convertionMethod;
+		
 		if (!ROLLBACK) {
 			if (existDirectoryAux(new File(testSourcedest))) {
 				deleteDirectory(new File(testSourcedest));
@@ -51,12 +65,28 @@ public class AOPModeConverterTest {
 
 		final File resourcesDir = new File(axuTestResourceDir.getAbsoluteFile().toString());
 
-		AopModeConverter convertionMethod = new AopModeConverter();
-
-		convertionMethod.performI18NAwareProjectConversion(sourceDir, resourcesDir, RESOURCE_BASE_NAME, DEFAULT_LANGUAGE, ROLLBACK);
+		aopMode.performI18NAwareProjectConversion(sourceDir, resourcesDir, RESOURCE_BASE_NAME, DEFAULT_LANGUAGE, ROLLBACK);
 
 	}
 
+	@After
+	public void resultVerification() throws Exception {
+		KeyConverter keyConverter = new KeyConverter();
+		
+		if (!ROLLBACK){
+			assertTrue(keyConverter.existBundle(RESOURCES_DIR, RESOURCE_BASE_NAME));
+			
+			keyConverter.updateListKeyWithBundle();
+			
+			this.listKey = keyConverter.getListKey();
+			
+			for (int i = 0; i < listKey.size()-1; i++){
+				assertTrue(keyConverter.isKey(listKey.get(i).getCompleteKey()));
+				commandLineOutput.getOutput().println(listKey.get(i).getCompleteKey());
+			}
+		}
+	}
+	
 	public static void CopyDirectory(File sourceDir, File sourceDes) throws Exception {
 		try {
 			if (sourceDir.isDirectory()) {

@@ -164,9 +164,9 @@ public class KeyConverter {
 	private String javaFileFullClassName;
 	// private String varName;
 	private String[] validMethods = { "setCaption", "setDescription", "addComponent", "showNotification", "setDescriptionMessage", "addTab",
-			"setItemCaption", "setCaptionMessage", "showNotification", "setValue" };
+			"setItemCaption", "setCaptionMessage", "showNotification", "setValue", "addOrderToContainer" };
 	private String[] validClasses = { "EmailValidator", "StringLengthValidator" };
-	private String[] stringToDiscard = { "<a href=", "alert(" };
+	private String[] stringToDiscard = { "<a href=", "alert(", "../" };
 	private List<Tkey> listKey = new ArrayList<Tkey>();
 	private List<TStringValue> listStringValue = new ArrayList<TStringValue>();
 	private List<ImportDeclaration> lidtarget;
@@ -401,7 +401,7 @@ public class KeyConverter {
 		return listKey;
 	}
 
-	private void updateListKeyWithBundle() {
+	public void updateListKeyWithBundle() {
 		Enumeration<String> bundleKeys = bundle.getKeys();
 
 		while (bundleKeys.hasMoreElements()) {
@@ -441,7 +441,7 @@ public class KeyConverter {
 		}
 	}
 
-	private boolean existBundle(String resourcePath, String resourceName) {
+	public boolean existBundle(String resourcePath, String resourceName) {
 		try {
 			File file = new File(resourcePath);
 			URL[] url = { file.toURI().toURL() };
@@ -520,7 +520,7 @@ public class KeyConverter {
 		}
 	}
 
-	private boolean isKey(String key) {
+	public boolean isKey(String key) {
 		for (int i = 0; i < key.length(); i++ ) {
 			String ss = key.substring(i, i + 1);
 			if (("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.".indexOf(ss) < 0)) {
