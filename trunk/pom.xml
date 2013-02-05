@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.opnworks.vaadin</groupId>
 	<artifactId>i18n-aware-parent</artifactId>
@@ -28,17 +29,17 @@
 
 	<dependencyManagement>
 		<dependencies>
-		
+
 			<dependency>
 				<groupId>com.vaadin</groupId>
 				<artifactId>vaadin</artifactId>
 				<version>6.8.5</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>com.google.code.javaparser</groupId>
 				<artifactId>javaparser</artifactId>
-				<version>1.0.8</version>				
+				<version>1.0.8</version>
 			</dependency>
 
 			<dependency>
@@ -52,13 +53,13 @@
 				<artifactId>aspectjrt</artifactId>
 				<version>1.6.11</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>commons-cli</groupId>
 				<artifactId>commons-cli</artifactId>
 				<version>1.1</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>log4j</groupId>
 				<artifactId>log4j</artifactId>
@@ -79,12 +80,18 @@
 				<scope>provided</scope>
 			</dependency>
 
-			<!-- Test dependencies -->			
-			
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.4</version>
+			</dependency>
+
+			<!-- Test dependencies -->
+
 			<dependency>
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
-				<version>4.8.2</version>
+				<version>4.11</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -97,6 +104,12 @@
 				<groupId>org.jmock</groupId>
 				<artifactId>jmock-junit4</artifactId>
 				<version>2.5.1</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>junit-addons</groupId>
+				<artifactId>junit-addons</artifactId>
+				<version>1.4</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
@@ -135,9 +148,9 @@
 
 	<build>
 		<pluginManagement>
-		
+
 			<plugins>
-			
+
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jar-plugin</artifactId>
@@ -191,8 +204,9 @@
 					<artifactId>gwt-maven-plugin</artifactId>
 					<version>2.4.0</version>
 				</plugin>
-			
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -257,7 +271,7 @@
 										<ignore></ignore>
 									</action>
 								</pluginExecution>
-								
+
 								<pluginExecution>
 									<pluginExecutionFilter>
 										<groupId>
@@ -339,7 +353,7 @@
 						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
-				
+
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>aspectj-maven-plugin</artifactId>
@@ -351,10 +365,10 @@
 					<artifactId>maven-processor-plugin</artifactId>
 					<version>2.1.0</version>
 				</plugin>
-				
+
 			</plugins>
 		</pluginManagement>
-	
+
 		<plugins>
 
 			<plugin>
@@ -418,7 +432,7 @@
 		</plugins>
 
 	</build>
-	
+
 	<profiles>
 		<profile>
 			<id>jrebel</id>
@@ -465,7 +479,7 @@
 				<updatePolicy>never</updatePolicy>
 			</releases>
 		</pluginRepository>
-		
+
 		<pluginRepository>
 			<id>sonatype-repo</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -476,7 +490,7 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</pluginRepository>
-		
+
 
 		<pluginRepository>
 			<id>sonatype-nexus-releases</id>

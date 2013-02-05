@@ -609,7 +609,12 @@ public class KeyConverter {
 				}
 			}
 
-		javaFileFullClassName = cutarget.getPackage().getName().toString() + "." + javaFileName + ".";
+		if( cutarget.getPackage() != null) {
+			javaFileFullClassName = cutarget.getPackage().getName().toString() + "." + javaFileName + ".";
+		}
+		else {
+			javaFileFullClassName = javaFileName + ".";
+		}
 
 		List<TypeDeclaration> types = cutarget.getTypes();
 
