@@ -31,7 +31,7 @@ public class DragDropHtml5FromDesktopExample extends I18NVerticalLayout {
     private ProgressIndicator progress;
 
     public DragDropHtml5FromDesktopExample() {
-        addComponent(new Label("Drag text from desktop application or image files from the " + "file system to the drop box below (dragging files requires HTML5 capable browser like FF 3.6, Safari or Chrome)"));
+        addComponent(new Label("com.vaadin.demo.sampler.features.dragndrop.DragDropHtml5FromDesktopExample.Drag_text_from_desktop_applica" + "com.vaadin.demo.sampler.features.dragndrop.DragDropHtml5FromDesktopExample.file_system_to_the_drop_box_be"));
         CssLayout dropPane = new CssLayout();
         dropPane.setWidth("200px");
         dropPane.setHeight("200px");
@@ -60,7 +60,7 @@ public class DragDropHtml5FromDesktopExample extends I18NVerticalLayout {
                 supportsHtml5FileDrop = webBrowser.isChrome() || webBrowser.isSafari() && webBrowser.getBrowserMajorVersion() > 4;
             }
             if (!supportsHtml5FileDrop) {
-                getWindow().showNotification("Image file drop is only supported on Firefox 3.6 and later. " + "Text can be dropped into the box on other browsers.", Notification.TYPE_WARNING_MESSAGE);
+                getWindow().showNotification("com.vaadin.demo.sampler.features.dragndrop.DragDropHtml5FromDesktopExample.Image_file_drop_is_only_suppor" + "com.vaadin.demo.sampler.features.dragndrop.DragDropHtml5FromDesktopExample.Text_can_be_dropped_into_the_b", Notification.TYPE_WARNING_MESSAGE);
             }
         }
     }
@@ -126,7 +126,7 @@ public class DragDropHtml5FromDesktopExample extends I18NVerticalLayout {
         }
 
         private void showText(String text) {
-            showComponent(new Label(text), "Wrapped text content");
+            showComponent(new Label(text), "com.vaadin.demo.sampler.features.dragndrop.DragDropHtml5FromDesktopExample.Wrapped_text_content");
         }
 
         private void showFile(String name, String type, final ByteArrayOutputStream bas) {

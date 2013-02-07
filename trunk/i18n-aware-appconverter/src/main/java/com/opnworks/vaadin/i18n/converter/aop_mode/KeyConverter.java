@@ -165,8 +165,10 @@ public class KeyConverter {
 	private String javaFileFullClassName;
 	// private String varName;
 	private String[] validMethods = { "setCaption", "setDescription", "addComponent", "showNotification", "setDescriptionMessage", "addTab",
-			"setItemCaption", "setCaptionMessage", "showNotification", "setValue", "addOrderToContainer", "RuntimeException" };
-	private String[] validClasses = { "EmailValidator", "StringLengthValidator" };
+			"setItemCaption", "setCaptionMessage", "showNotification", "setValue", "addOrderToContainer", "RuntimeException", "addItem",
+			"showComponent", "setValue", "setInputPrompt", "getWindow()", "addAction" };
+	private String[] validClasses = { "EmailValidator", "StringLengthValidator", "ShortcutListener", "Action", "Object[]", "Command()", "Command",
+			"ShortcutListener" };
 	private String[] stringToDiscard = { "<a href=", "alert(", "../" };
 	private List<Tkey> listKey = new ArrayList<Tkey>();
 	private List<TStringValue> listStringValue = new ArrayList<TStringValue>();
@@ -538,6 +540,9 @@ public class KeyConverter {
 						return ((StringLiteralExpr) exp.getArgs().get(0));
 					}
 				}
+				else if (exp.getArgs().get(0) instanceof BinaryExpr) {
+					processBinaryExpr((BinaryExpr) exp.getArgs().get(0));
+				}
 				else if (isIdInStringValueList(exp.getArgs().get(0).toString())) {
 					// addKey(new StringLiteralExpr(getValueById(exp.getArgs().get(0).toString())), optionChangeKey);
 				}
@@ -587,7 +592,7 @@ public class KeyConverter {
 		}
 
 		if (finalKey.startsWith("_")) {
-			finalKey.replaceFirst("_", "");
+			finalKey = finalKey.replaceFirst("_", "");
 		}
 
 		return javaFileFullClassName + finalKey; // + keyNumber;
@@ -728,6 +733,9 @@ public class KeyConverter {
 							addKey((StringLiteralExpr) largs.get(i), optionChangeKey);
 						}
 					}
+					else if (largs.get(i) instanceof BinaryExpr) {
+						processBinaryExpr((BinaryExpr) largs.get(i));
+					}
 					else if (isIdInStringValueList(largs.get(i).toString())) {
 						// addKey(new StringLiteralExpr(getValueById(largs.get(i).toString())), optionChangeKey);
 					}
@@ -770,7 +778,10 @@ public class KeyConverter {
 				for (VariableDeclarator vd : vde.getVars() ) {
 					// varName = vd.getId().getName();
 					if (vd.getInit() != null) {
-						if (vd.getInit() instanceof ObjectCreationExpr) {
+						if (vd.getInit() instanceof MethodCallExpr) {
+							processArgs(((MethodCallExpr) vd.getInit()).getArgs(), ((MethodCallExpr) vd.getInit()).getName());
+						}
+						else if (vd.getInit() instanceof ObjectCreationExpr) {
 							ObjectCreationExpr exp = (ObjectCreationExpr) vd.getInit();
 							addKey(extactExprCaption(exp), optionChangeKey);
 						}
@@ -825,16 +836,59 @@ public class KeyConverter {
 			ce.setThenExpr(processExpression(ce.getThenExpr()));
 			ce.setElseExpr(processExpression(ce.getElseExpr()));
 		}
-		else if (expression instanceof NameExpr || expression instanceof StringLiteralExpr || expression instanceof BinaryExpr
-				|| expression instanceof FieldAccessExpr || expression instanceof UnaryExpr || expression instanceof NullLiteralExpr
-				|| expression instanceof BooleanLiteralExpr) {
-			// do nothing
+		/*
+		 * else if (expression instanceof NameExpr || expression instanceof BinaryExpr || expression instanceof FieldAccessExpr || expression
+		 * instanceof UnaryExpr || expression instanceof NullLiteralExpr || expression instanceof BooleanLiteralExpr) { // do nothing return
+		 * expression; }
+		 */
+		else if (expression instanceof NameExpr) {
 			return expression;
+		}
+		else if (expression instanceof BinaryExpr) {
+			processBinaryExpr((BinaryExpr) expression);
+		}
+		else if (expression instanceof FieldAccessExpr) {
+			return expression;
+		}
+		else if (expression instanceof UnaryExpr) {
+			return expression;
+		}
+		else if (expression instanceof NullLiteralExpr) {
+			return expression;
+		}
+		else if (expression instanceof BooleanLiteralExpr) {
+			return expression;
+		}
+		else if (expression instanceof StringLiteralExpr) {
+			addKey((StringLiteralExpr) expression, optionChangeKey);
 		}
 		else {
 			throw new RuntimeException("Expression not supported " + expression.getClass());
 		}
 		return expression;
+	}
+
+	private BinaryExpr processBinaryExpr(BinaryExpr exp) {
+		Expression expLeft = ((BinaryExpr) exp).getLeft();
+		Expression expRight = ((BinaryExpr) exp).getRight();
+
+		if (expRight instanceof StringLiteralExpr) {
+			String expString = ((StringLiteralExpr) expRight).getValue();
+			System.out.println(expString);
+			addKey((StringLiteralExpr) expRight, optionChangeKey);
+		}
+
+		if (expLeft instanceof BinaryExpr) {
+			processBinaryExpr((BinaryExpr) expLeft);
+		}
+		else if (expLeft instanceof StringLiteralExpr) {
+			String expString = ((StringLiteralExpr) expLeft).getValue();
+			System.out.println(expString);
+			addKey((StringLiteralExpr) expLeft, optionChangeKey);
+		}
+
+		return exp;
+
 	}
 
 	/**
@@ -964,6 +1018,7 @@ public class KeyConverter {
 		else if (statement instanceof ReturnStmt) {
 			ReturnStmt bs = (ReturnStmt) statement;
 			bs.setExpr(processExpression(bs.getExpr()));
+			processExpression(bs.getExpr());
 		}
 		else if (statement instanceof ForeachStmt) {
 			ForeachStmt bs = (ForeachStmt) statement;
@@ -995,8 +1050,10 @@ public class KeyConverter {
 		}
 		else if (statement instanceof ThrowStmt || statement instanceof BreakStmt || statement instanceof ContinueStmt) {
 			// do nothing (for now)
+
 		}
 		else {
+
 			// throw new RuntimeException("Not supported stmt " + statement.getClass());
 		}
 	}

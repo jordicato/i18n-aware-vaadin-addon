@@ -64,7 +64,7 @@ public class AccordionDisabledExample extends I18NVerticalLayout implements Acco
 
     public void selectedTabChange(SelectedTabChangeEvent event) {
         String c = a.getTab(event.getTabSheet().getSelectedTab()).getCaption();
-        getWindow().showNotification("Selected tab: " + c);
+        getWindow().showNotification("com.vaadin.demo.sampler.features.accordions.AccordionDisabledExample.Selected_tab" + c);
     }
 
     public void buttonClick(ClickEvent event) {

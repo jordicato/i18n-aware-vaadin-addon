@@ -56,6 +56,6 @@ public class ProminentPrimaryActionExample extends I18NVerticalLayout implements
     }
 
     public void buttonClick(ClickEvent event) {
-        getWindow().showNotification("\"" + event.getButton().getCaption() + "\" clicked");
+        getWindow().showNotification(""" + event.getButton().getCaption() + "" clicked");
     }
 }
