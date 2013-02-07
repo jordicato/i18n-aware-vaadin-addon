@@ -25,67 +25,67 @@ public class AopModeConverterTestData implements TestRule {
 		return new AopModeConverterStatement(base, this);
 	}
 
-	public String getTestcaseName() {
-		return testcaseName;
-	}
-
-	public void setTestcaseName(String testcaseName) {
-		this.testcaseName = testcaseName;
-	}
-
-	public String getResourceBaseName() {
-		return resourceBaseName;
-	}
-
-	public void setResourceBaseName(String resourceBaseName) {
-		this.resourceBaseName = resourceBaseName;
+	public File getBundleDirCopy() {
+		return bundleDirCopy;
 	}
 
 	public String getDefaultLanguage() {
 		return defaultLanguage;
 	}
 
-	public void setDefaultLanguage(String defaultLanguage) {
-		this.defaultLanguage = defaultLanguage;
-	}
-
-	public boolean isRollback() {
-		return rollback;
-	}
-
-	public void setRollback(boolean rollback) {
-		this.rollback = rollback;
-	}
-
-	public File getSourceDirCopy() {
-		return sourceDirCopy;
-	}
-
-	public void setSourceDirCopy(File sourceDirCopy) {
-		this.sourceDirCopy = sourceDirCopy;
-	}
-
-	public File getBundleDirCopy() {
-		return bundleDirCopy;
-	}
-
-	public void setBundleDirCopy(File bundleDirCopy) {
-		this.bundleDirCopy = bundleDirCopy;
+	public File getExpectedBundleDir() {
+		return expectedBundleDir;
 	}
 
 	public File getExpectedSourceDir() {
 		return expectedSourceDir;
 	}
 
-	public void setExpectedSourceDir(File expectedSourceDir) {
-		this.expectedSourceDir = expectedSourceDir;
+	public String getResourceBaseName() {
+		return resourceBaseName;
 	}
 
-	public File getExpectedBundleDir() {
-		return expectedBundleDir;
+	public File getSourceDirCopy() {
+		return sourceDirCopy;
+	}
+
+	public String getTestcaseName() {
+		return testcaseName;
+	}
+
+	public boolean isRollback() {
+		return rollback;
+	}
+
+	public void setBundleDirCopy(File bundleDirCopy) {
+		this.bundleDirCopy = bundleDirCopy;
+	}
+
+	public void setDefaultLanguage(String defaultLanguage) {
+		this.defaultLanguage = defaultLanguage;
 	}
 
 	public void setExpectedBundleDir(File expectedBundleDir) {
 		this.expectedBundleDir = expectedBundleDir;
+	}
+
+	public void setExpectedSourceDir(File expectedSourceDir) {
+		this.expectedSourceDir = expectedSourceDir;
+	}
+
+	public void setResourceBaseName(String resourceBaseName) {
+		this.resourceBaseName = resourceBaseName;
+	}
+
+	public void setRollback(boolean rollback) {
+		this.rollback = rollback;
+	}
+
+	public void setSourceDirCopy(File sourceDirCopy) {
+		this.sourceDirCopy = sourceDirCopy;
+	}
+
+	public void setTestcaseName(String testcaseName) {
+		this.testcaseName = testcaseName;
 	}
 }

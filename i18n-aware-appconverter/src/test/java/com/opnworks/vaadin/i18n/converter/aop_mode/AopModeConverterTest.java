@@ -22,67 +22,15 @@ import org.junit.runners.Parameterized.Parameters;
 @RunWith(value = Parameterized.class)
 public class AopModeConverterTest {
 
-	private AopModeConverter aopModeConverter;
-
-	@Rule
-	public AopModeConverterTestData testData = new AopModeConverterTestData();
-
-	@Parameters(name = "{index}: {0}")
-	public static Collection<Object[]> data() {
-
-		String[] testCases = AopModeConverterStatement.listTestCases();
-
-		List<Object[]> result = new ArrayList<Object[]>(testCases.length);
-
-		for (int i = 0; i < testCases.length; i++ ) {
-			result.add(new Object[] { testCases[i] });
-		}
-
-		return result;
-	}
-
-	public AopModeConverterTest(String testcaseName) throws IOException {
-		testData.setTestcaseName(testcaseName);
-	}
-
-	@Before
-	public void setup() throws Exception {
-		aopModeConverter = new AopModeConverter();
-	}
-
-	@Test
-	public void testPerformI18NAwareProjectConversion() throws IOException {
-
-		File sourceDirCopy = testData.getSourceDirCopy();
-		File bundleDirCopy = testData.getBundleDirCopy();
-
-		aopModeConverter.performI18NAwareProjectConversion(sourceDirCopy, bundleDirCopy, testData.getResourceBaseName(),
-				testData.getDefaultLanguage(), testData.isRollback());
-
-		assertDirectoryEquals(testData.getExpectedSourceDir(), sourceDirCopy);
-		assertDirectoryEquals(testData.getExpectedBundleDir(), bundleDirCopy);
-	}
-
-	private void assertDirectoryEquals(File expectedDir, File actualDir) throws IOException {
-
-		if (expectedDir == null || !expectedDir.exists()) {
-			return;
-		}
-
-		new ExpectedDirectoryWalker().assertEquals(expectedDir, actualDir);
-	}
-
 	public class ExpectedDirectoryWalker extends DirectoryWalker<Void> {
 
 		private File expectedDir;
 		private File actualDir;
 
-		@Override
-		protected void handleFile(File expectedFile, int depth, Collection<Void> results) throws IOException {
-
-			File actualFile = getMatchingActualFile(expectedFile);
-
-			FileAssert.assertEquals(expectedFile, actualFile);
+		public void assertEquals(File expectedDir, File actualDir) throws IOException {
+			this.expectedDir = expectedDir;
+			this.actualDir = actualDir;
+			walk(expectedDir, null);
 		}
 
 		private File getMatchingActualFile(File expectedFile) throws IOException {
@@ -96,10 +44,14 @@ public class AopModeConverterTest {
 			return actualFile;
 		}
 
-		public void assertEquals(File expectedDir, File actualDir) throws IOException {
-			this.expectedDir = expectedDir;
-			this.actualDir = actualDir;
-			walk(expectedDir, null);
+		private List<String> getPathList(File file) throws IOException {
+			List<String> result = new ArrayList<String>();
+			File r = file.getCanonicalFile();
+			while (r != null) {
+				result.add(r.getName());
+				r = r.getParentFile();
+			}
+			return result;
 		}
 
 		private String getRelativePath(File home, File file) throws IOException {
@@ -125,16 +77,6 @@ public class AopModeConverterTest {
 			}
 
 			return matchPathLists(homelist, filelist);
-		}
-
-		private List<String> getPathList(File file) throws IOException {
-			List<String> result = new ArrayList<String>();
-			File r = file.getCanonicalFile();
-			while (r != null) {
-				result.add(r.getName());
-				r = r.getParentFile();
-			}
-			return result;
 		}
 
 		private String matchPathLists(List<String> r, List<String> f) {
@@ -178,5 +120,63 @@ public class AopModeConverterTest {
 			return stringBuilder.toString();
 		}
 
+		@Override
+		protected void handleFile(File expectedFile, int depth, Collection<Void> results) throws IOException {
+
+			File actualFile = getMatchingActualFile(expectedFile);
+
+			FileAssert.assertEquals(expectedFile, actualFile);
+		}
+
+	}
+
+	@Parameters(name = "{index}: {0}")
+	public static Collection<Object[]> data() {
+
+		String[] testCases = AopModeConverterStatement.listTestCases();
+
+		List<Object[]> result = new ArrayList<Object[]>(testCases.length);
+
+		for (String testCase : testCases ) {
+			result.add(new Object[] { testCase });
+		}
+
+		return result;
+	}
+
+	private AopModeConverter aopModeConverter;
+
+	@Rule
+	public AopModeConverterTestData testData = new AopModeConverterTestData();
+
+	public AopModeConverterTest(String testcaseName) throws IOException {
+		testData.setTestcaseName(testcaseName);
+	}
+
+	@Before
+	public void setup() throws Exception {
+		aopModeConverter = new AopModeConverter();
+	}
+
+	@Test
+	public void testPerformI18NAwareProjectConversion() throws IOException {
+
+		File sourceDirCopy = testData.getSourceDirCopy();
+		File bundleDirCopy = testData.getBundleDirCopy();
+
+		aopModeConverter.performI18NAwareProjectConversion(sourceDirCopy, bundleDirCopy, testData.getResourceBaseName(),
+				testData.getDefaultLanguage(), testData.isRollback());
+
+		assertDirectoryEquals(testData.getExpectedSourceDir(), sourceDirCopy);
+		assertDirectoryEquals(testData.getExpectedBundleDir(), bundleDirCopy);
+	}
+
+	private void assertDirectoryEquals(File expectedDir, File actualDir) throws IOException {
+
+		if (expectedDir == null || !expectedDir.exists()) {
+			return;
+		}
+
+		new ExpectedDirectoryWalker().assertEquals(expectedDir, actualDir);
 	}
 }

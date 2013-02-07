@@ -48,12 +48,14 @@ import japa.parser.ast.stmt.TryStmt;
 import japa.parser.ast.stmt.WhileStmt;
 import japa.parser.ast.type.ClassOrInterfaceType;
 import japa.parser.ast.type.ReferenceType;
+
 import java.io.FileInputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import com.opnworks.vaadin.i18n.I18NAware;
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareValue;

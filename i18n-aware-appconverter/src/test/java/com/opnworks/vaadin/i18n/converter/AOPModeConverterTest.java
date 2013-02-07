@@ -1,5 +1,7 @@
 package com.opnworks.vaadin.i18n.converter;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,8 +12,6 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.assertTrue;
 
 import com.opnworks.vaadin.i18n.converter.aop_mode.AopModeConverter;
 import com.opnworks.vaadin.i18n.converter.aop_mode.KeyConverter;
@@ -25,77 +25,21 @@ public class AOPModeConverterTest {
 	private static String testSourceDir = "src/test/resources/source-test";
 	private static String testSourcedest = "src/test/resources/aux-test";
 
-	private static final String RESOURCES_DIR = testSourcedest;//testSourcedest + "/src/main/resources";
+	private static final String RESOURCES_DIR = testSourcedest;// testSourcedest + "/src/main/resources";
 	private static final String RESOURCE_BASE_NAME = "bundle";
 	private static final String DEFAULT_LANGUAGE = "en";
 	private static final boolean ROLLBACK = true;
-	
-	private AopModeConverter aopMode;
-	private List<Tkey> listKey;
 
-	@Before
-	public void setup() throws Exception {
-
-		AopModeConverter convertionMethod = new AopModeConverter();
-		this.aopMode = convertionMethod;
-		
-		if (!ROLLBACK) {
-			if (existDirectoryAux(new File(testSourcedest))) {
-				deleteDirectory(new File(testSourcedest));
-				CopyDirectory(new File(testSourceDir), new File(testSourcedest));
-			}
-			else {
-				CopyDirectory(new File(testSourceDir), new File(testSourcedest));
-			}
-		}
-		else {
-			if (!existDirectoryAux(new File(testSourcedest))) {
-				CopyDirectory(new File(testSourceDir), new File(testSourcedest));
-			}
-		}
-	}
-
-	@Test
-	public void testAopConverterMode() throws Exception {
-
-		File auxTestSourceFile = new File(testSourcedest);
-		File axuTestResourceDir = new File(RESOURCES_DIR);
-
-		final File sourceDir = new File(auxTestSourceFile.getAbsoluteFile().toString());
-
-		final File resourcesDir = new File(axuTestResourceDir.getAbsoluteFile().toString());
-
-		aopMode.performI18NAwareProjectConversion(sourceDir, resourcesDir, RESOURCE_BASE_NAME, DEFAULT_LANGUAGE, ROLLBACK);
-
-	}
-
-	@After
-	public void resultVerification() throws Exception {
-		KeyConverter keyConverter = new KeyConverter();
-		
-		if (!ROLLBACK){
-			assertTrue(keyConverter.existBundle(RESOURCES_DIR, RESOURCE_BASE_NAME));
-			
-			keyConverter.updateListKeyWithBundle();
-			
-			this.listKey = keyConverter.getListKey();
-			
-			for (int i = 0; i < listKey.size()-1; i++){
-				assertTrue(keyConverter.isKey(listKey.get(i).getCompleteKey()));
-				commandLineOutput.getOutput().println(listKey.get(i).getCompleteKey());
-			}
-		}
-	}
-	
 	public static void CopyDirectory(File sourceDir, File sourceDes) throws Exception {
 		try {
 			if (sourceDir.isDirectory()) {
-				if (!sourceDes.exists())
+				if (!sourceDes.exists()) {
 					sourceDes.mkdir();
+				}
 
 				String[] children = sourceDir.list();
-				for (int i = 0; i < children.length; i++ ) {
-					CopyDirectory(new File(sourceDir, children[i]), new File(sourceDes, children[i]));
+				for (String element : children ) {
+					CopyDirectory(new File(sourceDir, element), new File(sourceDes, element));
 				}
 			}
 			else {
@@ -140,8 +84,8 @@ public class AOPModeConverterTest {
 				}
 				else {
 					File children[] = sourceDir.listFiles();
-					for (int i = 0; i < children.length; i++ ) {
-						children[i].delete();
+					for (File element : children ) {
+						element.delete();
 					}
 				}
 			}
@@ -157,6 +101,64 @@ public class AOPModeConverterTest {
 			return true;
 		}
 		return false;
+	}
+
+	private AopModeConverter aopMode;
+
+	private List<Tkey> listKey;
+
+	@After
+	public void resultVerification() throws Exception {
+		KeyConverter keyConverter = new KeyConverter();
+
+		if (!ROLLBACK) {
+			assertTrue(keyConverter.existBundle(RESOURCES_DIR, RESOURCE_BASE_NAME));
+
+			keyConverter.updateListKeyWithBundle();
+
+			this.listKey = keyConverter.getListKey();
+
+			for (int i = 0; i < listKey.size() - 1; i++ ) {
+				assertTrue(keyConverter.isKey(listKey.get(i).getCompleteKey()));
+				commandLineOutput.getOutput().println(listKey.get(i).getCompleteKey());
+			}
+		}
+	}
+
+	@Before
+	public void setup() throws Exception {
+
+		AopModeConverter convertionMethod = new AopModeConverter();
+		this.aopMode = convertionMethod;
+
+		if (!ROLLBACK) {
+			if (existDirectoryAux(new File(testSourcedest))) {
+				deleteDirectory(new File(testSourcedest));
+				CopyDirectory(new File(testSourceDir), new File(testSourcedest));
+			}
+			else {
+				CopyDirectory(new File(testSourceDir), new File(testSourcedest));
+			}
+		}
+		else {
+			if (!existDirectoryAux(new File(testSourcedest))) {
+				CopyDirectory(new File(testSourceDir), new File(testSourcedest));
+			}
+		}
+	}
+
+	@Test
+	public void testAopConverterMode() throws Exception {
+
+		File auxTestSourceFile = new File(testSourcedest);
+		File axuTestResourceDir = new File(RESOURCES_DIR);
+
+		final File sourceDir = new File(auxTestSourceFile.getAbsoluteFile().toString());
+
+		final File resourcesDir = new File(axuTestResourceDir.getAbsoluteFile().toString());
+
+		aopMode.performI18NAwareProjectConversion(sourceDir, resourcesDir, RESOURCE_BASE_NAME, DEFAULT_LANGUAGE, ROLLBACK);
+
 	}
 
 }

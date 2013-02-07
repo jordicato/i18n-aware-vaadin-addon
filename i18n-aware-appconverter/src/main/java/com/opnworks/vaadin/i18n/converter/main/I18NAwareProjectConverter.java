@@ -102,20 +102,6 @@ public class I18NAwareProjectConverter {
 		performI18NAwareProjectConversion(sourceDir, resourcesDir, resourceBaseName, defaultLanguage, conversionMethod, rollback);
 	}
 
-	private static void performI18NAwareProjectConversion(File sourceDir, File resourcesDir, String resourceBaseName, String defaultLanguage,
-			ConversionMethod conversionMethod, boolean rollback) {
-
-		commandLineOutput.println("Running I18NAware project convertion:");
-		commandLineOutput.println("sourceDir: " + sourceDir.getAbsolutePath());
-		commandLineOutput.println("resourcesDir: " + resourcesDir.getAbsolutePath());
-		commandLineOutput.println("resourceBaseName: " + resourceBaseName);
-		commandLineOutput.println("defaultLanguage: " + defaultLanguage);
-		commandLineOutput.println("conversionMethod: " + conversionMethod.name());
-		commandLineOutput.println("rollback: " + rollback);
-
-		conversionMethod.getConverter().performI18NAwareProjectConversion(sourceDir, resourcesDir, resourceBaseName, defaultLanguage, rollback);
-	}
-
 	@SuppressWarnings("static-access")
 	private static Options createOptions() {
 
@@ -174,5 +160,19 @@ public class I18NAwareProjectConverter {
 			}
 		};
 		formatter.printHelp("I18NAwareProjectConverter", options, true);
+	}
+
+	private static void performI18NAwareProjectConversion(File sourceDir, File resourcesDir, String resourceBaseName, String defaultLanguage,
+			ConversionMethod conversionMethod, boolean rollback) {
+
+		commandLineOutput.println("Running I18NAware project convertion:");
+		commandLineOutput.println("sourceDir: " + sourceDir.getAbsolutePath());
+		commandLineOutput.println("resourcesDir: " + resourcesDir.getAbsolutePath());
+		commandLineOutput.println("resourceBaseName: " + resourceBaseName);
+		commandLineOutput.println("defaultLanguage: " + defaultLanguage);
+		commandLineOutput.println("conversionMethod: " + conversionMethod.name());
+		commandLineOutput.println("rollback: " + rollback);
+
+		conversionMethod.getConverter().performI18NAwareProjectConversion(sourceDir, resourcesDir, resourceBaseName, defaultLanguage, rollback);
 	}
 }
