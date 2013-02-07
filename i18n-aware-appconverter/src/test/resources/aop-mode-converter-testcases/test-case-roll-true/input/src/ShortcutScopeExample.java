@@ -28,9 +28,9 @@ public class ShortcutScopeExample extends I18NVerticalLayout {
     }
 
     private Panel createPanel(final int number) {
-        final Panel p = new Panel("Panel " + number);
+        final Panel p = new Panel("com.vaadin.demo.sampler.features.shortcuts.ShortcutScopeExample.Panel" + number);
         ((I18NVerticalLayout) p.getContent()).setSpacing(true);
-        p.addAction(new ShortcutListener("Next field", KeyCode.ARROW_DOWN, null) {
+        p.addAction(new ShortcutListener("com.vaadin.demo.sampler.features.shortcuts.ShortcutScopeExample.Next_field", KeyCode.ARROW_DOWN, null) {
 
             @Override
             public void handleAction(Object sender, Object target) {
@@ -45,13 +45,13 @@ public class ShortcutScopeExample extends I18NVerticalLayout {
             }
         });
         final TextField firstname = new TextField("com.vaadin.demo.sampler.features.shortcuts.ShortcutScopeExample.Firstname");
-        firstname.setInputPrompt("ALT-SHIFT-F to focus");
+        firstname.setInputPrompt("com.vaadin.demo.sampler.features.shortcuts.ShortcutScopeExample.ALT_SHIFT_F_to_focus");
         p.addComponent(firstname);
         p.addAction(new FocusShortcut(firstname, KeyCode.F, ModifierKey.ALT, ModifierKey.SHIFT));
         firstname.addShortcutListener(new FocusShortcut(firstname, "Focus panel &_" + number));
-        p.setDescription("CTRL-" + number + " to focus");
+        p.setDescription("com.vaadin.demo.sampler.features.shortcuts.ShortcutScopeExample.CTRL" + number + "com.vaadin.demo.sampler.features.shortcuts.ShortcutScopeExample.to_focus");
         final TextField lastname = new TextField("com.vaadin.demo.sampler.features.shortcuts.ShortcutScopeExample.Lastname");
-        lastname.setInputPrompt("ALT-SHIFT-L to focus");
+        lastname.setInputPrompt("com.vaadin.demo.sampler.features.shortcuts.ShortcutScopeExample.ALT_SHIFT_L_to_focus");
         p.addComponent(lastname);
         p.addAction(new FocusShortcut(lastname, KeyCode.L, ModifierKey.ALT, ModifierKey.SHIFT));
         final Button save = new Button("com.vaadin.demo.sampler.features.shortcuts.ShortcutScopeExample.Save", new Button.ClickListener() {

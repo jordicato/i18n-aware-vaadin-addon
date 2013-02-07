@@ -17,12 +17,12 @@ public class ComboBoxInputPrompt extends Feature {
 
     @Override
     public String getName() {
-        return "Combobox with input prompt";
+        return "com.vaadin.demo.sampler.features.selects.ComboBoxInputPrompt.Combobox_with_input_prompt_1";
     }
 
     @Override
     public String getDescription() {
-        return "ComboBox is a drop-down selection component with single item selection." + " It can have an <i>input prompt</i> - a textual hint that is shown within" + " the select when no value is selected.<br/>" + " You can use an input prompt instead of a caption to save" + " space, but only do so if the function of the ComboBox is" + " still clear when a value is selected and the prompt is no" + " longer visible.";
+        return "com.vaadin.demo.sampler.features.selects.ComboBoxInputPrompt.ComboBox_is_a_drop_down_select_1" + "com.vaadin.demo.sampler.features.selects.ComboBoxInputPrompt.It_can_have_an_i_input_promp_1" + "com.vaadin.demo.sampler.features.selects.ComboBoxInputPrompt.the_select_when_no_value_is_s_1" + "com.vaadin.demo.sampler.features.selects.ComboBoxInputPrompt.You_can_use_an_input_prompt_i_1" + "com.vaadin.demo.sampler.features.selects.ComboBoxInputPrompt.space_but_only_do_so_if_the_1" + "com.vaadin.demo.sampler.features.selects.ComboBoxInputPrompt.still_clear_when_a_value_is_s_1" + "com.vaadin.demo.sampler.features.selects.ComboBoxInputPrompt.longer_visible_1";
     }
 
     @Override

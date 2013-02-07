@@ -49,7 +49,7 @@ public class ShortcutScopeExample extends I18NVerticalLayout {
         p.addComponent(firstname);
         p.addAction(new FocusShortcut(firstname, KeyCode.F, ModifierKey.ALT, ModifierKey.SHIFT));
         firstname.addShortcutListener(new FocusShortcut(firstname, "Focus panel &_" + number));
-        p.setDescription("CTRL-" + number + " to focus");
+        p.setDescription("CTRL-" + number + "to focus");
         final TextField lastname = new TextField("Lastname");
         lastname.setInputPrompt("ALT-SHIFT-L to focus");
         p.addComponent(lastname);

@@ -21,7 +21,7 @@ public class JSApiExample extends I18NVerticalLayout {
 
     public JSApiExample() {
         setSpacing(true);
-        Label javascript = new Label("com.vaadin.demo.sampler.features.commons.JSApiExample._h3_Run_Native_JavaScript_h3", Label.CONTENT_XHTML);
+        Label javascript = new Label("com.vaadin.demo.sampler.features.commons.JSApiExample.h3_Run_Native_JavaScript_h3", Label.CONTENT_XHTML);
         addComponent(javascript);
         final TextArea script = new TextArea();
         script.setWidth("100%");
@@ -34,10 +34,10 @@ public class JSApiExample extends I18NVerticalLayout {
                 getWindow().executeJavaScript(script.getValue().toString());
             }
         }));
-        Label sync = new Label("com.vaadin.demo.sampler.features.commons.JSApiExample._h3_Force_Server_Syncronizatio", Label.CONTENT_XHTML);
+        Label sync = new Label("com.vaadin.demo.sampler.features.commons.JSApiExample.h3_Force_Server_Syncronizatio", Label.CONTENT_XHTML);
         addComponent(sync);
-        addComponent(new Label("For advanced client side programmers Vaadin offers a simple " + "method which can be used to force the client to synchronize with the " + "server. This may be needed for example if another part of a mashup " + "changes things on server."));
-        toBeUpdatedFromThread = new Label("This Label component will be updated by a background thread. Click \"Start " + "background thread\" button and start clicking on the link below to force " + "synchronization.", Label.CONTENT_XHTML);
+        addComponent(new Label("com.vaadin.demo.sampler.features.commons.JSApiExample.For_advanced_client_side_progr" + "com.vaadin.demo.sampler.features.commons.JSApiExample.method_which_can_be_used_to_fo" + "com.vaadin.demo.sampler.features.commons.JSApiExample.server_This_may_be_needed_for" + "com.vaadin.demo.sampler.features.commons.JSApiExample.changes_things_on_server"));
+        toBeUpdatedFromThread = new Label("com.vaadin.demo.sampler.features.commons.JSApiExample.This_Label_component_will_be_u" + "com.vaadin.demo.sampler.features.commons.JSApiExample.background_thread_button_and" + "com.vaadin.demo.sampler.features.commons.JSApiExample.synchronization.", Label.CONTENT_XHTML);
         addComponent(toBeUpdatedFromThread);
         running.setCaption("com.vaadin.demo.sampler.features.commons.JSApiExample.Background_process_is_running");
         running.setIcon(new ThemeResource("../base/common/img/ajax-loader-medium.gif"));
@@ -62,7 +62,7 @@ public class JSApiExample extends I18NVerticalLayout {
                 int i = 0;
                 while (i++ < 10) {
                     Thread.sleep(1000);
-                    toBeUpdatedFromThread.setValue("<strong>Server time is " + f.format(new Date()) + "</strong>");
+                    toBeUpdatedFromThread.setValue("com.vaadin.demo.sampler.features.commons.JSApiExample.strong_Server_time_is" + f.format(new Date()) + "com.vaadin.demo.sampler.features.commons.JSApiExample.strong");
                 }
                 toBeUpdatedFromThread.setValue("com.vaadin.demo.sampler.features.commons.JSApiExample.Background_process_finished");
                 ((Layout) running.getParent()).replaceComponent(running, startThread);

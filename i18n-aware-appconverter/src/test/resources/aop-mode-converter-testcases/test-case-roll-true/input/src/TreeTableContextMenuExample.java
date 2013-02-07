@@ -5,11 +5,11 @@ import com.vaadin.event.Action;
 
 public class TreeTableContextMenuExample extends TreeTableBasicExample {
 
-    private static final Action ADD_ITEM_ACTION = new Action("Add item");
+    private static final Action ADD_ITEM_ACTION = new Action("com.vaadin.demo.sampler.features.treetable.TreeTableContextMenuExample.Add_item");
 
-    private static final Action ADD_CATEGORY_ACTION = new Action("Add category");
+    private static final Action ADD_CATEGORY_ACTION = new Action("com.vaadin.demo.sampler.features.treetable.TreeTableContextMenuExample.Add_category");
 
-    private static final Action REMOVE_ITEM_ACTION = new Action("Remove");
+    private static final Action REMOVE_ITEM_ACTION = new Action("com.vaadin.demo.sampler.features.treetable.TreeTableContextMenuExample.Remove");
 
     /**
      * This example example extends the TreeTableBasic example. The source code

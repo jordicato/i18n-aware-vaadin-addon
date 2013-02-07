@@ -37,7 +37,7 @@ public class JSApiExample extends I18NVerticalLayout {
         Label sync = new Label("<h3>Force Server Syncronization</h3>", Label.CONTENT_XHTML);
         addComponent(sync);
         addComponent(new Label("For advanced client side programmers Vaadin offers a simple " + "method which can be used to force the client to synchronize with the " + "server. This may be needed for example if another part of a mashup " + "changes things on server."));
-        toBeUpdatedFromThread = new Label("This Label component will be updated by a background thread. Click \"Start " + "background thread\" button and start clicking on the link below to force " + "synchronization.", Label.CONTENT_XHTML);
+        toBeUpdatedFromThread = new Label("This Label component will be updated by a background thread. Click "Start " + "background thread" button and start clicking on the link below to force " + "synchronization.", Label.CONTENT_XHTML);
         addComponent(toBeUpdatedFromThread);
         running.setCaption("Background process is running for 10 seconds, click the link below");
         running.setIcon(new ThemeResource("../base/common/img/ajax-loader-medium.gif"));

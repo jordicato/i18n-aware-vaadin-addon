@@ -18,7 +18,7 @@ public class LabelRichExample extends I18NVerticalLayout implements ClickListene
 
     public LabelRichExample() {
         setSpacing(true);
-        richText = new Label("<h1>Rich text example</h1>" + "<p>The <b>quick</b> brown fox jumps <sup>over</sup> the <b>lazy</b> dog.</p>" + "<p>This text can be edited with the <i>Edit</i> -button</p>");
+        richText = new Label("com.vaadin.demo.sampler.features.text.LabelRichExample.h1_Rich_text_example_h1" + "com.vaadin.demo.sampler.features.text.LabelRichExample.p_The_b_quick_b_brown_fox" + "com.vaadin.demo.sampler.features.text.LabelRichExample.p_This_text_can_be_edited_wit");
         richText.setContentMode(Label.CONTENT_XHTML);
         addComponent(richText);
         b = new Button("com.vaadin.demo.sampler.features.text.LabelRichExample.Edit");

@@ -56,6 +56,6 @@ public class ProminentPrimaryActionExample extends I18NVerticalLayout implements
     }
 
     public void buttonClick(ClickEvent event) {
-        getWindow().showNotification("\"" + event.getButton().getCaption() + "\" clicked");
+        getWindow().showNotification("com.vaadin.demo.sampler.features.blueprints.ProminentPrimaryActionExample." + event.getButton().getCaption() + "com.vaadin.demo.sampler.features.blueprints.ProminentPrimaryActionExample.clicked");
     }
 }

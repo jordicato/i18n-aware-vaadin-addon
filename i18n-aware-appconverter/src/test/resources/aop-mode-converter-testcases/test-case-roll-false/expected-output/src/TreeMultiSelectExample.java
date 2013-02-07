@@ -16,9 +16,9 @@ import com.vaadin.ui.Tree;
 @SuppressWarnings("serial")
 public class TreeMultiSelectExample extends I18NVerticalLayout implements Action.Handler {
 
-    private static final Action ACTION_ADD = new Action("Add child item");
+    private static final Action ACTION_ADD = new Action("com.vaadin.demo.sampler.features.trees.TreeMultiSelectExample.Add_child_item");
 
-    private static final Action ACTION_DELETE = new Action("Delete");
+    private static final Action ACTION_DELETE = new Action("com.vaadin.demo.sampler.features.trees.TreeMultiSelectExample.Delete");
 
     private static final Action[] ACTIONS = new Action[] { ACTION_ADD, ACTION_DELETE };
 
@@ -44,7 +44,7 @@ public class TreeMultiSelectExample extends I18NVerticalLayout implements Action
         for (Iterator<?> it = tree.rootItemIds().iterator(); it.hasNext(); ) {
             tree.expandItemsRecursively(it.next());
         }
-        deleteButton = new Button("com.vaadin.demo.sampler.features.trees.TreeMultiSelectExample.Delete", new Button.ClickListener() {
+        deleteButton = new Button("com.vaadin.demo.sampler.features.trees.TreeMultiSelectExample.Delete_1", new Button.ClickListener() {
 
             @SuppressWarnings("unchecked")
             public void buttonClick(ClickEvent event) {
