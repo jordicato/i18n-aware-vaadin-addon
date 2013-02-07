@@ -1,6 +1,7 @@
 package com.opnworks.vaadin.i18n.converter.explicit_mode;
 
 import java.util.Iterator;
+
 import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.ui.I18NWindow;
 import com.vaadin.ui.Component;

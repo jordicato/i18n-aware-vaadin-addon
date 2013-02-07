@@ -16,9 +16,22 @@ import org.junit.runners.model.Statement;
 
 public class AopModeConverterStatement extends Statement {
 
+	public static File getTestcasesRootDirectory() {
+		File result = new File(new File("target" + File.separatorChar + "test-classes").getAbsoluteFile(), "aop-mode-converter-testcases");
+		if (!result.exists()) {
+			fail("Missing testcases root directory: " + result.getAbsolutePath());
+		}
+		return result;
+	}
+
+	public static String[] listTestCases() {
+		return getTestcasesRootDirectory().list();
+	}
+
 	private TemporaryFolder temporaryFolder = new TemporaryFolder();
 
 	private final Statement base;
+
 	private final AopModeConverterTestData data;
 
 	public AopModeConverterStatement(Statement base, AopModeConverterTestData data) {
@@ -65,22 +78,42 @@ public class AopModeConverterStatement extends Statement {
 		}
 	}
 
-	public static String[] listTestCases() {
-		return getTestcasesRootDirectory().list();
+	private void copyTestResources(File testcaseRootDirectory) throws IOException {
+
+		File sourceDir = new File(testcaseRootDirectory, "src");
+		if (!sourceDir.exists()) {
+			fail("Missing test source directory: " + sourceDir.getAbsolutePath());
+		}
+
+		File bundleDir = new File(testcaseRootDirectory, "bundle");
+		if (!bundleDir.exists()) {
+			fail("Missing test bundle directory: " + bundleDir.getAbsolutePath());
+		}
+
+		File sourceDirCopy = temporaryFolder.newFolder("src");
+		FileUtils.copyDirectory(sourceDir, sourceDirCopy);
+		data.setSourceDirCopy(sourceDirCopy);
+
+		File resourcesDirCopy = temporaryFolder.newFolder("bundle");
+		FileUtils.copyDirectory(bundleDir, resourcesDirCopy);
+		data.setBundleDirCopy(resourcesDirCopy);
+	}
+
+	private File getExpectedOutput(File expectedOutputDir, String dirName) {
+
+		File result = new File(expectedOutputDir, dirName);
+
+		if (!result.exists()) {
+			return null;
+		}
+
+		return result;
 	}
 
 	private File getTestcaseRootDirectory(String testcase) {
 		File result = new File(getTestcasesRootDirectory(), testcase);
 		if (!result.exists()) {
 			fail("Missing testcase root directory: " + result.getAbsolutePath());
-		}
-		return result;
-	}
-
-	public static File getTestcasesRootDirectory() {
-		File result = new File(new File("target" + File.separatorChar + "test-classes").getAbsoluteFile(), "aop-mode-converter-testcases");
-		if (!result.exists()) {
-			fail("Missing testcases root directory: " + result.getAbsolutePath());
 		}
 		return result;
 	}
@@ -103,39 +136,8 @@ public class AopModeConverterStatement extends Statement {
 
 		data.setResourceBaseName(properties.getProperty("resourceBaseName"));
 		data.setDefaultLanguage(properties.getProperty("defaultLanguage"));
-		data.setRollback(Boolean.getBoolean(properties.getProperty("rollback")));
-	}
+		data.setRollback(Boolean.parseBoolean(properties.getProperty("rollback")));
 
-	private File getExpectedOutput(File expectedOutputDir, String dirName) {
-
-		File result = new File(expectedOutputDir, dirName);
-
-		if (!result.exists()) {
-			return null;
-		}
-
-		return result;
-	}
-
-	private void copyTestResources(File testcaseRootDirectory) throws IOException {
-
-		File sourceDir = new File(testcaseRootDirectory, "src");
-		if (!sourceDir.exists()) {
-			fail("Missing test source directory: " + sourceDir.getAbsolutePath());
-		}
-
-		File bundleDir = new File(testcaseRootDirectory, "bundle");
-		if (!bundleDir.exists()) {
-			fail("Missing test bundle directory: " + bundleDir.getAbsolutePath());
-		}
-
-		File sourceDirCopy = temporaryFolder.newFolder("src");
-		FileUtils.copyDirectory(sourceDir, sourceDirCopy);
-		data.setSourceDirCopy(sourceDirCopy);
-
-		File resourcesDirCopy = temporaryFolder.newFolder("bundle");
-		FileUtils.copyDirectory(bundleDir, resourcesDirCopy);
-		data.setBundleDirCopy(resourcesDirCopy);
 	}
 
 }
