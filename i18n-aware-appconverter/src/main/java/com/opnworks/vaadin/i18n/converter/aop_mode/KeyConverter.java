@@ -869,28 +869,7 @@ public class KeyConverter {
 	}
 
 	private BinaryExpr processBinaryExpr(BinaryExpr exp) {
-
-		//Expression expLeft = ((BinaryExpr) exp).getLeft();
-		//Expression expRight = ((BinaryExpr) exp).getRight();
-		
-		
-		/*Expression expr = (BinaryExpr) exp;
-		
-		while (expr instanceof BinaryExpr) {		
-			Expression expRight = ((BinaryExpr) expr).getRight();
-			if (expRight instanceof StringLiteralExpr) {
-				String expString = ((StringLiteralExpr) expRight).getValue();
-				System.out.println(expString);				
-			}			
-			expr = ((BinaryExpr) expr).getLeft();
-		}
-		if (expr instanceof StringLiteralExpr) {
-			String expString = ((StringLiteralExpr) expr).getValue();
-			System.out.println(expString);				
-		}*/
-		
-		
-		
+	
 		Expression expLeft = ((BinaryExpr) exp).getLeft();
 		Expression expRight = ((BinaryExpr) exp).getRight();
 		
