@@ -842,22 +842,22 @@ public class KeyConverter {
 		 * expression; }
 		 */
 		else if (expression instanceof NameExpr) {
-			return expression;
+			//return expression;
 		}
 		else if (expression instanceof BinaryExpr) {
 			processBinaryExpr((BinaryExpr) expression);
 		}
 		else if (expression instanceof FieldAccessExpr) {
-			return expression;
+			//return expression;
 		}
 		else if (expression instanceof UnaryExpr) {
-			return expression;
+			//return expression;
 		}
 		else if (expression instanceof NullLiteralExpr) {
-			return expression;
+			//return expression;
 		}
 		else if (expression instanceof BooleanLiteralExpr) {
-			return expression;
+			//return expression;
 		}
 		else if (expression instanceof StringLiteralExpr) {
 			addKey((StringLiteralExpr) expression, optionChangeKey);
@@ -869,15 +869,31 @@ public class KeyConverter {
 	}
 
 	private BinaryExpr processBinaryExpr(BinaryExpr exp) {
+
+		//Expression expLeft = ((BinaryExpr) exp).getLeft();
+		//Expression expRight = ((BinaryExpr) exp).getRight();
+		
+		
+		/*Expression expr = (BinaryExpr) exp;
+		
+		while (expr instanceof BinaryExpr) {		
+			Expression expRight = ((BinaryExpr) expr).getRight();
+			if (expRight instanceof StringLiteralExpr) {
+				String expString = ((StringLiteralExpr) expRight).getValue();
+				System.out.println(expString);				
+			}			
+			expr = ((BinaryExpr) expr).getLeft();
+		}
+		if (expr instanceof StringLiteralExpr) {
+			String expString = ((StringLiteralExpr) expr).getValue();
+			System.out.println(expString);				
+		}*/
+		
+		
+		
 		Expression expLeft = ((BinaryExpr) exp).getLeft();
 		Expression expRight = ((BinaryExpr) exp).getRight();
-
-		if (expRight instanceof StringLiteralExpr) {
-			String expString = ((StringLiteralExpr) expRight).getValue();
-			System.out.println(expString);
-			addKey((StringLiteralExpr) expRight, optionChangeKey);
-		}
-
+		
 		if (expLeft instanceof BinaryExpr) {
 			processBinaryExpr((BinaryExpr) expLeft);
 		}
@@ -886,7 +902,13 @@ public class KeyConverter {
 			System.out.println(expString);
 			addKey((StringLiteralExpr) expLeft, optionChangeKey);
 		}
-
+		
+		if (expRight instanceof StringLiteralExpr) {
+			String expString = ((StringLiteralExpr) expRight).getValue();
+			System.out.println(expString);
+			addKey((StringLiteralExpr) expRight, optionChangeKey);
+		}
+		
 		return exp;
 
 	}
@@ -1017,7 +1039,7 @@ public class KeyConverter {
 		}
 		else if (statement instanceof ReturnStmt) {
 			ReturnStmt bs = (ReturnStmt) statement;
-			bs.setExpr(processExpression(bs.getExpr()));
+			//bs.setExpr(processExpression(bs.getExpr()));
 			processExpression(bs.getExpr());
 		}
 		else if (statement instanceof ForeachStmt) {
