@@ -23,11 +23,11 @@ public class AopModeConverter implements Converter {
 		KeyConverter keyConverter = new KeyConverter();
 		keyConverter.setChangeOptionKey(rollback);
 		keyConverter.proccessProject(sourceDir, sourceDir.getAbsolutePath(), resourcesDir.getAbsolutePath(), resourceBaseName);
-		if (!rollback) {
-			for (Tkey k : keyConverter.getListKey() ) {
-				writeFile(resourcesDir.getAbsolutePath() + "/" + resourceBaseName + ".properties", k.getCompleteKey() + " = " + k.getValue());
-			}
+		// if (!rollback) {
+		for (Tkey k : keyConverter.getListKey() ) {
+			writeFile(resourcesDir.getAbsolutePath() + "/" + resourceBaseName + ".properties", k.getCompleteKey() + " = " + k.getValue());
 		}
+		// }
 	}
 
 	private void writeFile(String path, String param) {

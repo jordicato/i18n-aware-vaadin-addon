@@ -80,6 +80,7 @@ public class KeyConverter {
 		private int appearances;
 		private int suffix;
 		private int maxSuffixClass;
+		private boolean keep;
 
 		public Tkey(String key, String value, String fullClassName, int suffix, int maxSuffixClass) {
 			if (suffix > 0) {
@@ -94,6 +95,7 @@ public class KeyConverter {
 			this.suffix = suffix;
 			this.maxSuffixClass = maxSuffixClass;
 			this.appearances = 0;
+			this.keep = false;
 		}
 
 		public int getAppearances() {
@@ -139,6 +141,14 @@ public class KeyConverter {
 		private void increaseAppearances() {
 			this.appearances++;
 		}
+
+		private boolean getKeep() {
+			return this.keep;
+		}
+
+		private void setKeep(boolean keep) {
+			this.keep = keep;
+		}
 	}
 
 	class TStringValue {
@@ -170,13 +180,21 @@ public class KeyConverter {
 	private String[] validClasses = { "EmailValidator", "StringLengthValidator", "ShortcutListener", "Action", "Object[]", "Command()", "Command",
 			"ShortcutListener" };
 	private String[] stringToDiscard = { "<a href=", "alert(", "../" };
-	private List<Tkey> listKey = new ArrayList<Tkey>();
+	private List<Tkey> listKey;
 	private List<TStringValue> listStringValue = new ArrayList<TStringValue>();
 	private List<ImportDeclaration> lidtarget;
 	private ResourceBundle bundle = null;
 
 	public KeyConverter() {
+		listKey = new ArrayList<Tkey>();
+	}
 
+	public void restructureListKey() {
+		for (int i = 0; i < listKey.size(); i++ ) {
+			if (!listKey.get(i).getKeep()) {
+				listKey.remove(listKey.get(i));
+			}
+		}
 	}
 
 	public boolean existBundle(String resourcePath, String resourceName) {
@@ -209,6 +227,7 @@ public class KeyConverter {
 	}
 
 	public List<Tkey> getListKey() {
+		restructureListKey();
 		return listKey;
 	}
 
@@ -297,6 +316,8 @@ public class KeyConverter {
 
 	public void proccessProject(File dirBaseSrc, String projectPath, String pathBundle, String bundleName) {
 
+		listKey.clear();
+
 		if (listKey.isEmpty()) {
 			boolean exist = existBundle(pathBundle, bundleName);
 
@@ -369,74 +390,94 @@ public class KeyConverter {
 				boolean insert = true;
 				if (key instanceof StringLiteralExpr) {
 					if (!isStringToDiscard(key.getValue())) {
-						if (!option) {
-							String value = key.getValue();
-							String gKey = key.getValue();
+						// if (!option) {
+						String value = key.getValue();
+						String gKey = key.getValue();
 
-							if (!isKey(gKey)) {
-								value = key.getValue().replace("\\n", "//n");
-								gKey = generateKey(gKey);
+						if (!isKey(gKey)) {
+							value = key.getValue().replace("\\n", "//n");
+							gKey = generateKey(gKey);
+						}
+						else if (!isInKeyList(gKey, listKey)) {
+							if (!gKey.startsWith(javaFileFullClassName)) {
+								gKey = javaFileFullClassName + gKey;
+								updateAppearances(gKey);
+								if (isInKeyList(gKey, listKey)) {
+									if (getKey(gKey).getKeyCount() > getKey(gKey).getAppearances()) {
+										insert = true;
+									}
+								}
 							}
 							else {
-								if (!gKey.startsWith(javaFileFullClassName)) {
-									gKey = javaFileFullClassName + gKey;
-									updateAppearances(gKey);
-									if (isInKeyList(gKey, listKey)) {
-										if (getKey(gKey).getKeyCount() > getKey(gKey).getAppearances()) {
-											insert = true;
-										}
+								String keyWithoutSuffix = removeSuffix(gKey);
+								if (isInKeyList(keyWithoutSuffix, listKey)) {
+									updateAppearances(keyWithoutSuffix);
+									if (getKey(keyWithoutSuffix).getKeyCount() > getKey(keyWithoutSuffix).getAppearances()) {
+										insert = false;
 									}
 								}
 								else {
-									String keyWithoutSuffix = removeSuffix(gKey);
-									if (isInKeyList(keyWithoutSuffix, listKey)) {
-										updateAppearances(keyWithoutSuffix);
-										if (getKey(keyWithoutSuffix).getKeyCount() > getKey(keyWithoutSuffix).getAppearances()) {
-											insert = false;
-										}
-									}
-									else {
-										Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, 0, 0);
-										listKey.add(newKey);
-									}
-								}
-							}
-
-							if (insert) {
-								int select = valueAndKeyInList(gKey, value, listKey);
-
-								switch (select) {
-									case 1: {
-										Tkey keyAux = getKey(gKey);
-
-										Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, keyAux.getMaxSuffixClass() + 1,
-												keyAux.getMaxSuffixClass() + 1);
-
-										key.setValue(newKey.getCompleteKey());
-
-										listKey.add(newKey);
-										updateSuffixMax(gKey, listKey);
-									}
-										;
-									break;
-									case 2: {
-										Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, 0, 0);
-										key.setValue(newKey.getCompleteKey());
-
-										listKey.add(newKey);
-									}
-										;
-									break;
+									Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, 0, 0);
+									listKey.add(newKey);
 								}
 							}
 						}
 						else {
-							if (isKey(key.getValue())) {
-								if (isInKeyList(key.getValue(), listKey)) {
-									key.setValue(getKey(key.getValue()).getValue());
+							insert = false;
+							getKey(key.getValue()).setKeep(true);
+							key.setValue(getKey(key.getValue()).getValue());
+						}
+
+						if (insert) {
+							int select = valueAndKeyInList(gKey, value, listKey);
+
+							switch (select) {
+								case 1: {
+									Tkey keyAux = getKey(gKey);
+
+									Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, keyAux.getMaxSuffixClass() + 1,
+											keyAux.getMaxSuffixClass() + 1);
+
+									if (!option) {
+										key.setValue(newKey.getCompleteKey());
+										listKey.add(newKey);
+										getKey(newKey.getCompleteKey()).setKeep(true);
+									}
+									else {
+										key.setValue(newKey.getValue());
+										listKey.add(newKey);
+										getKey(newKey.getCompleteKey()).setKeep(true);
+									}
+
+									updateSuffixMax(gKey, listKey);
 								}
+									;
+								break;
+								case 2: {
+									Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, 0, 0);
+
+									newKey.setKeep(true);
+
+									if (!option) {
+										key.setValue(newKey.getCompleteKey());
+										listKey.add(newKey);
+										getKey(newKey.getCompleteKey()).setKeep(true);
+									}
+									else {
+										key.setValue(newKey.getValue());
+										listKey.add(newKey);
+										getKey(newKey.getCompleteKey()).setKeep(true);
+									}
+								}
+									;
+								break;
 							}
 						}
+						// }
+						/*
+						 * else { if (isKey(key.getValue())) { if (isInKeyList(key.getValue(), listKey)) {
+						 * key.setValue(getKey(key.getValue()).getValue()); } } }
+						 */
 					}
 				}
 			}
@@ -541,7 +582,7 @@ public class KeyConverter {
 					}
 				}
 				else if (exp.getArgs().get(0) instanceof BinaryExpr) {
-					processBinaryExpr((BinaryExpr) exp.getArgs().get(0));
+					// processBinaryExpr((BinaryExpr) exp.getArgs().get(0));
 				}
 				else if (isIdInStringValueList(exp.getArgs().get(0).toString())) {
 					// addKey(new StringLiteralExpr(getValueById(exp.getArgs().get(0).toString())), optionChangeKey);
@@ -734,7 +775,7 @@ public class KeyConverter {
 						}
 					}
 					else if (largs.get(i) instanceof BinaryExpr) {
-						processBinaryExpr((BinaryExpr) largs.get(i));
+						// processBinaryExpr((BinaryExpr) largs.get(i));
 					}
 					else if (isIdInStringValueList(largs.get(i).toString())) {
 						// addKey(new StringLiteralExpr(getValueById(largs.get(i).toString())), optionChangeKey);
@@ -758,6 +799,7 @@ public class KeyConverter {
 
 		if (expression instanceof AssignExpr) {
 			AssignExpr ae = (AssignExpr) expression;
+
 			if (ae.getTarget() instanceof NameExpr) {
 				if (ae.getValue() instanceof ObjectCreationExpr) {
 					// varName = ae.getTarget().toString();
@@ -767,6 +809,9 @@ public class KeyConverter {
 				else if (ae.getValue() instanceof MethodCallExpr) {
 					// varName = ae.getTarget().toString();
 					processArgs(((MethodCallExpr) ae.getValue()).getArgs(), ((MethodCallExpr) ae.getValue()).getName());
+				}
+				else {
+					addKey((StringLiteralExpr) ae.getValue(), optionChangeKey);
 				}
 			}
 		}
@@ -842,22 +887,22 @@ public class KeyConverter {
 		 * expression; }
 		 */
 		else if (expression instanceof NameExpr) {
-			//return expression;
+			// return expression;
 		}
 		else if (expression instanceof BinaryExpr) {
-			processBinaryExpr((BinaryExpr) expression);
+			// processBinaryExpr((BinaryExpr) expression);
 		}
 		else if (expression instanceof FieldAccessExpr) {
-			//return expression;
+			// return expression;
 		}
 		else if (expression instanceof UnaryExpr) {
-			//return expression;
+			// return expression;
 		}
 		else if (expression instanceof NullLiteralExpr) {
-			//return expression;
+			// return expression;
 		}
 		else if (expression instanceof BooleanLiteralExpr) {
-			//return expression;
+			// return expression;
 		}
 		else if (expression instanceof StringLiteralExpr) {
 			addKey((StringLiteralExpr) expression, optionChangeKey);
@@ -868,28 +913,65 @@ public class KeyConverter {
 		return expression;
 	}
 
-	private BinaryExpr processBinaryExpr(BinaryExpr exp) {
-	
+	private boolean isBinaryExprOfLiterals(BinaryExpr exp) {
+
 		Expression expLeft = ((BinaryExpr) exp).getLeft();
 		Expression expRight = ((BinaryExpr) exp).getRight();
-		
+
+		if (!(expRight instanceof StringLiteralExpr)) {
+			return false;
+		}
+		else {
+			while (expLeft instanceof BinaryExpr) {
+
+				expRight = ((BinaryExpr) expLeft).getRight();
+				if (!(expRight instanceof StringLiteralExpr)) {
+					return false;
+				}
+				else {
+					expLeft = ((BinaryExpr) expLeft).getLeft();
+				}
+			}
+			if (!(expLeft instanceof StringLiteralExpr)) {
+				return false;
+			}
+		}
+
+		return true;
+
+	}
+
+	@SuppressWarnings("unused")
+	private BinaryExpr processBinaryExpr(BinaryExpr exp) {
+
+		if (isBinaryExprOfLiterals(exp)) {
+			processBinary(exp);
+		}
+
+		return exp;
+	}
+
+	private BinaryExpr processBinary(BinaryExpr exp) {
+
+		Expression expLeft = ((BinaryExpr) exp).getLeft();
+		Expression expRight = ((BinaryExpr) exp).getRight();
+
 		if (expLeft instanceof BinaryExpr) {
-			processBinaryExpr((BinaryExpr) expLeft);
+			processBinary((BinaryExpr) expLeft);
 		}
 		else if (expLeft instanceof StringLiteralExpr) {
 			String expString = ((StringLiteralExpr) expLeft).getValue();
 			System.out.println(expString);
 			addKey((StringLiteralExpr) expLeft, optionChangeKey);
 		}
-		
+
 		if (expRight instanceof StringLiteralExpr) {
 			String expString = ((StringLiteralExpr) expRight).getValue();
 			System.out.println(expString);
 			addKey((StringLiteralExpr) expRight, optionChangeKey);
 		}
-		
-		return exp;
 
+		return exp;
 	}
 
 	/**
@@ -921,8 +1003,20 @@ public class KeyConverter {
 					for (VariableDeclarator vd : fd.getVariables() ) {
 						if (vd.getInit() != null) {
 							if (vd.getInit() instanceof ObjectCreationExpr) {
+
 								ObjectCreationExpr exp = (ObjectCreationExpr) vd.getInit();
-								addKey(extactExprCaption(exp), optionChangeKey);
+
+								List<BodyDeclaration> anonymousClassBody = exp.getAnonymousClassBody();
+
+								if (anonymousClassBody != null) {
+									for (BodyDeclaration member1 : anonymousClassBody ) {
+										processMember(member1);
+									}
+								}
+								else {
+									addKey(extactExprCaption(exp), optionChangeKey);
+								}
+
 							}
 						}
 					}
@@ -1018,7 +1112,7 @@ public class KeyConverter {
 		}
 		else if (statement instanceof ReturnStmt) {
 			ReturnStmt bs = (ReturnStmt) statement;
-			//bs.setExpr(processExpression(bs.getExpr()));
+			// bs.setExpr(processExpression(bs.getExpr()));
 			processExpression(bs.getExpr());
 		}
 		else if (statement instanceof ForeachStmt) {
