@@ -177,7 +177,7 @@ public class KeyConverter {
 	// private String varName;
 	private String[] validMethods = { "setCaption", "setDescription", "addComponent", "showNotification", "setDescriptionMessage", "addTab",
 			"setItemCaption", "setCaptionMessage", "showNotification", "setValue", "addOrderToContainer", "RuntimeException", "addItem",
-			"showComponent", "setValue", "setInputPrompt", "getWindow()", "addAction" };
+			"showComponent", "setValue", "setInputPrompt", "getWindow()", "addAction", "setRequiredError" };
 	private String[] validClasses = { "EmailValidator", "StringLengthValidator", "ShortcutListener", "Action", "Object[]", "Command()", "Command",
 			"ShortcutListener" };
 	private String[] stringToDiscard = { "<a href=", "alert(", "../" };
