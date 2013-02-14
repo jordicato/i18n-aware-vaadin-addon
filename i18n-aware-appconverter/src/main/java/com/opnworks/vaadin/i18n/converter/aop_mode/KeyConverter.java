@@ -32,6 +32,7 @@ import japa.parser.ast.stmt.BlockStmt;
 import japa.parser.ast.stmt.BreakStmt;
 import japa.parser.ast.stmt.CatchClause;
 import japa.parser.ast.stmt.ContinueStmt;
+import japa.parser.ast.stmt.DoStmt;
 import japa.parser.ast.stmt.ExplicitConstructorInvocationStmt;
 import japa.parser.ast.stmt.ExpressionStmt;
 import japa.parser.ast.stmt.ForStmt;
@@ -1122,6 +1123,11 @@ public class KeyConverter {
 		}
 		else if (statement instanceof WhileStmt) {
 			WhileStmt bs = (WhileStmt) statement;
+			BlockStmt bs1 = (BlockStmt) bs.getBody();
+			processBlockStmt(bs1);
+		}
+		else if (statement instanceof DoStmt) {
+			DoStmt bs = (DoStmt) statement;
 			BlockStmt bs1 = (BlockStmt) bs.getBody();
 			processBlockStmt(bs1);
 		}
