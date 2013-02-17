@@ -180,7 +180,7 @@ public class KeyConverter {
 			"showComponent", "setValue", "setInputPrompt", "getWindow()", "addAction", "setRequiredError" };
 	private String[] validClasses = { "EmailValidator", "StringLengthValidator", "ShortcutListener", "Action", "Object[]", "Command()", "Command",
 			"ShortcutListener" };
-	private String[] stringToDiscard = { "<a href=", "alert(", "../" };
+	private String[] stringToDiscard = { "<a href=", "alert(", "../", "http://" };
 	private List<Tkey> listKey;
 	private List<TStringValue> listStringValue = new ArrayList<TStringValue>();
 	private List<ImportDeclaration> lidtarget;
@@ -252,6 +252,17 @@ public class KeyConverter {
 		}
 	}
 
+	public boolean isTranslatable(String key) {
+		int count = 0;
+		for (int i = 0; i < key.length(); i++ ) {
+			String ss = key.substring(i, i + 1);
+			if (("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(ss) < 0)) {
+				count++;
+			}
+		}
+		return (key.length() - count) > 2;		
+	}
+	
 	public boolean isKey(String key) {
 		for (int i = 0; i < key.length(); i++ ) {
 			String ss = key.substring(i, i + 1);
@@ -317,7 +328,7 @@ public class KeyConverter {
 
 	public void proccessProject(File dirBaseSrc, String projectPath, String pathBundle, String bundleName) {
 
-		listKey.clear();
+		//listKey.clear();
 
 		if (listKey.isEmpty()) {
 			boolean exist = existBundle(pathBundle, bundleName);
@@ -388,97 +399,99 @@ public class KeyConverter {
 	private void addKey(StringLiteralExpr key, boolean option) {
 		try {
 			if (key.getValue().length() > 0) {
-				boolean insert = true;
-				if (key instanceof StringLiteralExpr) {
-					if (!isStringToDiscard(key.getValue())) {
-						// if (!option) {
-						String value = key.getValue();
-						String gKey = key.getValue();
-
-						if (!isKey(gKey)) {
-							value = key.getValue().replace("\\n", "//n");
-							gKey = generateKey(gKey);
-						}
-						else if (!isInKeyList(gKey, listKey)) {
-							if (!gKey.startsWith(javaFileFullClassName)) {
-								gKey = javaFileFullClassName + gKey;
-								updateAppearances(gKey);
-								if (isInKeyList(gKey, listKey)) {
-									if (getKey(gKey).getKeyCount() > getKey(gKey).getAppearances()) {
-										insert = true;
+				if (isTranslatable(key.getValue())) {
+					boolean insert = true;
+					if (key instanceof StringLiteralExpr) {
+						if (!isStringToDiscard(key.getValue())) {
+							// if (!option) {
+							String value = key.getValue();
+							String gKey = key.getValue();
+	
+							if (!isKey(gKey)) {
+								value = key.getValue().replace("\\n", "//n");
+								gKey = generateKey(gKey);
+							}
+							else if (!isInKeyList(gKey, listKey)) {
+								if (!gKey.startsWith(javaFileFullClassName)) {
+									gKey = javaFileFullClassName + gKey;
+									updateAppearances(gKey);
+									if (isInKeyList(gKey, listKey)) {
+										if (getKey(gKey).getKeyCount() > getKey(gKey).getAppearances()) {
+											insert = true;
+										}
+									}
+								}
+								else {
+									String keyWithoutSuffix = removeSuffix(gKey);
+									if (isInKeyList(keyWithoutSuffix, listKey)) {
+										updateAppearances(keyWithoutSuffix);
+										if (getKey(keyWithoutSuffix).getKeyCount() > getKey(keyWithoutSuffix).getAppearances()) {
+											insert = false;
+										}
+									}
+									else {
+										Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, 0, 0);
+										listKey.add(newKey);
 									}
 								}
 							}
 							else {
-								String keyWithoutSuffix = removeSuffix(gKey);
-								if (isInKeyList(keyWithoutSuffix, listKey)) {
-									updateAppearances(keyWithoutSuffix);
-									if (getKey(keyWithoutSuffix).getKeyCount() > getKey(keyWithoutSuffix).getAppearances()) {
-										insert = false;
+								insert = false;
+								getKey(key.getValue()).setKeep(true);
+								key.setValue(getKey(key.getValue()).getValue());
+							}
+	
+							if (insert) {
+								int select = valueAndKeyInList(gKey, value, listKey);
+	
+								switch (select) {
+									case 1: {
+										Tkey keyAux = getKey(gKey);
+	
+										Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, keyAux.getMaxSuffixClass() + 1,
+												keyAux.getMaxSuffixClass() + 1);
+	
+										if (!option) {
+											key.setValue(newKey.getCompleteKey());
+											listKey.add(newKey);
+											getKey(newKey.getCompleteKey()).setKeep(true);
+										}
+										else {
+											key.setValue(newKey.getValue());
+											listKey.add(newKey);
+											getKey(newKey.getCompleteKey()).setKeep(true);
+										}
+	
+										updateSuffixMax(gKey, listKey);
 									}
-								}
-								else {
-									Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, 0, 0);
-									listKey.add(newKey);
+										;
+									break;
+									case 2: {
+										Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, 0, 0);
+	
+										newKey.setKeep(true);
+	
+										if (!option) {
+											key.setValue(newKey.getCompleteKey());
+											listKey.add(newKey);
+											getKey(newKey.getCompleteKey()).setKeep(true);
+										}
+										else {
+											key.setValue(newKey.getValue());
+											listKey.add(newKey);
+											getKey(newKey.getCompleteKey()).setKeep(true);
+										}
+									}
+										;
+									break;
 								}
 							}
+							// }
+							/*
+							 * else { if (isKey(key.getValue())) { if (isInKeyList(key.getValue(), listKey)) {
+							 * key.setValue(getKey(key.getValue()).getValue()); } } }
+							 */
 						}
-						else {
-							insert = false;
-							getKey(key.getValue()).setKeep(true);
-							key.setValue(getKey(key.getValue()).getValue());
-						}
-
-						if (insert) {
-							int select = valueAndKeyInList(gKey, value, listKey);
-
-							switch (select) {
-								case 1: {
-									Tkey keyAux = getKey(gKey);
-
-									Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, keyAux.getMaxSuffixClass() + 1,
-											keyAux.getMaxSuffixClass() + 1);
-
-									if (!option) {
-										key.setValue(newKey.getCompleteKey());
-										listKey.add(newKey);
-										getKey(newKey.getCompleteKey()).setKeep(true);
-									}
-									else {
-										key.setValue(newKey.getValue());
-										listKey.add(newKey);
-										getKey(newKey.getCompleteKey()).setKeep(true);
-									}
-
-									updateSuffixMax(gKey, listKey);
-								}
-									;
-								break;
-								case 2: {
-									Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, 0, 0);
-
-									newKey.setKeep(true);
-
-									if (!option) {
-										key.setValue(newKey.getCompleteKey());
-										listKey.add(newKey);
-										getKey(newKey.getCompleteKey()).setKeep(true);
-									}
-									else {
-										key.setValue(newKey.getValue());
-										listKey.add(newKey);
-										getKey(newKey.getCompleteKey()).setKeep(true);
-									}
-								}
-									;
-								break;
-							}
-						}
-						// }
-						/*
-						 * else { if (isKey(key.getValue())) { if (isInKeyList(key.getValue(), listKey)) {
-						 * key.setValue(getKey(key.getValue()).getValue()); } } }
-						 */
 					}
 				}
 			}
@@ -811,7 +824,7 @@ public class KeyConverter {
 					// varName = ae.getTarget().toString();
 					processArgs(((MethodCallExpr) ae.getValue()).getArgs(), ((MethodCallExpr) ae.getValue()).getName());
 				}
-				else {
+				else if (ae.getValue() instanceof StringLiteralExpr) {
 					addKey((StringLiteralExpr) ae.getValue(), optionChangeKey);
 				}
 			}
