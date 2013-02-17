@@ -24,6 +24,7 @@ public class AopModeConverter implements Converter {
 		keyConverter.setChangeOptionKey(rollback);
 		keyConverter.proccessProject(sourceDir, sourceDir.getAbsolutePath(), resourcesDir.getAbsolutePath(), resourceBaseName);
 		// if (!rollback) {
+		int cant = keyConverter.getListKey().size();
 		for (Tkey k : keyConverter.getListKey() ) {
 			writeFile(resourcesDir.getAbsolutePath() + "/" + resourceBaseName + ".properties", k.getCompleteKey() + " = " + k.getValue());
 		}
