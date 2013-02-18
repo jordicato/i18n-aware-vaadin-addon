@@ -11,9 +11,15 @@ public class TestUtiliceSameKeyInVariousPlaces {
 
     private Button button3;
 
+    private Button button4;
+
+    private Button button5;
+
     public TestUtiliceSameKeyInVariousPlaces() {
-        button1 = new Button("This is the caption1");
-        button2 = new Button("This is the caption1");
-        button3 = new Button("This is the caption1");
+        button1 = new Button("TestModifiedAKey.This_is_the_caption2");
+        button2 = new Button("TestModifiedAKey.This_is_the_caption2");
+        button3 = new Button("TestUtiliceSameKeyInVariousPlaces.Text_for_this_button");
+        button4 = new Button("TestUtiliceSameKeyInVariousPlaces.New_text");
+        button5 = new Button("Other_Caption");
     }
 }
