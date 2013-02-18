@@ -176,10 +176,12 @@ public class KeyConverter {
 	private String javaFileFullClassName;
 	// private String varName;
 	private String[] validMethods = { "setCaption", "setDescription", "addComponent", "showNotification", "setDescriptionMessage", "addTab",
-			"setItemCaption", "setCaptionMessage", "showNotification", "setValue", "addOrderToContainer", "RuntimeException", "addItem",
-			"showComponent", "setValue", "setInputPrompt", "getWindow()", "addAction", "setRequiredError" };
-	private String[] validClasses = { "EmailValidator", "StringLengthValidator", "ShortcutListener", "Action", "Object[]", "Command()", "Command",
-			"ShortcutListener" };
+			"setItemCaption", "setCaptionMessage", "setValue", "addOrderToContainer", /* "RuntimeException", */"addItem", "showComponent", "setValue",
+			"setInputPrompt", "getWindow()", "addAction", "setRequiredError" };
+	private String[] validClasses = { /*
+									 * "EmailValidator", "StringLengthValidator", "ShortcutListener", "Action", "Object[]", "Command()", "Command",
+									 * "ShortcutListener"
+									 */};
 	private String[] stringToDiscard = { "<a href=", "alert(", "../", "http://" };
 	private List<Tkey> listKey;
 	private List<TStringValue> listStringValue = new ArrayList<TStringValue>();
@@ -260,9 +262,9 @@ public class KeyConverter {
 				count++;
 			}
 		}
-		return (key.length() - count) > 2;		
+		return (key.length() - count) > 2;
 	}
-	
+
 	public boolean isKey(String key) {
 		for (int i = 0; i < key.length(); i++ ) {
 			String ss = key.substring(i, i + 1);
@@ -328,7 +330,7 @@ public class KeyConverter {
 
 	public void proccessProject(File dirBaseSrc, String projectPath, String pathBundle, String bundleName) {
 
-		//listKey.clear();
+		// listKey.clear();
 
 		if (listKey.isEmpty()) {
 			boolean exist = existBundle(pathBundle, bundleName);
@@ -406,7 +408,7 @@ public class KeyConverter {
 							// if (!option) {
 							String value = key.getValue();
 							String gKey = key.getValue();
-	
+
 							if (!isKey(gKey)) {
 								value = key.getValue().replace("\\n", "//n");
 								gKey = generateKey(gKey);
@@ -438,19 +440,21 @@ public class KeyConverter {
 							else {
 								insert = false;
 								getKey(key.getValue()).setKeep(true);
-								key.setValue(getKey(key.getValue()).getValue());
+								if (option) {
+									key.setValue(getKey(key.getValue()).getValue());
+								}
 							}
-	
+
 							if (insert) {
 								int select = valueAndKeyInList(gKey, value, listKey);
-	
+
 								switch (select) {
 									case 1: {
 										Tkey keyAux = getKey(gKey);
-	
+
 										Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, keyAux.getMaxSuffixClass() + 1,
 												keyAux.getMaxSuffixClass() + 1);
-	
+
 										if (!option) {
 											key.setValue(newKey.getCompleteKey());
 											listKey.add(newKey);
@@ -461,16 +465,16 @@ public class KeyConverter {
 											listKey.add(newKey);
 											getKey(newKey.getCompleteKey()).setKeep(true);
 										}
-	
+
 										updateSuffixMax(gKey, listKey);
 									}
 										;
 									break;
 									case 2: {
 										Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, 0, 0);
-	
+
 										newKey.setKeep(true);
-	
+
 										if (!option) {
 											key.setValue(newKey.getCompleteKey());
 											listKey.add(newKey);
