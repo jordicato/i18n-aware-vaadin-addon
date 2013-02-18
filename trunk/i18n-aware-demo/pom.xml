@@ -37,15 +37,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.neodoo</groupId>
-			<artifactId>microsoft-api-translate-java-maven-plugin</artifactId>
-			<version>0.1-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
 			<groupId>com.memetix</groupId>
 			<artifactId>microsoft-translator-java-api</artifactId>
-			<version>0.5</version>
 		</dependency>
 
 		<dependency>
