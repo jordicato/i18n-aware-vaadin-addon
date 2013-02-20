@@ -50,6 +50,7 @@ import japa.parser.ast.type.Type;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -203,10 +204,15 @@ public class KeyConverter {
 	}
 
 	public void restructureListKey() {
-		for (int i = 0; i < listKey.size(); i++ ) {
-			if (!listKey.get(i).getKeep()) {
-				listKey.remove(listKey.get(i));
+		if (!optionChangeKey) {
+			for (int i = 0; i < listKey.size(); i++ ) {
+				if (!listKey.get(i).getKeep()) {
+					listKey.remove(listKey.get(i));
+				}
 			}
+		}
+		else {
+			listKey.clear();
 		}
 	}
 
@@ -232,7 +238,16 @@ public class KeyConverter {
 	// To obtain the Tkey object that contain a certain key
 	public Tkey getKey(String key) {
 		for (Tkey k : listKey ) {
-			if (k.getKey().equals(key) | k.getCompleteKey().equals(key)) {
+			if (k.getKey().equals(key)) {
+				return k;
+			}
+		}
+		return null;
+	}
+
+	public Tkey getCompleteKey(String key) {
+		for (Tkey k : listKey ) {
+			if (k.getCompleteKey().equals(key)) {
 				return k;
 			}
 		}
@@ -431,32 +446,21 @@ public class KeyConverter {
 								String gKey = key.getValue();
 
 								if (!isKey(gKey)) {
-									value = key.getValue().replace("\\n", "//n");
+									value = key.getValue().replace("\\n", "//n").replace("\"", "'");
 									gKey = generateKey(gKey);
 									if (isInKeyList(gKey, listKey)) {
-										getKey(gKey).setKeep(true);
-										if (getKey(gKey).getIsLoadFromBundle()) {
+										getCompleteKey(gKey).setKeep(true);
+										if (getCompleteKey(gKey).getIsLoadFromBundle()) {
 											key.setValue(gKey);
 											insert = false;
 										}
 									}
 								}
-								else if (!isInKeyList(gKey, listKey)) {
-									/*
-									 * if (!gKey.startsWith(javaFileFullClassName)) { gKey = javaFileFullClassName + gKey; updateAppearances(gKey); if
-									 * (isInKeyList(gKey, listKey)) { if (getKey(gKey).getKeyCount() > getKey(gKey).getAppearances()) { insert = true;
-									 * } } } else { String keyWithoutSuffix = removeSuffix(gKey); if (isInKeyList(keyWithoutSuffix, listKey)) {
-									 * updateAppearances(keyWithoutSuffix); if (getKey(keyWithoutSuffix).getKeyCount() >
-									 * getKey(keyWithoutSuffix).getAppearances()) { insert = false; } } else { Tkey newKey = new Tkey(gKey, value,
-									 * javaFileFullClassName, 0, 0); listKey.add(newKey); } }
-									 */
-								}
-								else {
+								else if (isInKeyList(gKey, listKey)) {
 									insert = false;
-									getKey(key.getValue()).setKeep(true);
-									/*
-									 * if (option) { key.setValue(getKey(key.getValue()).getValue()); }
-									 */
+									if (isInKeyList(key.getValue(), listKey)) {
+										getCompleteKey(key.getValue()).setKeep(true);
+									}
 								}
 
 								if (insert) {
@@ -472,12 +476,12 @@ public class KeyConverter {
 											if (!option) {
 												key.setValue(newKey.getCompleteKey());
 												listKey.add(newKey);
-												getKey(newKey.getCompleteKey()).setKeep(true);
+												getCompleteKey(newKey.getCompleteKey()).setKeep(true);
 											}
 											else {
 												key.setValue(newKey.getValue());
 												listKey.add(newKey);
-												getKey(newKey.getCompleteKey()).setKeep(true);
+												getCompleteKey(newKey.getCompleteKey()).setKeep(true);
 											}
 
 											updateSuffixMax(gKey, listKey);
@@ -492,12 +496,12 @@ public class KeyConverter {
 											if (!option) {
 												key.setValue(newKey.getCompleteKey());
 												listKey.add(newKey);
-												getKey(newKey.getCompleteKey()).setKeep(true);
+												getCompleteKey(newKey.getCompleteKey()).setKeep(true);
 											}
 											else {
 												key.setValue(newKey.getValue());
 												listKey.add(newKey);
-												getKey(newKey.getCompleteKey()).setKeep(true);
+												getCompleteKey(newKey.getCompleteKey()).setKeep(true);
 											}
 										}
 											;
@@ -508,8 +512,8 @@ public class KeyConverter {
 							else {
 								if (isKey(key.getValue())) {
 									if (isInKeyList(key.getValue(), listKey)) {
-										getKey(key.getValue()).setKeep(true);
-										key.setValue(getKey(key.getValue()).getValue());
+										getCompleteKey(key.getValue()).setKeep(true);
+										key.setValue(getCompleteKey(key.getValue()).getValue());
 									}
 								}
 							}
@@ -569,10 +573,15 @@ public class KeyConverter {
 		}
 	}
 
-	public void deleteBundleFile(String path) {
+	public void clearBundleFile(String path) {
 		File delete = new File(path + ".properties");
 		if (delete.exists()) {
 			delete.delete();
+		}
+		try {
+			new FileWriter(new File(path + ".properties"), true);
+		}
+		catch (IOException e) {
 		}
 	}
 
@@ -707,7 +716,7 @@ public class KeyConverter {
 	private boolean isInKeyList(String key, List<Tkey> list) {
 		// listKey.contains(k);
 		for (Tkey k : list ) {
-			if (k.getKey().equals(key) | k.getCompleteKey().equals(key)) {
+			if (k.getCompleteKey().equals(key)) {
 				return true;
 			}
 		}
