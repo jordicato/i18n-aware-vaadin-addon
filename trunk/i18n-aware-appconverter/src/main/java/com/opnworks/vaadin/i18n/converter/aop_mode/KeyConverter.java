@@ -204,7 +204,7 @@ public class KeyConverter {
 	}
 
 	public void restructureListKey() {
-		// It was necessary to make it of this way because eliminating directly of the list doesn't work well
+		// It was necessary to make it of this way because eliminating directly from the listKey doesn't work well
 		List<Tkey> auxListKey = new ArrayList<Tkey>();
 
 		for (int i = 0; i < listKey.size(); i++ ) {
