@@ -6,6 +6,6 @@ import com.vaadin.ui.Label;
 public class TestSuperExpr extends Button {
 
     public TestSuperExpr() {
-        super("TestSuperExpr.Test_SuperExpr");
+        super("Test SuperExpr");
     }
 }
