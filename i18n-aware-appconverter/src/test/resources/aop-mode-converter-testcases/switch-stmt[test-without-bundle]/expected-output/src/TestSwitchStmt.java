@@ -12,10 +12,10 @@ public class TestSwitchStmt {
     public TestSwitchStmt() {
         switch(key) {
             case 1:
-                button = new Button("TestSwitchStmt.Caption_1");
+                button = new Button("TestSwitchStmt.Caption_1x");
                 break;
             case 2:
-                button = new Button("TestSwitchStmt.Caption_2");
+                button = new Button("TestSwitchStmt.Caption_2x");
                 break;
             default:
                 button = new Button("TestSwitchStmt.Caption");

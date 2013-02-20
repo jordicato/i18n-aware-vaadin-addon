@@ -9,6 +9,6 @@ public class TestReturnStmt {
     }
 
     public String getCaption() {
-        return "TestReturnStmt.Return_Caption";
+        return "Return Caption";
     }
 }
