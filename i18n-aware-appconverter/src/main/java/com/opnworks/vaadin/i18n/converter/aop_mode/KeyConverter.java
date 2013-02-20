@@ -361,21 +361,11 @@ public class KeyConverter {
 
 	public void proccessProject(File dirBaseSrc, String projectPath, String pathBundle, String bundleName, String defaultLanguage) {
 
-		// listKey.clear();
-
 		if (listKey.isEmpty()) {
 			boolean exist = existBundle(pathBundle, bundleName);
 
 			if (exist) {
 				updateListKeyWithBundle();
-
-				/*
-				 * String lang = "";
-				 * 
-				 * if (!defaultLanguage.isEmpty()) { lang = "_" + defaultLanguage; }
-				 * 
-				 * deleteBundleFile(pathBundle + "/" + bundleName + lang + ".properties" );
-				 */
 			}
 		}
 
@@ -432,17 +422,13 @@ public class KeyConverter {
 			String value = bundle.getString(key);
 			addKeyFromBundle(key, value);
 		}
-
 	}
 
 	private boolean isKeyGeneratedBySystem(String key) {
-
 		String auxKey = generateKey(getCompleteKey(key).getValue());
-
 		if (removeSuffix(key).equals(auxKey)) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -709,14 +695,6 @@ public class KeyConverter {
 				break;
 			}
 		}
-
-		/*
-		 * String lastChar = finalKey.substring(finalKey.length() - 1, finalKey.length()); String beforeLastChar =
-		 * finalKey.substring(finalKey.length() - 2, finalKey.length() - 1);
-		 * 
-		 * if (beforeLastChar.equals("_")) { if (isNumberParameter(lastChar)) { finalKey = finalKey + "x"; } }
-		 */
-
 		return javaFileFullClassName + finalKey; // + keyNumber;
 	}
 
@@ -1042,14 +1020,10 @@ public class KeyConverter {
 			processBinary((BinaryExpr) expLeft);
 		}
 		else if (expLeft instanceof StringLiteralExpr) {
-			String expString = ((StringLiteralExpr) expLeft).getValue();
-			System.out.println(expString);
 			addKey((StringLiteralExpr) expLeft, optionChangeKey);
 		}
 
 		if (expRight instanceof StringLiteralExpr) {
-			String expString = ((StringLiteralExpr) expRight).getValue();
-			System.out.println(expString);
 			addKey((StringLiteralExpr) expRight, optionChangeKey);
 		}
 
