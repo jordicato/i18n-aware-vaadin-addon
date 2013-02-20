@@ -204,16 +204,17 @@ public class KeyConverter {
 	}
 
 	public void restructureListKey() {
-		if (!optionChangeKey) {
-			for (int i = 0; i < listKey.size(); i++ ) {
-				if (!listKey.get(i).getKeep()) {
-					listKey.remove(listKey.get(i));
-				}
+		// It was necessary to make it of this way because eliminating directly of the list doesn't work well
+		List<Tkey> auxListKey = new ArrayList<Tkey>();
+
+		for (int i = 0; i < listKey.size(); i++ ) {
+			if (listKey.get(i).getKeep()) {
+				auxListKey.add(listKey.get(i));
 			}
 		}
-		else {
-			listKey.clear();
-		}
+
+		listKey.clear();
+		listKey = auxListKey;
 	}
 
 	public boolean existBundle(String resourcePath, String resourceName) {
@@ -434,6 +435,17 @@ public class KeyConverter {
 
 	}
 
+	private boolean isKeyGeneratedBySystem(String key) {
+
+		String auxKey = generateKey(getCompleteKey(key).getValue());
+
+		if (removeSuffix(key).equals(auxKey)) {
+			return true;
+		}
+
+		return false;
+	}
+
 	private void addKey(StringLiteralExpr key, boolean option) {
 		try {
 			if (key.getValue().length() > 0) {
@@ -457,6 +469,7 @@ public class KeyConverter {
 									}
 								}
 								else if (isInKeyList(gKey, listKey)) {
+
 									insert = false;
 									if (isInKeyList(key.getValue(), listKey)) {
 										getCompleteKey(key.getValue()).setKeep(true);
@@ -512,7 +525,11 @@ public class KeyConverter {
 							else {
 								if (isKey(key.getValue())) {
 									if (isInKeyList(key.getValue(), listKey)) {
-										getCompleteKey(key.getValue()).setKeep(true);
+
+										if (!isKeyGeneratedBySystem(key.getValue())) {
+											getCompleteKey(key.getValue()).setKeep(true);
+										}
+
 										key.setValue(getCompleteKey(key.getValue()).getValue());
 									}
 								}
