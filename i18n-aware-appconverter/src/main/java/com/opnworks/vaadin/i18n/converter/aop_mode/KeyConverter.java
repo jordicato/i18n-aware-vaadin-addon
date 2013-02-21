@@ -461,6 +461,9 @@ public class KeyConverter {
 										getCompleteKey(key.getValue()).setKeep(true);
 									}
 								}
+								else {
+									insert = false;
+								}
 
 								if (insert) {
 									int select = valueAndKeyInList(gKey, value, listKey);
