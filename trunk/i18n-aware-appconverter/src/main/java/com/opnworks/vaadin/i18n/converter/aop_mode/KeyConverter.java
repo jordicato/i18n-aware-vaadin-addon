@@ -64,19 +64,16 @@ import java.util.ResourceBundle;
 
 import javax.lang.model.type.PrimitiveType;
 
-import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.converter.main.CommandLineOutput;
-import com.opnworks.vaadin.i18n.ui.I18NButton;
 
 /**
  * Class to get all vaadin widgets captions key
  * 
- * @author opnworks
+ * @author Sandy Rodriguez Garcia ( opnworks )
  * 
  */
 public class KeyConverter {
-	@SuppressWarnings("unused")
 	public class Tkey {
 		private String key;
 		private String completeKey;
@@ -131,14 +128,6 @@ public class KeyConverter {
 
 		private void decreaseAppearances(int count) {
 			this.appearances = this.appearances - count;
-		}
-
-		private String getFullClassName() {
-			return this.fullClassName;
-		}
-
-		private int getKeyCount() {
-			return this.maxSuffixClass + 1;
 		}
 
 		private int getMaxSuffixClass() {
@@ -207,7 +196,7 @@ public class KeyConverter {
 	private boolean optionChangeKey;
 	private String javaFileName;
 	private String javaFileFullClassName;
-	private String varName;
+	// private String varName;
 	private String[] validMethods = { "setCaption", "setDescription", "addComponent", "showNotification", "setDescriptionMessage", "addTab",
 			"setItemCaption", "setCaptionMessage", "setValue", "addOrderToContainer", /* "RuntimeException", */"addItem", "showComponent", "setValue",
 			"setInputPrompt", "getWindow()", "addAction", "setRequiredError", "getMessage" };
@@ -271,7 +260,7 @@ public class KeyConverter {
 		return obj;
 	}
 
-	//Its determine if a method called contains literals params marked by the @I18NAwareMessage annotation
+	// Its determine if a method called contains literals params marked by the @I18NAwareMessage annotation
 	private boolean isMarkedWithI18NAwareMessage(MethodCallExpr method) {
 		if (!listVaadinVars.isEmpty()) {
 			String methodName = method.getName();
@@ -437,12 +426,6 @@ public class KeyConverter {
 		// ahora miramos en cada clase
 		for (TypeDeclaration type : types ) {
 			processType(type);
-		}
-
-		List<TVaadinVars> varrr = listVaadinVars;
-
-		if (listVaadinVars.size() > 0) {
-			System.out.println();
 		}
 
 		return cutarget.toString();
@@ -853,15 +836,6 @@ public class KeyConverter {
 		return false;
 	}
 
-	private boolean isVaadinVar(String name) {
-		for (TVaadinVars vaadinVar : listVaadinVars ) {
-			if (vaadinVar.getId().equals(name)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	private boolean isValidClass(String name) {
 		boolean is = false;
 		for (String validClasse : validClasses ) {
@@ -991,7 +965,7 @@ public class KeyConverter {
 					addKey(extactExprCaption(exp), optionChangeKey);
 				}
 				else if (ae.getValue() instanceof MethodCallExpr) {
-					varName = ae.getTarget().toString();
+					// varName = ae.getTarget().toString();
 					isMarkedWithI18NAwareMessage((MethodCallExpr) ae.getValue());
 
 					processArgs(((MethodCallExpr) ae.getValue()).getArgs(), ((MethodCallExpr) ae.getValue()).getName());
@@ -1006,7 +980,7 @@ public class KeyConverter {
 			Type varType = vde.getType();
 			if (vde.getType() instanceof ReferenceType) {
 				for (VariableDeclarator vd : vde.getVars() ) {
-					varName = vd.getId().getName();
+					// varName = vd.getId().getName();
 					addVaadinVars(vd.getId().getName(), varType.toString());
 					addStringVarValue(vd.getId().getName(), vd.getInit().toString());
 					if (vd.getInit() != null) {
@@ -1024,7 +998,7 @@ public class KeyConverter {
 			}
 		}
 		else if (expression instanceof MethodCallExpr) {
-			varName = expression.toString().split(((MethodCallExpr) expression).getName())[0].replace(".", "");
+			// varName = expression.toString().split(((MethodCallExpr) expression).getName())[0].replace(".", "");
 
 			isMarkedWithI18NAwareMessage((MethodCallExpr) expression);
 			processArgs(((MethodCallExpr) expression).getArgs(), ((MethodCallExpr) expression).getName());
@@ -1036,7 +1010,7 @@ public class KeyConverter {
 				addKey(extactExprCaption(exp), optionChangeKey);
 			}
 			else if (ce.getExpr() instanceof MethodCallExpr) {
-				varName = expression.toString().split(((MethodCallExpr) expression).getName())[0].replace(".", "");
+				// varName = expression.toString().split(((MethodCallExpr) expression).getName())[0].replace(".", "");
 				isMarkedWithI18NAwareMessage((MethodCallExpr) expression);
 				processArgs(((MethodCallExpr) ce.getExpr()).getArgs(), ((MethodCallExpr) ce.getExpr()).getName());
 			}
