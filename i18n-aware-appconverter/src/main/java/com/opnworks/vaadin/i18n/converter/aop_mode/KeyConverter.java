@@ -78,6 +78,7 @@ public class KeyConverter {
 		private String key;
 		private String completeKey;
 		private String value;
+		@SuppressWarnings("unused")
 		private String fullClassName;
 		private int appearances;
 		private int suffix;
@@ -242,6 +243,7 @@ public class KeyConverter {
 		if (!className.isEmpty()) {
 			String classN = prefix.endsWith(".") ? prefix.substring(0, prefix.length() - 1) + className : (prefix + className);
 
+			@SuppressWarnings("rawtypes")
 			Class clas = null;
 			try {
 				clas = Class.forName(classN);
@@ -695,7 +697,6 @@ public class KeyConverter {
 	 */
 
 	private StringLiteralExpr extactExprCaption(ObjectCreationExpr exp) {
-
 		Type type = exp.getType();
 		if (isVaadinComponent(type.toString())) {
 
@@ -891,30 +892,10 @@ public class KeyConverter {
 		return false;
 	}
 
-	@SuppressWarnings("unused")
-	private void processArgs(List<Expression> largs) {
-		if (largs != null) {
-			for (int i = 0; i < largs.size(); i++ ) {
-				if (largs.get(i) instanceof ObjectCreationExpr) {
-					ObjectCreationExpr exp = (ObjectCreationExpr) largs.get(i);
-					addKey(extactExprCaption(exp), optionChangeKey);
-				}
-				else if (largs.get(i) instanceof MethodCallExpr) {
-
-					isMarkedWithI18NAwareMessage((MethodCallExpr) largs.get(i));
-					processArgs(((MethodCallExpr) largs.get(i)).getArgs(), ((MethodCallExpr) largs.get(i)).getName());
-
-				}
-				else if (largs.get(i) instanceof StringLiteralExpr) {
-					if (!isNumberParameter(largs.get(i).toString())) {
-						addKey((StringLiteralExpr) largs.get(i), optionChangeKey);
-					}
-				}
-			}
-		}
-	}
-
-	private void processArgs(List<Expression> largs, String methodName) {
+	private void processArgs(MethodCallExpr methodCallE) {
+		List<Expression> largs = methodCallE.getArgs();
+		String methodName = methodCallE.getName();
+		isMarkedWithI18NAwareMessage(methodCallE);
 		if (isValidMethod(methodName)) {
 			if (largs != null) {
 				for (int i = 0; i < largs.size(); i++ ) {
@@ -923,9 +904,7 @@ public class KeyConverter {
 						addKey(extactExprCaption(exp), optionChangeKey);
 					}
 					else if (largs.get(i) instanceof MethodCallExpr) {
-						isMarkedWithI18NAwareMessage((MethodCallExpr) largs.get(i));
-
-						processArgs(((MethodCallExpr) largs.get(i)).getArgs(), ((MethodCallExpr) largs.get(i)).getName());
+						processArgs((MethodCallExpr) largs.get(i));
 					}
 					else if (largs.get(i) instanceof StringLiteralExpr) {
 						if (!isNumberParameter(largs.get(i).toString())) {
@@ -966,9 +945,7 @@ public class KeyConverter {
 				}
 				else if (ae.getValue() instanceof MethodCallExpr) {
 					// varName = ae.getTarget().toString();
-					isMarkedWithI18NAwareMessage((MethodCallExpr) ae.getValue());
-
-					processArgs(((MethodCallExpr) ae.getValue()).getArgs(), ((MethodCallExpr) ae.getValue()).getName());
+					processArgs((MethodCallExpr) ae.getValue());
 				}
 				/*
 				 * else if (ae.getValue() instanceof StringLiteralExpr) { addKey((StringLiteralExpr) ae.getValue(), optionChangeKey); }
@@ -985,9 +962,7 @@ public class KeyConverter {
 					addStringVarValue(vd.getId().getName(), vd.getInit().toString());
 					if (vd.getInit() != null) {
 						if (vd.getInit() instanceof MethodCallExpr) {
-
-							isMarkedWithI18NAwareMessage((MethodCallExpr) vd.getInit());
-							processArgs(((MethodCallExpr) vd.getInit()).getArgs(), ((MethodCallExpr) vd.getInit()).getName());
+							processArgs((MethodCallExpr) vd.getInit());
 						}
 						else if (vd.getInit() instanceof ObjectCreationExpr) {
 							ObjectCreationExpr exp = (ObjectCreationExpr) vd.getInit();
@@ -999,9 +974,7 @@ public class KeyConverter {
 		}
 		else if (expression instanceof MethodCallExpr) {
 			// varName = expression.toString().split(((MethodCallExpr) expression).getName())[0].replace(".", "");
-
-			isMarkedWithI18NAwareMessage((MethodCallExpr) expression);
-			processArgs(((MethodCallExpr) expression).getArgs(), ((MethodCallExpr) expression).getName());
+			processArgs((MethodCallExpr) expression);
 		}
 		else if (expression instanceof CastExpr) {
 			CastExpr ce = (CastExpr) expression;
@@ -1010,9 +983,8 @@ public class KeyConverter {
 				addKey(extactExprCaption(exp), optionChangeKey);
 			}
 			else if (ce.getExpr() instanceof MethodCallExpr) {
-				// varName = expression.toString().split(((MethodCallExpr) expression).getName())[0].replace(".", "");
-				isMarkedWithI18NAwareMessage((MethodCallExpr) expression);
-				processArgs(((MethodCallExpr) ce.getExpr()).getArgs(), ((MethodCallExpr) ce.getExpr()).getName());
+				// varName = expression.toString().split(((MethodCallExpr) expression).getName())[0].replace(".", ""); processArgs((MethodCallExpr)
+				// ce.getExpr());
 			}
 		}
 		else if (expression instanceof ArrayCreationExpr) {
