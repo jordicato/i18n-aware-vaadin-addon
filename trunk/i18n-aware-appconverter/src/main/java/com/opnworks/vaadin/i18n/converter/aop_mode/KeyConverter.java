@@ -53,6 +53,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -193,6 +194,7 @@ public class KeyConverter {
 		}
 	}
 
+	private static String prefixI18NClass = "com.opnworks.vaadin.i18n.ui.I18N";
 	private CommandLineOutput commandLineOutput = new CommandLineOutput();
 	private boolean optionChangeKey;
 	private String javaFileName;
@@ -268,7 +270,7 @@ public class KeyConverter {
 			String methodName = method.getName();
 			String varN = method.getScope() == null ? "" : method.getScope().toString();
 			String vaadinClass = getVaadinVar(varN) == null ? "" : getVaadinVar(varN).getType();
-			Object objeto = getObjectClass(vaadinClass, "com.opnworks.vaadin.i18n.ui.I18N");
+			Object objeto = getObjectClass(vaadinClass, prefixI18NClass);
 			if (!(objeto == null)) {
 				for (Method singleMethod : objeto.getClass().getMethods() ) {
 					if (singleMethod.getName().equals(methodName) & (singleMethod.getParameterAnnotations().length > 0)) {
@@ -278,6 +280,27 @@ public class KeyConverter {
 									System.out.println("Is instance of I18NAwareMessage -->  Var : " + varN + " --> Method : " + methodName);
 									return true;
 								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	private boolean isMarkedWithI18NAwareMessage(String method) {
+		String methodName = prefixI18NClass + method;
+		Object objeto = getObjectClass(method, prefixI18NClass);
+		if (!(objeto == null)) {
+			for (@SuppressWarnings("rawtypes")
+			Constructor singleMethod : objeto.getClass().getConstructors() ) {
+				if (singleMethod.getName().equals(methodName) & (singleMethod.getParameterAnnotations().length > 0)) {
+					for (Annotation[] parameterAnnotation : singleMethod.getParameterAnnotations() ) {
+						for (Annotation parameterAnnotation1 : parameterAnnotation ) {
+							if (parameterAnnotation1 instanceof I18NAwareMessage) {
+								System.out.println("Is instance of I18NAwareMessage --> Method : " + method);
+								return true;
 							}
 						}
 					}
@@ -699,7 +722,7 @@ public class KeyConverter {
 	private StringLiteralExpr extactExprCaption(ObjectCreationExpr exp) {
 		Type type = exp.getType();
 		if (isVaadinComponent(type.toString())) {
-
+			isMarkedWithI18NAwareMessage(type.toString());
 			boolean flag = false;
 
 			try {
