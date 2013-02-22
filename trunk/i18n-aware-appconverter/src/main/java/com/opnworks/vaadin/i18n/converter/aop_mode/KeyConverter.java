@@ -295,9 +295,9 @@ public class KeyConverter {
 		Object objeto = getObjectClass(method, prefixI18NClass);
 		if (!(objeto == null)) {
 			for (@SuppressWarnings("rawtypes")
-			Constructor singleMethod : objeto.getClass().getConstructors() ) {
-				if (singleMethod.getName().equals(methodName) & (singleMethod.getParameterAnnotations().length > 0)) {
-					for (Annotation[] parameterAnnotation : singleMethod.getParameterAnnotations() ) {
+			Constructor singleConstructor : objeto.getClass().getConstructors() ) {
+				if (singleConstructor.getName().equals(methodName) & (singleConstructor.getParameterAnnotations().length > 0)) {
+					for (Annotation[] parameterAnnotation : singleConstructor.getParameterAnnotations() ) {
 						for (Annotation parameterAnnotation1 : parameterAnnotation ) {
 							if (parameterAnnotation1 instanceof I18NAwareMessage) {
 								commandLineOutput.getOutput().println("Is instance of I18NAwareMessage --> Method : " + method);
