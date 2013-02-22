@@ -52,6 +52,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -62,7 +64,10 @@ import java.util.ResourceBundle;
 
 import javax.lang.model.type.PrimitiveType;
 
+import com.opnworks.vaadin.i18n.I18NAwareCaption;
+import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.converter.main.CommandLineOutput;
+import com.opnworks.vaadin.i18n.ui.I18NButton;
 
 /**
  * Class to get all vaadin widgets captions key
@@ -180,11 +185,29 @@ public class KeyConverter {
 		}
 	}
 
+	class TVaadinVars {
+		private String id;
+		private String type;
+
+		public TVaadinVars(String id, String type) {
+			this.id = id;
+			this.type = type;
+		}
+
+		public String getId() {
+			return this.id;
+		}
+
+		public String getType() {
+			return this.type;
+		}
+	}
+
 	private CommandLineOutput commandLineOutput = new CommandLineOutput();
 	private boolean optionChangeKey;
 	private String javaFileName;
 	private String javaFileFullClassName;
-	// private String varName;
+	private String varName;
 	private String[] validMethods = { "setCaption", "setDescription", "addComponent", "showNotification", "setDescriptionMessage", "addTab",
 			"setItemCaption", "setCaptionMessage", "setValue", "addOrderToContainer", /* "RuntimeException", */"addItem", "showComponent", "setValue",
 			"setInputPrompt", "getWindow()", "addAction", "setRequiredError", "getMessage" };
@@ -195,12 +218,82 @@ public class KeyConverter {
 	private String[] stringToDiscard = { "<a href=", "alert(", "../", "http://" };
 	private List<Tkey> listKey;
 	private List<TStringValue> listStringValue = new ArrayList<TStringValue>();
+	private List<TVaadinVars> listVaadinVars = new ArrayList<TVaadinVars>();
 	private List<ImportDeclaration> lidtarget;
 	// private String constructorName;
 	private ResourceBundle bundle = null;
 
 	public KeyConverter() {
 		listKey = new ArrayList<Tkey>();
+	}
+
+	// To obtain the Tkey object that contain a certain key
+	public Tkey getKey(String key) {
+		for (Tkey k : listKey ) {
+			if (k.getKey().equals(key)) {
+				return k;
+			}
+		}
+		return null;
+	}
+
+	private TVaadinVars getVaadinVar(String id) {
+		if (!id.equals("")) {
+			for (TVaadinVars vaadinVar : listVaadinVars ) {
+				if (vaadinVar.getId().equals(id.toString())) {
+					return vaadinVar;
+				}
+			}
+		}
+		return null;
+	}
+
+	private Object getObjectClass(String className, String prefix) {
+		Object obj = null;
+		if (!className.isEmpty()) {
+			String classN = prefix.endsWith(".") ? prefix.substring(0, prefix.length() - 1) + className : (prefix + className);
+
+			Class clas = null;
+			try {
+				clas = Class.forName(classN);
+			}
+			catch (ClassNotFoundException e) {
+			}
+
+			try {
+				obj = clas.newInstance();
+			}
+			catch (InstantiationException e) {
+			}
+			catch (IllegalAccessException e) {
+			}
+		}
+		return obj;
+	}
+
+	//Its determine if a method called contains literals params marked by the @I18NAwareMessage annotation
+	private boolean isMarkedWithI18NAwareMessage(MethodCallExpr method) {
+		if (!listVaadinVars.isEmpty()) {
+			String methodName = method.getName();
+			String varN = method.getScope() == null ? "" : method.getScope().toString();
+			String vaadinClass = getVaadinVar(varN) == null ? "" : getVaadinVar(varN).getType();
+			Object objeto = getObjectClass(vaadinClass, "com.opnworks.vaadin.i18n.ui.I18N");
+			if (!(objeto == null)) {
+				for (Method singleMethod : objeto.getClass().getMethods() ) {
+					if (singleMethod.getName().equals(methodName) & (singleMethod.getParameterAnnotations().length > 0)) {
+						for (Annotation[] parameterAnnotation : singleMethod.getParameterAnnotations() ) {
+							for (Annotation parameterAnnotation1 : parameterAnnotation ) {
+								if (parameterAnnotation1 instanceof I18NAwareMessage) {
+									System.out.println("Is instance of I18NAwareMessage -->  Var : " + varN + " --> Method : " + methodName);
+									return true;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	public void restructureListKey() {
@@ -234,16 +327,6 @@ public class KeyConverter {
 
 	public boolean getChangeOptionKey() {
 		return this.optionChangeKey;
-	}
-
-	// To obtain the Tkey object that contain a certain key
-	public Tkey getKey(String key) {
-		for (Tkey k : listKey ) {
-			if (k.getKey().equals(key)) {
-				return k;
-			}
-		}
-		return null;
 	}
 
 	public Tkey getCompleteKey(String key) {
@@ -354,6 +437,12 @@ public class KeyConverter {
 		// ahora miramos en cada clase
 		for (TypeDeclaration type : types ) {
 			processType(type);
+		}
+
+		List<TVaadinVars> varrr = listVaadinVars;
+
+		if (listVaadinVars.size() > 0) {
+			System.out.println();
 		}
 
 		return cutarget.toString();
@@ -566,6 +655,15 @@ public class KeyConverter {
 		}
 	}
 
+	private void addVaadinVars(String id, String type) {
+		if (isVaadinComponent(type)) {
+			if (!isVarInVaadinVarsList(id)) {
+				TVaadinVars newVar = new TVaadinVars(id, type);
+				listVaadinVars.add(newVar);
+			}
+		}
+	}
+
 	private void changeJavaClass(String content, String path) {
 		try {
 			File javaClassDst = new File(path);
@@ -755,6 +853,15 @@ public class KeyConverter {
 		return false;
 	}
 
+	private boolean isVaadinVar(String name) {
+		for (TVaadinVars vaadinVar : listVaadinVars ) {
+			if (vaadinVar.getId().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private boolean isValidClass(String name) {
 		boolean is = false;
 		for (String validClasse : validClasses ) {
@@ -801,6 +908,15 @@ public class KeyConverter {
 		return false;
 	}
 
+	private boolean isVarInVaadinVarsList(String name) {
+		for (TVaadinVars v : listVaadinVars ) {
+			if (v.getId().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@SuppressWarnings("unused")
 	private void processArgs(List<Expression> largs) {
 		if (largs != null) {
@@ -810,7 +926,10 @@ public class KeyConverter {
 					addKey(extactExprCaption(exp), optionChangeKey);
 				}
 				else if (largs.get(i) instanceof MethodCallExpr) {
+
+					isMarkedWithI18NAwareMessage((MethodCallExpr) largs.get(i));
 					processArgs(((MethodCallExpr) largs.get(i)).getArgs(), ((MethodCallExpr) largs.get(i)).getName());
+
 				}
 				else if (largs.get(i) instanceof StringLiteralExpr) {
 					if (!isNumberParameter(largs.get(i).toString())) {
@@ -830,6 +949,8 @@ public class KeyConverter {
 						addKey(extactExprCaption(exp), optionChangeKey);
 					}
 					else if (largs.get(i) instanceof MethodCallExpr) {
+						isMarkedWithI18NAwareMessage((MethodCallExpr) largs.get(i));
+
 						processArgs(((MethodCallExpr) largs.get(i)).getArgs(), ((MethodCallExpr) largs.get(i)).getName());
 					}
 					else if (largs.get(i) instanceof StringLiteralExpr) {
@@ -870,7 +991,9 @@ public class KeyConverter {
 					addKey(extactExprCaption(exp), optionChangeKey);
 				}
 				else if (ae.getValue() instanceof MethodCallExpr) {
-					// varName = ae.getTarget().toString();
+					varName = ae.getTarget().toString();
+					isMarkedWithI18NAwareMessage((MethodCallExpr) ae.getValue());
+
 					processArgs(((MethodCallExpr) ae.getValue()).getArgs(), ((MethodCallExpr) ae.getValue()).getName());
 				}
 				/*
@@ -880,13 +1003,16 @@ public class KeyConverter {
 		}
 		else if (expression instanceof VariableDeclarationExpr) {
 			VariableDeclarationExpr vde = (VariableDeclarationExpr) expression;
-
+			Type varType = vde.getType();
 			if (vde.getType() instanceof ReferenceType) {
-
 				for (VariableDeclarator vd : vde.getVars() ) {
-					// varName = vd.getId().getName();
+					varName = vd.getId().getName();
+					addVaadinVars(vd.getId().getName(), varType.toString());
+					addStringVarValue(vd.getId().getName(), vd.getInit().toString());
 					if (vd.getInit() != null) {
 						if (vd.getInit() instanceof MethodCallExpr) {
+
+							isMarkedWithI18NAwareMessage((MethodCallExpr) vd.getInit());
 							processArgs(((MethodCallExpr) vd.getInit()).getArgs(), ((MethodCallExpr) vd.getInit()).getName());
 						}
 						else if (vd.getInit() instanceof ObjectCreationExpr) {
@@ -898,7 +1024,9 @@ public class KeyConverter {
 			}
 		}
 		else if (expression instanceof MethodCallExpr) {
-			// varName = expression.toString().split(((MethodCallExpr) expression).getName())[0].replace(".", "");
+			varName = expression.toString().split(((MethodCallExpr) expression).getName())[0].replace(".", "");
+
+			isMarkedWithI18NAwareMessage((MethodCallExpr) expression);
 			processArgs(((MethodCallExpr) expression).getArgs(), ((MethodCallExpr) expression).getName());
 		}
 		else if (expression instanceof CastExpr) {
@@ -908,7 +1036,8 @@ public class KeyConverter {
 				addKey(extactExprCaption(exp), optionChangeKey);
 			}
 			else if (ce.getExpr() instanceof MethodCallExpr) {
-				// varName = expression.toString().split(((MethodCallExpr) expression).getName())[0].replace(".", "");
+				varName = expression.toString().split(((MethodCallExpr) expression).getName())[0].replace(".", "");
+				isMarkedWithI18NAwareMessage((MethodCallExpr) expression);
 				processArgs(((MethodCallExpr) ce.getExpr()).getArgs(), ((MethodCallExpr) ce.getExpr()).getName());
 			}
 		}
@@ -1066,6 +1195,7 @@ public class KeyConverter {
 				}
 				else {
 					for (VariableDeclarator vd : fd.getVariables() ) {
+						addVaadinVars(vd.getId().toString(), fd.getType().toString());
 						if (vd.getInit() != null) {
 							if (vd.getInit() instanceof ObjectCreationExpr) {
 
