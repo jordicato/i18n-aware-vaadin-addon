@@ -277,7 +277,8 @@ public class KeyConverter {
 						for (Annotation[] parameterAnnotation : singleMethod.getParameterAnnotations() ) {
 							for (Annotation parameterAnnotation1 : parameterAnnotation ) {
 								if (parameterAnnotation1 instanceof I18NAwareMessage) {
-									System.out.println("Is instance of I18NAwareMessage -->  Var : " + varN + " --> Method : " + methodName);
+									commandLineOutput.getOutput().println(
+											"Is instance of I18NAwareMessage -->  Var : " + varN + " --> Method : " + methodName);
 									return true;
 								}
 							}
@@ -299,7 +300,7 @@ public class KeyConverter {
 					for (Annotation[] parameterAnnotation : singleMethod.getParameterAnnotations() ) {
 						for (Annotation parameterAnnotation1 : parameterAnnotation ) {
 							if (parameterAnnotation1 instanceof I18NAwareMessage) {
-								System.out.println("Is instance of I18NAwareMessage --> Method : " + method);
+								commandLineOutput.getOutput().println("Is instance of I18NAwareMessage --> Method : " + method);
 								return true;
 							}
 						}
