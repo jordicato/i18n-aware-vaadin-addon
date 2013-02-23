@@ -56,7 +56,7 @@ public class I18NEmbedded extends Embedded implements I18NAwareComponent, I18NAw
 	}
 
 	@Override
-	public void setCaption(String captionKey) {
+	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
 	}
 
@@ -66,7 +66,7 @@ public class I18NEmbedded extends Embedded implements I18NAwareComponent, I18NAw
 	}
 
 	@Override
-	public void setDescription(String descriptionKey) {
+	public void setDescription(@I18NAwareMessage String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
 	}
 

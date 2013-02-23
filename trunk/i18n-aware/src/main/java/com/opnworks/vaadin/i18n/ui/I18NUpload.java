@@ -55,11 +55,11 @@ public class I18NUpload extends Upload implements I18NAwareComponent, I18NAwareC
 	}
 
 	@Override
-	public void setButtonCaption(String buttonCaptionKey) {
+	public void setButtonCaption(@I18NAwareMessage String buttonCaptionKey) {
 		setButtonCaptionMessage(buttonCaptionKey);
 	}
 
-	public void setButtonCaptionMessage(String buttonCaptionKey, Object... buttonCaptionParams) {
+	public void setButtonCaptionMessage(@I18NAwareMessage String buttonCaptionKey, Object... buttonCaptionParams) {
 		buttonCaptionI18NCaptionSupport.setCaptionMessage(buttonCaptionKey, buttonCaptionParams);
 	}
 
@@ -68,7 +68,7 @@ public class I18NUpload extends Upload implements I18NAwareComponent, I18NAwareC
 	}
 
 	@Override
-	public void setCaption(String captionKey) {
+	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
 	}
 
@@ -78,7 +78,7 @@ public class I18NUpload extends Upload implements I18NAwareComponent, I18NAwareC
 	}
 
 	@Override
-	public void setDescription(String descriptionKey) {
+	public void setDescription(@I18NAwareMessage String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
 	}
 

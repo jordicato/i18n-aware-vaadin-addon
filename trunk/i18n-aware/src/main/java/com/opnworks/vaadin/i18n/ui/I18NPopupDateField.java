@@ -86,7 +86,7 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 	}
 
 	@Override
-	public void setCaption(String captionKey) {
+	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
 	}
 
@@ -96,7 +96,7 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 	}
 
 	@Override
-	public void setDescription(String descriptionKey) {
+	public void setDescription(@I18NAwareMessage String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
 	}
 
@@ -105,7 +105,7 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
-	public void setInputPromptKey(String inputPromptKey, Object... inputPromptParams) {
+	public void setInputPromptKey(@I18NAwareMessage String inputPromptKey, Object... inputPromptParams) {
 		getI18NInputPromptSupport().setValueMessage(inputPromptKey, inputPromptParams);
 	}
 
@@ -125,7 +125,7 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 	}
 
 	@Override
-	public void setRequiredError(String requiredErrorKey) {
+	public void setRequiredError(@I18NAwareMessage String requiredErrorKey) {
 		setRequiredErrorMessage(requiredErrorKey);
 	}
 

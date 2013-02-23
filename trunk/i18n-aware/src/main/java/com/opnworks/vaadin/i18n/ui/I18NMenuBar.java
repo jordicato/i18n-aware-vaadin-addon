@@ -202,7 +202,7 @@ public class I18NMenuBar extends MenuBar implements I18NAwareComponent, I18NAwar
 		}
 
 		@Override
-		public void setDescription(String description) {
+		public void setDescription(@I18NAwareMessage String description) {
 			delegate.setDescription(description);
 		}
 
@@ -227,7 +227,7 @@ public class I18NMenuBar extends MenuBar implements I18NAwareComponent, I18NAwar
 		}
 
 		@Override
-		public void setText(String text) {
+		public void setText(@I18NAwareMessage String text) {
 			delegate.setText(text);
 		}
 
@@ -291,7 +291,7 @@ public class I18NMenuBar extends MenuBar implements I18NAwareComponent, I18NAwar
 	}
 
 	@Override
-	public void setCaption(String captionKey) {
+	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
 	}
 
@@ -301,7 +301,7 @@ public class I18NMenuBar extends MenuBar implements I18NAwareComponent, I18NAwar
 	}
 
 	@Override
-	public void setDescription(String descriptionKey) {
+	public void setDescription(@I18NAwareMessage String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
 	}
 

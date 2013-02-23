@@ -94,7 +94,7 @@ public class I18NTable extends Table implements I18NAwareComponent, I18NAwareCap
 	}
 
 	@Override
-	public void setCaption(String captionKey) {
+	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
 	}
 
@@ -108,7 +108,7 @@ public class I18NTable extends Table implements I18NAwareComponent, I18NAwareCap
 	 * 
 	 * @param columnHeadersKeys
 	 */
-	public void setColumnHeadersKeys(String[] columnHeadersKeys) {
+	public void setColumnHeadersKeys(@I18NAwareMessage String[] columnHeadersKeys) {
 		this.columnHeadersKeys = columnHeadersKeys;
 		if (I18NServiceImpl.getInstance() != null) {
 			updateColumnHeaders(I18NServiceImpl.getInstance());
@@ -116,7 +116,7 @@ public class I18NTable extends Table implements I18NAwareComponent, I18NAwareCap
 	}
 
 	@Override
-	public void setDescription(String descriptionKey) {
+	public void setDescription(@I18NAwareMessage String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
 	}
 

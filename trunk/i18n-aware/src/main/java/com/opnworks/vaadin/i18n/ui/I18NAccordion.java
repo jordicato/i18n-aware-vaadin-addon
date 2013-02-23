@@ -53,7 +53,7 @@ public class I18NAccordion extends Accordion implements I18NAwareComponent {
 	}
 
 	@Override
-	public void setCaption(String captionKey) {
+	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
 	}
 
@@ -63,7 +63,7 @@ public class I18NAccordion extends Accordion implements I18NAwareComponent {
 	}
 
 	@Override
-	public void setDescription(String descriptionKey) {
+	public void setDescription(@I18NAwareMessage String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
 	}
 
@@ -86,7 +86,7 @@ public class I18NAccordion extends Accordion implements I18NAwareComponent {
 		return addI18NTabSupport(c, tab, null);
 	}
 
-	private I18NTab addI18NTabSupport(Component c, Tab tab, String captionKey, Object... captionParams) {
+	private I18NTab addI18NTabSupport(Component c, Tab tab, @I18NAwareMessage String captionKey, Object... captionParams) {
 
 		i18NAwareSupport.add(c);
 

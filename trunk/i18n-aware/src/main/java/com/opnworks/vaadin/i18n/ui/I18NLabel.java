@@ -64,7 +64,7 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 	 * 
 	 * @param content
 	 */
-	public I18NLabel(String contentKey) {		
+	public I18NLabel(@I18NAwareMessage String contentKey) {		
 		super();
 		setCaptionMessage(contentKey);
 	}
@@ -75,7 +75,7 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 	 * @param content
 	 * @param contentMode
 	 */
-	public I18NLabel(String contentKey, int contentMode) {
+	public I18NLabel(@I18NAwareMessage String contentKey, int contentMode) {
 		super();
 		super.setCaption(contentKey);
 		super.setContentMode(contentMode);
@@ -95,7 +95,7 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 	}
 
 	@Override
-	public void setCaption(String captionKey) {
+	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
 	}
 
@@ -105,7 +105,7 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 	}
 
 	@Override
-	public void setDescription(String descriptionKey) {
+	public void setDescription(@I18NAwareMessage String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
 	}
 

@@ -54,7 +54,7 @@ public class I18NLoginForm extends LoginForm implements I18NAwareCaption {
 	}
 
 	@Override
-	public void setCaption(String captionKey) {
+	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
 	}
 
@@ -63,11 +63,11 @@ public class I18NLoginForm extends LoginForm implements I18NAwareCaption {
 		captionSupport.setCaptionMessage(captionKey, params);
 	}
 
-	public void setLoginButtonCaptionKey(String loginButtonCaptionKey) {
+	public void setLoginButtonCaptionKey(@I18NAwareMessage String loginButtonCaptionKey) {
 		loginButtonCaptionSupport.setCaptionMessage(loginButtonCaptionKey);
 	}
 
-	public void setPasswordCaptionKey(String passwordCaptionKey) {
+	public void setPasswordCaptionKey(@I18NAwareMessage String passwordCaptionKey) {
 		passwordCaptionSupport.setCaptionMessage(passwordCaptionKey);
 	}
 
@@ -88,7 +88,7 @@ public class I18NLoginForm extends LoginForm implements I18NAwareCaption {
 		super.setUsernameCaption(usernameCaption);
 	}
 
-	public void setUsernameCaptionKey(String usernameCaptionKey) {
+	public void setUsernameCaptionKey(@I18NAwareMessage String usernameCaptionKey) {
 		usernameCaptionSupport.setCaptionMessage(usernameCaptionKey);
 	}
 }

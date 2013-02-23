@@ -53,7 +53,7 @@ public class I18NTabSheet extends TabSheet implements I18NAwareComponent {
 	}
 
 	@Override
-	public void setCaption(String captionKey) {
+	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
 	}
 
@@ -63,7 +63,7 @@ public class I18NTabSheet extends TabSheet implements I18NAwareComponent {
 	}
 
 	@Override
-	public void setDescription(String descriptionKey) {
+	public void setDescription(@I18NAwareMessage String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
 	}
 

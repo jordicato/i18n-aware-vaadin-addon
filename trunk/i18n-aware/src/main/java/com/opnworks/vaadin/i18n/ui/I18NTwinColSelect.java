@@ -61,7 +61,7 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField {
 	}
 
 	@Override
-	public void setCaption(String captionKey) {
+	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
 	}
 
@@ -71,7 +71,7 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField {
 	}
 
 	@Override
-	public void setDescription(String descriptionKey) {
+	public void setDescription(@I18NAwareMessage String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
 	}
 
@@ -81,11 +81,11 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField {
 	}
 
 	@Override
-	public void setLeftColumnCaption(String leftColumnCaptionKey) {
+	public void setLeftColumnCaption(@I18NAwareMessage String leftColumnCaptionKey) {
 		setLeftColumnCaptionKey(leftColumnCaptionKey);
 	}
 
-	public void setLeftColumnCaptionKey(String leftColumnCaptionKey, Object... leftColumnCaptionParams) {
+	public void setLeftColumnCaptionKey(@I18NAwareMessage String leftColumnCaptionKey, Object... leftColumnCaptionParams) {
 		getLeftColumnCaptionSupport().setCaptionMessage(leftColumnCaptionKey, leftColumnCaptionParams);
 	}
 
@@ -109,7 +109,7 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField {
 	}
 
 	@Override
-	public void setRequiredError(String requiredErrorKey) {
+	public void setRequiredError(@I18NAwareMessage String requiredErrorKey) {
 		setRequiredErrorMessage(requiredErrorKey);
 	}
 
@@ -119,11 +119,11 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField {
 	}
 
 	@Override
-	public void setRightColumnCaption(String rightColumnCaption) {
+	public void setRightColumnCaption(@I18NAwareMessage String rightColumnCaption) {
 		setRightColumnRealCaption(rightColumnCaption);
 	}
 
-	public void setRightColumnCaptionKey(String rightColumnCaptionKey, Object... rightColumnCaptionParams) {
+	public void setRightColumnCaptionKey(@I18NAwareMessage String rightColumnCaptionKey, Object... rightColumnCaptionParams) {
 		getRightColumnCaptionSupport().setCaptionMessage(rightColumnCaptionKey, rightColumnCaptionParams);
 	}
 
