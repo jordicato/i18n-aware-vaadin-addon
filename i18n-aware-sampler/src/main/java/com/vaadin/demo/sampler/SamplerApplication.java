@@ -10,9 +10,11 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gwt.http.client.Request;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 import com.opnworks.vaadin.i18n.service_impl.ResourceBundleI18NMessageProvider;
+import com.opnworks.vaadin.i18n.ui.I18NWindow;
 import com.vaadin.Application;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -183,7 +185,7 @@ public class SamplerApplication extends Application implements HttpServletReques
      * The main window for Sampler, contains the full application UI.
      * 
      */
-    class SamplerWindow extends Window {
+    class SamplerWindow extends I18NWindow {
         private final String TITLE = "Vaadin Sampler";
 
         private final ThemeResource EMPTY_THEME_ICON = new ThemeResource(
@@ -227,6 +229,7 @@ public class SamplerApplication extends Application implements HttpServletReques
             setContent(mainExpand);
             setSizeFull();
             mainExpand.setSizeFull();
+            mainExpand.setHeight("800px");
             setCaption(TITLE);
             setTheme(currentApplicationTheme);
 
@@ -277,9 +280,9 @@ public class SamplerApplication extends Application implements HttpServletReques
             // nav.addComponent(themeSelect);
             // nav.setComponentAlignment(themeSelect, Alignment.MIDDLE_LEFT);
 
-            Button b = new Button(CAPTION);
-            b.setDescription(TOOLTIP);
-            nav.addComponent(b);
+//             Button b = new Button(CAPTION);
+//             b.setDescription(TOOLTIP);
+//             nav.addComponent(b);
             
             // Select language
             NativeSelect languageSelector = createLanguageSelector();
@@ -582,6 +585,7 @@ public class SamplerApplication extends Application implements HttpServletReques
                 public void valueChange(ValueChangeEvent event) {
                     Feature f = (Feature) event.getProperty().getValue();
                     setFeature(f);
+                    requestRepaintRequests();
                 }
             });
             tree.setItemStyleGenerator(new Tree.ItemStyleGenerator() {
@@ -619,17 +623,18 @@ public class SamplerApplication extends Application implements HttpServletReques
 
     		languageSelector.setImmediate(true);
     		languageSelector.setNullSelectionAllowed(false);
-
+    		   		
     		addLocale( Locale.ENGLISH, languageSelector );
     		addLocale( Locale.FRENCH, languageSelector );
     		addLocale( new Locale("es"), languageSelector );
-    		
+
     		languageSelector.setValue(i18NService.getLocale());
 
     		languageSelector.addListener(new Property.ValueChangeListener() {
     			public void valueChange(ValueChangeEvent event) {
     				Locale locale = (Locale) (event.getProperty().getValue());
     				i18NService.setLocale(locale);
+    				requestRepaintRequests();
     			}
     		});
 
@@ -642,6 +647,7 @@ public class SamplerApplication extends Application implements HttpServletReques
     	
 		languageSelector.addItem(locale);
 		languageSelector.setItemCaption(locale, i18NService.getMessage(locale, "SamplerApplication.language"));
+
     }
 
     private class BreadCrumbs extends CustomComponent implements
