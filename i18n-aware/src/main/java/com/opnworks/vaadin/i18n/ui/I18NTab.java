@@ -86,7 +86,7 @@ public class I18NTab implements Tab, I18NAwareCaption, CaptionContainer {
 	}
 
 	@Override
-	public void setCaption(String captionKey) {
+	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
 	}
 
@@ -106,7 +106,7 @@ public class I18NTab implements Tab, I18NAwareCaption, CaptionContainer {
 	}
 
 	@Override
-	public void setDescription(String description) {
+	public void setDescription(@I18NAwareMessage String description) {
 		delegate.setDescription(description);
 	}
 

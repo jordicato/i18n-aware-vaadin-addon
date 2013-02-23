@@ -40,7 +40,7 @@ public class I18NVerticalLayout extends VerticalLayout implements I18NAwareLayou
 	}
 
 	@Override
-	public void setCaption(String captionKey) {
+	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
 	}
 
@@ -50,7 +50,7 @@ public class I18NVerticalLayout extends VerticalLayout implements I18NAwareLayou
 	}
 
 	@Override
-	public void setDescription(String descriptionKey) {
+	public void setDescription(@I18NAwareMessage String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
 	}
 

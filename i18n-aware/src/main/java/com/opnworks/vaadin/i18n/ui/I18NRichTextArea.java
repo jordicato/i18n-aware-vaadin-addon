@@ -80,7 +80,7 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareField {
 	}
 
 	@Override
-	public void setCaption(String captionKey) {
+	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
 	}
 
@@ -90,7 +90,7 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareField {
 	}
 
 	@Override
-	public void setDescription(String descriptionKey) {
+	public void setDescription(@I18NAwareMessage String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
 	}
 
@@ -115,7 +115,7 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareField {
 	}
 
 	@Override
-	public void setRequiredError(String requiredErrorKey) {
+	public void setRequiredError(@I18NAwareMessage String requiredErrorKey) {
 		setRequiredErrorMessage(requiredErrorKey);
 	}
 

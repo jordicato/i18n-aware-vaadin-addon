@@ -66,7 +66,7 @@ public class I18NLink extends Link implements I18NAwareComponent, I18NAwareCapti
 	}
 
 	@Override
-	public void setCaption(String captionKey) {
+	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
 	}
 
@@ -76,7 +76,7 @@ public class I18NLink extends Link implements I18NAwareComponent, I18NAwareCapti
 	}
 
 	@Override
-	public void setDescription(String descriptionKey) {
+	public void setDescription(@I18NAwareMessage String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
 	}
 
