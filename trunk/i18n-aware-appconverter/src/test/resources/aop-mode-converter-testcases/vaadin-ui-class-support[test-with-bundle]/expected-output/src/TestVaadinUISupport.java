@@ -166,7 +166,7 @@ public class TestVaadinUISupport {
         comboBox.setCaption("The caption");
         comboBox.setDescription("The caption");
         comboBox.setRequiredError("The caption");
-        comboBox.setItemCaption(new Object(), "The_Caption");
+        comboBox.setItemCaption(new Object(), "The caption");
         cssLayout = new CssLayout();
         cssLayout.setCaption("The caption");
         cssLayout.setDescription("The caption");
@@ -211,14 +211,14 @@ public class TestVaadinUISupport {
         listSelect.setRequiredError("The caption");
         loginForm = new LoginForm();
         loginForm.setCaption("The caption");
-        loginForm.setDescription("The_Caption");
+        loginForm.setDescription("The caption");
         menuBar = new MenuBar();
         menuBar.setCaption("The caption");
         menuBar.setDescription("The caption");
         nativeButton = new NativeButton("The caption");
         nativeButton.setCaption("The caption");
         nativeButton.setDescription("The caption");
-        nativeButton.setRequiredError("The_Caption");
+        nativeButton.setRequiredError("The caption");
         nativeSelect = new NativeSelect("The caption");
         nativeSelect.setCaption("The caption");
         nativeSelect.setDescription("The caption");
@@ -236,7 +236,7 @@ public class TestVaadinUISupport {
         progressIndicator = new ProgressIndicator();
         progressIndicator.setCaption("The caption");
         progressIndicator.setDescription("The caption");
-        progressIndicator.setRequiredError("The_Caption");
+        progressIndicator.setRequiredError("The caption");
         richTextArea = new RichTextArea("The caption");
         richTextArea.setCaption("The caption");
         richTextArea.setDescription("The caption");
@@ -255,7 +255,7 @@ public class TestVaadinUISupport {
         table = new Table("The caption");
         table.setCaption("The caption");
         table.setDescription("The caption");
-        table.setRequiredError("The_Caption");
+        table.setRequiredError("The caption");
         tabSheet = new TabSheet();
         tabSheet.addTab(label, "The caption");
         tabSheet.setCaption("The caption");
@@ -275,7 +275,7 @@ public class TestVaadinUISupport {
         treeTable = new TreeTable("The caption");
         treeTable.setCaption("The caption");
         treeTable.setDescription("The caption");
-        treeTable.setRequiredError("The_Caption");
+        treeTable.setRequiredError("The caption");
         twinColSelect = new TwinColSelect("The caption");
         twinColSelect.setCaption("The caption");
         twinColSelect.setDescription("The caption");
