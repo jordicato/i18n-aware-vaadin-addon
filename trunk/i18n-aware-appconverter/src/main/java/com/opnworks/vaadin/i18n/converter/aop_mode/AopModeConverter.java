@@ -31,7 +31,7 @@ public class AopModeConverter implements Converter {
 		// }
 	}
 
-	private void writeFile(String path, String param) {
+	public void writeFile(String path, String param) {
 		File archivo = new File(path);
 		try {
 			FileWriter escribirArchivo = new FileWriter(archivo, true);
