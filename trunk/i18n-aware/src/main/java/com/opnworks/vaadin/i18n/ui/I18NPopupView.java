@@ -99,7 +99,29 @@ public class I18NPopupView extends PopupView implements I18NAwareComponent {
 	 *            the minimal textual representation as HTML
 	 * @param large
 	 *            the full, Component-type representation
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
 	 */
+
+	static Content content = new Content() {
+		
+		@Override
+		public Component getPopupComponent() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+		@Override
+		public String getMinimizedValueAsHTML() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+	};
+	
+	public I18NPopupView() {
+		super(content);
+	}
+	
 	public I18NPopupView(final java.lang.String small, final Component large) {
 		super(small, large);
 	}

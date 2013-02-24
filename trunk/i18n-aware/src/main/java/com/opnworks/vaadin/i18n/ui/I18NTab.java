@@ -26,6 +26,10 @@ public class I18NTab implements Tab, I18NAwareCaption, CaptionContainer {
 
 	private Locale locale;
 
+	public I18NTab() {
+		super();
+	}
+	
 	public I18NTab(Tab delegate) {
 		this.delegate = delegate;
 	}

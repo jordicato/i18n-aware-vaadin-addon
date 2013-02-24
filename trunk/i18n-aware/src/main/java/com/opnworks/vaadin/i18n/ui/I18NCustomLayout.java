@@ -49,7 +49,7 @@ public class I18NCustomLayout extends CustomLayout implements I18NAwareLayout {
 	 * Default constructor only used by subclasses. Subclasses are responsible for setting the appropriate fields. Either
 	 * {@link #setTemplateName(String)}, that makes layout fetch the template from theme, or {@link #setTemplateContents(String)}.
 	 */
-	protected I18NCustomLayout() {
+	public I18NCustomLayout() {
 		super();
 	}
 
