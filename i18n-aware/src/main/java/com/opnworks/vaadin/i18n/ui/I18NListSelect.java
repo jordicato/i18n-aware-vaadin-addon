@@ -21,6 +21,10 @@ public class I18NListSelect extends ListSelect implements I18NAwareField {
 
 	private I18NAwareFieldSupport i18NAwareFieldSupport;
 
+	public I18NListSelect() {
+		super();
+	}
+	
 	public I18NListSelect(@I18NAwareMessage String captionKey) {
 		super(captionKey);
 		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
