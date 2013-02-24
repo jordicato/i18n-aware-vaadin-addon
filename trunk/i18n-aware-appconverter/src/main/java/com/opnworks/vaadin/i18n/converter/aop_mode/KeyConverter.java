@@ -466,7 +466,7 @@ public class KeyConverter {
 		finally {
 			in.close();
 		}
-		// Obtener la lista de imports de componentes vaadin soportados en cada clase
+
 		if (cutarget.getImports() != null) {
 			for (ImportDeclaration id : cutarget.getImports() ) {
 				String name = id.getName().toString();
@@ -485,7 +485,6 @@ public class KeyConverter {
 
 		List<TypeDeclaration> types = cutarget.getTypes();
 
-		// ahora miramos en cada clase
 		for (TypeDeclaration type : types ) {
 			processType(type);
 		}
@@ -547,6 +546,51 @@ public class KeyConverter {
 		this.optionChangeKey = opt;
 	}
 
+	// Stores values of all String variables in each class
+	private void addStringVarValue(String id, String value) {
+		if (value.length() > 0) {
+			if (!isValueInStringValueList(value)) {
+				TStringValue newStringValue = new TStringValue(id, value);
+				listStringValue.add(newStringValue);
+			}
+		}
+	}
+
+	private boolean isVarInVaadinVarsList(String name) {
+		for (TVaadinVars v : listVaadinVars ) {
+			if (v.getId().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private void addVaadinVars(String id, String type) {
+		if (isVaadinComponent(type)) {
+			if (!isVarInVaadinVarsList(id)) {
+				TVaadinVars newVar = new TVaadinVars(id, type);
+				listVaadinVars.add(newVar);
+			}
+		}
+	}	
+	
+	private void addKeyFromBundle(String key, String value) {
+		int suffix = getSuffix(key);
+		String auxKey = key;
+		if (suffix > -1) {
+			auxKey = removeSuffix(key);
+		}
+		else {
+			suffix = 0;
+		}
+
+		Tkey newKey = new Tkey(auxKey, value, javaFileFullClassName, suffix, 0);
+		newKey.decreaseAppearances(2);
+		newKey.setLoadFromBundle(true);
+		listKey.add(newKey);
+		updateSuffixMax(auxKey, listKey);
+	}	
+	
 	public void updateListKeyWithBundle() {
 		Enumeration<String> bundleKeys = bundle.getKeys();
 
@@ -565,6 +609,61 @@ public class KeyConverter {
 		return false;
 	}
 
+	private String splitKey(String key, int size) {
+		if (key.length() > size) {
+			return key.substring(0, size);
+		}
+		return key;
+	}
+
+	private void sumSuffix(String key, int count, List<Tkey> list) {
+		for (Tkey k : list ) {
+			if (k.getKey().equals(key)) {
+				k.setSuffixClass(count);
+			}
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private void updateAppearances(String key) {
+		for (Tkey k : listKey ) {
+			if (k.getKey().equals(key)) {
+				k.increaseAppearances();
+			}
+		}
+	}
+
+	// Update the state of the suffixes for each Tkey objects
+	private void updateSuffixMax(String key, List<Tkey> list) {
+		if (!list.isEmpty()) {
+			int count = 0;
+			for (Tkey k : list ) {
+				if (k.getKey().equals(key)) {
+					count++;
+				}
+			}
+			if (count > 1) {
+				sumSuffix(key, count - 1, list);
+				count = 0;
+			}
+		}
+	}
+
+	// It determines if an Tkey object contains a certain key and value
+	private int valueAndKeyInList(String key, String value, List<Tkey> list) {
+		int v = 0;
+		if (isInKeyList(key, list)) {
+			v = 1;
+			if (isValueInKeyList(value, list)) {
+				v = 1;
+			}
+		}
+		else {
+			v = 2;
+		}
+		return v;
+	}
+	
 	private void addKey(StringLiteralExpr key, boolean option) {
 		try {
 			if (key.getValue().length() > 0) {
@@ -665,47 +764,11 @@ public class KeyConverter {
 		}
 	}
 
-	private void addKeyFromBundle(String key, String value) {
-		int suffix = getSuffix(key);
-		String auxKey = key;
-		if (suffix > -1) {
-			auxKey = removeSuffix(key);
-		}
-		else {
-			suffix = 0;
-		}
-
-		Tkey newKey = new Tkey(auxKey, value, javaFileFullClassName, suffix, 0);
-		newKey.decreaseAppearances(2);
-		newKey.setLoadFromBundle(true);
-		listKey.add(newKey);
-		updateSuffixMax(auxKey, listKey);
-	}
-
 	// Obtains the value of each String variable declared in the class
 	/*
 	 * private String getValueById(String id) { for (TStringValue s : listStringValue ) { if (s.getId().equals(id)) { return s.getValue(); } } return
 	 * ""; }
 	 */
-
-	// Stores values of all String variables in each class
-	private void addStringVarValue(String id, String value) {
-		if (value.length() > 0) {
-			if (!isValueInStringValueList(value)) {
-				TStringValue newStringValue = new TStringValue(id, value);
-				listStringValue.add(newStringValue);
-			}
-		}
-	}
-
-	private void addVaadinVars(String id, String type) {
-		if (isVaadinComponent(type)) {
-			if (!isVarInVaadinVarsList(id)) {
-				TVaadinVars newVar = new TVaadinVars(id, type);
-				listVaadinVars.add(newVar);
-			}
-		}
-	}
 
 	private void changeJavaClass(String content, String path) {
 		try {
@@ -851,6 +914,16 @@ public class KeyConverter {
 		return false;
 	}
 
+	// It determines if a text is assigned to a variable of String type in the class
+	private boolean isValueInStringValueList(String value) {
+		for (TStringValue s : listStringValue ) {
+			if (s.getValue().equals(value)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private boolean isInKeyList(String key, List<Tkey> list) {
 		// listKey.contains(k);
 		for (Tkey k : list ) {
@@ -861,6 +934,17 @@ public class KeyConverter {
 		return false;
 	}
 
+	// It determines if any Tkey object contains "value"
+	private boolean isValueInKeyList(String value, List<Tkey> list) {
+		// listKey.contains(k);
+		for (Tkey k : list ) {
+			if (k.getValue().equals(value)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private boolean isNumberParameter(String parameter) {
 		try {
 			Float.parseFloat(parameter);
@@ -873,17 +957,15 @@ public class KeyConverter {
 	}
 
 	private boolean isStringToDiscard(String name) {
-		boolean is = false;
 		for (String element : stringToDiscard ) {
 			if (name.contains(element)) {
-				is = true;
+				return true;
 			}
 		}
-		return is;
+		return false;
 	}
 
 	private boolean isVaadinComponent(String name) {
-
 		for (ImportDeclaration id : lidtarget ) {
 			if (id.getName().getName().equals(name)) {
 				return true;
@@ -909,36 +991,6 @@ public class KeyConverter {
 	 * private boolean isValidMethod(String name) { boolean is = false; for (String validMethod : validMethods ) { if (validMethod.equals(name)) { is
 	 * = true; } } return is; }
 	 */
-
-	// It determines if any Tkey object contains "value"
-	private boolean isValueInKeyList(String value, List<Tkey> list) {
-		// listKey.contains(k);
-		for (Tkey k : list ) {
-			if (k.getValue().equals(value)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	// It determines if a text is assigned to a variable of String type in the class
-	private boolean isValueInStringValueList(String value) {
-		for (TStringValue s : listStringValue ) {
-			if (s.getValue().equals(value)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private boolean isVarInVaadinVarsList(String name) {
-		for (TVaadinVars v : listVaadinVars ) {
-			if (v.getId().equals(name)) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	private void processArgs(MethodCallExpr methodCallE) {
 		List<Expression> largs = methodCallE.getArgs();
@@ -1349,61 +1401,6 @@ public class KeyConverter {
 		for (BodyDeclaration member : members ) {
 			processMember(member);
 		}
-	}
-
-	private String splitKey(String key, int size) {
-		if (key.length() > size) {
-			return key.substring(0, size);
-		}
-		return key;
-	}
-
-	private void sumSuffix(String key, int count, List<Tkey> list) {
-		for (Tkey k : list ) {
-			if (k.getKey().equals(key)) {
-				k.setSuffixClass(count);
-			}
-		}
-	}
-
-	@SuppressWarnings("unused")
-	private void updateAppearances(String key) {
-		for (Tkey k : listKey ) {
-			if (k.getKey().equals(key)) {
-				k.increaseAppearances();
-			}
-		}
-	}
-
-	// Update the state of the suffixes for each Tkey objects
-	private void updateSuffixMax(String key, List<Tkey> list) {
-		if (!list.isEmpty()) {
-			int count = 0;
-			for (Tkey k : list ) {
-				if (k.getKey().equals(key)) {
-					count++;
-				}
-			}
-			if (count > 1) {
-				sumSuffix(key, count - 1, list);
-				count = 0;
-			}
-		}
-	}
-
-	// It determines if an Tkey object contains a certain key and value
-	private int valueAndKeyInList(String key, String value, List<Tkey> list) {
-		int v = 0;
-		if (isInKeyList(key, list)) {
-			v = 1;
-			if (isValueInKeyList(value, list)) {
-				v = 1;
-			}
-		}
-		else {
-			v = 2;
-		}
-		return v;
 	}
 
 	/**
