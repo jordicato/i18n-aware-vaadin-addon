@@ -98,7 +98,7 @@ public class TestVaadinUISupport {
     	absoluteLayout = new AbsoluteLayout();
     	absoluteLayout.setCaption("The_Caption");
     	absoluteLayout.setDescription("The_Caption");    	
-    	verticalLayout = new VAbsoluteLayout();
+    	verticalLayout = new VerticalLayout();
     	verticalLayout.setCaption("The_Caption");
     	verticalLayout.setDescription("The_Caption");    	
     	horizontalLayout = new HorizontalLayout();
@@ -188,7 +188,7 @@ public class TestVaadinUISupport {
     	passwordField.setDescription("The_Caption");
     	passwordField.setRequiredError("The_Caption");    	
     	poputDateField = new PopupDateField("The_Caption");    	
-    	poputView = new PopupView("The_Caption", label);    	
+    	poputView = new PopupView("The_Caption", label);
     	progressIndicator = new ProgressIndicator();
     	progressIndicator.setCaption("The_Caption");
     	progressIndicator.setDescription("The_Caption");

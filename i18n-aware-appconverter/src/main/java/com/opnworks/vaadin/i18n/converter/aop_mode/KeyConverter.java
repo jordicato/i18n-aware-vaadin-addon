@@ -199,20 +199,11 @@ public class KeyConverter {
 	private boolean optionChangeKey;
 	private String javaFileName;
 	private String javaFileFullClassName;
-	// private String varName;
-	private String[] validMethods = { "setCaption", "setDescription", "addComponent", "showNotification", "setDescriptionMessage", "addTab",
-			"setItemCaption", "setCaptionMessage", "setValue", "addOrderToContainer", /* "RuntimeException", */"addItem", "showComponent", "setValue",
-			"setInputPrompt", "getWindow()", "addAction", "setRequiredError", "getMessage" };
-	private String[] validClasses = { /*
-									 * "EmailValidator", "StringLengthValidator", "ShortcutListener", "Action", "Object[]", "Command()", "Command",
-									 * "ShortcutListener"
-									 */};
 	private String[] stringToDiscard = { "<a href=", "alert(", "../", "http://" };
 	private List<Tkey> listKey;
 	private List<TStringValue> listStringValue = new ArrayList<TStringValue>();
 	private List<TVaadinVars> listVaadinVars = new ArrayList<TVaadinVars>();
 	private List<ImportDeclaration> lidtarget;
-	// private String constructorName;
 	private ResourceBundle bundle = null;
 
 	public KeyConverter() {
@@ -245,82 +236,134 @@ public class KeyConverter {
 		if (!className.isEmpty()) {
 			String classN = prefix.endsWith(".") ? prefix.substring(0, prefix.length() - 1) + className : (prefix + className);
 
-			@SuppressWarnings("rawtypes")
-			Class clas = null;
+			Class<?> clas = null;
+
 			try {
 				clas = Class.forName(classN);
 			}
-			catch (ClassNotFoundException e) {
+			catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 
 			try {
 				obj = clas.newInstance();
 			}
 			catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+
 		}
 		return obj;
 	}
 
-	// Its determine if a method called contains literals params marked by the @I18NAwareMessage annotation
-	private boolean isMarkedWithI18NAwareMessage(MethodCallExpr method) {
-		if (!listVaadinVars.isEmpty()) {
-			String methodName = method.getName();
-			String varN = method.getScope() == null ? "" : method.getScope().toString();
-			String vaadinClass = getVaadinVar(varN) == null ? "" : getVaadinVar(varN).getType();
-			Object objeto = getObjectClass(vaadinClass, prefixI18NClass);
-			if (!(objeto == null)) {
-				for (Method singleMethod : objeto.getClass().getMethods() ) {
-					if (singleMethod.getName().equals(methodName) & (singleMethod.getParameterAnnotations().length > 0)) {
-						for (Annotation[] parameterAnnotation : singleMethod.getParameterAnnotations() ) {
-							for (Annotation parameterAnnotation1 : parameterAnnotation ) {
-								if (parameterAnnotation1 instanceof I18NAwareMessage) {
-									commandLineOutput.getOutput().println(
-											"Is instance of I18NAwareMessage -->  Var : " + varN + " --> Method : " + methodName);
-									return true;
-								}
-							}
-						}
-					}
+	private boolean thereIsStringArgs(List<Expression> args) {
+		if (!(args == null)) {
+			for (Expression expr : args ) {
+				if (expr instanceof StringLiteralExpr) {
+					return true;
 				}
 			}
 		}
 		return false;
 	}
 
-	private boolean isMarkedWithI18NAwareMessage(String method) {
-		String methodName = prefixI18NClass + method;
-		Object objeto = getObjectClass(method, prefixI18NClass);
-		if (!(objeto == null)) {
-			for (@SuppressWarnings("rawtypes")
-			Constructor singleConstructor : objeto.getClass().getConstructors() ) {
-				if (singleConstructor.getName().equals(methodName) & (singleConstructor.getParameterAnnotations().length > 0)) {
-					for (Annotation[] parameterAnnotation : singleConstructor.getParameterAnnotations() ) {
-						for (Annotation parameterAnnotation1 : parameterAnnotation ) {
-							if (parameterAnnotation1 instanceof I18NAwareMessage) {
-								commandLineOutput.getOutput().println("Is instance of I18NAwareMessage --> Method : " + method);
-								return true;
+	private class MarkedI18NAwareMessage {
+		boolean mark;
+		List<Integer> paramPos;
+
+		MarkedI18NAwareMessage() {
+			this.mark = false;
+			this.paramPos = new ArrayList<Integer>();
+		}
+	}
+
+	// Its determine if a method called contains literals params marked by the @I18NAwareMessage annotation
+	private MarkedI18NAwareMessage isMarkedWithI18NAwareMessage(MethodCallExpr method) {
+		MarkedI18NAwareMessage marked = new MarkedI18NAwareMessage();
+		if (!listVaadinVars.isEmpty()) {
+			if (thereIsStringArgs(method.getArgs() == null ? new ArrayList<Expression>() : method.getArgs())) {
+				String methodName = method.getName();
+				String varN = method.getScope() == null ? "" : method.getScope().toString();
+				String vaadinClass = getVaadinVar(varN) == null ? "" : getVaadinVar(varN).getType();
+				Object objeto = getObjectClass(vaadinClass, prefixI18NClass);
+				if (!(objeto == null)) {
+					for (Method singleMethod : objeto.getClass().getMethods() ) {
+						String methodNameInClass = "", varName = "";
+						if (singleMethod.getName().equals(methodName)
+								& !(singleMethod.getParameterAnnotations() == null)
+								& ((singleMethod.getParameterTypes() == null) ? false : singleMethod.getParameterTypes().length == method.getArgs()
+										.size())) {
+							marked = new MarkedI18NAwareMessage();
+							for (Annotation[] parameterAnnotation : singleMethod.getParameterAnnotations() ) {
+								marked.paramPos.add(0);
+								for (Annotation parameterAnnotation1 : parameterAnnotation ) {
+									if (parameterAnnotation1 instanceof I18NAwareMessage) {
+										marked.mark = true;
+										marked.paramPos.set(marked.paramPos.size() - 1, 1);
+										methodNameInClass = methodName;
+										varName = varN;
+									}
+								}
 							}
+							commandLineOutput.getOutput().println(
+									(marked.mark ? "Is marked var name: " + varName + " --> Method name: " + methodNameInClass
+											: "Is not marked var name: " + varN + " --> Method name: " + methodName)
+											+ " --> Method Pos: "
+											+ marked.paramPos.toString());
+							return marked;
 						}
 					}
 				}
 			}
 		}
-		return false;
+		return marked;
+	}
+
+	private MarkedI18NAwareMessage isMarkedWithI18NAwareMessage(ObjectCreationExpr method) {
+		MarkedI18NAwareMessage marked = new MarkedI18NAwareMessage();
+		String methodName = prefixI18NClass + method.getType().toString();
+		Object objeto = getObjectClass(method.getType().toString(), prefixI18NClass);
+		if (!(objeto == null)) {
+			for (Constructor<?> singleConstructor : objeto.getClass().getConstructors() ) {
+				String constructorNameInClass = "";
+				if ((singleConstructor.getName().equals(methodName))
+						& (((method.getArgs() == null) | (singleConstructor.getParameterTypes() == null)) ? false : singleConstructor
+								.getParameterTypes().length == method.getArgs().size())) {
+					marked = new MarkedI18NAwareMessage();
+					for (Annotation[] parameterAnnotation : singleConstructor.getParameterAnnotations() ) {
+						marked.paramPos.add(0);
+						for (Annotation parameterAnnotation1 : parameterAnnotation ) {
+							if (parameterAnnotation1 instanceof I18NAwareMessage) {
+								marked.mark = true;
+								marked.paramPos.set(marked.paramPos.size() - 1, 1);
+								constructorNameInClass = method.getType().toString();
+							}
+						}
+					}
+					commandLineOutput.getOutput().println(
+							(marked.mark ? "Is marked constructor name: " + constructorNameInClass : "Is not marked constructor name: " + methodName)
+									+ " --> Method Pos: " + marked.paramPos.toString());
+					return marked;
+				}
+			}
+		}
+		return marked;
 	}
 
 	public void restructureListKey() {
 		// It was necessary to make it of this way because eliminating directly from the listKey doesn't work well
 		List<Tkey> auxListKey = new ArrayList<Tkey>();
-
 		for (int i = 0; i < listKey.size(); i++ ) {
 			if (listKey.get(i).getKeep()) {
 				auxListKey.add(listKey.get(i));
 			}
 		}
-
 		listKey.clear();
 		listKey = auxListKey;
 	}
@@ -336,7 +379,6 @@ public class KeyConverter {
 			// TODO: handle exception
 			return false;
 		}
-
 		return true;
 	}
 
@@ -369,7 +411,6 @@ public class KeyConverter {
 				suffix = s + suffix;
 			}
 		}
-
 		try {
 			return Integer.parseInt(suffix);
 		}
@@ -390,11 +431,9 @@ public class KeyConverter {
 	}
 
 	public boolean isKey(String key) {
-
 		if ((key.length() < 25) & (!key.contains("_"))) {
 			return false;
 		}
-
 		for (int i = 0; i < key.length(); i++ ) {
 			String ss = key.substring(i, i + 1);
 			if (("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.".indexOf(ss) < 0)) {
@@ -434,9 +473,6 @@ public class KeyConverter {
 				if (name.startsWith("com.vaadin.ui.")) {
 					lidtarget.add(id);
 				}
-				else if (isValidClass(name)) {
-					lidtarget.add(id);
-				}
 			}
 		}
 
@@ -461,7 +497,6 @@ public class KeyConverter {
 
 		if (listKey.isEmpty()) {
 			boolean exist = existBundle(pathBundle, bundleName);
-
 			if (exist) {
 				updateListKeyWithBundle();
 			}
@@ -660,7 +695,6 @@ public class KeyConverter {
 				TStringValue newStringValue = new TStringValue(id, value);
 				listStringValue.add(newStringValue);
 			}
-
 		}
 	}
 
@@ -721,9 +755,9 @@ public class KeyConverter {
 	 */
 
 	private StringLiteralExpr extactExprCaption(ObjectCreationExpr exp) {
-		Type type = exp.getType();
-		if (isVaadinComponent(type.toString())) {
-			isMarkedWithI18NAwareMessage(type.toString());
+		// if (isVaadinComponent(type.toString()) & !(exp.getArgs() == null)) {
+		if ((exp.getArgs() == null) ? false : isMarkedWithI18NAwareMessage(exp).mark) {
+			// isMarkedWithI18NAwareMessage(exp);
 			boolean flag = false;
 
 			try {
@@ -861,30 +895,20 @@ public class KeyConverter {
 		return false;
 	}
 
-	private boolean isValidClass(String name) {
-		boolean is = false;
-		for (String validClasse : validClasses ) {
-			if (name.endsWith(validClasse)) {
-				is = true;
-			}
-		}
-		return is;
-	}
+	/*
+	 * private boolean isValidClass(String name) { boolean is = false; for (String validClasse : validClasses ) { if (name.endsWith(validClasse)) { is
+	 * = true; } } return is; }
+	 */
 
 	/*
 	 * private int generateKeyNumber(String caption) { int sum = 0; for (int i = 0; i < caption.length(); i++ ) { int I = caption.charAt(i); sum = sum
 	 * + I; } return sum; }
 	 */
 
-	private boolean isValidMethod(String name) {
-		boolean is = false;
-		for (String validMethod : validMethods ) {
-			if (validMethod.equals(name)) {
-				is = true;
-			}
-		}
-		return is;
-	}
+	/*
+	 * private boolean isValidMethod(String name) { boolean is = false; for (String validMethod : validMethods ) { if (validMethod.equals(name)) { is
+	 * = true; } } return is; }
+	 */
 
 	// It determines if any Tkey object contains "value"
 	private boolean isValueInKeyList(String value, List<Tkey> list) {
@@ -918,9 +942,9 @@ public class KeyConverter {
 
 	private void processArgs(MethodCallExpr methodCallE) {
 		List<Expression> largs = methodCallE.getArgs();
-		String methodName = methodCallE.getName();
-		isMarkedWithI18NAwareMessage(methodCallE);
-		if (isValidMethod(methodName)) {
+		// String methodName = methodCallE.getName();
+		if (isMarkedWithI18NAwareMessage(methodCallE).mark) {
+			// if (isValidMethod(methodName)) {
 			if (largs != null) {
 				for (int i = 0; i < largs.size(); i++ ) {
 					if (largs.get(i) instanceof ObjectCreationExpr) {
@@ -1100,7 +1124,6 @@ public class KeyConverter {
 		}
 
 		return true;
-
 	}
 
 	@SuppressWarnings("unused")
@@ -1210,7 +1233,6 @@ public class KeyConverter {
 			}
 
 			processBlockStmt(blockStmk);
-
 		}
 	}
 
@@ -1311,10 +1333,8 @@ public class KeyConverter {
 		}
 		else if (statement instanceof ThrowStmt || statement instanceof BreakStmt || statement instanceof ContinueStmt) {
 			// do nothing (for now)
-
 		}
 		else {
-
 			// throw new RuntimeException("Not supported stmt " + statement.getClass());
 		}
 	}
@@ -1398,5 +1418,4 @@ public class KeyConverter {
 			}
 		}
 	}
-
 }
