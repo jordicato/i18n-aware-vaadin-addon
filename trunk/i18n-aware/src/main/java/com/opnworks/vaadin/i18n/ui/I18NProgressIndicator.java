@@ -2,10 +2,12 @@ package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
+import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
+import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.vaadin.data.Property;
 import com.vaadin.ui.ProgressIndicator;
 
@@ -16,10 +18,12 @@ import com.vaadin.ui.ProgressIndicator;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NProgressIndicator extends ProgressIndicator implements I18NAwareComponent, I18NAwareCaption {
+public class I18NProgressIndicator extends ProgressIndicator implements I18NAwareComponent, I18NAwareCaption, I18NAwareField {
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 
+	private I18NAwareFieldSupport i18NAwareFieldSupport;
+	
 	/**
 	 * Creates an a new i18n ProgressIndicator.
 	 */
@@ -71,6 +75,21 @@ public class I18NProgressIndicator extends ProgressIndicator implements I18NAwar
 	}
 
 	@Override
+	public void setRequiredError(@I18NAwareMessage String requiredErrorKey) {
+		setRequiredErrorMessage(requiredErrorKey);
+	}
+
+	@Override
+	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
+		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
+	}
+
+	@Override
+	public void setRealRequiredError(String requiredMessage) {
+		super.setRequiredError(requiredMessage);
+	}
+	
+	@Override
 	public void setRealCaption(String caption) {
 		super.setCaption(caption);
 	}
@@ -80,4 +99,12 @@ public class I18NProgressIndicator extends ProgressIndicator implements I18NAwar
 		super.setDescription(description);
 	}
 
+	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
+
+		if (i18NAwareFieldSupport == null) {
+			i18NAwareFieldSupport = new I18NAwareFieldSupport(this);
+		}
+
+		return i18NAwareFieldSupport;
+	}
 }
