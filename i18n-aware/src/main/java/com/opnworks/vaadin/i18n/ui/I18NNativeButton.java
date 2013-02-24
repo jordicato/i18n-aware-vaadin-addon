@@ -1,11 +1,10 @@
 package com.opnworks.vaadin.i18n.ui;
 
-import com.opnworks.vaadin.i18n.I18NAwareCaption;
-import com.opnworks.vaadin.i18n.I18NAwareComponent;
+import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
+import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.vaadin.ui.NativeButton;
 
 /**
@@ -15,32 +14,32 @@ import com.vaadin.ui.NativeButton;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings({ "serial", "unchecked" })
-public class I18NNativeButton extends NativeButton implements I18NAwareComponent, I18NAwareCaption {
-
-	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
-
+public class I18NNativeButton extends NativeButton implements I18NAwareField {
+	
+	private I18NAwareFieldSupport i18NAwareFieldSupport;
+	
 	public I18NNativeButton() {
 		super();
 	}
 
 	public I18NNativeButton(@I18NAwareMessage String captionKey) {
 		super(captionKey);
-		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey);
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
 	}
 
 	public I18NNativeButton(@I18NAwareMessage String captionKey, ClickListener listener) {
 		super(captionKey, listener);
-		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey);
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
 	}
 
 	public I18NNativeButton(@I18NAwareMessage String captionKey, Object target, String methodName) {
 		super(captionKey, target, methodName);
-		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey);
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
 	}
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		getI18NAwareComponentCaptionSupport().i18NUpdate(i18N);
+		getI18NAwareFieldSupport().i18NUpdate(i18N);
 	}
 
 	@Override
@@ -50,7 +49,7 @@ public class I18NNativeButton extends NativeButton implements I18NAwareComponent
 
 	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey, params);
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
 	}
 
 	@Override
@@ -60,9 +59,19 @@ public class I18NNativeButton extends NativeButton implements I18NAwareComponent
 
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
-		getI18NAwareComponentCaptionSupport().setDescriptionMessage(descriptionKey, descriptionParams);
+		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
+	@Override
+	public void setRequiredError(@I18NAwareMessage String requiredErrorKey) {
+		setRequiredErrorMessage(requiredErrorKey);
+	}
+
+	@Override
+	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
+		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
+	}
+	
 	@Override
 	public void setRealCaption(String caption) {
 		super.setCaption(caption);
@@ -72,13 +81,18 @@ public class I18NNativeButton extends NativeButton implements I18NAwareComponent
 	public void setRealDescription(String description) {
 		super.setDescription(description);
 	}
+	
+	@Override
+	public void setRealRequiredError(String requiredError) {
+		super.setRequiredError(requiredError);		
+	}
+			
+	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
 
-	private I18NAwareComponentCaptionSupport getI18NAwareComponentCaptionSupport() {
-
-		if (i18NAwareComponentCaptionSupport == null) {
-			i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
+		if (i18NAwareFieldSupport == null) {
+			i18NAwareFieldSupport = new I18NAwareFieldSupport(this);
 		}
 
-		return i18NAwareComponentCaptionSupport;
+		return i18NAwareFieldSupport;
 	}
 }
