@@ -291,9 +291,9 @@ public class KeyConverter {
 				String methodName = method.getName();
 				String varN = method.getScope() == null ? "" : method.getScope().toString();
 				String vaadinClass = getVaadinVar(varN) == null ? "" : getVaadinVar(varN).getType();
-				Object objeto = getObjectClass(vaadinClass, prefixI18NClass);
-				if (!(objeto == null)) {
-					for (Method singleMethod : objeto.getClass().getMethods() ) {
+				Object object = getObjectClass(vaadinClass, prefixI18NClass);
+				if (!(object == null)) {
+					for (Method singleMethod : object.getClass().getMethods() ) {
 						String methodNameInClass = "", varName = "";
 						if (singleMethod.getName().equals(methodName)
 								& !(singleMethod.getParameterAnnotations() == null)
@@ -328,9 +328,9 @@ public class KeyConverter {
 	private MarkedI18NAwareMessage isMarkedWithI18NAwareMessage(ObjectCreationExpr method) {
 		MarkedI18NAwareMessage marked = new MarkedI18NAwareMessage();
 		String methodName = prefixI18NClass + method.getType().toString();
-		Object objeto = getObjectClass(method.getType().toString(), prefixI18NClass);
-		if (!(objeto == null)) {
-			for (Constructor<?> singleConstructor : objeto.getClass().getConstructors() ) {
+		Object object = getObjectClass(method.getType().toString(), prefixI18NClass);
+		if (!(object == null)) {
+			for (Constructor<?> singleConstructor : object.getClass().getConstructors() ) {
 				String constructorNameInClass = "";
 				if ((singleConstructor.getName().equals(methodName))
 						& (((method.getArgs() == null) | (singleConstructor.getParameterTypes() == null)) ? false : singleConstructor
