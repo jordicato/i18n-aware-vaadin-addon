@@ -222,6 +222,7 @@ public class KeyConverter {
 		return null;
 	}
 
+	//Its return the vaadin var in declared in source that matches with id param
 	private VaadinVars getVaadinVar(String id) {
 		if (!id.equals("")) {
 			for (VaadinVars vaadinVar : listVaadinVars ) {
