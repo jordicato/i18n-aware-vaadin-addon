@@ -1,10 +1,12 @@
 package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
+import com.opnworks.vaadin.i18n.I18NAwareComponent;
 import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
+import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport.CaptionContainer;
@@ -17,9 +19,9 @@ import com.vaadin.ui.LoginForm;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NLoginForm extends LoginForm implements I18NAwareCaption {
+public class I18NLoginForm extends LoginForm implements I18NAwareCaption, I18NAwareComponent {
 
-	private I18NAwareFieldSupport i18NAwareFieldSupport;
+	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 	
 	private I18NCaptionSupport captionSupport = new I18NCaptionSupport(new CaptionContainer() {
 		@Override
@@ -64,7 +66,17 @@ public class I18NLoginForm extends LoginForm implements I18NAwareCaption {
 
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
-		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey);
+		setDescriptionMessage(descriptionKey);
+	}
+	
+	@Override
+	public void setDescriptionMessage(String descriptionKey, Object... descriptionParams) {
+		getI18NAwareComponentCaptionSupport().setDescriptionMessage(descriptionKey, descriptionParams);
+	}
+
+	@Override
+	public void setRealDescription(String description) {
+		super.setDescription(description);
 	}
 	
 	@Override
@@ -101,12 +113,12 @@ public class I18NLoginForm extends LoginForm implements I18NAwareCaption {
 		usernameCaptionSupport.setCaptionMessage(usernameCaptionKey);
 	}
 	
-	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
+	private I18NAwareComponentCaptionSupport getI18NAwareComponentCaptionSupport() {
 
-		if (i18NAwareFieldSupport == null) {
-			i18NAwareFieldSupport = new I18NAwareFieldSupport((I18NAwareField) this);
+		if (i18NAwareComponentCaptionSupport == null) {
+			i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 		}
 
-		return i18NAwareFieldSupport;
+		return i18NAwareComponentCaptionSupport;
 	}
 }
