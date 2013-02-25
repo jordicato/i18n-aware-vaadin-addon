@@ -2,10 +2,12 @@ package com.opnworks.vaadin.i18n.ui;
 
 import java.util.Collection;
 
+import com.opnworks.vaadin.i18n.I18NAwareComponent;
 import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
+import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.vaadin.data.Container;
 import com.vaadin.ui.ComboBox;
@@ -17,7 +19,7 @@ import com.vaadin.ui.ComboBox;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NComboBox extends ComboBox implements I18NAwareField {
+public class I18NComboBox extends ComboBox implements I18NAwareField, I18NAwareComponent {
 
 	private I18NAwareFieldSupport i18NAwareFieldSupport;
 
@@ -73,8 +75,7 @@ public class I18NComboBox extends ComboBox implements I18NAwareField {
 
 	@Override
 	public void setItemCaption(Object itemId, @I18NAwareMessage String itemKey) {
-		super.setItemCaption(itemId, itemKey);
-		setCaptionMessage(itemKey);	
+		setCaptionMessage(itemKey);
 	}
 	
 	@Override
@@ -110,4 +111,5 @@ public class I18NComboBox extends ComboBox implements I18NAwareField {
 
 		return i18NAwareFieldSupport;
 	}
+	
 }
