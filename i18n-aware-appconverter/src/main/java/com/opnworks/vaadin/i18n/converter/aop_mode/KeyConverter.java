@@ -327,29 +327,32 @@ public class KeyConverter {
 
 	private MarkedI18NAwareMessage isMarkedWithI18NAwareMessage(ObjectCreationExpr method) {
 		MarkedI18NAwareMessage marked = new MarkedI18NAwareMessage();
-		String methodName = prefixI18NClass + method.getType().toString();
-		Object object = getObjectClass(method.getType().toString(), prefixI18NClass);
-		if (!(object == null)) {
-			for (Constructor<?> singleConstructor : object.getClass().getConstructors() ) {
-				String constructorNameInClass = "";
-				if ((singleConstructor.getName().equals(methodName))
-						& (((method.getArgs() == null) | (singleConstructor.getParameterTypes() == null)) ? false : singleConstructor
-								.getParameterTypes().length == method.getArgs().size())) {
-					marked = new MarkedI18NAwareMessage();
-					for (Annotation[] parameterAnnotation : singleConstructor.getParameterAnnotations() ) {
-						marked.paramPos.add(0);
-						for (Annotation parameterAnnotation1 : parameterAnnotation ) {
-							if (parameterAnnotation1 instanceof I18NAwareMessage) {
-								marked.mark = true;
-								marked.paramPos.set(marked.paramPos.size() - 1, 1);
-								constructorNameInClass = method.getType().toString();
+		if (thereIsStringArgs(method.getArgs() == null ? new ArrayList<Expression>() : method.getArgs())) {
+			String methodName = prefixI18NClass + method.getType().toString();
+			Object object = getObjectClass(method.getType().toString(), prefixI18NClass);
+			if (!(object == null)) {
+				for (Constructor<?> singleConstructor : object.getClass().getConstructors() ) {
+					String constructorNameInClass = "";
+					if ((singleConstructor.getName().equals(methodName))
+							& (((method.getArgs() == null) | (singleConstructor.getParameterTypes() == null)) ? false : singleConstructor
+									.getParameterTypes().length == method.getArgs().size()) & !(singleConstructor.getParameterAnnotations() == null)) {
+						marked = new MarkedI18NAwareMessage();
+						for (Annotation[] parameterAnnotation : singleConstructor.getParameterAnnotations() ) {
+							marked.paramPos.add(0);
+							for (Annotation parameterAnnotation1 : parameterAnnotation ) {
+								if (parameterAnnotation1 instanceof I18NAwareMessage) {
+									marked.mark = true;
+									marked.paramPos.set(marked.paramPos.size() - 1, 1);
+									constructorNameInClass = method.getType().toString();
+								}
 							}
 						}
+						commandLineOutput.getOutput().println(
+								(marked.mark ? "Is marked constructor name: " + constructorNameInClass : "Is not marked constructor name: "
+										+ methodName)
+										+ " --> Method Pos: " + marked.paramPos.toString());
+						return marked;
 					}
-					commandLineOutput.getOutput().println(
-							(marked.mark ? "Is marked constructor name: " + constructorNameInClass : "Is not marked constructor name: " + methodName)
-									+ " --> Method Pos: " + marked.paramPos.toString());
-					return marked;
 				}
 			}
 		}
@@ -564,7 +567,7 @@ public class KeyConverter {
 		}
 		return false;
 	}
-	
+
 	private void addVaadinVars(String id, String type) {
 		if (isVaadinComponent(type)) {
 			if (!isVarInVaadinVarsList(id)) {
@@ -572,8 +575,8 @@ public class KeyConverter {
 				listVaadinVars.add(newVar);
 			}
 		}
-	}	
-	
+	}
+
 	private void addKeyFromBundle(String key, String value) {
 		int suffix = getSuffix(key);
 		String auxKey = key;
@@ -589,8 +592,8 @@ public class KeyConverter {
 		newKey.setLoadFromBundle(true);
 		listKey.add(newKey);
 		updateSuffixMax(auxKey, listKey);
-	}	
-	
+	}
+
 	public void updateListKeyWithBundle() {
 		Enumeration<String> bundleKeys = bundle.getKeys();
 
@@ -663,7 +666,7 @@ public class KeyConverter {
 		}
 		return v;
 	}
-	
+
 	private void addKey(StringLiteralExpr key, boolean option) {
 		try {
 			if (key.getValue().length() > 0) {
@@ -819,7 +822,7 @@ public class KeyConverter {
 
 	private StringLiteralExpr extactExprCaption(ObjectCreationExpr exp) {
 		// if (isVaadinComponent(type.toString()) & !(exp.getArgs() == null)) {
-		if ((exp.getArgs() == null) ? false : isMarkedWithI18NAwareMessage(exp).mark) {
+		if (isMarkedWithI18NAwareMessage(exp).mark) {
 			// isMarkedWithI18NAwareMessage(exp);
 			boolean flag = false;
 
@@ -923,7 +926,7 @@ public class KeyConverter {
 		}
 		return false;
 	}
-	
+
 	private boolean isInKeyList(String key, List<Tkey> list) {
 		// listKey.contains(k);
 		for (Tkey k : list ) {
@@ -944,7 +947,7 @@ public class KeyConverter {
 		}
 		return false;
 	}
-	
+
 	private boolean isNumberParameter(String parameter) {
 		try {
 			Float.parseFloat(parameter);
