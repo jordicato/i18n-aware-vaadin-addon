@@ -222,7 +222,7 @@ public class KeyConverter {
 		return null;
 	}
 
-	//Its return the vaadin var in declared in source that matches with id param
+	// Its return the vaadin var in declared in source that matches with id param
 	private VaadinVars getVaadinVar(String id) {
 		if (!id.equals("")) {
 			for (VaadinVars vaadinVar : listVaadinVars ) {
@@ -234,7 +234,7 @@ public class KeyConverter {
 		return null;
 	}
 
-	//Its return any I18NAware class that matches with the vaadin clasName param, otherwise return a null class 
+	// Its return any I18NAware class that matches with the vaadin clasName param, otherwise return a null class
 	private Class<?> getMatchingI18NClass(String className) {
 		Class<?> clas = null;
 		if (!className.isEmpty()) {
@@ -251,7 +251,7 @@ public class KeyConverter {
 		return clas;
 	}
 
-	//Its determine if some parameter constructor types is String 
+	// Its determine if some parameter constructor types is String
 	private boolean existStringParamType(Constructor<?> constructor) {
 		for (Class<?> type : constructor.getParameterTypes() ) {
 			try {
@@ -261,13 +261,14 @@ public class KeyConverter {
 			}
 			catch (ClassNotFoundException e) {
 				ConverterException converterException = new ConverterException(e);
-				commandLineOutput.getOutput().println("Class: " + type.getName() + " not found, cause: " + converterException.getCause().getMessage());
+				commandLineOutput.getOutput()
+						.println("Class: " + type.getName() + " not found, cause: " + converterException.getCause().getMessage());
 			}
 		}
 		return false;
 	}
 
-	//Its determine if some args in expression are instance of StringLiteralExpr
+	// Its determine if some args in expression are instance of StringLiteralExpr
 	private boolean thereIsStringArgs(List<Expression> args) {
 		if (!(args == null)) {
 			for (Expression expr : args ) {
@@ -285,7 +286,7 @@ public class KeyConverter {
 	 * MarkedI18NAwareMessage() { this.mark = false; this.paramPos = new ArrayList<Integer>(); } }
 	 */
 
-	//Its determine if a method called contains literals params marked by the @I18NAwareMessage annotation
+	// Its determine if a method called contains literals params marked by the @I18NAwareMessage annotation
 	private List<Boolean> getI18NAwareMessageParamsPositions(MethodCallExpr method) {
 		List<Boolean> paramPositions = new ArrayList<Boolean>();
 		if (listVaadinVars.isEmpty()) {
@@ -328,7 +329,7 @@ public class KeyConverter {
 		return new ArrayList<Boolean>();
 	}
 
-	//Its determine if some parameters in constructor contains literals params marked by the @I18NAwareMessage annotation
+	// Its determine if some parameters in constructor contains literals params marked by the @I18NAwareMessage annotation
 	private List<Boolean> getI18NAwareMessageParamsPositions(ObjectCreationExpr method) {
 		List<Boolean> paramPositions = new ArrayList<Boolean>();
 		if (method.getArgs() != null && thereIsStringArgs(method.getArgs())) {
@@ -361,7 +362,7 @@ public class KeyConverter {
 		return new ArrayList<Boolean>();
 	}
 
-	//Its keeps in listKey only the keys that are used in source
+	// Its keeps in listKey only the keys that are used in source
 	public void restructureLisKey() {
 		// It was necessary to make it of this way because eliminating directly from the lisKey doesn't work well
 		List<Key> auxLisKey = new ArrayList<Key>();
@@ -374,7 +375,7 @@ public class KeyConverter {
 		lisKey = auxLisKey;
 	}
 
-	//Its determine if exist a bundle with resourceName in resourcePath and in this case it is loaded
+	// Its determine if exist a bundle with resourceName in resourcePath and in this case it is loaded
 	public boolean existBundle(String resourcePath, String resourceName) {
 		try {
 			File file = new File(resourcePath);
@@ -407,7 +408,7 @@ public class KeyConverter {
 		return lisKey;
 	}
 
-	//Its return the suffix for any key in bundle in case of having it
+	// Its return the suffix for any key in bundle in case of having it
 	public int getSuffix(String key) {
 		String suffix = "";
 		for (int i = key.length(); i > 0; i-- ) {
@@ -427,7 +428,7 @@ public class KeyConverter {
 		}
 	}
 
-	//Its determine if a String param is translatable
+	// Its determine if a String param is translatable
 	public boolean isTranslatable(String key) {
 		int count = 0;
 		for (int i = 0; i < key.length(); i++ ) {
@@ -439,7 +440,7 @@ public class KeyConverter {
 		return (key.length() - count) > 2;
 	}
 
-	//Its determine if a param is a key
+	// Its determine if a param is a key
 	public boolean isKey(String key) {
 		if ((key.length() < 25) & (!key.contains("_"))) {
 			return false;
@@ -544,7 +545,7 @@ public class KeyConverter {
 		}
 	}
 
-	//Its remove the suffix for any key
+	// Its remove the suffix for any key
 	public String removeSuffix(String key) {
 		String suffix = String.valueOf(getSuffix(key));
 		if (!suffix.equals("-1")) {
@@ -567,7 +568,7 @@ public class KeyConverter {
 		}
 	}
 
-	//Its determine if exist a va in listVaadinVars with id equal name param
+	// Its determine if exist a va in listVaadinVars with id equal name param
 	private boolean isVarInVaadinVarsList(String name) {
 		for (VaadinVars v : listVaadinVars ) {
 			if (v.getId().equals(name)) {
@@ -577,7 +578,7 @@ public class KeyConverter {
 		return false;
 	}
 
-	//Its add the vaadin vars in source to listVaadinVars
+	// Its add the vaadin vars in source to listVaadinVars
 	private void addVaadinVars(String id, String type) {
 		if (isVaadinComponent(type)) {
 			if (!isVarInVaadinVarsList(id)) {
@@ -614,7 +615,7 @@ public class KeyConverter {
 		}
 	}
 
-	//Its determine if a key was generated by this utilitarian
+	// Its determine if a key was generated by this utilitarian
 	private boolean isKeyGeneratedBySystem(String key) {
 		String auxKey = generateKey(getCompleteKey(key).getValue());
 		if (removeSuffix(key).equals(auxKey)) {
@@ -678,6 +679,7 @@ public class KeyConverter {
 		return v;
 	}
 
+	// Its add the corresponding key to a text to listKey, if key already is a key, return the corresponding text to source
 	private void addKey(StringLiteralExpr key, boolean option) {
 		try {
 			if (key.getValue().length() > 0) {
