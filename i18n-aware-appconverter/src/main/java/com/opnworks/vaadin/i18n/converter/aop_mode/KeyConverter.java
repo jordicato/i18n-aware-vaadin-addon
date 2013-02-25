@@ -233,6 +233,7 @@ public class KeyConverter {
 		return null;
 	}
 
+	//Its return any I18NAware class that matches with the vaadin clasName param, otherwise return a null class 
 	private Class<?> getMatchingI18NClass(String className) {
 		Class<?> clas = null;
 		if (!className.isEmpty()) {
@@ -243,12 +244,13 @@ public class KeyConverter {
 			}
 			catch (ClassNotFoundException e) {
 				ConverterException converterException = new ConverterException(e);
-				commandLineOutput.getOutput().println("Class: " + classNameAux + " not found,  cause: " + converterException.getCause().getMessage());
+				commandLineOutput.getOutput().println("Class: " + classNameAux + " not found, cause: " + converterException.getCause().getMessage());
 			}
 		}
 		return clas;
 	}
 
+	//Its determine if some parameter constructor types is String 
 	private boolean existStringParamType(Constructor<?> constructor) {
 		for (Class<?> type : constructor.getParameterTypes() ) {
 			try {
@@ -258,12 +260,13 @@ public class KeyConverter {
 			}
 			catch (ClassNotFoundException e) {
 				ConverterException converterException = new ConverterException(e);
-				commandLineOutput.getOutput().println("Class: " + type.getName() + " not found,  cause: " + converterException.getCause().getMessage());
+				commandLineOutput.getOutput().println("Class: " + type.getName() + " not found, cause: " + converterException.getCause().getMessage());
 			}
 		}
 		return false;
 	}
 
+	//Its determine if some args in expression are instance of StringLiteralExpr
 	private boolean thereIsStringArgs(List<Expression> args) {
 		if (!(args == null)) {
 			for (Expression expr : args ) {
@@ -281,7 +284,7 @@ public class KeyConverter {
 	 * MarkedI18NAwareMessage() { this.mark = false; this.paramPos = new ArrayList<Integer>(); } }
 	 */
 
-	// Its determine if a method called contains literals params marked by the @I18NAwareMessage annotation
+	//Its determine if a method called contains literals params marked by the @I18NAwareMessage annotation
 	private List<Boolean> getI18NAwareMessageParamsPositions(MethodCallExpr method) {
 		List<Boolean> paramPositions = new ArrayList<Boolean>();
 		if (listVaadinVars.isEmpty()) {
@@ -324,6 +327,7 @@ public class KeyConverter {
 		return new ArrayList<Boolean>();
 	}
 
+	//Its determine if some parameters in constructor contains literals params marked by the @I18NAwareMessage annotation
 	private List<Boolean> getI18NAwareMessageParamsPositions(ObjectCreationExpr method) {
 		List<Boolean> paramPositions = new ArrayList<Boolean>();
 		if (method.getArgs() != null && thereIsStringArgs(method.getArgs())) {
@@ -356,6 +360,7 @@ public class KeyConverter {
 		return new ArrayList<Boolean>();
 	}
 
+	//Its keeps in listKey only the keys that are used in source
 	public void restructureLisKey() {
 		// It was necessary to make it of this way because eliminating directly from the lisKey doesn't work well
 		List<Key> auxLisKey = new ArrayList<Key>();
@@ -368,6 +373,7 @@ public class KeyConverter {
 		lisKey = auxLisKey;
 	}
 
+	//Its determine if exist a bundle with resourceName in resourcePath and in this case it is loaded
 	public boolean existBundle(String resourcePath, String resourceName) {
 		try {
 			File file = new File(resourcePath);
