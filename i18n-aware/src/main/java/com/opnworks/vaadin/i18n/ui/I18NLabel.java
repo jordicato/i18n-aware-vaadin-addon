@@ -2,11 +2,13 @@ package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
+import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NAwareValue;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
+import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.ValueContainer;
 import com.vaadin.data.Property;
@@ -21,13 +23,15 @@ import com.vaadin.ui.Label;
 @SuppressWarnings({ "unchecked", "serial" })
 public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCaption, I18NAwareValue, ValueContainer {
 
+	private I18NAwareFieldSupport i18NAwareFieldSupport;
+	
 	private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(this);
 
 	private I18NAwareValueSupport i18NDescriptionSupport = new I18NAwareValueSupport(new ValueContainer() {
 		@Override
 		public void setValue(String value) {
 			setDescription(value);
-
+			
 		}
 	});
 
@@ -111,7 +115,7 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
-		i18NDescriptionSupport.setValueMessage(descriptionKey, descriptionParams);
+		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
@@ -144,5 +148,14 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 		if (i18NAwareValueSupport == null) {
 			i18NAwareValueSupport = new I18NAwareValueSupport(this);
 		}
+	}
+	
+	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
+
+		if (i18NAwareFieldSupport == null) {
+			i18NAwareFieldSupport = new I18NAwareFieldSupport((I18NAwareField) this);
+		}
+
+		return i18NAwareFieldSupport;
 	}
 }
