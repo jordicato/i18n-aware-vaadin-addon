@@ -66,7 +66,9 @@ import java.util.ResourceBundle;
 import javax.lang.model.type.PrimitiveType;
 
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
+import com.opnworks.vaadin.i18n.converter.ConverterException;
 import com.opnworks.vaadin.i18n.converter.main.CommandLineOutput;
+import com.vaadin.data.util.filter.IsNull;
 
 /**
  * Class to get all vaadin widgets captions key
@@ -75,7 +77,7 @@ import com.opnworks.vaadin.i18n.converter.main.CommandLineOutput;
  * 
  */
 public class KeyConverter {
-	public class Tkey {
+	public class Key {
 		private String key;
 		private String completeKey;
 		private String value;
@@ -87,7 +89,7 @@ public class KeyConverter {
 		private boolean keep;
 		private boolean loadFromBundle;
 
-		public Tkey(String key, String value, String fullClassName, int suffix, int maxSuffixClass) {
+		public Key(String key, String value, String fullClassName, int suffix, int maxSuffixClass) {
 			if (suffix > 0) {
 				this.completeKey = key + "_" + suffix;
 			}
@@ -112,7 +114,7 @@ public class KeyConverter {
 			return this.completeKey;
 		}
 
-		public String getKey() {
+		public String geKey() {
 			return this.key;
 		}
 
@@ -158,11 +160,11 @@ public class KeyConverter {
 
 	}
 
-	class TStringValue {
+	class StringValue {
 		private String id;
 		private String value;
 
-		public TStringValue(String id, String value) {
+		public StringValue(String id, String value) {
 			this.id = id;
 			this.value = value;
 		}
@@ -176,11 +178,11 @@ public class KeyConverter {
 		}
 	}
 
-	class TVaadinVars {
+	class VaadinVars {
 		private String id;
 		private String type;
 
-		public TVaadinVars(String id, String type) {
+		public VaadinVars(String id, String type) {
 			this.id = id;
 			this.type = type;
 		}
@@ -194,35 +196,35 @@ public class KeyConverter {
 		}
 	}
 
-	private static String prefixI18NClass = "com.opnworks.vaadin.i18n.ui.I18N";
+	private static String PREFIX_I18NAWARE_CLASS = "com.opnworks.vaadin.i18n.ui.I18N";
 	private CommandLineOutput commandLineOutput = new CommandLineOutput();
 	private boolean optionChangeKey;
 	private String javaFileName;
 	private String javaFileFullClassName;
 	private String[] stringToDiscard = { "<a href=", "alert(", "../", "http://" };
-	private List<Tkey> listKey;
-	private List<TStringValue> listStringValue = new ArrayList<TStringValue>();
-	private List<TVaadinVars> listVaadinVars = new ArrayList<TVaadinVars>();
+	private List<Key> lisKey;
+	private List<StringValue> lisStringValue = new ArrayList<StringValue>();
+	private List<VaadinVars> listVaadinVars = new ArrayList<VaadinVars>();
 	private List<ImportDeclaration> lidtarget;
 	private ResourceBundle bundle = null;
 
 	public KeyConverter() {
-		listKey = new ArrayList<Tkey>();
+		lisKey = new ArrayList<Key>();
 	}
 
-	// To obtain the Tkey object that contain a certain key
-	public Tkey getKey(String key) {
-		for (Tkey k : listKey ) {
-			if (k.getKey().equals(key)) {
+	// To obtain the Key object that contain a certain key
+	public Key geKey(String key) {
+		for (Key k : lisKey ) {
+			if (k.geKey().equals(key)) {
 				return k;
 			}
 		}
 		return null;
 	}
 
-	private TVaadinVars getVaadinVar(String id) {
+	private VaadinVars getVaadinVar(String id) {
 		if (!id.equals("")) {
-			for (TVaadinVars vaadinVar : listVaadinVars ) {
+			for (VaadinVars vaadinVar : listVaadinVars ) {
 				if (vaadinVar.getId().equals(id.toString())) {
 					return vaadinVar;
 				}
@@ -231,35 +233,35 @@ public class KeyConverter {
 		return null;
 	}
 
-	private Object getObjectClass(String className, String prefix) {
-		Object obj = null;
+	private Class<?> getMatchingI18NClass(String className) {
+		Class<?> clas = null;
 		if (!className.isEmpty()) {
-			String classN = prefix.endsWith(".") ? prefix.substring(0, prefix.length() - 1) + className : (prefix + className);
-
-			Class<?> clas = null;
-
+			String classNameAux = PREFIX_I18NAWARE_CLASS.endsWith(".") ? PREFIX_I18NAWARE_CLASS.substring(0, PREFIX_I18NAWARE_CLASS.length() - 1)
+					+ className : (PREFIX_I18NAWARE_CLASS + className);
 			try {
-				clas = Class.forName(classN);
+				clas = Class.forName(classNameAux);
 			}
-			catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			catch (ClassNotFoundException e) {
+				ConverterException converterException = new ConverterException(e);
+				commandLineOutput.getOutput().println("Class: " + classNameAux + " not found,  cause: " + converterException.getCause().getMessage());
 			}
-
-			try {
-				obj = clas.newInstance();
-			}
-			catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
 		}
-		return obj;
+		return clas;
+	}
+
+	private boolean existStringParamType(Constructor<?> constructor) {
+		for (Class<?> type : constructor.getParameterTypes() ) {
+			try {
+				if (type == Class.forName("java.lang.String")) {
+					return true;
+				}
+			}
+			catch (ClassNotFoundException e) {
+				ConverterException converterException = new ConverterException(e);
+				commandLineOutput.getOutput().println("Class: " + type.getName() + " not found,  cause: " + converterException.getCause().getMessage());
+			}
+		}
+		return false;
 	}
 
 	private boolean thereIsStringArgs(List<Expression> args) {
@@ -273,102 +275,97 @@ public class KeyConverter {
 		return false;
 	}
 
-	private class MarkedI18NAwareMessage {
-		boolean mark;
-		List<Integer> paramPos;
-
-		MarkedI18NAwareMessage() {
-			this.mark = false;
-			this.paramPos = new ArrayList<Integer>();
-		}
-	}
+	/*
+	 * private class MarkedI18NAwareMessage { boolean mark; List<Integer> paramPos;
+	 * 
+	 * MarkedI18NAwareMessage() { this.mark = false; this.paramPos = new ArrayList<Integer>(); } }
+	 */
 
 	// Its determine if a method called contains literals params marked by the @I18NAwareMessage annotation
-	private MarkedI18NAwareMessage isMarkedWithI18NAwareMessage(MethodCallExpr method) {
-		MarkedI18NAwareMessage marked = new MarkedI18NAwareMessage();
-		if (!listVaadinVars.isEmpty()) {
-			if (thereIsStringArgs(method.getArgs() == null ? new ArrayList<Expression>() : method.getArgs())) {
-				String methodName = method.getName();
-				String varN = method.getScope() == null ? "" : method.getScope().toString();
-				String vaadinClass = getVaadinVar(varN) == null ? "" : getVaadinVar(varN).getType();
-				Object object = getObjectClass(vaadinClass, prefixI18NClass);
-				if (!(object == null)) {
-					for (Method singleMethod : object.getClass().getMethods() ) {
-						String methodNameInClass = "", varName = "";
-						if (singleMethod.getName().equals(methodName)
-								& !(singleMethod.getParameterAnnotations() == null)
-								& ((singleMethod.getParameterTypes() == null) ? false : singleMethod.getParameterTypes().length == method.getArgs()
-										.size())) {
-							marked = new MarkedI18NAwareMessage();
-							for (Annotation[] parameterAnnotation : singleMethod.getParameterAnnotations() ) {
-								marked.paramPos.add(0);
-								for (Annotation parameterAnnotation1 : parameterAnnotation ) {
-									if (parameterAnnotation1 instanceof I18NAwareMessage) {
-										marked.mark = true;
-										marked.paramPos.set(marked.paramPos.size() - 1, 1);
-										methodNameInClass = methodName;
-										varName = varN;
-									}
+	private List<Boolean> getI18NAwareMessageParamsPositions(MethodCallExpr method) {
+		List<Boolean> paramPositions = new ArrayList<Boolean>();
+		if (listVaadinVars.isEmpty()) {
+			return new ArrayList<Boolean>();
+		}
+		if (method.getArgs() != null && thereIsStringArgs(method.getArgs())) {
+			String methodName = method.getName();
+			String methodInvokedByVar = method.getScope() == null ? "" : method.getScope().toString();
+			String vaadinClass = getVaadinVar(methodInvokedByVar) == null ? "" : getVaadinVar(methodInvokedByVar).getType();
+			Class<?> i18nClass = getMatchingI18NClass(vaadinClass);
+			if (i18nClass != null) {
+				for (Method singleMethod : i18nClass.getMethods() ) {
+					String methodNameInClass = "";
+					String varName = "";
+					if (singleMethod.getName().equals(methodName)
+							&& !(singleMethod.getParameterAnnotations() == null)
+							&& ((singleMethod.getParameterTypes() == null) ? false : singleMethod.getParameterTypes().length == method.getArgs()
+									.size())) {
+						paramPositions.clear();
+						for (Annotation[] parameterAnnotation : singleMethod.getParameterAnnotations() ) {
+							paramPositions.add(false);
+							for (Annotation parameterAnnotation1 : parameterAnnotation ) {
+								if (parameterAnnotation1 instanceof I18NAwareMessage) {
+									paramPositions.set(paramPositions.size() - 1, true);
+									methodNameInClass = methodName;
+									varName = methodInvokedByVar;
 								}
 							}
-							commandLineOutput.getOutput().println(
-									(marked.mark ? "Is marked var name: " + varName + " --> Method name: " + methodNameInClass
-											: "Is not marked var name: " + varN + " --> Method name: " + methodName)
-											+ " --> Method Pos: "
-											+ marked.paramPos.toString());
-							return marked;
 						}
+						commandLineOutput.getOutput().println(
+								(paramPositions.contains(true) ? "Is marked var name: " + varName + " --> Method name: " + methodNameInClass
+										: "Is not marked var name: " + methodInvokedByVar + " --> Method name: " + methodName)
+										+ " --> Method Pos: "
+										+ paramPositions.toString());
+						return (paramPositions.contains(true)) ? paramPositions : new ArrayList<Boolean>();
 					}
 				}
 			}
 		}
-		return marked;
+		return new ArrayList<Boolean>();
 	}
 
-	private MarkedI18NAwareMessage isMarkedWithI18NAwareMessage(ObjectCreationExpr method) {
-		MarkedI18NAwareMessage marked = new MarkedI18NAwareMessage();
-		if (thereIsStringArgs(method.getArgs() == null ? new ArrayList<Expression>() : method.getArgs())) {
-			String methodName = prefixI18NClass + method.getType().toString();
-			Object object = getObjectClass(method.getType().toString(), prefixI18NClass);
-			if (!(object == null)) {
-				for (Constructor<?> singleConstructor : object.getClass().getConstructors() ) {
+	private List<Boolean> getI18NAwareMessageParamsPositions(ObjectCreationExpr method) {
+		List<Boolean> paramPositions = new ArrayList<Boolean>();
+		if (method.getArgs() != null && thereIsStringArgs(method.getArgs())) {
+			String methodName = PREFIX_I18NAWARE_CLASS + method.getType().toString();
+			Class<?> i18nClass = getMatchingI18NClass(method.getType().toString());
+			if (i18nClass != null) {
+				for (Constructor<?> singleConstructor : i18nClass.getConstructors() ) {
 					String constructorNameInClass = "";
 					if ((singleConstructor.getName().equals(methodName))
-							& (((method.getArgs() == null) | (singleConstructor.getParameterTypes() == null)) ? false : singleConstructor
-									.getParameterTypes().length == method.getArgs().size()) & !(singleConstructor.getParameterAnnotations() == null)) {
-						marked = new MarkedI18NAwareMessage();
+							&& ((singleConstructor.getParameterTypes() == null) ? false : (existStringParamType(singleConstructor))
+									&& (singleConstructor.getParameterTypes().length == method.getArgs().size()))) {
+						paramPositions.clear();
 						for (Annotation[] parameterAnnotation : singleConstructor.getParameterAnnotations() ) {
-							marked.paramPos.add(0);
+							paramPositions.add(false);
 							for (Annotation parameterAnnotation1 : parameterAnnotation ) {
 								if (parameterAnnotation1 instanceof I18NAwareMessage) {
-									marked.mark = true;
-									marked.paramPos.set(marked.paramPos.size() - 1, 1);
+									paramPositions.set(paramPositions.size() - 1, true);
 									constructorNameInClass = method.getType().toString();
 								}
 							}
 						}
 						commandLineOutput.getOutput().println(
-								(marked.mark ? "Is marked constructor name: " + constructorNameInClass : "Is not marked constructor name: "
-										+ methodName)
-										+ " --> Method Pos: " + marked.paramPos.toString());
-						return marked;
+								(paramPositions.contains(true) ? "Is marked constructor name: " + constructorNameInClass
+										: "Is not marked constructor name: " + methodName) + " --> Method Pos: " + paramPositions.toString());
+						return (paramPositions.contains(true)) ? paramPositions : new ArrayList<Boolean>();
 					}
 				}
 			}
 		}
-		return marked;
+		return new ArrayList<Boolean>();
 	}
 
-	public void restructureListKey() {
-		// It was necessary to make it of this way because eliminating directly from the listKey doesn't work well
-		List<Tkey> auxListKey = new ArrayList<Tkey>();
-		for (int i = 0; i < listKey.size(); i++ ) {
-			if (listKey.get(i).getKeep()) {
-				auxListKey.add(listKey.get(i));
+	public void restructureLisKey() {
+		// It was necessary to make it of this way because eliminating directly from the lisKey doesn't work well
+		List<Key> auxLisKey = new ArrayList<Key>();
+		for (int i = 0; i < lisKey.size(); i++ ) {
+			if (lisKey.get(i).getKeep()) {
+				auxLisKey.add(lisKey.get(i));
 			}
 		}
-		listKey.clear();
-		listKey = auxListKey;
+		lisKey.clear();
+		lisKey = auxLisKey;
 	}
 
 	public boolean existBundle(String resourcePath, String resourceName) {
@@ -389,8 +386,8 @@ public class KeyConverter {
 		return this.optionChangeKey;
 	}
 
-	public Tkey getCompleteKey(String key) {
-		for (Tkey k : listKey ) {
+	public Key getCompleteKey(String key) {
+		for (Key k : lisKey ) {
 			if (k.getCompleteKey().equals(key)) {
 				return k;
 			}
@@ -398,9 +395,9 @@ public class KeyConverter {
 		return null;
 	}
 
-	public List<Tkey> getListKey() {
-		restructureListKey();
-		return listKey;
+	public List<Key> getListKey() {
+		restructureLisKey();
+		return lisKey;
 	}
 
 	public int getSuffix(String key) {
@@ -497,10 +494,10 @@ public class KeyConverter {
 
 	public void proccessProject(File dirBaseSrc, String projectPath, String pathBundle, String bundleName, String defaultLanguage) {
 
-		if (listKey.isEmpty()) {
+		if (lisKey.isEmpty()) {
 			boolean exist = existBundle(pathBundle, bundleName);
 			if (exist) {
-				updateListKeyWithBundle();
+				updateLisKeyWithBundle();
 			}
 		}
 
@@ -513,19 +510,19 @@ public class KeyConverter {
 					if (filesrc.getName().endsWith(".java")) {
 						commandLineOutput.getOutput().println(filesrc.toString());
 
-						listStringValue.clear();
+						lisStringValue.clear();
 
 						javaFileName = filesrc.getName().replaceAll(".java", "");
 
 						String classJava = proccessJavaFile(filesrc.getAbsolutePath());
 						changeJavaClass(classJava, filesrc.getAbsolutePath());
 
-						for (Tkey localkey : listKey ) {
-							// if (!isInKeyList(localkey.key, generalListKey)){
+						for (Key localkey : lisKey ) {
+							// if (!isInKeyList(localkey.key, generalLisKey)){
 							commandLineOutput.getOutput().println(localkey.completeKey + " = " + localkey.getValue());
 							// System.out.println(localkey.completeKey + "_" + localkey.getSuffix() + " = " + localkey.getValue());
-							// addKeyToGeneralListKey(localkey.key);
-							// generalListKey.add(localkey);
+							// addKeyToGeneralLisKey(localkey.key);
+							// generalLisKey.add(localkey);
 							// }
 						}
 					}
@@ -553,14 +550,14 @@ public class KeyConverter {
 	private void addStringVarValue(String id, String value) {
 		if (value.length() > 0) {
 			if (!isValueInStringValueList(value)) {
-				TStringValue newStringValue = new TStringValue(id, value);
-				listStringValue.add(newStringValue);
+				StringValue newStringValue = new StringValue(id, value);
+				lisStringValue.add(newStringValue);
 			}
 		}
 	}
 
 	private boolean isVarInVaadinVarsList(String name) {
-		for (TVaadinVars v : listVaadinVars ) {
+		for (VaadinVars v : listVaadinVars ) {
 			if (v.getId().equals(name)) {
 				return true;
 			}
@@ -571,7 +568,7 @@ public class KeyConverter {
 	private void addVaadinVars(String id, String type) {
 		if (isVaadinComponent(type)) {
 			if (!isVarInVaadinVarsList(id)) {
-				TVaadinVars newVar = new TVaadinVars(id, type);
+				VaadinVars newVar = new VaadinVars(id, type);
 				listVaadinVars.add(newVar);
 			}
 		}
@@ -587,14 +584,14 @@ public class KeyConverter {
 			suffix = 0;
 		}
 
-		Tkey newKey = new Tkey(auxKey, value, javaFileFullClassName, suffix, 0);
+		Key newKey = new Key(auxKey, value, javaFileFullClassName, suffix, 0);
 		newKey.decreaseAppearances(2);
 		newKey.setLoadFromBundle(true);
-		listKey.add(newKey);
-		updateSuffixMax(auxKey, listKey);
+		lisKey.add(newKey);
+		updateSuffixMax(auxKey, lisKey);
 	}
 
-	public void updateListKeyWithBundle() {
+	public void updateLisKeyWithBundle() {
 		Enumeration<String> bundleKeys = bundle.getKeys();
 
 		while (bundleKeys.hasMoreElements()) {
@@ -612,16 +609,16 @@ public class KeyConverter {
 		return false;
 	}
 
-	private String splitKey(String key, int size) {
+	private String spliKey(String key, int size) {
 		if (key.length() > size) {
 			return key.substring(0, size);
 		}
 		return key;
 	}
 
-	private void sumSuffix(String key, int count, List<Tkey> list) {
-		for (Tkey k : list ) {
-			if (k.getKey().equals(key)) {
+	private void sumSuffix(String key, int count, List<Key> list) {
+		for (Key k : list ) {
+			if (k.geKey().equals(key)) {
 				k.setSuffixClass(count);
 			}
 		}
@@ -629,19 +626,19 @@ public class KeyConverter {
 
 	@SuppressWarnings("unused")
 	private void updateAppearances(String key) {
-		for (Tkey k : listKey ) {
-			if (k.getKey().equals(key)) {
+		for (Key k : lisKey ) {
+			if (k.geKey().equals(key)) {
 				k.increaseAppearances();
 			}
 		}
 	}
 
-	// Update the state of the suffixes for each Tkey objects
-	private void updateSuffixMax(String key, List<Tkey> list) {
+	// Update the state of the suffixes for each Key objects
+	private void updateSuffixMax(String key, List<Key> list) {
 		if (!list.isEmpty()) {
 			int count = 0;
-			for (Tkey k : list ) {
-				if (k.getKey().equals(key)) {
+			for (Key k : list ) {
+				if (k.geKey().equals(key)) {
 					count++;
 				}
 			}
@@ -652,8 +649,8 @@ public class KeyConverter {
 		}
 	}
 
-	// It determines if an Tkey object contains a certain key and value
-	private int valueAndKeyInList(String key, String value, List<Tkey> list) {
+	// It determines if an Key object contains a certain key and value
+	private int valueAndKeyInList(String key, String value, List<Key> list) {
 		int v = 0;
 		if (isInKeyList(key, list)) {
 			v = 1;
@@ -681,7 +678,7 @@ public class KeyConverter {
 								if (!isKey(gKey)) {
 									value = key.getValue().replace("\\n", "//n").replace("\"", "'");
 									gKey = generateKey(gKey);
-									if (isInKeyList(gKey, listKey)) {
+									if (isInKeyList(gKey, lisKey)) {
 										getCompleteKey(gKey).setKeep(true);
 										if (getCompleteKey(gKey).getIsLoadFromBundle()) {
 											key.setValue(gKey);
@@ -689,10 +686,10 @@ public class KeyConverter {
 										}
 									}
 								}
-								else if (isInKeyList(gKey, listKey)) {
+								else if (isInKeyList(gKey, lisKey)) {
 
 									insert = false;
-									if (isInKeyList(key.getValue(), listKey)) {
+									if (isInKeyList(key.getValue(), lisKey)) {
 										getCompleteKey(key.getValue()).setKeep(true);
 									}
 								}
@@ -701,43 +698,43 @@ public class KeyConverter {
 								}
 
 								if (insert) {
-									int select = valueAndKeyInList(gKey, value, listKey);
+									int select = valueAndKeyInList(gKey, value, lisKey);
 
 									switch (select) {
 										case 1: {
-											Tkey keyAux = getKey(gKey);
+											Key keyAux = geKey(gKey);
 
-											Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, keyAux.getMaxSuffixClass() + 1,
+											Key newKey = new Key(gKey, value, javaFileFullClassName, keyAux.getMaxSuffixClass() + 1,
 													keyAux.getMaxSuffixClass() + 1);
 
 											if (!option) {
 												key.setValue(newKey.getCompleteKey());
-												listKey.add(newKey);
+												lisKey.add(newKey);
 												getCompleteKey(newKey.getCompleteKey()).setKeep(true);
 											}
 											else {
 												key.setValue(newKey.getValue());
-												listKey.add(newKey);
+												lisKey.add(newKey);
 												getCompleteKey(newKey.getCompleteKey()).setKeep(true);
 											}
 
-											updateSuffixMax(gKey, listKey);
+											updateSuffixMax(gKey, lisKey);
 										}
 											;
 										break;
 										case 2: {
-											Tkey newKey = new Tkey(gKey, value, javaFileFullClassName, 0, 0);
+											Key newKey = new Key(gKey, value, javaFileFullClassName, 0, 0);
 
 											newKey.setKeep(true);
 
 											if (!option) {
 												key.setValue(newKey.getCompleteKey());
-												listKey.add(newKey);
+												lisKey.add(newKey);
 												getCompleteKey(newKey.getCompleteKey()).setKeep(true);
 											}
 											else {
 												key.setValue(newKey.getValue());
-												listKey.add(newKey);
+												lisKey.add(newKey);
 												getCompleteKey(newKey.getCompleteKey()).setKeep(true);
 											}
 										}
@@ -748,7 +745,7 @@ public class KeyConverter {
 							}
 							else {
 								if (isKey(key.getValue())) {
-									if (isInKeyList(key.getValue(), listKey)) {
+									if (isInKeyList(key.getValue(), lisKey)) {
 
 										if (!isKeyGeneratedBySystem(key.getValue())) {
 											getCompleteKey(key.getValue()).setKeep(true);
@@ -769,7 +766,7 @@ public class KeyConverter {
 
 	// Obtains the value of each String variable declared in the class
 	/*
-	 * private String getValueById(String id) { for (TStringValue s : listStringValue ) { if (s.getId().equals(id)) { return s.getValue(); } } return
+	 * private String getValueById(String id) { for (StringValue s : lisStringValue ) { if (s.getId().equals(id)) { return s.getValue(); } } return
 	 * ""; }
 	 */
 
@@ -799,7 +796,7 @@ public class KeyConverter {
 	}
 
 	private String detectDelimiters(String caption) {
-		String newCaption = splitKey(caption, 50);
+		String newCaption = spliKey(caption, 50);
 		for (int i = 0; i < caption.length(); i++ ) {
 			String ss = caption.substring(i, i + 1);
 			if (("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_".indexOf(ss) < 0)) {
@@ -822,7 +819,7 @@ public class KeyConverter {
 
 	private StringLiteralExpr extactExprCaption(ObjectCreationExpr exp) {
 		// if (isVaadinComponent(type.toString()) & !(exp.getArgs() == null)) {
-		if (isMarkedWithI18NAwareMessage(exp).mark) {
+		if (!getI18NAwareMessageParamsPositions(exp).isEmpty()) {
 			// isMarkedWithI18NAwareMessage(exp);
 			boolean flag = false;
 
@@ -854,7 +851,7 @@ public class KeyConverter {
 	private String generateKey(String caption) {
 		String key = detectDelimiters(caption);
 		// String keyNumber = String.valueOf(generateKeyNumber(caption));
-		String finalKey = splitKey(key, 30);
+		String finalKey = spliKey(key, 30);
 
 		if (finalKey.startsWith(".")) {
 			finalKey = finalKey.replaceFirst(".", "");
@@ -909,7 +906,7 @@ public class KeyConverter {
 
 	// It determines if a string is an ID of String variable in the class
 	private boolean isIdInStringValueList(String id) {
-		for (TStringValue s : listStringValue ) {
+		for (StringValue s : lisStringValue ) {
 			if (s.getId().equals(id)) {
 				return true;
 			}
@@ -919,7 +916,7 @@ public class KeyConverter {
 
 	// It determines if a text is assigned to a variable of String type in the class
 	private boolean isValueInStringValueList(String value) {
-		for (TStringValue s : listStringValue ) {
+		for (StringValue s : lisStringValue ) {
 			if (s.getValue().equals(value)) {
 				return true;
 			}
@@ -927,9 +924,9 @@ public class KeyConverter {
 		return false;
 	}
 
-	private boolean isInKeyList(String key, List<Tkey> list) {
-		// listKey.contains(k);
-		for (Tkey k : list ) {
+	private boolean isInKeyList(String key, List<Key> list) {
+		// lisKey.contains(k);
+		for (Key k : list ) {
 			if (k.getCompleteKey().equals(key)) {
 				return true;
 			}
@@ -937,10 +934,10 @@ public class KeyConverter {
 		return false;
 	}
 
-	// It determines if any Tkey object contains "value"
-	private boolean isValueInKeyList(String value, List<Tkey> list) {
-		// listKey.contains(k);
-		for (Tkey k : list ) {
+	// It determines if any Key object contains "value"
+	private boolean isValueInKeyList(String value, List<Key> list) {
+		// lisKey.contains(k);
+		for (Key k : list ) {
 			if (k.getValue().equals(value)) {
 				return true;
 			}
@@ -998,7 +995,7 @@ public class KeyConverter {
 	private void processArgs(MethodCallExpr methodCallE) {
 		List<Expression> largs = methodCallE.getArgs();
 		// String methodName = methodCallE.getName();
-		if (isMarkedWithI18NAwareMessage(methodCallE).mark) {
+		if (!getI18NAwareMessageParamsPositions(methodCallE).isEmpty()) {
 			// if (isValidMethod(methodName)) {
 			if (largs != null) {
 				for (int i = 0; i < largs.size(); i++ ) {
@@ -1232,8 +1229,8 @@ public class KeyConverter {
 									// addKey((StringLiteralExpr) vd.getInit(), optionChangeKey);
 									String str = ((StringLiteralExpr) vd.getInit()).getValue();
 									if (isKey(str)) {
-										if (isInKeyList(str, listKey)) {
-											getKey(str).setKeep(true);
+										if (isInKeyList(str, lisKey)) {
+											geKey(str).setKeep(true);
 										}
 									}
 								}
