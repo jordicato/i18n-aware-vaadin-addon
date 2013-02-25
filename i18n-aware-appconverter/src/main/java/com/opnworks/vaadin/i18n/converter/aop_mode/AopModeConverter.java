@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 import com.opnworks.vaadin.i18n.converter.Converter;
-import com.opnworks.vaadin.i18n.converter.aop_mode.KeyConverter.Tkey;
+import com.opnworks.vaadin.i18n.converter.aop_mode.KeyConverter.Key;
 
 /**
  * The AOP mode conversion implementation
@@ -25,7 +25,7 @@ public class AopModeConverter implements Converter {
 		keyConverter.proccessProject(sourceDir, sourceDir.getAbsolutePath(), resourcesDir.getAbsolutePath(), resourceBaseName, defaultLanguage);
 		keyConverter.clearBundleFile(resourcesDir.getAbsolutePath() + "/" + resourceBaseName);
 		// if (!rollback) {
-		for (Tkey k : keyConverter.getListKey() ) {
+		for (Key k : keyConverter.getListKey() ) {
 			writeFile(resourcesDir.getAbsolutePath() + "/" + resourceBaseName + ".properties", k.getCompleteKey() + " = " + k.getValue());
 		}
 		// }
