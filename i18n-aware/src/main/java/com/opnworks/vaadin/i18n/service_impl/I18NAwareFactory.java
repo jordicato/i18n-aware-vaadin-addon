@@ -39,7 +39,6 @@ import com.opnworks.vaadin.i18n.ui.I18NMenuBar;
 import com.opnworks.vaadin.i18n.ui.I18NNativeButton;
 import com.opnworks.vaadin.i18n.ui.I18NNativeSelect;
 import com.opnworks.vaadin.i18n.ui.I18NOptionGroup;
-import com.opnworks.vaadin.i18n.ui.I18NOrderedLayout;
 import com.opnworks.vaadin.i18n.ui.I18NPanel;
 import com.opnworks.vaadin.i18n.ui.I18NPasswordField;
 import com.opnworks.vaadin.i18n.ui.I18NPopupDateField;
@@ -48,7 +47,6 @@ import com.opnworks.vaadin.i18n.ui.I18NProgressIndicator;
 import com.opnworks.vaadin.i18n.ui.I18NRichTextArea;
 import com.opnworks.vaadin.i18n.ui.I18NSelect;
 import com.opnworks.vaadin.i18n.ui.I18NSlider;
-import com.opnworks.vaadin.i18n.ui.I18NSplitPanel;
 import com.opnworks.vaadin.i18n.ui.I18NTabSheet;
 import com.opnworks.vaadin.i18n.ui.I18NTable;
 import com.opnworks.vaadin.i18n.ui.I18NTextArea;
@@ -65,7 +63,8 @@ import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.Action;
-import com.vaadin.terminal.Resource;
+import com.vaadin.server.Resource;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Button;
@@ -94,7 +93,6 @@ import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.OrderedLayout;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.PopupDateField;
@@ -103,7 +101,6 @@ import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.Select;
 import com.vaadin.ui.Slider;
-import com.vaadin.ui.SplitPanel;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
@@ -208,21 +205,6 @@ public class I18NAwareFactory {
 	}
 
 	/**
-	 * Creates a new switch button with initial value.
-	 * 
-	 * @param captionKey
-	 *            key for the Button caption
-	 * @param state
-	 *            the Initial state of the switch-button.
-	 * @param initialState
-	 * @deprecated use {@link CheckBox} instead of Button in "switchmode"
-	 */
-	@Deprecated
-	public static Button newButton(@I18NAwareMessage String captionKey, boolean initialState) {
-		return new I18NButton(captionKey, initialState);
-	}
-
-	/**
 	 * Creates a Button
 	 * 
 	 * @param captionKey
@@ -233,37 +215,6 @@ public class I18NAwareFactory {
 	 */
 	public static Button newButton(@I18NAwareMessage String captionKey, ClickListener listener) {
 		return new I18NButton(captionKey, listener);
-	}
-
-	/**
-	 * Creates a new push button with a method listening button clicks. Using this method is discouraged because it cannot be checked during
-	 * compilation. Use {@link #Button(String, com.vaadin.ui.Button.ClickListener)} instead. The method must have either no parameters, or only one
-	 * parameter of Button.ClickEvent type.
-	 * 
-	 * @param captionKey
-	 *            key for the Button caption
-	 * @param target
-	 *            the Object having the method for listening button clicks.
-	 * @param methodName
-	 *            the name of the method in target object, that receives button click events.
-	 */
-	public static Button newButton(@I18NAwareMessage String captionKey, Object target, String methodName) {
-		return new I18NButton(captionKey, target, methodName);
-	}
-
-	/**
-	 * Creates a new switch button that is connected to a boolean property.
-	 * 
-	 * @param captionKey
-	 *            key for the Button caption
-	 * @param state
-	 *            the Initial state of the switch-button.
-	 * @param dataSource
-	 * @deprecated use {@link CheckBox} instead of Button in "switchmode"
-	 */
-	@Deprecated
-	public static Button newButton(@I18NAwareMessage String captionKey, Property dataSource) {
-		return new I18NButton(captionKey, dataSource);
 	}
 
 	/**
@@ -296,35 +247,6 @@ public class I18NAwareFactory {
 	 */
 	public static CheckBox newCheckBox(@I18NAwareMessage String captionKey, boolean initialState) {
 		return new I18NCheckBox(captionKey, initialState);
-	}
-
-	/**
-	 * Creates a CheckBox
-	 * 
-	 * @param captionKey
-	 *            key for the CheckBox caption
-	 * @param listener
-	 *            listener for the CheckBox
-	 * @return new i18n-aware CheckBox
-	 */
-	public static CheckBox newCheckBox(@I18NAwareMessage String captionKey, ClickListener listener) {
-		return new I18NCheckBox(captionKey, listener);
-	}
-
-	/**
-	 * Convenience method for creating a new switch button with a method listening button clicks. Using this method is discouraged because it cannot
-	 * be checked during compilation. Use {@link #addListener(Class, Object, _Method)} or {@link #addListener(com.vaadin.ui.Component.Listener)}
-	 * instead. The method must have either no parameters, or only one parameter of Button.ClickEvent type.
-	 * 
-	 * @param captionKey
-	 *            the caption message key of the switch button
-	 * @param target
-	 *            the Object having the method for listening button clicks.
-	 * @param methodName
-	 *            the name of the method in target object, that receives button click events.
-	 */
-	public static CheckBox newCheckBox(@I18NAwareMessage String captionKey, Object target, String methodName) {
-		return new I18NCheckBox(captionKey, target, methodName);
 	}
 
 	/**
@@ -698,7 +620,7 @@ public class I18NAwareFactory {
 	 * @param contentSource
 	 * @param contentMode
 	 */
-	public static Label newLabel(Property contentSource, int contentMode) {
+	public static Label newLabel(Property contentSource, ContentMode contentMode) {
 		return new I18NLabel(contentSource, contentMode);
 	}
 
@@ -719,7 +641,7 @@ public class I18NAwareFactory {
 	 * @param content
 	 * @param contentMode
 	 */
-	public static Label newLabel(String content, int contentMode) {
+	public static Label newLabel(String content, ContentMode contentMode) {
 		return new I18NLabel(content, contentMode);
 	}
 
@@ -745,27 +667,6 @@ public class I18NAwareFactory {
 	 */
 	public static Link newLink(@I18NAwareMessage String captionKey, Resource resource) {
 		return new I18NLink(captionKey, resource);
-	}
-
-	/**
-	 * Creates a Link
-	 * 
-	 * @param captionKey
-	 *            key for the Link caption
-	 * @param resource
-	 *            Resource for the Link
-	 * @param targetName
-	 *            target for the Link
-	 * @param width
-	 *            width of the Link
-	 * @param height
-	 *            height of the Link
-	 * @param border
-	 *            border of the Link
-	 * @return new i18n-aware Link
-	 */
-	public static Link newLink(@I18NAwareMessage String captionKey, Resource resource, String targetName, int width, int height, int border) {
-		return new I18NLink(captionKey, resource, targetName, width, height, border);
 	}
 
 	// Fields
@@ -838,19 +739,6 @@ public class I18NAwareFactory {
 	 */
 	public static NativeButton newNativeButton(@I18NAwareMessage String captionKey, ClickListener listener) {
 		return new I18NNativeButton(captionKey, listener);
-	}
-
-	/**
-	 * Creates a NativeButton
-	 * 
-	 * @param captionKey
-	 *            key for the NativeButton caption
-	 * @param target
-	 * @param methodName
-	 * @return new i18n-aware NativeButton
-	 */
-	public static NativeButton newNativeButton(@I18NAwareMessage String captionKey, Object target, String methodName) {
-		return new I18NNativeButton(captionKey, target, methodName);
 	}
 
 	/**
@@ -939,28 +827,6 @@ public class I18NAwareFactory {
 	 */
 	public static OptionGroup newOptionGroup(@I18NAwareMessage String captionKey, Container dataSource) {
 		return new I18NOptionGroup(captionKey, dataSource);
-	}
-
-	/**
-	 * Creates a OrderedLayout
-	 * 
-	 * @return new i18n-aware CssLayout
-	 */
-	public static OrderedLayout newOrderedLayout() {
-		return new I18NOrderedLayout();
-	}
-
-	/**
-	 * Create a new ordered layout. The orientation of the layout is given as parameters.
-	 * 
-	 * @param orientation
-	 *            the Orientation of the layout.
-	 * 
-	 * @deprecated Use VerticalLayout/HorizontalLayout instead.
-	 */
-	@Deprecated
-	public static OrderedLayout newOrderedLayout(int orientation) {
-		return new I18NOrderedLayout(orientation);
 	}
 
 	/**
@@ -1284,15 +1150,6 @@ public class I18NAwareFactory {
 	 */
 	public static Slider newSlider(@I18NAwareMessage String captionKey, int min, int max) {
 		return new I18NSlider(captionKey, min, max);
-	}
-
-	/**
-	 * Creates a new i18n split panel. The orientation of the panels is <code>ORIENTATION_VERTICAL</code>.
-	 * 
-	 * @return new i18n-aware SplitPanel
-	 */
-	public static SplitPanel newSplitPanel() {
-		return new I18NSplitPanel();
 	}
 
 	/**

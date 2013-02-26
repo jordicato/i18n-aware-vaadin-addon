@@ -15,11 +15,11 @@ import com.vaadin.data.Validator;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public class I18NAwareFieldSupport implements Serializable {
+public class I18NAwareFieldSupport<T> implements Serializable {
 
 	private static final long serialVersionUID = -1969833925067194971L;
 
-	private I18NAwareField originalField;
+	private I18NAwareField<T> originalField;
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 
@@ -30,7 +30,7 @@ public class I18NAwareFieldSupport implements Serializable {
 		}
 	});
 
-	public I18NAwareFieldSupport(I18NAwareField originalField) {
+	public I18NAwareFieldSupport(I18NAwareField<T> originalField) {
 		this.originalField = originalField;
 		i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(originalField);
 	}

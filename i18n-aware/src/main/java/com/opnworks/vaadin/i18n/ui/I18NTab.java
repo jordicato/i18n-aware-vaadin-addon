@@ -7,8 +7,8 @@ import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport.CaptionContainer;
-import com.vaadin.terminal.ErrorMessage;
-import com.vaadin.terminal.Resource;
+import com.vaadin.server.ErrorMessage;
+import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet.Tab;
 

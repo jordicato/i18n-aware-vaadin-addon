@@ -32,7 +32,7 @@ public class I18NAwareDemo {
 		Tab tab2 = tabSheet.addTab(tab2Content);
 		I18NAwareFactory.setCaptionMessage(tab2, "tab2.name");
 
-		mainWindow.addComponent(tabSheet);
+		mainWindow.setContent(tabSheet);
 
 		I18NService i18NService = new I18NServiceImpl(new ResourceBundleI18NMessageProvider("messages"));
 

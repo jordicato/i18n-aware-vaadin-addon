@@ -7,7 +7,6 @@ import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.vaadin.data.Container;
 import com.vaadin.ui.ComboBox;
@@ -19,9 +18,9 @@ import com.vaadin.ui.ComboBox;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NComboBox extends ComboBox implements I18NAwareField, I18NAwareComponent {
+public class I18NComboBox extends ComboBox implements I18NAwareField<Object>, I18NAwareComponent {
 
-	private I18NAwareFieldSupport i18NAwareFieldSupport;
+	private I18NAwareFieldSupport<Object> i18NAwareFieldSupport;
 
 	/**
 	 * Creates a new i18n ComboBox.
@@ -77,7 +76,7 @@ public class I18NComboBox extends ComboBox implements I18NAwareField, I18NAwareC
 	public void setItemCaption(Object itemId, @I18NAwareMessage String itemKey) {
 		setCaptionMessage(itemKey);
 	}
-	
+
 	@Override
 	public void setRealCaption(String caption) {
 		super.setCaption(caption);
@@ -103,13 +102,13 @@ public class I18NComboBox extends ComboBox implements I18NAwareField, I18NAwareC
 		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
-	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
+	private I18NAwareFieldSupport<Object> getI18NAwareFieldSupport() {
 
 		if (i18NAwareFieldSupport == null) {
-			i18NAwareFieldSupport = new I18NAwareFieldSupport(this);
+			i18NAwareFieldSupport = new I18NAwareFieldSupport<Object>(this);
 		}
 
 		return i18NAwareFieldSupport;
 	}
-	
+
 }

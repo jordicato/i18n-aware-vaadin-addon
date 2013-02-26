@@ -14,10 +14,10 @@ import com.vaadin.ui.CheckBox;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
-@SuppressWarnings({ "unchecked", "serial" })
-public class I18NCheckBox extends CheckBox implements I18NAwareField {
+@SuppressWarnings("serial")
+public class I18NCheckBox extends CheckBox implements I18NAwareField<Boolean> {
 
-	private I18NAwareFieldSupport i18NAwareFieldSupport;
+	private I18NAwareFieldSupport<Boolean> i18NAwareFieldSupport;
 
 	/**
 	 * Creates a new i18n switch button.
@@ -53,36 +53,6 @@ public class I18NCheckBox extends CheckBox implements I18NAwareField {
 	}
 
 	/**
-	 * Creates a new i18n switch button with a caption message key and a click listener.
-	 * 
-	 * @param captionKey
-	 *            the caption message key of the switch button
-	 * @param listener
-	 *            the click listener
-	 */
-	public I18NCheckBox(@I18NAwareMessage String captionKey, ClickListener listener) {
-		super(captionKey, listener);
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
-	}
-
-	/**
-	 * Convenience method for creating a new switch button with a method listening button clicks. Using this method is discouraged because it cannot
-	 * be checked during compilation. Use {@link #addListener(Class, Object, _Method)} or {@link #addListener(com.vaadin.ui.Component.Listener)}
-	 * instead. The method must have either no parameters, or only one parameter of Button.ClickEvent type.
-	 * 
-	 * @param captionKey
-	 *            the caption message key of the switch button
-	 * @param target
-	 *            the Object having the method for listening button clicks.
-	 * @param methodName
-	 *            the name of the method in target object, that receives button click events.
-	 */
-	public I18NCheckBox(@I18NAwareMessage String captionKey, Object target, String methodName) {
-		super(captionKey, target, methodName);
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
-	}
-
-	/**
 	 * Creates a new switch button that is connected to a boolean property.
 	 * 
 	 * @param captionKey
@@ -91,7 +61,7 @@ public class I18NCheckBox extends CheckBox implements I18NAwareField {
 	 *            the Initial state of the switch-button.
 	 * @param dataSource
 	 */
-	public I18NCheckBox(@I18NAwareMessage String captionKey, Property dataSource) {
+	public I18NCheckBox(@I18NAwareMessage String captionKey, Property<?> dataSource) {
 		super(captionKey, dataSource);
 		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
 	}
@@ -146,10 +116,10 @@ public class I18NCheckBox extends CheckBox implements I18NAwareField {
 		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
-	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
+	private I18NAwareFieldSupport<Boolean> getI18NAwareFieldSupport() {
 
 		if (i18NAwareFieldSupport == null) {
-			i18NAwareFieldSupport = new I18NAwareFieldSupport(this);
+			i18NAwareFieldSupport = new I18NAwareFieldSupport<Boolean>(this);
 		}
 
 		return i18NAwareFieldSupport;

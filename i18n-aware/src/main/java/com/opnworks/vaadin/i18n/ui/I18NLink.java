@@ -6,7 +6,8 @@ import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
-import com.vaadin.terminal.Resource;
+import com.vaadin.server.Resource;
+import com.vaadin.shared.ui.BorderStyle;
 import com.vaadin.ui.Link;
 
 /**
@@ -38,24 +39,25 @@ public class I18NLink extends Link implements I18NAwareComponent, I18NAwareCapti
 		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey);
 	}
 
-	/**
-	 * Creates a new i18n Link with text message key that opens a new window.
-	 * 
-	 * 
-	 * @param captionKey
-	 *            the Link text message key.
-	 * @param targetName
-	 *            the name of the target window where the link opens to. Empty name of null implies that the target is opened to the window containing
-	 *            the link.
-	 * @param width
-	 *            the Width of the target window.
-	 * @param height
-	 *            the Height of the target window.
-	 * @param border
-	 *            the Border style of the target window.
-	 * 
-	 */
-	public I18NLink(@I18NAwareMessage String captionKey, Resource resource, String targetName, int width, int height, int border) {
+    /**
+     * Creates a new instance of Link that opens a new window.
+     * 
+     * 
+     * @param caption
+     *            the Link text.
+     * @param targetName
+     *            the name of the target window where the link opens to. Empty
+     *            name of null implies that the target is opened to the window
+     *            containing the link.
+     * @param width
+     *            the Width of the target window.
+     * @param height
+     *            the Height of the target window.
+     * @param border
+     *            the Border style of the target window.
+     * 
+     */
+	public I18NLink(@I18NAwareMessage String captionKey, Resource resource, String targetName, int width, int height, BorderStyle border) {
 		super(captionKey, resource, targetName, width, height, border);
 		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey);
 	}

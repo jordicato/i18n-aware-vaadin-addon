@@ -71,5 +71,4 @@ public class I18NAwareComponentCaptionSupport implements Serializable, I18NAware
 	public void setRealCaption(String caption) {
 		originalComponent.setRealCaption(caption);
 	}
-
 }

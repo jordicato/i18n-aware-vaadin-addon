@@ -7,7 +7,7 @@ import com.vaadin.ui.Field;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public interface I18NAwareField extends I18NAwareComponent, I18NAwareCaption, Field {
+public interface I18NAwareField<T> extends I18NAwareComponent, I18NAwareCaption, Field<T> {
 
 	/**
 	 * Set the required error

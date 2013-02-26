@@ -1,12 +1,11 @@
 package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
-import com.opnworks.vaadin.i18n.I18NAwareContainer;
+import com.opnworks.vaadin.i18n.I18NAwareComponent;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
-import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.ValueContainer;
 import com.vaadin.ui.Component;
@@ -20,7 +19,7 @@ import com.vaadin.ui.Window;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareCaption {
+public class I18NWindow extends Window implements I18NAwareComponent, I18NAwareCaption {
 
 	private I18NAwareComponentCaptionSupport captionSupport;
 
@@ -31,8 +30,6 @@ public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareC
 
 		}
 	});
-
-	private I18NAwareSupport i18nAwareSupport;
 
 	/**
 	 * Creates a new unnamed i18n window with a I18NVerticalLayout layout.
@@ -68,18 +65,12 @@ public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareC
 	}
 
 	@Override
-	public void addComponent(Component c) {
-		super.addComponent(c);
-		getI18nAwareSupport().add(c);
-	}
-
-	@Override
 	public void i18NUpdate(I18NService i18N) {
 		getCaptionSupport().i18NUpdate(i18N);
 		i18NDescriptionSupport.i18NUpdate(i18N);
-		ComponentContainer container = getContent();
-		if (container instanceof I18NAwareContainer) {
-			((I18NAwareContainer) container).i18NUpdate(i18N);
+		Component component = getContent();
+		if (component instanceof I18NAwareComponent) {
+			((I18NAwareComponent) component).i18NUpdate(i18N);
 		}
 	}
 
@@ -91,12 +82,6 @@ public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareC
 	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		getCaptionSupport().setCaptionMessage(captionKey, params);
-	}
-
-	@Override
-	public final void setContent(ComponentContainer newContent) {
-		super.setContent(newContent);
-		getI18nAwareSupport().add(newContent);
 	}
 
 	@Override
@@ -126,12 +111,5 @@ public class I18NWindow extends Window implements I18NAwareContainer, I18NAwareC
 		}
 
 		return captionSupport;
-	}
-
-	private I18NAwareSupport getI18nAwareSupport() {
-		if (i18nAwareSupport == null) {
-			i18nAwareSupport = new I18NAwareSupport();
-		}
-		return i18nAwareSupport;
 	}
 }

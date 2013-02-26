@@ -1,7 +1,7 @@
 package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
-import com.opnworks.vaadin.i18n.I18NAwareContainer;
+import com.opnworks.vaadin.i18n.I18NAwareComponent;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
@@ -20,20 +20,19 @@ import com.vaadin.ui.Panel;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NPanel extends Panel implements I18NAwareContainer, I18NAwareCaption {
+public class I18NPanel extends Panel implements I18NAwareComponent, I18NAwareCaption {
 
-	private I18NAwareComponentCaptionSupport captionSupport;
+	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 
 	private I18NAwareValueSupport i18NDescriptionSupport = new I18NAwareValueSupport(new ValueContainer() {
 		@Override
 		public void setValue(String value) {
 			setDescription(value);
-
 		}
 	});
 
 	private I18NAwareSupport i18nAwareSupport;
-
+	
 	/**
 	 * Creates a new empty i18n panel. A I18NVerticalLayout is used as content.
 	 */
@@ -80,14 +79,8 @@ public class I18NPanel extends Panel implements I18NAwareContainer, I18NAwareCap
 	}
 
 	@Override
-	public void addComponent(Component c) {
-		super.addComponent(c);
-		getI18nAwareSupport().add(c);
-	}
-
-	@Override
 	public void i18NUpdate(I18NService i18N) {
-		getCaptionSupport().i18NUpdate(i18N);
+		getI18NAwareComponentCaptionSupport().i18NUpdate(i18N);
 		i18NDescriptionSupport.i18NUpdate(i18N);
 		getI18nAwareSupport().i18NUpdate(i18N);
 	}
@@ -99,13 +92,7 @@ public class I18NPanel extends Panel implements I18NAwareContainer, I18NAwareCap
 
 	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		getCaptionSupport().setCaptionMessage(captionKey, params);
-	}
-
-	@Override
-	public final void setContent(ComponentContainer newContent) {
-		super.setContent(newContent);
-		getI18nAwareSupport().add(newContent);
+		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey, params);
 	}
 
 	@Override
@@ -128,15 +115,21 @@ public class I18NPanel extends Panel implements I18NAwareContainer, I18NAwareCap
 		super.setDescription(description);
 	}
 
-	private I18NAwareComponentCaptionSupport getCaptionSupport() {
+	private I18NAwareComponentCaptionSupport getI18NAwareComponentCaptionSupport() {
 
-		if (captionSupport == null) {
-			captionSupport = new I18NAwareComponentCaptionSupport(this);
+		if (i18NAwareComponentCaptionSupport == null) {
+			i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 		}
 
-		return captionSupport;
+		return i18NAwareComponentCaptionSupport;
 	}
-
+	
+	@Override
+    public void setContent(Component content) {
+		super.setContent(content);
+		getI18nAwareSupport().add(content);
+	}
+	
 	private I18NAwareSupport getI18nAwareSupport() {
 		if (i18nAwareSupport == null) {
 			i18nAwareSupport = new I18NAwareSupport();

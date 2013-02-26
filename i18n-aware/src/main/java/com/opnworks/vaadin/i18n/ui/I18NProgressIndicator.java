@@ -18,12 +18,12 @@ import com.vaadin.ui.ProgressIndicator;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NProgressIndicator extends ProgressIndicator implements I18NAwareComponent, I18NAwareCaption, I18NAwareField {
+public class I18NProgressIndicator extends ProgressIndicator implements I18NAwareComponent, I18NAwareCaption, I18NAwareField<Float> {
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 
-	private I18NAwareFieldSupport i18NAwareFieldSupport;
-	
+	private I18NAwareFieldSupport<Float> i18NAwareFieldSupport;
+
 	/**
 	 * Creates an a new i18n ProgressIndicator.
 	 */
@@ -45,7 +45,7 @@ public class I18NProgressIndicator extends ProgressIndicator implements I18NAwar
 	 * 
 	 * @param contentSource
 	 */
-	public I18NProgressIndicator(Property contentSource) {
+	public I18NProgressIndicator(Property<?> contentSource) {
 		super(contentSource);
 	}
 
@@ -88,7 +88,7 @@ public class I18NProgressIndicator extends ProgressIndicator implements I18NAwar
 	public void setRealRequiredError(String requiredMessage) {
 		super.setRequiredError(requiredMessage);
 	}
-	
+
 	@Override
 	public void setRealCaption(String caption) {
 		super.setCaption(caption);
@@ -99,10 +99,10 @@ public class I18NProgressIndicator extends ProgressIndicator implements I18NAwar
 		super.setDescription(description);
 	}
 
-	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
+	private I18NAwareFieldSupport<Float> getI18NAwareFieldSupport() {
 
 		if (i18NAwareFieldSupport == null) {
-			i18NAwareFieldSupport = new I18NAwareFieldSupport(this);
+			i18NAwareFieldSupport = new I18NAwareFieldSupport<Float>(this);
 		}
 
 		return i18NAwareFieldSupport;

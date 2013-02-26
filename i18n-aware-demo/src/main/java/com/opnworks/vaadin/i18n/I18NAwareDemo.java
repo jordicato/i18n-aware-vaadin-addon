@@ -7,24 +7,23 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 import com.opnworks.vaadin.i18n.service_impl.ResourceBundleI18NMessageProvider;
-import com.vaadin.Application;
-import com.vaadin.terminal.gwt.server.HttpServletRequestListener;
-import com.vaadin.ui.Window;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.UI;
 
 /**
  * The I18NAware Demo webapp
  * 
  * @author Pedro Rodriguez
  */
-public class I18NAwareDemo extends Application implements
-		HttpServletRequestListener {
+public class I18NAwareDemo extends UI {
 
 	private static final long serialVersionUID = 2326412816728518688L;
 	
 	private I18NService i18NService;
 
 	@Override
-	public void init() {
+	public void init(VaadinRequest request) {
 
 		i18NService = new I18NServiceImpl(
 				new ResourceBundleI18NMessageProvider("messages"));
@@ -34,9 +33,9 @@ public class I18NAwareDemo extends Application implements
 		// Set initial language
 		i18NService.setLocale(Locale.ENGLISH);
 
-		Window mainWindow = new I18NAwareDemoWindow(i18NService);
+		Component mainWindow = new I18NAwareDemoWindow(i18NService);
 
-		setMainWindow(mainWindow);
+		setContent(mainWindow);
 
 		i18NService.registerI18NAware(mainWindow);
 	}

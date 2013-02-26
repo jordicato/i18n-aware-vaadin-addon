@@ -22,7 +22,7 @@ public abstract class I18NAwareTableFieldFactorySupport implements TableFieldFac
 	}
 
 	@Override
-	public Field createField(Container container, Object itemId, Object propertyId, Component uiContext) {
+	public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
 
 		return delegate.createI18NAwareField(container, itemId, propertyId, uiContext);
 	}

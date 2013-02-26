@@ -19,9 +19,9 @@ import com.vaadin.ui.PopupDateField;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NPopupDateField extends PopupDateField implements I18NAwareField {
+public class I18NPopupDateField extends PopupDateField implements I18NAwareField<Date> {
 
-	private I18NAwareFieldSupport i18NAwareFieldSupport;
+	private I18NAwareFieldSupport<Date> i18NAwareFieldSupport;
 
 	private I18NAwareValueSupport i18NInputPromptSupport;
 
@@ -37,7 +37,7 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 	 * 
 	 * @param dataSource
 	 */
-	public I18NPopupDateField(Property dataSource) {
+	public I18NPopupDateField(Property<?> dataSource) {
 		super(dataSource);
 	}
 
@@ -71,7 +71,7 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 	 *            the caption message key of the PopupDateField.
 	 * @param dataSource
 	 */
-	public I18NPopupDateField(@I18NAwareMessage String captionKey, Property dataSource) {
+	public I18NPopupDateField(@I18NAwareMessage String captionKey, Property<?> dataSource) {
 		super(captionKey, dataSource);
 		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
 	}
@@ -134,10 +134,10 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
-	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
+	private I18NAwareFieldSupport<Date> getI18NAwareFieldSupport() {
 
 		if (i18NAwareFieldSupport == null) {
-			i18NAwareFieldSupport = new I18NAwareFieldSupport(this);
+			i18NAwareFieldSupport = new I18NAwareFieldSupport<Date>(this);
 		}
 
 		return i18NAwareFieldSupport;

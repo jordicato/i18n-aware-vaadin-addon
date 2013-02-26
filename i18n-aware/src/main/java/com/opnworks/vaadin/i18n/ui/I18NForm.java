@@ -19,9 +19,10 @@ import com.vaadin.ui.FormFieldFactory;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NForm extends Form implements I18NAwareField {
+@Deprecated
+public class I18NForm extends Form implements I18NAwareField<Object> {
 
-	private I18NAwareFieldSupport i18NAwareFieldSupport = new I18NAwareFieldSupport(this);
+	private I18NAwareFieldSupport<Object> i18NAwareFieldSupport = new I18NAwareFieldSupport<Object>(this);
 
 	/**
 	 * Constructs a new i18n form with I18NFormLayout layout and I18NVerticalLayout footer.

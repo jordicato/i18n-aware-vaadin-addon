@@ -35,7 +35,8 @@ public class I18NIndexedContainer extends IndexedContainer implements I18NAware 
 
 			for (Object propertyId : item.getItemPropertyIds() ) {
 
-				Property property = item.getItemProperty(propertyId);
+				@SuppressWarnings("unchecked")
+				Property<I18NAware> property = item.getItemProperty(propertyId);
 
 				Object value = property.getValue();
 

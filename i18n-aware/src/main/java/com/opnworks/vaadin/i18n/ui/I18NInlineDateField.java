@@ -17,9 +17,9 @@ import com.vaadin.ui.InlineDateField;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NInlineDateField extends InlineDateField implements I18NAwareField {
+public class I18NInlineDateField extends InlineDateField implements I18NAwareField<Date> {
 
-	private I18NAwareFieldSupport i18NAwareFieldSupport;
+	private I18NAwareFieldSupport<Date> i18NAwareFieldSupport;
 
 	/**
 	 * Constructs an empty i18n <code>I18NInlineDateField</code> with no caption.
@@ -33,7 +33,7 @@ public class I18NInlineDateField extends InlineDateField implements I18NAwareFie
 	 * 
 	 * @param dataSource
 	 */
-	public I18NInlineDateField(Property dataSource) {
+	public I18NInlineDateField(Property<?> dataSource) {
 		super(dataSource);
 	}
 
@@ -67,7 +67,7 @@ public class I18NInlineDateField extends InlineDateField implements I18NAwareFie
 	 *            the caption message key of the I18NInlineDateField.
 	 * @param dataSource
 	 */
-	public I18NInlineDateField(@I18NAwareMessage String captionKey, Property dataSource) {
+	public I18NInlineDateField(@I18NAwareMessage String captionKey, Property<?> dataSource) {
 		super(captionKey, dataSource);
 		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
 	}
@@ -124,10 +124,10 @@ public class I18NInlineDateField extends InlineDateField implements I18NAwareFie
 		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
-	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
+	private I18NAwareFieldSupport<Date> getI18NAwareFieldSupport() {
 
 		if (i18NAwareFieldSupport == null) {
-			i18NAwareFieldSupport = new I18NAwareFieldSupport(this);
+			i18NAwareFieldSupport = new I18NAwareFieldSupport<Date>(this);
 		}
 
 		return i18NAwareFieldSupport;

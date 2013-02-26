@@ -114,8 +114,6 @@ public class TestVaadinUISupport {
 
     private Slider slider;
 
-    private SplitPanel splitPanel;
-
     private Tab tab;
 
     private Table table;
@@ -157,7 +155,6 @@ public class TestVaadinUISupport {
         button = new Button("The caption");
         button.setCaption("The caption");
         button.setDescription("The caption");
-        button.setRequiredError("The caption");
         checkBox = new CheckBox("The caption");
         checkBox.setCaption("The caption");
         checkBox.setDescription("The caption");
@@ -218,7 +215,6 @@ public class TestVaadinUISupport {
         nativeButton = new NativeButton("The caption");
         nativeButton.setCaption("The caption");
         nativeButton.setDescription("The caption");
-        nativeButton.setRequiredError("The caption");
         nativeSelect = new NativeSelect("The caption");
         nativeSelect.setCaption("The caption");
         nativeSelect.setDescription("The caption");
@@ -249,9 +245,6 @@ public class TestVaadinUISupport {
         slider.setCaption("The caption");
         slider.setDescription("The caption");
         slider.setRequiredError("The caption");
-        splitPanel = new SplitPanel();
-        splitPanel.setCaption("The caption");
-        splitPanel.setDescription("The caption");
         table = new Table("The caption");
         table.setCaption("The caption");
         table.setDescription("The caption");

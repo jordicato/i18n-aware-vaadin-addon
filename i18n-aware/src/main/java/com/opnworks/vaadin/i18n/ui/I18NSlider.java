@@ -13,10 +13,10 @@ import com.vaadin.ui.Slider;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
-@SuppressWarnings({ "serial", "unchecked" })
-public class I18NSlider extends Slider implements I18NAwareField {
+@SuppressWarnings("serial")
+public class I18NSlider extends Slider implements I18NAwareField<Double> {
 
-	private I18NAwareFieldSupport i18NAwareFieldSupport;
+	private I18NAwareFieldSupport<Double> i18NAwareFieldSupport;
 
 	public I18NSlider() {
 		super();
@@ -116,10 +116,10 @@ public class I18NSlider extends Slider implements I18NAwareField {
 		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
-	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
+	private I18NAwareFieldSupport<Double> getI18NAwareFieldSupport() {
 
 		if (i18NAwareFieldSupport == null) {
-			i18NAwareFieldSupport = new I18NAwareFieldSupport(this);
+			i18NAwareFieldSupport = new I18NAwareFieldSupport<Double>(this);
 		}
 
 		return i18NAwareFieldSupport;

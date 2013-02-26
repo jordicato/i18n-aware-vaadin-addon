@@ -10,7 +10,7 @@ import com.vaadin.data.validator.AbstractValidator;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-public abstract class I18NAbstractValidator extends AbstractValidator implements I18NAwareValidator {
+public abstract class I18NAbstractValidator<T> extends AbstractValidator<T> implements I18NAwareValidator {
 
 	private static final long serialVersionUID = -633288038283553961L;
 
