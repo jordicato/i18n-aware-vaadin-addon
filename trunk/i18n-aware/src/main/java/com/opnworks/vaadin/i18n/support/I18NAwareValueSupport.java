@@ -11,6 +11,7 @@ import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
  * 
  * @author Pedro Rodriguez
  */
+@SuppressWarnings("serial")
 public class I18NAwareValueSupport implements I18NAwareValue {
 
 	public interface ValueContainer {

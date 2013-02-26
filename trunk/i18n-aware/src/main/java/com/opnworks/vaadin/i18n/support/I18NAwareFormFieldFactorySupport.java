@@ -22,7 +22,7 @@ public class I18NAwareFormFieldFactorySupport implements FormFieldFactory {
 	}
 
 	@Override
-	public Field createField(Item item, Object propertyId, Component uiContext) {
+	public Field<?> createField(Item item, Object propertyId, Component uiContext) {
 		return delegate.createI18NAwareField(item, propertyId, uiContext);
 	}
 

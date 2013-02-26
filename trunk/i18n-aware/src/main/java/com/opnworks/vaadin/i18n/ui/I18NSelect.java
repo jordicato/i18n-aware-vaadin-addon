@@ -17,9 +17,10 @@ import com.vaadin.ui.Select;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NSelect extends Select implements I18NAwareField {
+@Deprecated
+public class I18NSelect extends Select implements I18NAwareField<Object> {
 
-	private I18NAwareFieldSupport i18NAwareFieldSupport;
+	private I18NAwareFieldSupport<Object> i18NAwareFieldSupport;
 
 	public I18NSelect() {
 		super();
@@ -90,10 +91,10 @@ public class I18NSelect extends Select implements I18NAwareField {
 		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
-	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
+	private I18NAwareFieldSupport<Object> getI18NAwareFieldSupport() {
 
 		if (i18NAwareFieldSupport == null) {
-			i18NAwareFieldSupport = new I18NAwareFieldSupport(this);
+			i18NAwareFieldSupport = new I18NAwareFieldSupport<Object>(this);
 		}
 
 		return i18NAwareFieldSupport;

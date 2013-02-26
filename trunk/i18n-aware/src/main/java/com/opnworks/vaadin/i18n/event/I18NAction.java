@@ -9,7 +9,7 @@ import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport.CaptionContainer;
 import com.vaadin.event.Action;
-import com.vaadin.terminal.Resource;
+import com.vaadin.server.Resource;
 
 /**
  * The I18NAware

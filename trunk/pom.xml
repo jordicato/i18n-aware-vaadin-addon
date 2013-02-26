@@ -32,8 +32,44 @@
 
 			<dependency>
 				<groupId>com.vaadin</groupId>
-				<artifactId>vaadin</artifactId>
-				<version>6.8.5</version>
+				<artifactId>vaadin-themes</artifactId>
+				<version>${vaadin.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-client-compiled</artifactId>
+				<version>${vaadin.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-client-compiler</artifactId>
+				<version>${vaadin.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-theme-compiler</artifactId>
+				<version>${vaadin.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-client</artifactId>
+				<version>${vaadin.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-server</artifactId>
+				<version>${vaadin.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-shared</artifactId>
+				<version>${vaadin.version}</version>
 			</dependency>
 
 			<dependency>
@@ -129,7 +165,29 @@
 
 		<dependency>
 			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin</artifactId>
+			<artifactId>vaadin-themes</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-client-compiled</artifactId>
+		</dependency>
+
+<!--
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-client</artifactId>
+		</dependency>
+-->
+
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-server</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-shared</artifactId>
 		</dependency>
 
 		<!-- JUnit/JMock -->
@@ -517,13 +575,21 @@
 		</pluginRepository>
 
 	</pluginRepositories>
+	
+	<properties>
+		<vaadin.version>7.0.1</vaadin.version>
+	</properties>
 
 	<modules>
 		<module>i18n-aware</module>
 		<module>i18n-aware-appconverter</module>
 		<module>i18n-aware-demo</module>
-		<module>i18n-aware-sampler</module>
 		<module>i18n-aware-aspects</module>
+
+		<!--		
+		<module>i18n-aware-sampler</module>
+		-->
+		
 	</modules>
 
 </project>

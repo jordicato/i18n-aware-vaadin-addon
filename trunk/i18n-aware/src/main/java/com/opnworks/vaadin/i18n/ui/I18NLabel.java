@@ -2,16 +2,15 @@ package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
-import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NAwareValue;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
-import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.ValueContainer;
 import com.vaadin.data.Property;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
 
 /**
@@ -20,18 +19,18 @@ import com.vaadin.ui.Label;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
-@SuppressWarnings({ "unchecked", "serial" })
+@SuppressWarnings("serial")
 public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCaption, I18NAwareValue, ValueContainer {
 
-	private I18NAwareFieldSupport i18NAwareFieldSupport;
-	
+	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
+
 	private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(this);
 
 	private I18NAwareValueSupport i18NDescriptionSupport = new I18NAwareValueSupport(new ValueContainer() {
 		@Override
 		public void setValue(String value) {
 			setDescription(value);
-			
+
 		}
 	});
 
@@ -49,7 +48,7 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 	 * 
 	 * @param contentSource
 	 */
-	public I18NLabel(Property contentSource) {
+	public I18NLabel(Property<?> contentSource) {
 		super(contentSource);
 	}
 
@@ -59,7 +58,7 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 	 * @param contentSource
 	 * @param contentMode
 	 */
-	public I18NLabel(Property contentSource, int contentMode) {
+	public I18NLabel(Property<?> contentSource, ContentMode contentMode) {
 		super(contentSource, contentMode);
 	}
 
@@ -68,7 +67,7 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 	 * 
 	 * @param content
 	 */
-	public I18NLabel(@I18NAwareMessage String contentKey) {		
+	public I18NLabel(@I18NAwareMessage String contentKey) {
 		super();
 		setCaptionMessage(contentKey);
 	}
@@ -79,7 +78,7 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 	 * @param content
 	 * @param contentMode
 	 */
-	public I18NLabel(@I18NAwareMessage String contentKey, int contentMode) {
+	public I18NLabel(@I18NAwareMessage String contentKey, ContentMode contentMode) {
 		super();
 		super.setCaption(contentKey);
 		super.setContentMode(contentMode);
@@ -115,7 +114,7 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
-		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
+		getI18NAwareComponentCaptionSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
@@ -149,13 +148,13 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 			i18NAwareValueSupport = new I18NAwareValueSupport(this);
 		}
 	}
-	
-	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
 
-		if (i18NAwareFieldSupport == null) {
-			i18NAwareFieldSupport = new I18NAwareFieldSupport((I18NAwareField) this);
+	private I18NAwareComponentCaptionSupport getI18NAwareComponentCaptionSupport() {
+
+		if (i18NAwareComponentCaptionSupport == null) {
+			i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 		}
 
-		return i18NAwareFieldSupport;
+		return i18NAwareComponentCaptionSupport;
 	}
 }

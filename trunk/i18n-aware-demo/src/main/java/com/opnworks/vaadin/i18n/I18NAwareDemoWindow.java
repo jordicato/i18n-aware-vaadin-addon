@@ -3,7 +3,7 @@ package com.opnworks.vaadin.i18n;
 import java.util.Locale;
 
 import com.opnworks.vaadin.i18n.service_impl.I18NAwareFactory;
-import com.opnworks.vaadin.i18n.ui.I18NWindow;
+import com.opnworks.vaadin.i18n.ui.I18NHorizontalLayout;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.validator.EmailValidator;
@@ -15,7 +15,7 @@ import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-public class I18NAwareDemoWindow extends I18NWindow {
+public class I18NAwareDemoWindow extends I18NHorizontalLayout  {
 
 	private static final long serialVersionUID = -2694348034991874484L;
 
@@ -23,7 +23,7 @@ public class I18NAwareDemoWindow extends I18NWindow {
 	
 	public I18NAwareDemoWindow(I18NService i18NService) {
 		
-		super("main.window.title");
+		//super("main.window.title");
 		
 		this.i18NService = i18NService;
 

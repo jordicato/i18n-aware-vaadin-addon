@@ -14,10 +14,10 @@ import com.vaadin.ui.TextArea;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
-@SuppressWarnings({ "serial", "unchecked" })
-public class I18NTextArea extends TextArea implements I18NAwareField {
+@SuppressWarnings("serial")
+public class I18NTextArea extends TextArea implements I18NAwareField<String> {
 
-	private I18NAwareFieldSupport i18NAwareFieldSupport;
+	private I18NAwareFieldSupport<String> i18NAwareFieldSupport;
 
 	/**
 	 * Constructs an empty i18n TextArea.
@@ -32,7 +32,7 @@ public class I18NTextArea extends TextArea implements I18NAwareField {
 	 * @param dataSource
 	 *            the data source for the field
 	 */
-	public I18NTextArea(Property dataSource) {
+	public I18NTextArea(Property<?> dataSource) {
 		super(dataSource);
 	}
 
@@ -55,7 +55,7 @@ public class I18NTextArea extends TextArea implements I18NAwareField {
 	 * @param dataSource
 	 *            the data source for the field
 	 */
-	public I18NTextArea(@I18NAwareMessage String captionKey, Property dataSource) {
+	public I18NTextArea(@I18NAwareMessage String captionKey, Property<?> dataSource) {
 		super(captionKey, dataSource);
 		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
 	}
@@ -123,10 +123,10 @@ public class I18NTextArea extends TextArea implements I18NAwareField {
 		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
-	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
+	private I18NAwareFieldSupport<String> getI18NAwareFieldSupport() {
 
 		if (i18NAwareFieldSupport == null) {
-			i18NAwareFieldSupport = new I18NAwareFieldSupport(this);
+			i18NAwareFieldSupport = new I18NAwareFieldSupport<String>(this);
 		}
 
 		return i18NAwareFieldSupport;

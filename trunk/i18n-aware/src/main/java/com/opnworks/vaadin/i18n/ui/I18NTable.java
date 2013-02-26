@@ -22,13 +22,13 @@ import com.vaadin.ui.Table;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NTable extends Table implements I18NAwareComponent, I18NAwareCaption, I18NAwareField {
+public class I18NTable extends Table implements I18NAwareComponent, I18NAwareCaption, I18NAwareField<Object> {
 
 	private I18NAwareSupport i18NAwareSupport = new I18NAwareSupport();
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 	
-	private I18NAwareFieldSupport i18NAwareFieldSupport;
+	private I18NAwareFieldSupport<Object> i18NAwareFieldSupport;
 
 	private String[] columnHeadersKeys;
 
@@ -176,10 +176,10 @@ public class I18NTable extends Table implements I18NAwareComponent, I18NAwareCap
 		}
 	}
 	
-	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
+	private I18NAwareFieldSupport<Object> getI18NAwareFieldSupport() {
 
 		if (i18NAwareFieldSupport == null) {
-			i18NAwareFieldSupport = new I18NAwareFieldSupport((I18NAwareField) this);
+			i18NAwareFieldSupport = new I18NAwareFieldSupport<Object>((I18NAwareField<Object>) this);
 		}
 
 		return i18NAwareFieldSupport;

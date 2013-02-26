@@ -44,12 +44,8 @@ public class I18NButtonTest extends AbstractI18NTest {
 		// Constructors
 		assertI18NAwareMessagePresent(I18NButton.class, 0, String.class);
 		assertI18NAwareMessagePresent(I18NButton.class, 0, String.class, ClickListener.class);
-		assertI18NAwareMessagePresent(I18NButton.class, 0, String.class, Object.class, String.class);
-		assertI18NAwareMessagePresent(I18NButton.class, 0, String.class, Boolean.TYPE);
-		assertI18NAwareMessagePresent(I18NButton.class, 0, String.class, Property.class);
 
 		// Methods
-		assertI18NAwareMessagePresent(I18NButton.class, "setRequiredErrorMessage", 0, String.class, Object[].class);
 		assertI18NAwareMessagePresent(I18NButton.class, "setCaptionMessage", 0, String.class, Object[].class);
 		assertI18NAwareMessagePresent(I18NButton.class, "setDescriptionMessage", 0, String.class, Object[].class);
 	}

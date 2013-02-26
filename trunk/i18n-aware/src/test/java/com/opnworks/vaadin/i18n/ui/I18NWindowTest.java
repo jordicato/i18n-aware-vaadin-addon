@@ -22,7 +22,7 @@ public class I18NWindowTest extends AbstractI18NTest {
 
 		component.addComponent(button);
 
-		i18NWindow.addComponent(component);
+		i18NWindow.setContent(component);
 
 		performTest(i18NWindow, new I18NAwareTest() {
 

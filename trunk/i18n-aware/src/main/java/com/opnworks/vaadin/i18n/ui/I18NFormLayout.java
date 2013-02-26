@@ -14,6 +14,7 @@ import com.vaadin.ui.FormLayout;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
+@SuppressWarnings("serial")
 @GenerateInstantiateSubclassAspect
 public class I18NFormLayout extends FormLayout implements I18NAwareLayout {
 
@@ -24,7 +25,6 @@ public class I18NFormLayout extends FormLayout implements I18NAwareLayout {
 	public void addComponent(Component c) {
 		super.addComponent(c);
 		i18nAwareSupport.add(c);
-
 	}
 
 	@Override

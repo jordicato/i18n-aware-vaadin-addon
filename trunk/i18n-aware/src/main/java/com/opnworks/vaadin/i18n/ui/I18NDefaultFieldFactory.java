@@ -34,34 +34,34 @@ public class I18NDefaultFieldFactory implements I18NAwareFormFieldFactory, I18NA
 	}
 
 	@Override
-	public Field createField(Container container, Object itemId, Object propertyId, Component uiContext) {
+	public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
 
 		return createI18NAwareField(container, itemId, propertyId, uiContext);
 	}
 
 	@Override
-	public Field createField(Item item, Object propertyId, Component uiContext) {
+	public Field<?> createField(Item item, Object propertyId, Component uiContext) {
 		return createI18NAwareField(item, propertyId, uiContext);
 	}
 
 	@Override
-	public I18NAwareField createI18NAwareField(Container container, Object itemId, Object propertyId, Component uiContext) {
-		Property containerProperty = container.getContainerProperty(itemId, propertyId);
+	public I18NAwareField<?> createI18NAwareField(Container container, Object itemId, Object propertyId, Component uiContext) {
+		Property<?> containerProperty = container.getContainerProperty(itemId, propertyId);
 		Class<?> type = containerProperty.getType();
-		I18NAwareField field = createI18NFieldByPropertyType(type);
+		I18NAwareField<?> field = createI18NFieldByPropertyType(type);
 		field.setCaptionMessage(createCaptionKeyByPropertyId(propertyId, uiContext));
 		return field;
 	}
 
 	@Override
-	public I18NAwareField createI18NAwareField(Item item, Object propertyId, Component uiContext) {
+	public I18NAwareField<?> createI18NAwareField(Item item, Object propertyId, Component uiContext) {
 		Class<?> type = item.getItemProperty(propertyId).getType();
-		I18NAwareField field = createI18NFieldByPropertyType(type);
+		I18NAwareField<?> field = createI18NFieldByPropertyType(type);
 		field.setCaptionMessage(createCaptionKeyByPropertyId(propertyId, uiContext));
 		return field;
 	}
 
-	public I18NAwareField createI18NFieldByPropertyType(Class<?> type) {
+	public I18NAwareField<?> createI18NFieldByPropertyType(Class<?> type) {
 		// Null typed properties can not be edited
 		if (type == null) {
 			return null;

@@ -12,38 +12,6 @@ import com.opnworks.vaadin.i18n.AbstractI18NTest;
 public class I18NPanelTest extends AbstractI18NTest {
 
 	@Test
-	public void testAddComponent() {
-
-		final I18NPanel i18NPanel = new I18NPanel();
-
-		I18NVerticalLayout component = new I18NVerticalLayout();
-
-		final I18NButton button = new I18NButton(TEST_KEY_1);
-
-		component.addComponent(button);
-
-		i18NPanel.addComponent(component);
-
-		performTest(i18NPanel, new I18NAwareTest() {
-
-			@Override
-			public String getActualValue() {
-				return button.getCaption();
-			}
-
-			@Override
-			public String getKey() {
-				return TEST_KEY_1;
-			}
-
-			@Override
-			public Object[] getParams() {
-				return null;
-			}
-		});
-	}
-
-	@Test
 	public void testConstructorCaptionKey() {
 
 		final I18NPanel i18NPanel = new I18NPanel(TEST_KEY_1);
@@ -98,13 +66,13 @@ public class I18NPanelTest extends AbstractI18NTest {
 	@Test
 	public void testSetContent() {
 
-		final I18NPanel i18NPanel = new I18NPanel();
-
 		I18NVerticalLayout component = new I18NVerticalLayout();
 
 		final I18NButton button = new I18NButton(TEST_KEY_1);
 
 		component.addComponent(button);
+
+		final I18NPanel i18NPanel = new I18NPanel();
 
 		i18NPanel.setContent(component);
 

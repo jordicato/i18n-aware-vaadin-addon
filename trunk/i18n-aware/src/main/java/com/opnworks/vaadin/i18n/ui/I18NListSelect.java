@@ -17,14 +17,14 @@ import com.vaadin.ui.ListSelect;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NListSelect extends ListSelect implements I18NAwareField {
+public class I18NListSelect extends ListSelect implements I18NAwareField<Object> {
 
-	private I18NAwareFieldSupport i18NAwareFieldSupport;
+	private I18NAwareFieldSupport<Object> i18NAwareFieldSupport;
 
 	public I18NListSelect() {
 		super();
 	}
-	
+
 	public I18NListSelect(@I18NAwareMessage String captionKey) {
 		super(captionKey);
 		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
@@ -65,7 +65,7 @@ public class I18NListSelect extends ListSelect implements I18NAwareField {
 		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
-	public void setI18NAwareFieldSupport(I18NAwareFieldSupport i18nAwareFieldSupport) {
+	public void setI18NAwareFieldSupport(I18NAwareFieldSupport<Object> i18nAwareFieldSupport) {
 		i18NAwareFieldSupport = i18nAwareFieldSupport;
 	}
 
@@ -94,10 +94,10 @@ public class I18NListSelect extends ListSelect implements I18NAwareField {
 		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
-	private I18NAwareFieldSupport getI18NAwareFieldSupport() {
+	private I18NAwareFieldSupport<Object> getI18NAwareFieldSupport() {
 
 		if (i18NAwareFieldSupport == null) {
-			i18NAwareFieldSupport = new I18NAwareFieldSupport(this);
+			i18NAwareFieldSupport = new I18NAwareFieldSupport<Object>(this);
 		}
 
 		return i18NAwareFieldSupport;
