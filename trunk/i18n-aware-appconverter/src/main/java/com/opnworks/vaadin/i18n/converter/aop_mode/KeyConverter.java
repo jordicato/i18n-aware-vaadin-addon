@@ -68,7 +68,6 @@ import javax.lang.model.type.PrimitiveType;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.converter.ConverterException;
 import com.opnworks.vaadin.i18n.converter.main.CommandLineOutput;
-import com.vaadin.data.util.filter.IsNull;
 
 /**
  * Class to get all vaadin widgets captions key
@@ -252,8 +251,8 @@ public class KeyConverter {
 	}
 
 	// Its determine if some parameter constructor types is String
-	private boolean existStringParamType(Constructor<?> constructor) {
-		for (Class<?> type : constructor.getParameterTypes() ) {
+	private boolean existStringParamType(Class<?>[] parameterTypes) {
+		for (Class<?> type : parameterTypes ) {
 			try {
 				if (type == Class.forName("java.lang.String")) {
 					return true;
@@ -270,7 +269,7 @@ public class KeyConverter {
 
 	// Its determine if some args in expression are instance of StringLiteralExpr
 	private boolean thereIsStringArgs(List<Expression> args) {
-		if (!(args == null)) {
+		if (args != null) {
 			for (Expression expr : args ) {
 				if (expr instanceof StringLiteralExpr) {
 					return true;
@@ -280,86 +279,74 @@ public class KeyConverter {
 		return false;
 	}
 
-	/*
-	 * private class MarkedI18NAwareMessage { boolean mark; List<Integer> paramPos;
-	 * 
-	 * MarkedI18NAwareMessage() { this.mark = false; this.paramPos = new ArrayList<Integer>(); } }
-	 */
-
-	// Its determine if a method called contains literals params marked by the @I18NAwareMessage annotation
-	private List<Boolean> getI18NAwareMessageParamsPositions(MethodCallExpr method) {
-		List<Boolean> paramPositions = new ArrayList<Boolean>();
-		if (listVaadinVars.isEmpty()) {
-			return new ArrayList<Boolean>();
-		}
-		if (method.getArgs() != null && thereIsStringArgs(method.getArgs())) {
-			String methodName = method.getName();
-			String methodInvokedByVar = method.getScope() == null ? "" : method.getScope().toString();
-			String vaadinClass = getVaadinVar(methodInvokedByVar) == null ? "" : getVaadinVar(methodInvokedByVar).getType();
-			Class<?> i18nClass = getMatchingI18NClass(vaadinClass);
-			if (i18nClass != null) {
-				for (Method singleMethod : i18nClass.getMethods() ) {
-					String methodNameInClass = "";
-					String varName = "";
-					if (singleMethod.getName().equals(methodName)
-							&& !(singleMethod.getParameterAnnotations() == null)
-							&& ((singleMethod.getParameterTypes() == null) ? false : singleMethod.getParameterTypes().length == method.getArgs()
-									.size())) {
-						paramPositions.clear();
-						for (Annotation[] parameterAnnotation : singleMethod.getParameterAnnotations() ) {
-							paramPositions.add(false);
-							for (Annotation parameterAnnotation1 : parameterAnnotation ) {
-								if (parameterAnnotation1 instanceof I18NAwareMessage) {
-									paramPositions.set(paramPositions.size() - 1, true);
-									methodNameInClass = methodName;
-									varName = methodInvokedByVar;
-								}
-							}
-						}
-						commandLineOutput.getOutput().println(
-								(paramPositions.contains(true) ? "Is marked var name: " + varName + " --> Method name: " + methodNameInClass
-										: "Is not marked var name: " + methodInvokedByVar + " --> Method name: " + methodName)
-										+ " --> Method Pos: "
-										+ paramPositions.toString());
-						return (paramPositions.contains(true)) ? paramPositions : new ArrayList<Boolean>();
-					}
-				}
+	// Its determine if some parameter is marked with @I18NAwareMessage
+	private boolean containsI18NAwareMessage(Annotation[] parameterAnnotation) {
+		for (Annotation parameterAnnotation1 : parameterAnnotation ) {
+			if (parameterAnnotation1 instanceof I18NAwareMessage) {
+				return true;
 			}
 		}
-		return new ArrayList<Boolean>();
+		return false;
 	}
-
-	// Its determine if some parameters in constructor contains literals params marked by the @I18NAwareMessage annotation
-	private List<Boolean> getI18NAwareMessageParamsPositions(ObjectCreationExpr method) {
-		List<Boolean> paramPositions = new ArrayList<Boolean>();
-		if (method.getArgs() != null && thereIsStringArgs(method.getArgs())) {
-			String methodName = PREFIX_I18NAWARE_CLASS + method.getType().toString();
-			Class<?> i18nClass = getMatchingI18NClass(method.getType().toString());
-			if (i18nClass != null) {
-				for (Constructor<?> singleConstructor : i18nClass.getConstructors() ) {
-					String constructorNameInClass = "";
-					if ((singleConstructor.getName().equals(methodName))
-							&& ((singleConstructor.getParameterTypes() == null) ? false : (existStringParamType(singleConstructor))
-									&& (singleConstructor.getParameterTypes().length == method.getArgs().size()))) {
-						paramPositions.clear();
-						for (Annotation[] parameterAnnotation : singleConstructor.getParameterAnnotations() ) {
-							paramPositions.add(false);
-							for (Annotation parameterAnnotation1 : parameterAnnotation ) {
-								if (parameterAnnotation1 instanceof I18NAwareMessage) {
-									paramPositions.set(paramPositions.size() - 1, true);
-									constructorNameInClass = method.getType().toString();
-								}
-							}
-						}
-						commandLineOutput.getOutput().println(
-								(paramPositions.contains(true) ? "Is marked constructor name: " + constructorNameInClass
-										: "Is not marked constructor name: " + methodName) + " --> Method Pos: " + paramPositions.toString());
-						return (paramPositions.contains(true)) ? paramPositions : new ArrayList<Boolean>();
-					}
+	
+	// Find the positions of @I18NAwareMessage parameters
+	private List<Integer> getI18NAwareMessageParamsPositions(MethodCallExpr method) {
+		List<Integer> paramPositions = new ArrayList<Integer>();
+		//If there is not variable ui vaadin declared in the source, the method called in (method parameter) is not invoked by any variable ui vaadin, logically.
+		//getI18NAwareMessageParamsPositions(MethodCallExpr method) is applied for the methods invoked by variables ui vaadin, previously "listVaadinVars" is
+		//filled with all ui vaadin vars in the source that is analyzing in this moment. Its necessary to know what is the type of the variable that is invoking
+		//The method in process for to analyze their corresponding "I18NAvare ui class".
+		if (listVaadinVars.isEmpty() || !thereIsStringArgs(method.getArgs())) {
+			return paramPositions;
+		}
+		String methodName = method.getName();
+		String methodInvokedByVar = method.getScope() == null ? "" : method.getScope().toString();
+		String vaadinClass = getVaadinVar(methodInvokedByVar) == null ? "" : getVaadinVar(methodInvokedByVar).getType();
+		Class<?> i18nClass = getMatchingI18NClass(vaadinClass);
+		if (!((i18nClass == null) ? true : ((i18nClass.getMethods() == null) ? true : i18nClass.getMethods().length > 0))) {
+			return paramPositions;
+		}
+		for (Method singleMethod : i18nClass.getMethods() ) {
+			if (singleMethod.getName().equals(methodName)
+					&& (singleMethod.getParameterAnnotations() != null)
+					&& ((singleMethod.getParameterTypes() == null) ? false : existStringParamType(singleMethod.getParameterTypes()))) {
+				for( int index = 0; index < singleMethod.getParameterAnnotations().length; index++ ) {
+					Annotation[] parameterAnnotations = singleMethod.getParameterAnnotations()[index];
+				    if( containsI18NAwareMessage( parameterAnnotations ) ) {
+				         paramPositions.add( index );
+				    }
 				}
+				return paramPositions;
+			}
+		}		
+		return paramPositions;
+	}
+	
+	// Its determine if some parameters in constructor contains literals params marked by the @I18NAwareMessage annotation
+	private List<Integer> getI18NAwareMessageParamsPositions(ObjectCreationExpr method) {
+		List<Integer> paramPositions = new ArrayList<Integer>();
+		if (!thereIsStringArgs(method.getArgs())) {
+			return paramPositions;
+		}
+		String methodName = PREFIX_I18NAWARE_CLASS + method.getType().toString();
+		Class<?> i18nClass = getMatchingI18NClass(method.getType().toString());
+		if (!((i18nClass == null) ? true : ((i18nClass.getConstructors() == null) ? true : i18nClass.getConstructors().length > 0))) {
+			return paramPositions;
+		}
+		for (Constructor<?> singleConstructor : i18nClass.getConstructors() ) {
+			if ((singleConstructor.getName().equals(methodName))
+					&& ((singleConstructor.getParameterTypes() == null) ? false : (existStringParamType(singleConstructor.getParameterTypes()))
+							&& (singleConstructor.getParameterTypes().length == method.getArgs().size()))) {
+				for( int index = 0; index < singleConstructor.getParameterAnnotations().length; index++ ) {
+					Annotation[] parameterAnnotations = singleConstructor.getParameterAnnotations()[index];
+				    if( containsI18NAwareMessage( parameterAnnotations ) ) {
+				         paramPositions.add( index );
+				    }
+				}
+				return paramPositions;
 			}
 		}
-		return new ArrayList<Boolean>();
+		return paramPositions;
 	}
 
 	// Its keeps in listKey only the keys that are used in source
@@ -388,10 +375,6 @@ public class KeyConverter {
 			return false;
 		}
 		return true;
-	}
-
-	public boolean getChangeOptionKey() {
-		return this.optionChangeKey;
 	}
 
 	public Key getCompleteKey(String key) {
@@ -558,6 +541,10 @@ public class KeyConverter {
 		this.optionChangeKey = opt;
 	}
 
+	public boolean getChangeOptionKey() {
+		return this.optionChangeKey;
+	}
+	
 	// Stores values of all String variables in each class
 	private void addStringVarValue(String id, String value) {
 		if (value.length() > 0) {
@@ -680,14 +667,14 @@ public class KeyConverter {
 	}
 
 	// Its add the corresponding key to a text to listKey, if key already is a key, return the corresponding text to source
-	private void addKey(StringLiteralExpr key, boolean option) {
+	private void addKey(StringLiteralExpr key) {
 		try {
 			if (key.getValue().length() > 0) {
 				if (isTranslatable(key.getValue())) {
 					boolean insert = true;
 					if (key instanceof StringLiteralExpr) {
 						if (!isStringToDiscard(key.getValue())) {
-							if (!option) {
+							if (!getChangeOptionKey()) {
 								String value = key.getValue();
 								String gKey = key.getValue();
 
@@ -723,7 +710,7 @@ public class KeyConverter {
 											Key newKey = new Key(gKey, value, javaFileFullClassName, keyAux.getMaxSuffixClass() + 1,
 													keyAux.getMaxSuffixClass() + 1);
 
-											if (!option) {
+											if (!getChangeOptionKey()) {
 												key.setValue(newKey.getCompleteKey());
 												lisKey.add(newKey);
 												getCompleteKey(newKey.getCompleteKey()).setKeep(true);
@@ -743,7 +730,7 @@ public class KeyConverter {
 
 											newKey.setKeep(true);
 
-											if (!option) {
+											if (!getChangeOptionKey()) {
 												key.setValue(newKey.getCompleteKey());
 												lisKey.add(newKey);
 												getCompleteKey(newKey.getCompleteKey()).setKeep(true);
@@ -832,35 +819,13 @@ public class KeyConverter {
 	 * 
 	 * @param largs
 	 */
-
-	private StringLiteralExpr extactExprCaption(ObjectCreationExpr exp) {
-		// if (isVaadinComponent(type.toString()) & !(exp.getArgs() == null)) {
-		if (!getI18NAwareMessageParamsPositions(exp).isEmpty()) {
-			// isMarkedWithI18NAwareMessage(exp);
-			boolean flag = false;
-
-			try {
-				flag = !exp.getArgs().isEmpty();
-			}
-			catch (Exception e) {
-				// TODO: handle exception
-			}
-
-			if (flag) {
-				if (exp.getArgs().get(0) instanceof StringLiteralExpr) {
-					if (!isNumberParameter(exp.getArgs().get(0).toString())) {
-						return ((StringLiteralExpr) exp.getArgs().get(0));
-					}
-				}
-				else if (exp.getArgs().get(0) instanceof BinaryExpr) {
-					// processBinaryExpr((BinaryExpr) exp.getArgs().get(0));
-				}
-				else if (isIdInStringValueList(exp.getArgs().get(0).toString())) {
-					// addKey(new StringLiteralExpr(getValueById(exp.getArgs().get(0).toString())), optionChangeKey);
-				}
-			}
-		}
-		return new StringLiteralExpr();
+	private void processLiteralExprParam(ObjectCreationExpr exp) {
+		List<Integer> paramsPositions = getI18NAwareMessageParamsPositions(exp);
+		if (!paramsPositions.isEmpty()) {			
+			for (Integer pos : paramsPositions) {
+				addKey((StringLiteralExpr) exp.getArgs().get(pos));
+			}		
+		}		
 	}
 
 	// It generates keys of around 30 characters
@@ -920,16 +885,6 @@ public class KeyConverter {
 		return javaFileFullClassName + finalKey; // + keyNumber;
 	}
 
-	// It determines if a string is an ID of String variable in the class
-	private boolean isIdInStringValueList(String id) {
-		for (StringValue s : lisStringValue ) {
-			if (s.getId().equals(id)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	// It determines if a text is assigned to a variable of String type in the class
 	private boolean isValueInStringValueList(String value) {
 		for (StringValue s : lisStringValue ) {
@@ -940,6 +895,7 @@ public class KeyConverter {
 		return false;
 	}
 
+	//Its determine if listKey contains a Key with name "key"
 	private boolean isInKeyList(String key, List<Key> list) {
 		// lisKey.contains(k);
 		for (Key k : list ) {
@@ -961,6 +917,7 @@ public class KeyConverter {
 		return false;
 	}
 
+	//Ist determine is any parameter in source is a number
 	private boolean isNumberParameter(String parameter) {
 		try {
 			Float.parseFloat(parameter);
@@ -972,6 +929,7 @@ public class KeyConverter {
 		}
 	}
 
+	//Its determine if a literal parameter in source is an String to discard
 	private boolean isStringToDiscard(String name) {
 		for (String element : stringToDiscard ) {
 			if (name.contains(element)) {
@@ -981,6 +939,7 @@ public class KeyConverter {
 		return false;
 	}
 
+	// Its determine is name corresponds to a var name id declared in source
 	private boolean isVaadinComponent(String name) {
 		for (ImportDeclaration id : lidtarget ) {
 			if (id.getName().getName().equals(name)) {
@@ -993,45 +952,24 @@ public class KeyConverter {
 		return false;
 	}
 
-	/*
-	 * private boolean isValidClass(String name) { boolean is = false; for (String validClasse : validClasses ) { if (name.endsWith(validClasse)) { is
-	 * = true; } } return is; }
-	 */
-
-	/*
-	 * private int generateKeyNumber(String caption) { int sum = 0; for (int i = 0; i < caption.length(); i++ ) { int I = caption.charAt(i); sum = sum
-	 * + I; } return sum; }
-	 */
-
-	/*
-	 * private boolean isValidMethod(String name) { boolean is = false; for (String validMethod : validMethods ) { if (validMethod.equals(name)) { is
-	 * = true; } } return is; }
-	 */
-
+	// Process arguments for all methods called in source
 	private void processArgs(MethodCallExpr methodCallE) {
-		List<Expression> largs = methodCallE.getArgs();
-		// String methodName = methodCallE.getName();
-		if (!getI18NAwareMessageParamsPositions(methodCallE).isEmpty()) {
-			// if (isValidMethod(methodName)) {
-			if (largs != null) {
-				for (int i = 0; i < largs.size(); i++ ) {
+		List<Expression> largs = methodCallE.getArgs();				
+		if (largs != null) {
+			List<Integer> paramsPositions = getI18NAwareMessageParamsPositions(methodCallE);
+			if (!paramsPositions.isEmpty()) {
+				for (Integer pos : paramsPositions) {
+					addKey((StringLiteralExpr) largs.get(pos));
+				}					
+			}
+			if (largs.size() > paramsPositions.size()) {
+				for (int i = 0; (i < largs.size()) && !(paramsPositions.contains(i)); i++ ) {
 					if (largs.get(i) instanceof ObjectCreationExpr) {
 						ObjectCreationExpr exp = (ObjectCreationExpr) largs.get(i);
-						addKey(extactExprCaption(exp), optionChangeKey);
+						processLiteralExprParam(exp);
 					}
 					else if (largs.get(i) instanceof MethodCallExpr) {
 						processArgs((MethodCallExpr) largs.get(i));
-					}
-					else if (largs.get(i) instanceof StringLiteralExpr) {
-						if (!isNumberParameter(largs.get(i).toString())) {
-							addKey((StringLiteralExpr) largs.get(i), optionChangeKey);
-						}
-					}
-					else if (largs.get(i) instanceof BinaryExpr) {
-						// processBinaryExpr((BinaryExpr) largs.get(i));
-					}
-					else if (isIdInStringValueList(largs.get(i).toString())) {
-						// addKey(new StringLiteralExpr(getValueById(largs.get(i).toString())), optionChangeKey);
 					}
 				}
 			}
@@ -1057,7 +995,7 @@ public class KeyConverter {
 				if (ae.getValue() instanceof ObjectCreationExpr) {
 					// varName = ae.getTarget().toString();
 					ObjectCreationExpr exp = (ObjectCreationExpr) ae.getValue();
-					addKey(extactExprCaption(exp), optionChangeKey);
+					processLiteralExprParam(exp);
 				}
 				else if (ae.getValue() instanceof MethodCallExpr) {
 					// varName = ae.getTarget().toString();
@@ -1082,7 +1020,7 @@ public class KeyConverter {
 						}
 						else if (vd.getInit() instanceof ObjectCreationExpr) {
 							ObjectCreationExpr exp = (ObjectCreationExpr) vd.getInit();
-							addKey(extactExprCaption(exp), optionChangeKey);
+							processLiteralExprParam(exp);
 						}
 					}
 				}
@@ -1096,7 +1034,7 @@ public class KeyConverter {
 			CastExpr ce = (CastExpr) expression;
 			if (ce.getExpr() instanceof ObjectCreationExpr) {
 				ObjectCreationExpr exp = (ObjectCreationExpr) ce.getExpr();
-				addKey(extactExprCaption(exp), optionChangeKey);
+				processLiteralExprParam(exp);
 			}
 			else if (ce.getExpr() instanceof MethodCallExpr) {
 				// varName = expression.toString().split(((MethodCallExpr) expression).getName())[0].replace(".", ""); processArgs((MethodCallExpr)
@@ -1119,7 +1057,7 @@ public class KeyConverter {
 		}
 		else if (expression instanceof ObjectCreationExpr) {
 			ObjectCreationExpr exp = (ObjectCreationExpr) expression;
-			addKey(extactExprCaption(exp), optionChangeKey);
+			processLiteralExprParam(exp);
 		}
 		else if (expression instanceof ClassExpr) {
 			// ClassExpr ce = (ClassExpr) expression;
@@ -1159,7 +1097,7 @@ public class KeyConverter {
 			// return expression;
 		}
 		else if (expression instanceof StringLiteralExpr) {
-			addKey((StringLiteralExpr) expression, optionChangeKey);
+			addKey((StringLiteralExpr) expression);
 		}
 		else {
 			throw new RuntimeException("Expression not supported " + expression.getClass());
@@ -1213,11 +1151,11 @@ public class KeyConverter {
 			processBinary((BinaryExpr) expLeft);
 		}
 		else if (expLeft instanceof StringLiteralExpr) {
-			addKey((StringLiteralExpr) expLeft, optionChangeKey);
+			addKey((StringLiteralExpr) expLeft);
 		}
 
 		if (expRight instanceof StringLiteralExpr) {
-			addKey((StringLiteralExpr) expRight, optionChangeKey);
+			addKey((StringLiteralExpr) expRight);
 		}
 
 		return exp;
@@ -1270,7 +1208,7 @@ public class KeyConverter {
 									}
 								}
 								else {
-									addKey(extactExprCaption(exp), optionChangeKey);
+									processLiteralExprParam(exp);
 								}
 
 							}
