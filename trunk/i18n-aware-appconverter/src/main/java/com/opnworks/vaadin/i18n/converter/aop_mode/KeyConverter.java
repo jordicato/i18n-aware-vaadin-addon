@@ -113,7 +113,7 @@ public class KeyConverter {
 			return this.completeKey;
 		}
 
-		public String geKey() {
+		public String getKey() {
 			return this.key;
 		}
 
@@ -201,20 +201,20 @@ public class KeyConverter {
 	private String javaFileName;
 	private String javaFileFullClassName;
 	private String[] stringToDiscard = { "<a href=", "alert(", "../", "http://" };
-	private List<Key> lisKey;
+	private List<Key> listKey;
 	private List<StringValue> lisStringValue = new ArrayList<StringValue>();
 	private List<VaadinVars> listVaadinVars = new ArrayList<VaadinVars>();
 	private List<ImportDeclaration> lidtarget;
 	private ResourceBundle bundle = null;
 
 	public KeyConverter() {
-		lisKey = new ArrayList<Key>();
+		listKey = new ArrayList<Key>();
 	}
 
 	// To obtain the Key object that contain a certain key
-	public Key geKey(String key) {
-		for (Key k : lisKey ) {
-			if (k.geKey().equals(key)) {
+	public Key getKey(String key) {
+		for (Key k : listKey ) {
+			if (k.getKey().equals(key)) {
 				return k;
 			}
 		}
@@ -244,7 +244,7 @@ public class KeyConverter {
 			}
 			catch (ClassNotFoundException e) {
 				ConverterException converterException = new ConverterException(e);
-				commandLineOutput.getOutput().println("Class: " + classNameAux + " not found, cause: " + converterException.getCause().getMessage());
+				commandLineOutput.getOutput().println("Class: " + classNameAux + " not found, cause: " + converterException.getCause());
 			}
 		}
 		return clas;
@@ -261,7 +261,7 @@ public class KeyConverter {
 			catch (ClassNotFoundException e) {
 				ConverterException converterException = new ConverterException(e);
 				commandLineOutput.getOutput()
-						.println("Class: " + type.getName() + " not found, cause: " + converterException.getCause().getMessage());
+						.println("Class: " + type.getName() + " not found, cause: " + converterException.getCause());
 			}
 		}
 		return false;
@@ -303,7 +303,7 @@ public class KeyConverter {
 		String methodInvokedByVar = method.getScope() == null ? "" : method.getScope().toString();
 		String vaadinClass = getVaadinVar(methodInvokedByVar) == null ? "" : getVaadinVar(methodInvokedByVar).getType();
 		Class<?> i18nClass = getMatchingI18NClass(vaadinClass);
-		if (!((i18nClass == null) ? true : ((i18nClass.getMethods() == null) ? true : i18nClass.getMethods().length > 0))) {
+		if ((i18nClass == null) ? true : (i18nClass.getMethods() == null) ? true : !(i18nClass.getMethods().length > 0)) {
 			return paramPositions;
 		}
 		for (Method singleMethod : i18nClass.getMethods() ) {
@@ -330,7 +330,7 @@ public class KeyConverter {
 		}
 		String methodName = PREFIX_I18NAWARE_CLASS + method.getType().toString();
 		Class<?> i18nClass = getMatchingI18NClass(method.getType().toString());
-		if (!((i18nClass == null) ? true : ((i18nClass.getConstructors() == null) ? true : i18nClass.getConstructors().length > 0))) {
+		if ((i18nClass == null) ? true : (i18nClass.getConstructors() == null) ? true : !(i18nClass.getConstructors().length > 0)) {
 			return paramPositions;
 		}
 		for (Constructor<?> singleConstructor : i18nClass.getConstructors() ) {
@@ -350,16 +350,16 @@ public class KeyConverter {
 	}
 
 	// Its keeps in listKey only the keys that are used in source
-	public void restructureLisKey() {
-		// It was necessary to make it of this way because eliminating directly from the lisKey doesn't work well
-		List<Key> auxLisKey = new ArrayList<Key>();
-		for (int i = 0; i < lisKey.size(); i++ ) {
-			if (lisKey.get(i).getKeep()) {
-				auxLisKey.add(lisKey.get(i));
+	public void restructurelistKey() {
+		// It was necessary to make it of this way because eliminating directly from the listKey doesn't work well
+		List<Key> auxlistKey = new ArrayList<Key>();
+		for (int i = 0; i < listKey.size(); i++ ) {
+			if (listKey.get(i).getKeep()) {
+				auxlistKey.add(listKey.get(i));
 			}
 		}
-		lisKey.clear();
-		lisKey = auxLisKey;
+		listKey.clear();
+		listKey = auxlistKey;
 	}
 
 	// Its determine if exist a bundle with resourceName in resourcePath and in this case it is loaded
@@ -378,7 +378,7 @@ public class KeyConverter {
 	}
 
 	public Key getCompleteKey(String key) {
-		for (Key k : lisKey ) {
+		for (Key k : listKey ) {
 			if (k.getCompleteKey().equals(key)) {
 				return k;
 			}
@@ -387,8 +387,8 @@ public class KeyConverter {
 	}
 
 	public List<Key> getListKey() {
-		restructureLisKey();
-		return lisKey;
+		restructurelistKey();
+		return listKey;
 	}
 
 	// Its return the suffix for any key in bundle in case of having it
@@ -409,18 +409,6 @@ public class KeyConverter {
 		catch (Exception e) {
 			return -1;
 		}
-	}
-
-	// Its determine if a String param is translatable
-	public boolean isTranslatable(String key) {
-		int count = 0;
-		for (int i = 0; i < key.length(); i++ ) {
-			String ss = key.substring(i, i + 1);
-			if (("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(ss) < 0)) {
-				count++;
-			}
-		}
-		return (key.length() - count) > 2;
 	}
 
 	// Its determine if a param is a key
@@ -488,10 +476,10 @@ public class KeyConverter {
 
 	public void proccessProject(File dirBaseSrc, String projectPath, String pathBundle, String bundleName, String defaultLanguage) {
 
-		if (lisKey.isEmpty()) {
+		if (listKey.isEmpty()) {
 			boolean exist = existBundle(pathBundle, bundleName);
 			if (exist) {
-				updateLisKeyWithBundle();
+				updatelistKeyWithBundle();
 			}
 		}
 
@@ -511,12 +499,12 @@ public class KeyConverter {
 						String classJava = proccessJavaFile(filesrc.getAbsolutePath());
 						changeJavaClass(classJava, filesrc.getAbsolutePath());
 
-						for (Key localkey : lisKey ) {
-							// if (!isInKeyList(localkey.key, generalLisKey)){
+						for (Key localkey : listKey ) {
+							// if (!isInKeyList(localkey.key, generallistKey)){
 							commandLineOutput.getOutput().println(localkey.completeKey + " = " + localkey.getValue());
 							// System.out.println(localkey.completeKey + "_" + localkey.getSuffix() + " = " + localkey.getValue());
-							// addKeyToGeneralLisKey(localkey.key);
-							// generalLisKey.add(localkey);
+							// addKeyToGenerallistKey(localkey.key);
+							// generallistKey.add(localkey);
 							// }
 						}
 					}
@@ -588,11 +576,11 @@ public class KeyConverter {
 		Key newKey = new Key(auxKey, value, javaFileFullClassName, suffix, 0);
 		newKey.decreaseAppearances(2);
 		newKey.setLoadFromBundle(true);
-		lisKey.add(newKey);
-		updateSuffixMax(auxKey, lisKey);
+		listKey.add(newKey);
+		updateSuffixMax(auxKey, listKey);
 	}
 
-	public void updateLisKeyWithBundle() {
+	public void updatelistKeyWithBundle() {
 		Enumeration<String> bundleKeys = bundle.getKeys();
 
 		while (bundleKeys.hasMoreElements()) {
@@ -620,7 +608,7 @@ public class KeyConverter {
 
 	private void sumSuffix(String key, int count, List<Key> list) {
 		for (Key k : list ) {
-			if (k.geKey().equals(key)) {
+			if (k.getKey().equals(key)) {
 				k.setSuffixClass(count);
 			}
 		}
@@ -628,8 +616,8 @@ public class KeyConverter {
 
 	@SuppressWarnings("unused")
 	private void updateAppearances(String key) {
-		for (Key k : lisKey ) {
-			if (k.geKey().equals(key)) {
+		for (Key k : listKey ) {
+			if (k.getKey().equals(key)) {
 				k.increaseAppearances();
 			}
 		}
@@ -640,7 +628,7 @@ public class KeyConverter {
 		if (!list.isEmpty()) {
 			int count = 0;
 			for (Key k : list ) {
-				if (k.geKey().equals(key)) {
+				if (k.getKey().equals(key)) {
 					count++;
 				}
 			}
@@ -651,187 +639,73 @@ public class KeyConverter {
 		}
 	}
 
-	// It determines if an Key object contains a certain key and value
-	private int valueAndKeyInList(String key, String value, List<Key> list) {
-		int v = 0;
-		if (isInKeyList(key, list)) {
-			v = 1;
-			if (isValueInKeyList(value, list)) {
-				v = 1;
+	//Its determine if a literal parameter in source is an String to discard
+	private boolean isStringToDiscard(String name) {
+		for (String element : stringToDiscard ) {
+			if (name.contains(element)) {
+				return true;
 			}
 		}
-		else {
-			v = 2;
-		}
-		return v;
+		return false;
 	}
-
-	// Its add the corresponding key to a text to listKey, if key already is a key, return the corresponding text to source
-	private void addKey(StringLiteralExpr key) {
-		try {
-			if (key.getValue().length() > 0) {
-				if (isTranslatable(key.getValue())) {
-					boolean insert = true;
-					if (key instanceof StringLiteralExpr) {
-						if (!isStringToDiscard(key.getValue())) {
-							if (!getChangeOptionKey()) {
-								String value = key.getValue();
-								String gKey = key.getValue();
-
-								if (!isKey(gKey)) {
-									value = key.getValue().replace("\\n", "//n").replace("\"", "'");
-									gKey = generateKey(gKey);
-									if (isInKeyList(gKey, lisKey)) {
-										getCompleteKey(gKey).setKeep(true);
-										if (getCompleteKey(gKey).getIsLoadFromBundle()) {
-											key.setValue(gKey);
-											insert = false;
-										}
-									}
-								}
-								else if (isInKeyList(gKey, lisKey)) {
-
-									insert = false;
-									if (isInKeyList(key.getValue(), lisKey)) {
-										getCompleteKey(key.getValue()).setKeep(true);
-									}
-								}
-								else {
-									insert = false;
-								}
-
-								if (insert) {
-									int select = valueAndKeyInList(gKey, value, lisKey);
-
-									switch (select) {
-										case 1: {
-											Key keyAux = geKey(gKey);
-
-											Key newKey = new Key(gKey, value, javaFileFullClassName, keyAux.getMaxSuffixClass() + 1,
-													keyAux.getMaxSuffixClass() + 1);
-
-											if (!getChangeOptionKey()) {
-												key.setValue(newKey.getCompleteKey());
-												lisKey.add(newKey);
-												getCompleteKey(newKey.getCompleteKey()).setKeep(true);
-											}
-											else {
-												key.setValue(newKey.getValue());
-												lisKey.add(newKey);
-												getCompleteKey(newKey.getCompleteKey()).setKeep(true);
-											}
-
-											updateSuffixMax(gKey, lisKey);
-										}
-											;
-										break;
-										case 2: {
-											Key newKey = new Key(gKey, value, javaFileFullClassName, 0, 0);
-
-											newKey.setKeep(true);
-
-											if (!getChangeOptionKey()) {
-												key.setValue(newKey.getCompleteKey());
-												lisKey.add(newKey);
-												getCompleteKey(newKey.getCompleteKey()).setKeep(true);
-											}
-											else {
-												key.setValue(newKey.getValue());
-												lisKey.add(newKey);
-												getCompleteKey(newKey.getCompleteKey()).setKeep(true);
-											}
-										}
-											;
-										break;
-									}
-								}
-							}
-							else {
-								if (isKey(key.getValue())) {
-									if (isInKeyList(key.getValue(), lisKey)) {
-
-										if (!isKeyGeneratedBySystem(key.getValue())) {
-											getCompleteKey(key.getValue()).setKeep(true);
-										}
-
-										key.setValue(getCompleteKey(key.getValue()).getValue());
-									}
-								}
-							}
-						}
-					}
-				}
+	
+	// Its determine if a String param is translatable
+	public boolean isTranslatable(StringLiteralExpr key) {
+		if (!(key instanceof StringLiteralExpr) && (isStringToDiscard(key.getValue()))) {
+			return false;
+		}
+		int count = 0;
+		for (int i = 0; i < key.getValue().length(); i++ ) {
+			String ss = key.getValue().substring(i, i + 1);
+			if (("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(ss) < 0)) {
+				count++;
 			}
 		}
-		catch (Exception e) {
-		}
+		return (key.getValue().length() - count) > 2;
 	}
-
-	// Obtains the value of each String variable declared in the class
-	/*
-	 * private String getValueById(String id) { for (StringValue s : lisStringValue ) { if (s.getId().equals(id)) { return s.getValue(); } } return
-	 * ""; }
-	 */
-
-	private void changeJavaClass(String content, String path) {
-		try {
-			File javaClassDst = new File(path);
-			FileOutputStream dest = new FileOutputStream(javaClassDst);
-			dest.write(content.getBytes());
-			dest.close();
-		}
-		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public void clearBundleFile(String path) {
-		File delete = new File(path + ".properties");
-		if (delete.exists()) {
-			delete.delete();
-		}
-		try {
-			new FileWriter(new File(path + ".properties"), true);
-		}
-		catch (IOException e) {
-		}
-	}
-
-	private String detectDelimiters(String caption) {
-		String newCaption = spliKey(caption, 50);
-		for (int i = 0; i < caption.length(); i++ ) {
-			String ss = caption.substring(i, i + 1);
-			if (("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_".indexOf(ss) < 0)) {
-				newCaption = newCaption.replace(ss, "_");
+	
+	// Its return the original value corresponding to a key from bundle
+	private void returnValueFromKey(StringLiteralExpr key) {
+		if (isKey(key.getValue()) ? (isInKeyList(key.getValue())) : false ) {
+			if (!isKeyGeneratedBySystem(key.getValue())) {
+				getCompleteKey(key.getValue()).setKeep(true);
 			}
-		}
-
-		if (newCaption.endsWith("_")) {
-			newCaption = newCaption.substring(0, newCaption.length() - 1);
-		}
-
-		return newCaption;
-	}
-
-	/**
-	 * Process method arguments
-	 * 
-	 * @param largs
-	 */
-	private void processLiteralExprParam(ObjectCreationExpr exp) {
-		List<Integer> paramsPositions = getI18NAwareMessageParamsPositions(exp);
-		if (!paramsPositions.isEmpty()) {			
-			for (Integer pos : paramsPositions) {
-				addKey((StringLiteralExpr) exp.getArgs().get(pos));
-			}		
+			key.setValue(getCompleteKey(key.getValue()).getValue());
 		}		
 	}
-
+	
+	// Its add a new key generated to listKey and Literal parameter in source
+	private void addKey(Key newKey, StringLiteralExpr key) {
+		if (!getChangeOptionKey()) {
+			key.setValue(newKey.getCompleteKey());
+			listKey.add(newKey);
+			getCompleteKey(newKey.getCompleteKey()).setKeep(true);
+		}
+		else {
+			key.setValue(newKey.getValue());
+			listKey.add(newKey);
+			getCompleteKey(newKey.getCompleteKey()).setKeep(true);
+		}	
+	}
+	
+	// Its add a generated key to listKey and bundle
+	private void addGeneratedKeyToBundleAndSource(StringLiteralExpr key, String gKey, String value) {
+		if (getKey(gKey) != null) {
+			Key keyAux = getKey(gKey);
+			Key newKey = new Key(gKey, value, javaFileFullClassName, keyAux.getMaxSuffixClass() + 1,
+					keyAux.getMaxSuffixClass() + 1);
+			addKey(newKey, key);
+			updateSuffixMax(gKey, listKey);			
+		} else {			
+			Key newKey = new Key(gKey, value, javaFileFullClassName, 0, 0);
+			newKey.setKeep(true);
+			addKey(newKey, key);					
+		}
+	}	
+	
 	// It generates keys of around 30 characters
 	private String generateKey(String caption) {
 		String key = detectDelimiters(caption);
-		// String keyNumber = String.valueOf(generateKeyNumber(caption));
 		String finalKey = spliKey(key, 30);
 
 		if (finalKey.startsWith(".")) {
@@ -883,6 +757,102 @@ public class KeyConverter {
 			}
 		}
 		return javaFileFullClassName + finalKey; // + keyNumber;
+	}	
+	
+	// Its process a literal generating their corresponding key
+	private void processKey(StringLiteralExpr key) {
+		boolean insert = false;
+		String value = key.getValue();
+		String gKey = key.getValue();
+		if (!isKey(gKey)) {
+			insert = true;
+			value = key.getValue().replace("\\n", "//n").replace("\"", "'");
+			gKey = generateKey(gKey);
+			if (isInKeyList(gKey)) {
+				getCompleteKey(gKey).setKeep(true);
+				if (getCompleteKey(gKey).getIsLoadFromBundle()) {
+					key.setValue(gKey);
+					insert = false;
+				}
+			}
+		}
+		else if ((isInKeyList(gKey))) {
+			getCompleteKey(key.getValue()).setKeep(true);
+		}
+
+		if (insert) {
+			addGeneratedKeyToBundleAndSource(key, gKey, value);
+		}		
+	}
+	
+	// Its add the corresponding key to a literal to listKey, if the literal already is a key, return the corresponding text to source
+	private void processLiteral(StringLiteralExpr key) {
+		if ((key.getValue().length() > 0) ? (isTranslatable(key)) : false) {							
+			if (!getChangeOptionKey()) {
+				processKey(key);
+			}
+			else {
+				returnValueFromKey(key);
+			}
+		}
+	}
+
+	// Its change the original java class source by the modified java class
+	private void changeJavaClass(String content, String path) {
+		try {
+			File javaClassDst = new File(path);
+			FileOutputStream dest = new FileOutputStream(javaClassDst);
+			dest.write(content.getBytes());
+			dest.close();
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	// Its clear the language bundle
+	public void clearBundleFile(String path) {
+		File delete = new File(path + ".properties");
+		if (delete.exists()) {
+			delete.delete();
+		}
+		try {
+			new FileWriter(new File(path + ".properties"), true);
+		}
+		catch (IOException e) {
+		}
+	}
+
+	// Its detect if a key contains delimiters (") and in this case eliminates them 
+	private String detectDelimiters(String caption) {
+		String newCaption = spliKey(caption, 50);
+		for (int i = 0; i < caption.length(); i++ ) {
+			String ss = caption.substring(i, i + 1);
+			if (("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_".indexOf(ss) < 0)) {
+				newCaption = newCaption.replace(ss, "_");
+			}
+		}
+
+		if (newCaption.endsWith("_")) {
+			newCaption = newCaption.substring(0, newCaption.length() - 1);
+		}
+
+		return newCaption;
+	}
+
+	/**
+	 * Process method arguments
+	 * 
+	 * @param largs
+	 */
+	private void processLiteralExprParam(ObjectCreationExpr exp) {
+		List<Integer> paramsPositions = getI18NAwareMessageParamsPositions(exp);
+		if (!paramsPositions.isEmpty()) {			
+			for (Integer pos : paramsPositions) {
+				processLiteral((StringLiteralExpr) exp.getArgs().get(pos));
+			}		
+		}		
 	}
 
 	// It determines if a text is assigned to a variable of String type in the class
@@ -896,9 +866,9 @@ public class KeyConverter {
 	}
 
 	//Its determine if listKey contains a Key with name "key"
-	private boolean isInKeyList(String key, List<Key> list) {
-		// lisKey.contains(k);
-		for (Key k : list ) {
+	private boolean isInKeyList(String key) {
+		// listKey.contains(k);
+		for (Key k : listKey ) {
 			if (k.getCompleteKey().equals(key)) {
 				return true;
 			}
@@ -906,18 +876,7 @@ public class KeyConverter {
 		return false;
 	}
 
-	// It determines if any Key object contains "value"
-	private boolean isValueInKeyList(String value, List<Key> list) {
-		// lisKey.contains(k);
-		for (Key k : list ) {
-			if (k.getValue().equals(value)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	//Ist determine is any parameter in source is a number
+	//Its determine is any parameter in source is a number
 	private boolean isNumberParameter(String parameter) {
 		try {
 			Float.parseFloat(parameter);
@@ -927,16 +886,6 @@ public class KeyConverter {
 			// TODO: handle exception
 			return false;
 		}
-	}
-
-	//Its determine if a literal parameter in source is an String to discard
-	private boolean isStringToDiscard(String name) {
-		for (String element : stringToDiscard ) {
-			if (name.contains(element)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	// Its determine is name corresponds to a var name id declared in source
@@ -959,7 +908,7 @@ public class KeyConverter {
 			List<Integer> paramsPositions = getI18NAwareMessageParamsPositions(methodCallE);
 			if (!paramsPositions.isEmpty()) {
 				for (Integer pos : paramsPositions) {
-					addKey((StringLiteralExpr) largs.get(pos));
+					processLiteral((StringLiteralExpr) largs.get(pos));
 				}					
 			}
 			if (largs.size() > paramsPositions.size()) {
@@ -1097,7 +1046,7 @@ public class KeyConverter {
 			// return expression;
 		}
 		else if (expression instanceof StringLiteralExpr) {
-			addKey((StringLiteralExpr) expression);
+			processLiteral((StringLiteralExpr) expression);
 		}
 		else {
 			throw new RuntimeException("Expression not supported " + expression.getClass());
@@ -1151,11 +1100,11 @@ public class KeyConverter {
 			processBinary((BinaryExpr) expLeft);
 		}
 		else if (expLeft instanceof StringLiteralExpr) {
-			addKey((StringLiteralExpr) expLeft);
+			processLiteral((StringLiteralExpr) expLeft);
 		}
 
 		if (expRight instanceof StringLiteralExpr) {
-			addKey((StringLiteralExpr) expRight);
+			processLiteral((StringLiteralExpr) expRight);
 		}
 
 		return exp;
@@ -1180,11 +1129,11 @@ public class KeyConverter {
 								String v = ((StringLiteralExpr) vd.getInit()).getValue();
 								if (!isValueInStringValueList(v)) {
 									addStringVarValue(vd.getId().toString(), v);
-									// addKey((StringLiteralExpr) vd.getInit(), optionChangeKey);
+									// processLiteral((StringLiteralExpr) vd.getInit(), optionChangeKey);
 									String str = ((StringLiteralExpr) vd.getInit()).getValue();
 									if (isKey(str)) {
-										if (isInKeyList(str, lisKey)) {
-											geKey(str).setKeep(true);
+										if (isInKeyList(str)) {
+											getKey(str).setKeep(true);
 										}
 									}
 								}
