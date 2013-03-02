@@ -1,7 +1,6 @@
 package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareAltText;
-import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
@@ -9,47 +8,50 @@ import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentAltTextSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.Embedded;
+import com.vaadin.ui.Video;
 
 /**
- * The I18NEmbedded
+ * The I18N Video
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NEmbedded extends Embedded implements I18NAwareComponent, I18NAwareCaption, I18NAwareAltText {
+public class I18NVideo extends Video implements I18NAwareComponent, I18NAwareAltText {
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 	
 	private I18NAwareComponentAltTextSupport i18NAwareComponentAltTextSupport;
 
 	/**
-	 * Creates a new empty i18n Embedded object.
+	 * Creates a new i18n Video. The value of the Video is false and it is immediate by default.
 	 */
-	public I18NEmbedded() {
+	public I18NVideo() {
 		super();
 	}
 
 	/**
-	 * Creates a new empty i18n Embedded object with captionKey.
+	 * Creates a new i18n Video with caption message key.
+	 * 
+	 * The value of the Video is false and it is immediate by default.
 	 * 
 	 * @param captionKey
+	 *            the Video caption message key.
 	 */
-	public I18NEmbedded(@I18NAwareMessage String captionKey) {
+	public I18NVideo(@I18NAwareMessage String captionKey) {
 		super(captionKey);
 		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey);
 	}
 
 	/**
-	 * Creates a new i18n Embedded object with a caption message key whose contents is loaded from given resource. The dimensions are assumed if
-	 * possible. The type is guessed from resource.
+	 * Creates a new i18n Video with caption message key and click listener.
 	 * 
 	 * @param captionKey
-	 * @param source
-	 *            the Source of the embedded object.
+	 *            the Video caption message key.
+	 * @param listener
+	 *            the Video click listener.
 	 */
-	public I18NEmbedded(@I18NAwareMessage String captionKey, Resource resource) {
+	public I18NVideo(@I18NAwareMessage String captionKey, Resource resource) {
 		super(captionKey, resource);
 		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey);
 	}
@@ -80,7 +82,7 @@ public class I18NEmbedded extends Embedded implements I18NAwareComponent, I18NAw
 	}
 
 	@Override
-	public void setAlternateText(@I18NAwareMessage String altTextKey) {
+	public void setAltText(@I18NAwareMessage String altTextKey) {
 		setAltTextMessage(altTextKey);
 	}	
 	
@@ -91,7 +93,7 @@ public class I18NEmbedded extends Embedded implements I18NAwareComponent, I18NAw
 
 	@Override
 	public void setRealAltText(String altText) {
-		super.setAlternateText(altText);
+		super.setAltText(altText);
 	}
 
 	@Override

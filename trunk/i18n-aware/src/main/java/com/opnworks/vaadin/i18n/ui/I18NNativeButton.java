@@ -13,7 +13,7 @@ import com.vaadin.ui.NativeButton;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
-@SuppressWarnings({ "serial", "unchecked" })
+@SuppressWarnings({ "serial" })
 public class I18NNativeButton extends NativeButton implements I18NAwareComponent {
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;

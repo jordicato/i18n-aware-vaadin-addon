@@ -1,56 +1,37 @@
 package com.opnworks.vaadin.i18n.ui;
 
-import com.opnworks.vaadin.i18n.I18NAwareAltText;
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentAltTextSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
-import com.vaadin.server.Resource;
-import com.vaadin.ui.Embedded;
+import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.LegacyWindow;
 
 /**
- * The I18NEmbedded
+ * The I18NLegazyWindow
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
-@SuppressWarnings("serial")
-public class I18NEmbedded extends Embedded implements I18NAwareComponent, I18NAwareCaption, I18NAwareAltText {
+@SuppressWarnings({ "serial", "deprecation" })
+@Deprecated
+public class I18NLegacyWindow extends LegacyWindow implements I18NAwareComponent, I18NAwareCaption {
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
-	
-	private I18NAwareComponentAltTextSupport i18NAwareComponentAltTextSupport;
 
-	/**
-	 * Creates a new empty i18n Embedded object.
-	 */
-	public I18NEmbedded() {
+	public I18NLegacyWindow() {
 		super();
 	}
 
-	/**
-	 * Creates a new empty i18n Embedded object with captionKey.
-	 * 
-	 * @param captionKey
-	 */
-	public I18NEmbedded(@I18NAwareMessage String captionKey) {
+	public I18NLegacyWindow(@I18NAwareMessage String captionKey) {
 		super(captionKey);
 		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey);
 	}
 
-	/**
-	 * Creates a new i18n Embedded object with a caption message key whose contents is loaded from given resource. The dimensions are assumed if
-	 * possible. The type is guessed from resource.
-	 * 
-	 * @param captionKey
-	 * @param source
-	 *            the Source of the embedded object.
-	 */
-	public I18NEmbedded(@I18NAwareMessage String captionKey, Resource resource) {
-		super(captionKey, resource);
+	public I18NLegacyWindow(@I18NAwareMessage String captionKey, ComponentContainer componentContainer) {
+		super(captionKey, componentContainer);
 		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey);
 	}
 
@@ -80,21 +61,6 @@ public class I18NEmbedded extends Embedded implements I18NAwareComponent, I18NAw
 	}
 
 	@Override
-	public void setAlternateText(@I18NAwareMessage String altTextKey) {
-		setAltTextMessage(altTextKey);
-	}	
-	
-	@Override
-	public void setAltTextMessage(String altTextKey, Object... params) {
-		getI18NAwareComponentAltTextSupport().setAltTextMessage(altTextKey, params);
-	}
-
-	@Override
-	public void setRealAltText(String altText) {
-		super.setAlternateText(altText);
-	}
-
-	@Override
 	public void setRealCaption(String caption) {
 		super.setCaption(caption);
 	}
@@ -111,14 +77,5 @@ public class I18NEmbedded extends Embedded implements I18NAwareComponent, I18NAw
 		}
 
 		return i18NAwareComponentCaptionSupport;
-	}
-	
-	private I18NAwareComponentAltTextSupport getI18NAwareComponentAltTextSupport() {
-
-		if (i18NAwareComponentAltTextSupport == null) {
-			i18NAwareComponentAltTextSupport = new I18NAwareComponentAltTextSupport(this);
-		}
-
-		return i18NAwareComponentAltTextSupport;
 	}
 }

@@ -16,7 +16,7 @@ import com.vaadin.ui.Select;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "deprecation" })
 @Deprecated
 public class I18NSelect extends Select implements I18NAwareField<Object> {
 
