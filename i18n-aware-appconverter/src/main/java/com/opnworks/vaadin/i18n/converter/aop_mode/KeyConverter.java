@@ -260,8 +260,7 @@ public class KeyConverter {
 			}
 			catch (ClassNotFoundException e) {
 				ConverterException converterException = new ConverterException(e);
-				commandLineOutput.getOutput()
-						.println("Class: " + type.getName() + " not found, cause: " + converterException.getCause());
+				commandLineOutput.getOutput().println("Class: " + type.getName() + " not found, cause: " + converterException.getCause());
 			}
 		}
 		return false;
@@ -288,14 +287,15 @@ public class KeyConverter {
 		}
 		return false;
 	}
-	
+
 	// Find the positions of @I18NAwareMessage parameters
 	private List<Integer> getI18NAwareMessageParamsPositions(MethodCallExpr method) {
 		List<Integer> paramPositions = new ArrayList<Integer>();
-		//If there is not variable ui vaadin declared in the source, the method called in (method parameter) is not invoked by any variable ui vaadin, logically.
-		//getI18NAwareMessageParamsPositions(MethodCallExpr method) is applied for the methods invoked by variables ui vaadin, previously "listVaadinVars" is
-		//filled with all ui vaadin vars in the source that is analyzing in this moment. Its necessary to know what is the type of the variable that is invoking
-		//The method in process for to analyze their corresponding "I18NAvare ui class".
+		// If there is not variable ui vaadin declared in the source, the method called in (method parameter) 
+		// is not invoked by any variable ui vaadin, logically. getI18NAwareMessageParamsPositions(MethodCallExpr method)
+		// is applied for the methods invoked by variables ui vaadin, previously "listVaadinVars" is filled with all
+		// ui vaadin vars in the source that is analyzing in this moment. Its necessary to know what is the type of 
+		// the variable that is invoking the method in process for to analyze their corresponding "I18NAvare ui class".
 		if (listVaadinVars.isEmpty() || !thereIsStringArgs(method.getArgs())) {
 			return paramPositions;
 		}
@@ -307,21 +307,20 @@ public class KeyConverter {
 			return paramPositions;
 		}
 		for (Method singleMethod : i18nClass.getMethods() ) {
-			if (singleMethod.getName().equals(methodName)
-					&& (singleMethod.getParameterAnnotations() != null)
+			if (singleMethod.getName().equals(methodName) && (singleMethod.getParameterAnnotations() != null)
 					&& ((singleMethod.getParameterTypes() == null) ? false : existStringParamType(singleMethod.getParameterTypes()))) {
-				for( int index = 0; index < singleMethod.getParameterAnnotations().length; index++ ) {
+				for (int index = 0; index < singleMethod.getParameterAnnotations().length; index++ ) {
 					Annotation[] parameterAnnotations = singleMethod.getParameterAnnotations()[index];
-				    if( containsI18NAwareMessage( parameterAnnotations ) ) {
-				         paramPositions.add( index );
-				    }
+					if (containsI18NAwareMessage(parameterAnnotations)) {
+						paramPositions.add(index);
+					}
 				}
 				return paramPositions;
 			}
-		}		
+		}
 		return paramPositions;
 	}
-	
+
 	// Its determine if some parameters in constructor contains literals params marked by the @I18NAwareMessage annotation
 	private List<Integer> getI18NAwareMessageParamsPositions(ObjectCreationExpr method) {
 		List<Integer> paramPositions = new ArrayList<Integer>();
@@ -337,11 +336,11 @@ public class KeyConverter {
 			if ((singleConstructor.getName().equals(methodName))
 					&& ((singleConstructor.getParameterTypes() == null) ? false : (existStringParamType(singleConstructor.getParameterTypes()))
 							&& (singleConstructor.getParameterTypes().length == method.getArgs().size()))) {
-				for( int index = 0; index < singleConstructor.getParameterAnnotations().length; index++ ) {
+				for (int index = 0; index < singleConstructor.getParameterAnnotations().length; index++ ) {
 					Annotation[] parameterAnnotations = singleConstructor.getParameterAnnotations()[index];
-				    if( containsI18NAwareMessage( parameterAnnotations ) ) {
-				         paramPositions.add( index );
-				    }
+					if (containsI18NAwareMessage(parameterAnnotations)) {
+						paramPositions.add(index);
+					}
 				}
 				return paramPositions;
 			}
@@ -532,7 +531,7 @@ public class KeyConverter {
 	public boolean getChangeOptionKey() {
 		return this.optionChangeKey;
 	}
-	
+
 	// Stores values of all String variables in each class
 	private void addStringVarValue(String id, String value) {
 		if (value.length() > 0) {
@@ -639,7 +638,7 @@ public class KeyConverter {
 		}
 	}
 
-	//Its determine if a literal parameter in source is an String to discard
+	// Its determine if a literal parameter in source is an String to discard
 	private boolean isStringToDiscard(String name) {
 		for (String element : stringToDiscard ) {
 			if (name.contains(element)) {
@@ -648,7 +647,7 @@ public class KeyConverter {
 		}
 		return false;
 	}
-	
+
 	// Its determine if a String param is translatable
 	public boolean isTranslatable(StringLiteralExpr key) {
 		if (!(key instanceof StringLiteralExpr) && (isStringToDiscard(key.getValue()))) {
@@ -663,17 +662,17 @@ public class KeyConverter {
 		}
 		return (key.getValue().length() - count) > 2;
 	}
-	
+
 	// Its return the original value corresponding to a key from bundle
 	private void returnValueFromKey(StringLiteralExpr key) {
-		if (isKey(key.getValue()) ? (isInKeyList(key.getValue())) : false ) {
+		if (isKey(key.getValue()) ? (isInKeyList(key.getValue())) : false) {
 			if (!isKeyGeneratedBySystem(key.getValue())) {
 				getCompleteKey(key.getValue()).setKeep(true);
 			}
 			key.setValue(getCompleteKey(key.getValue()).getValue());
-		}		
+		}
 	}
-	
+
 	// Its add a new key generated to listKey and Literal parameter in source
 	private void addKey(Key newKey, StringLiteralExpr key) {
 		if (!getChangeOptionKey()) {
@@ -685,24 +684,24 @@ public class KeyConverter {
 			key.setValue(newKey.getValue());
 			listKey.add(newKey);
 			getCompleteKey(newKey.getCompleteKey()).setKeep(true);
-		}	
+		}
 	}
-	
+
 	// Its add a generated key to listKey and bundle
 	private void addGeneratedKeyToBundleAndSource(StringLiteralExpr key, String gKey, String value) {
 		if (getKey(gKey) != null) {
 			Key keyAux = getKey(gKey);
-			Key newKey = new Key(gKey, value, javaFileFullClassName, keyAux.getMaxSuffixClass() + 1,
-					keyAux.getMaxSuffixClass() + 1);
+			Key newKey = new Key(gKey, value, javaFileFullClassName, keyAux.getMaxSuffixClass() + 1, keyAux.getMaxSuffixClass() + 1);
 			addKey(newKey, key);
-			updateSuffixMax(gKey, listKey);			
-		} else {			
+			updateSuffixMax(gKey, listKey);
+		}
+		else {
 			Key newKey = new Key(gKey, value, javaFileFullClassName, 0, 0);
 			newKey.setKeep(true);
-			addKey(newKey, key);					
+			addKey(newKey, key);
 		}
-	}	
-	
+	}
+
 	// It generates keys of around 30 characters
 	private String generateKey(String caption) {
 		String key = detectDelimiters(caption);
@@ -757,8 +756,8 @@ public class KeyConverter {
 			}
 		}
 		return javaFileFullClassName + finalKey; // + keyNumber;
-	}	
-	
+	}
+
 	// Its process a literal generating their corresponding key
 	private void processKey(StringLiteralExpr key) {
 		boolean insert = false;
@@ -782,12 +781,12 @@ public class KeyConverter {
 
 		if (insert) {
 			addGeneratedKeyToBundleAndSource(key, gKey, value);
-		}		
+		}
 	}
-	
+
 	// Its add the corresponding key to a literal to listKey, if the literal already is a key, return the corresponding text to source
 	private void processLiteral(StringLiteralExpr key) {
-		if ((key.getValue().length() > 0) ? (isTranslatable(key)) : false) {							
+		if ((key.getValue().length() > 0) ? (isTranslatable(key)) : false) {
 			if (!getChangeOptionKey()) {
 				processKey(key);
 			}
@@ -824,7 +823,7 @@ public class KeyConverter {
 		}
 	}
 
-	// Its detect if a key contains delimiters (") and in this case eliminates them 
+	// Its detect if a key contains delimiters (") and in this case eliminates them
 	private String detectDelimiters(String caption) {
 		String newCaption = spliKey(caption, 50);
 		for (int i = 0; i < caption.length(); i++ ) {
@@ -848,11 +847,11 @@ public class KeyConverter {
 	 */
 	private void processLiteralExprParam(ObjectCreationExpr exp) {
 		List<Integer> paramsPositions = getI18NAwareMessageParamsPositions(exp);
-		if (!paramsPositions.isEmpty()) {			
-			for (Integer pos : paramsPositions) {
+		if (!paramsPositions.isEmpty()) {
+			for (Integer pos : paramsPositions ) {
 				processLiteral((StringLiteralExpr) exp.getArgs().get(pos));
-			}		
-		}		
+			}
+		}
 	}
 
 	// It determines if a text is assigned to a variable of String type in the class
@@ -865,7 +864,7 @@ public class KeyConverter {
 		return false;
 	}
 
-	//Its determine if listKey contains a Key with name "key"
+	// Its determine if listKey contains a Key with name "key"
 	private boolean isInKeyList(String key) {
 		// listKey.contains(k);
 		for (Key k : listKey ) {
@@ -876,7 +875,7 @@ public class KeyConverter {
 		return false;
 	}
 
-	//Its determine is any parameter in source is a number
+	// Its determine is any parameter in source is a number
 	private boolean isNumberParameter(String parameter) {
 		try {
 			Float.parseFloat(parameter);
@@ -903,13 +902,13 @@ public class KeyConverter {
 
 	// Process arguments for all methods called in source
 	private void processArgs(MethodCallExpr methodCallE) {
-		List<Expression> largs = methodCallE.getArgs();				
+		List<Expression> largs = methodCallE.getArgs();
 		if (largs != null) {
 			List<Integer> paramsPositions = getI18NAwareMessageParamsPositions(methodCallE);
 			if (!paramsPositions.isEmpty()) {
-				for (Integer pos : paramsPositions) {
+				for (Integer pos : paramsPositions ) {
 					processLiteral((StringLiteralExpr) largs.get(pos));
-				}					
+				}
 			}
 			if (largs.size() > paramsPositions.size()) {
 				for (int i = 0; (i < largs.size()) && !(paramsPositions.contains(i)); i++ ) {
