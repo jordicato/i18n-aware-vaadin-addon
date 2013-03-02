@@ -18,7 +18,7 @@ import com.vaadin.ui.FormFieldFactory;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "deprecation" })
 @Deprecated
 public class I18NForm extends Form implements I18NAwareField<Object> {
 

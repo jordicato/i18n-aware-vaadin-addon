@@ -16,7 +16,7 @@ import com.vaadin.ui.LoginForm;
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "deprecation" })
 @Deprecated
 public class I18NLoginForm extends LoginForm implements I18NAwareCaption, I18NAwareComponent {
 

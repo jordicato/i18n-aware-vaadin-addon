@@ -1,56 +1,54 @@
 package com.opnworks.vaadin.i18n.ui;
 
-import com.opnworks.vaadin.i18n.I18NAwareAltText;
-import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentAltTextSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
-import com.vaadin.server.Resource;
-import com.vaadin.ui.Embedded;
+import com.vaadin.shared.ui.colorpicker.Color;
+import com.vaadin.ui.ColorPickerArea;
 
 /**
- * The I18NEmbedded
+ * The I18N ColorPickerArea
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NEmbedded extends Embedded implements I18NAwareComponent, I18NAwareCaption, I18NAwareAltText {
+public class I18NColorPickerArea extends ColorPickerArea implements I18NAwareComponent {
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
-	
-	private I18NAwareComponentAltTextSupport i18NAwareComponentAltTextSupport;
 
 	/**
-	 * Creates a new empty i18n Embedded object.
+	 * Creates a new i18n ColorPickerArea. The value of the ColorPickerArea is false and it is immediate by default.
 	 */
-	public I18NEmbedded() {
+	public I18NColorPickerArea() {
 		super();
 	}
 
 	/**
-	 * Creates a new empty i18n Embedded object with captionKey.
+	 * Creates a new i18n ColorPickerArea with caption message key.
+	 * 
+	 * The value of the ColorPickerArea is false and it is immediate by default.
 	 * 
 	 * @param captionKey
+	 *            the ColorPickerArea caption message key.
 	 */
-	public I18NEmbedded(@I18NAwareMessage String captionKey) {
+	public I18NColorPickerArea(@I18NAwareMessage String captionKey) {
 		super(captionKey);
 		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey);
 	}
 
 	/**
-	 * Creates a new i18n Embedded object with a caption message key whose contents is loaded from given resource. The dimensions are assumed if
-	 * possible. The type is guessed from resource.
+	 * Creates a new i18n ColorPickerArea with caption message key and click listener.
 	 * 
 	 * @param captionKey
-	 * @param source
-	 *            the Source of the embedded object.
+	 *            the ColorPickerArea caption message key.
+	 * @param listener
+	 *            the ColorPickerArea click listener.
 	 */
-	public I18NEmbedded(@I18NAwareMessage String captionKey, Resource resource) {
-		super(captionKey, resource);
+	public I18NColorPickerArea(@I18NAwareMessage String captionKey, Color color) {
+		super(captionKey, color);
 		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey);
 	}
 
@@ -80,21 +78,6 @@ public class I18NEmbedded extends Embedded implements I18NAwareComponent, I18NAw
 	}
 
 	@Override
-	public void setAlternateText(@I18NAwareMessage String altTextKey) {
-		setAltTextMessage(altTextKey);
-	}	
-	
-	@Override
-	public void setAltTextMessage(String altTextKey, Object... params) {
-		getI18NAwareComponentAltTextSupport().setAltTextMessage(altTextKey, params);
-	}
-
-	@Override
-	public void setRealAltText(String altText) {
-		super.setAlternateText(altText);
-	}
-
-	@Override
 	public void setRealCaption(String caption) {
 		super.setCaption(caption);
 	}
@@ -112,13 +95,5 @@ public class I18NEmbedded extends Embedded implements I18NAwareComponent, I18NAw
 
 		return i18NAwareComponentCaptionSupport;
 	}
-	
-	private I18NAwareComponentAltTextSupport getI18NAwareComponentAltTextSupport() {
 
-		if (i18NAwareComponentAltTextSupport == null) {
-			i18NAwareComponentAltTextSupport = new I18NAwareComponentAltTextSupport(this);
-		}
-
-		return i18NAwareComponentAltTextSupport;
-	}
 }

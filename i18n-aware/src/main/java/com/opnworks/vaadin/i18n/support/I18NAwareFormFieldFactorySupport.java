@@ -11,6 +11,7 @@ import com.vaadin.ui.FormFieldFactory;
  * 
  * @author Pedro Rodriguez (OpnWorks)
  */
+@SuppressWarnings("deprecation")
 public class I18NAwareFormFieldFactorySupport implements FormFieldFactory {
 
 	private static final long serialVersionUID = -1923726555833929871L;

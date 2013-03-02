@@ -19,7 +19,7 @@ import com.vaadin.ui.TableFieldFactory;
  * 
  * @author Pedro Rodriguez ( OpnWorks )
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "deprecation" })
 public class I18NDefaultFieldFactory implements I18NAwareFormFieldFactory, I18NAwareTableFieldFactory, FormFieldFactory, TableFieldFactory {
 
 	private static final I18NDefaultFieldFactory SINGLETON = new I18NDefaultFieldFactory();

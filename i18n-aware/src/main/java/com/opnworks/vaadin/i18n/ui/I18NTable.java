@@ -71,7 +71,7 @@ public class I18NTable extends Table implements I18NAwareComponent, I18NAwareCap
 
 		registerI18NActions(actionHandler, null);
 	}
-
+	
 	public I18NAwareComponentCaptionSupport getI18NAwareComponentCaptionSupport() {
 
 		if (i18NAwareComponentCaptionSupport == null) {
