@@ -1,23 +1,23 @@
-import com.vaadin.demo.sampler.features.upload.UploadBasicExample.LineBreakCounter;
-import com.vaadin.terminal.gwt.client.ui.VAbsoluteLayout;
 import com.vaadin.ui.AbsoluteLayout;
+import com.vaadin.ui.LegacyWindow;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.CustomLayout;
 import com.vaadin.ui.DateField;
+import com.vaadin.ui.DefaultFieldFactory;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.InlineDateField;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Layout;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.ListSelect;
 import com.vaadin.ui.LoginForm;
@@ -26,25 +26,33 @@ import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.PopupView;
+import com.vaadin.ui.PopudDateField;
+import com.vaadin.ui.PoputView;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.Select;
 import com.vaadin.ui.Slider;
-import com.vaadin.ui.SplitPanel;
-import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.TabSheet.Tab;
+import com.vaadin.ui.Tab;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.Audio;
+import com.vaadin.ui.BrowserFrame;
+import com.vaadin.ui.ColorPicker;
+import com.vaadin.ui.ColorPickerArea;
+import com.vaadin.ui.Embedded;
+import com.vaadin.ui.Flash;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.Video;
 import com.vaadin.ui.Tree;
 import com.vaadin.ui.TreeTable;
 import com.vaadin.ui.TwinColSelect;
 import com.vaadin.ui.Upload;
 import com.vaadin.ui.VerticalSplitPanel;
-import com.vaadin.ui.Window;
+import com.vaadin.ui.Windows;
+import com.vaadin.ui.LegacyWindow;
 
 public class TestVaadinUISupport {
 
@@ -124,6 +132,24 @@ public class TestVaadinUISupport {
 
     private TextField textField;
 
+    private Audio audio;
+
+    private BrowserFrame browserFrame;
+
+    private ColorPicker colorPicker;
+
+    private ColorPickerArea colorPickerArea;
+
+    private Embedded embedded;
+
+    private Flash flash;
+
+    private Image image;
+
+    private Panel panel;
+
+    private Video video;
+
     private Tree tree;
 
     private TreeTable treeTable;
@@ -135,6 +161,8 @@ public class TestVaadinUISupport {
     private VerticalSplitPanel verticalSplitPanel;
 
     private Windows windows;
+
+    private LegacyWindow legacyWindow;
 
     public TestVaadinUISupport() {
         absoluteLayout = new AbsoluteLayout();
@@ -176,9 +204,6 @@ public class TestVaadinUISupport {
         dateField = new DateField("The caption");
         dateField.setCaption("The caption");
         dateField.setDescription("The caption");
-        embedded = new Embedded("The caption");
-        embedded.setCaption("The caption");
-        embedded.setDescription("The caption");
         form = new Form(formLayout);
         form.setCaption("The caption");
         form.setDescription("The caption");
@@ -279,6 +304,40 @@ public class TestVaadinUISupport {
         verticalSplitPanel = new VerticalSplitPanel();
         verticalSplitPanel.setCaption("The caption");
         verticalSplitPanel.setDescription("The caption");
+        audio = new Audio("The caption");
+        audio.setCaption("The caption");
+        audio.setAltText("The caption");
+        audio.setDescription("The caption");
+        browserFrame = new BrowserFrame("The caption");
+        browserFrame.setCaption("The caption");
+        browserFrame.setAlternateText("The caption");
+        browserFrame.setDescription("The caption");
+        colorPicker = new ColorPicker("The caption");
+        colorPicker.setCaption("The caption");
+        colorPicker.setDescription("The caption");
+        colorPickerArea = new ColorPickerArea("The caption");
+        colorPickerArea.setCaption("The caption");
+        colorPickerArea.setDescription("The caption");
+        embedded = new Embedded("The caption");
+        embedded.setCaption("The caption");
+        embedded.setAlternateText("The caption");
+        embedded.setDescription("The caption");
+        flash = new Flash("The caption");
+        flash.setCaption("The caption");
+        flash.setAlternateText("The caption");
+        flash.setDescription("The caption");
+        image = new Image("The caption");
+        image.setCaption("The caption");
+        image.setAlternateText("The caption");
+        image.setDescription("The caption");
+        panel = new Panel("The caption");
+        panel.setCaption("The caption");
+        panel.setDescription("The caption");
+        video = new Video("The caption");
+        video.setCaption("The caption");
+        video.setAltText("The caption");
+        video.setDescription("The caption");
         windows = new Window("The caption");
+        legacyWindow = new LegacyWindow("The caption");
     }
 }
