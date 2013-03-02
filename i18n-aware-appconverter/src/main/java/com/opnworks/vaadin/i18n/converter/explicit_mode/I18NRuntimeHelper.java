@@ -7,7 +7,7 @@ import com.vaadin.ui.Component;
 public class I18NRuntimeHelper {
 
 	public static void FixCaptionMessages(I18NWindow window) {
-		
+
 		Component c = window.getContent();
 		if (c instanceof I18NAwareField) {
 			processComponent((I18NAwareField) c);

@@ -221,6 +221,11 @@ public class KeyConverter {
 		return null;
 	}
 
+	// Its determine is name corresponds to a Vaadin UI class
+	private boolean isVaadinComponent(String name) {
+		return getMatchingI18NClass(name) != null;
+	}
+	
 	// Its return the vaadin var in declared in source that matches with id param
 	private VaadinVars getVaadinVar(String id) {
 		if (!id.equals("")) {
@@ -885,19 +890,6 @@ public class KeyConverter {
 			// TODO: handle exception
 			return false;
 		}
-	}
-
-	// Its determine is name corresponds to a var name id declared in source
-	private boolean isVaadinComponent(String name) {
-		for (ImportDeclaration id : lidtarget ) {
-			if (id.getName().getName().equals(name)) {
-				return true;
-			}
-			else if (("I18N" + id.getName().getName()).equals(name)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	// Process arguments for all methods called in source
