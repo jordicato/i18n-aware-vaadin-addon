@@ -72,8 +72,6 @@ public class I18NAwareDemoWindow extends I18NHorizontalLayout {
 
 		addComponent(createLanguageSelector(i18NService));
 
-		// //////////////////////////////////////////////////////////
-
 	}
 
 	@SuppressWarnings("serial")
