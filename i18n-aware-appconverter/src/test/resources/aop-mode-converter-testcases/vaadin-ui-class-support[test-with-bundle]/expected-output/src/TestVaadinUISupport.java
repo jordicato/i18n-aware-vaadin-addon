@@ -1,5 +1,4 @@
 import com.vaadin.ui.AbsoluteLayout;
-import com.vaadin.ui.LegacyWindow;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.CustomLayout;
