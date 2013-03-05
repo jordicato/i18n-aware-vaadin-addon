@@ -417,14 +417,11 @@ public class KeyConverter {
 
 	// Its determine if a param is a key
 	public boolean isKey(String key) {
-		if ((key.length() < 25) & (!key.contains("_"))) {
+		if (key.contains(" ")) {
 			return false;
 		}
-		for (int i = 0; i < key.length(); i++ ) {
-			String ss = key.substring(i, i + 1);
-			if (("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.".indexOf(ss) < 0)) {
-				return false;
-			}
+		if ( !(key.contains("_") || key.contains(".")) ) {
+			return false;
 		}
 		return true;
 	}
