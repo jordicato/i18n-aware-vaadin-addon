@@ -15,16 +15,16 @@ import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-public class I18NAwareDemoWindow extends I18NHorizontalLayout  {
+public class I18NAwareDemoWindow extends I18NHorizontalLayout {
 
 	private static final long serialVersionUID = -2694348034991874484L;
 
 	private I18NService i18NService;
-	
+
 	public I18NAwareDemoWindow(I18NService i18NService) {
-		
-		//super("main.window.title");
-		
+
+		// super("main.window.title");
+
 		this.i18NService = i18NService;
 
 		initUI();
@@ -38,23 +38,19 @@ public class I18NAwareDemoWindow extends I18NHorizontalLayout  {
 
 		tab1Content.addComponent(new TextField("tab1.textfield.caption"));
 
-		TextField tfemail = new TextField(
-				"tab1.textfield-emailvalidated.caption");
+		TextField tfemail = new TextField("tab1.textfield-emailvalidated.caption");
 
 		tab1Content.addComponent(tfemail);
 
-		EmailValidator emailValidator = new EmailValidator(
-				"tab1.textfield-emailvalidated.error");
+		EmailValidator emailValidator = new EmailValidator("tab1.textfield-emailvalidated.error");
 
 		tfemail.addValidator(emailValidator);
 
-		TextField tfvalidated = new TextField(
-				"tab1.textfield-stringvalidated.caption");
+		TextField tfvalidated = new TextField("tab1.textfield-stringvalidated.caption");
 
 		tab1Content.addComponent(tfvalidated);
 
-		StringLengthValidator stringval = new StringLengthValidator(
-				"tab1.textfield-stringvalidated.error", 3, 6, false);
+		StringLengthValidator stringval = new StringLengthValidator("tab1.textfield-stringvalidated.error", 3, 6, false);
 
 		tfvalidated.addValidator(stringval);
 
@@ -75,6 +71,9 @@ public class I18NAwareDemoWindow extends I18NHorizontalLayout  {
 		addComponent(tabSheet);
 
 		addComponent(createLanguageSelector(i18NService));
+
+		// //////////////////////////////////////////////////////////
+
 	}
 
 	@SuppressWarnings("serial")
