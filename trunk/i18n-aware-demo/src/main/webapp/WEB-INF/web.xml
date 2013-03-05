@@ -13,10 +13,10 @@
 
     <servlet>
         <servlet-name>I18NAwareDemo</servlet-name>
-        <servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>
+        <servlet-class>com.vaadin.server.VaadinServlet</servlet-class>
         <init-param>
             <description>Vaadin I18NAwareDemo Application</description>
-            <param-name>application</param-name>
+            <param-name>UI</param-name>
             <param-value>com.opnworks.vaadin.i18n.I18NAwareDemo</param-value>
         </init-param>
     </servlet>
