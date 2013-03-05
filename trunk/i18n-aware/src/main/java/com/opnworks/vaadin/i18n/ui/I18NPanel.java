@@ -24,13 +24,6 @@ public class I18NPanel extends Panel implements I18NAwareComponent, I18NAwareCap
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 
-	private I18NAwareValueSupport i18NDescriptionSupport = new I18NAwareValueSupport(new ValueContainer() {
-		@Override
-		public void setValue(String value) {
-			setDescription(value);
-		}
-	});
-
 	private I18NAwareSupport i18nAwareSupport;
 	
 	/**
@@ -81,7 +74,7 @@ public class I18NPanel extends Panel implements I18NAwareComponent, I18NAwareCap
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 		getI18NAwareComponentCaptionSupport().i18NUpdate(i18N);
-		i18NDescriptionSupport.i18NUpdate(i18N);
+		//i18NDescriptionSupport.i18NUpdate(i18N);
 		getI18nAwareSupport().i18NUpdate(i18N);
 	}
 
@@ -102,7 +95,7 @@ public class I18NPanel extends Panel implements I18NAwareComponent, I18NAwareCap
 
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
-		i18NDescriptionSupport.setValueMessage(descriptionKey, descriptionParams);
+		getI18NAwareComponentCaptionSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
