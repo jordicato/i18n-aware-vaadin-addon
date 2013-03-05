@@ -1,5 +1,4 @@
 import com.vaadin.ui.AbsoluteLayout;
-import com.vaadin.ui.LegacyWindow;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.CustomLayout;
@@ -220,7 +219,7 @@ public class TestVaadinUISupport {
     	table = new Table("The_Caption");
     	table.setCaption("The_Caption");
     	table.setDescription("The_Caption");
-    	table.setRequiredError("The_Caption"); 
+    	table.setRequiredError("The_Caption");
     	tabSheet = new TabSheet();
     	tabSheet.addTab(label, "The_Caption");
     	tabSheet.setCaption("The_Caption");
