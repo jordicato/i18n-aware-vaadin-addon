@@ -1,0 +1,1 @@
+-sourceDir C:\SVN-i18n-aware-vaadin-addon\dashboard-demo-master\src -resourceDir C:\SVN-i18n-aware-vaadin-addon\dashboard-demo-master\src\main\resources -resourceBaseName messages -defaultLanguage en -method aop_mode false
