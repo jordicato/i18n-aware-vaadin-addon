@@ -33,10 +33,13 @@ import japa.parser.ast.stmt.BreakStmt;
 import japa.parser.ast.stmt.CatchClause;
 import japa.parser.ast.stmt.ContinueStmt;
 import japa.parser.ast.stmt.DoStmt;
+import japa.parser.ast.stmt.EmptyStmt;
+import japa.parser.ast.stmt.ExplicitConstructorInvocationStmt;
 import japa.parser.ast.stmt.ExpressionStmt;
 import japa.parser.ast.stmt.ForStmt;
 import japa.parser.ast.stmt.ForeachStmt;
 import japa.parser.ast.stmt.IfStmt;
+import japa.parser.ast.stmt.LabeledStmt;
 import japa.parser.ast.stmt.Statement;
 import japa.parser.ast.stmt.SwitchEntryStmt;
 import japa.parser.ast.stmt.SwitchStmt;
@@ -206,6 +209,7 @@ public class KeyConverter {
 	private List<VaadinVars> listVaadinVars = new ArrayList<VaadinVars>();
 	private List<ImportDeclaration> lidtarget;
 	private ResourceBundle bundle = null;
+	private String defaultLang;
 
 	public KeyConverter() {
 		listKey = new ArrayList<Key>();
@@ -372,7 +376,7 @@ public class KeyConverter {
 			File file = new File(resourcePath);
 			URL[] url = { file.toURI().toURL() };
 			ClassLoader loader = new URLClassLoader(url);
-			bundle = ResourceBundle.getBundle(resourceName, Locale.getDefault(), loader);
+			bundle = ResourceBundle.getBundle(resourceName, new Locale(defaultLang), loader);
 		}
 		catch (Exception e) {
 			// TODO: handle exception
@@ -476,7 +480,8 @@ public class KeyConverter {
 	}
 
 	public void proccessProject(File dirBaseSrc, String projectPath, String pathBundle, String bundleName, String defaultLanguage) {
-
+		this.defaultLang = defaultLanguage;
+		
 		if (listKey.isEmpty()) {
 			boolean exist = existBundle(pathBundle, bundleName);
 			if (exist) {
@@ -813,13 +818,13 @@ public class KeyConverter {
 	}
 
 	// Its clear the language bundle
-	public void clearBundleFile(String path) {
-		File delete = new File(path + ".properties");
+	public void clearBundleFile(String path, String defaultLanguage) {
+		File delete = new File(path + "_" + defaultLanguage + ".properties");
 		if (delete.exists()) {
 			delete.delete();
 		}
 		try {
-			new FileWriter(new File(path + ".properties"), true);
+			new FileWriter(new File(path + "_" + defaultLanguage + ".properties"), true);
 		}
 		catch (IOException e) {
 		}
@@ -949,8 +954,10 @@ public class KeyConverter {
 			if (vde.getType() instanceof ReferenceType) {
 				for (VariableDeclarator vd : vde.getVars() ) {
 					// varName = vd.getId().getName();
-					addVaadinVars(vd.getId().getName(), varType.toString());
-					addStringVarValue(vd.getId().getName(), vd.getInit().toString());
+					if (vd.getInit() != null) {	
+						addVaadinVars(vd.getId().getName(), varType.toString());
+						addStringVarValue(vd.getId().getName(), vd.getInit().toString());
+					}
 					if (vd.getInit() != null) {
 						if (vd.getInit() instanceof MethodCallExpr) {
 							processArgs((MethodCallExpr) vd.getInit());
@@ -1219,9 +1226,6 @@ public class KeyConverter {
 				else if (bs.getThenStmt() instanceof IfStmt) {
 					processStmt(bs.getThenStmt());
 				}
-				else {
-					throw new RuntimeException("Not supported");
-				}
 			}
 			if (bs.getElseStmt() != null) {
 				if (bs.getElseStmt() instanceof BlockStmt) {
@@ -1230,9 +1234,6 @@ public class KeyConverter {
 				}
 				else if (bs.getElseStmt() instanceof IfStmt) {
 					processStmt(bs.getElseStmt());
-				}
-				else {
-					throw new RuntimeException("Not supported");
 				}
 			}
 		}
@@ -1273,6 +1274,27 @@ public class KeyConverter {
 			ForStmt bs = (ForStmt) statement;
 			BlockStmt bs1 = (BlockStmt) bs.getBody();
 			processBlockStmt(bs1);
+		}
+		else if (statement instanceof BlockStmt) {
+			System.out.println("BlockStmt");
+		}
+		else if (statement instanceof EmptyStmt) {
+			System.out.println("EmptyStmt");
+		}
+		else if (statement instanceof ExplicitConstructorInvocationStmt) {
+			System.out.println("ExplicitConstructorInvocationStmt");
+		}
+		else if (statement instanceof LabeledStmt) {
+			System.out.println("LabeledStmt");
+		}		
+		else if (statement instanceof Statement) {
+			System.out.println("Statement");
+		}	
+		else if (statement instanceof SynchronizedStmt) {
+			System.out.println("SynchronizedStmt");
+		}	
+		else if (statement instanceof ExpressionStmt) {
+			System.out.println("ExpressionStmt");
 		}
 		else if (statement instanceof ThrowStmt || statement instanceof BreakStmt || statement instanceof ContinueStmt) {
 			// do nothing (for now)

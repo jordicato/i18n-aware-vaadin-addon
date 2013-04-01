@@ -23,10 +23,10 @@ public class AopModeConverter implements Converter {
 		KeyConverter keyConverter = new KeyConverter();
 		keyConverter.setChangeOptionKey(rollback);
 		keyConverter.proccessProject(sourceDir, sourceDir.getAbsolutePath(), resourcesDir.getAbsolutePath(), resourceBaseName, defaultLanguage);
-		keyConverter.clearBundleFile(resourcesDir.getAbsolutePath() + "/" + resourceBaseName);
+		keyConverter.clearBundleFile(resourcesDir.getAbsolutePath() + "/" + resourceBaseName, defaultLanguage);
 		// if (!rollback) {
 		for (Key k : keyConverter.getListKey() ) {
-			writeFile(resourcesDir.getAbsolutePath() + "/" + resourceBaseName + ".properties", k.getCompleteKey() + " = " + k.getValue());
+			writeFile(resourcesDir.getAbsolutePath() + "/" + resourceBaseName + "_" + defaultLanguage + ".properties", k.getCompleteKey() + " = " + k.getValue());
 		}
 		// }
 	}
