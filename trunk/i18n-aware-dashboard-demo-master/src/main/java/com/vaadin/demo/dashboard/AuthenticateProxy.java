@@ -11,6 +11,9 @@ import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
 
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.util.CurrentInstance;
+
 public class AuthenticateProxy {
 
 	private String paramAuthUser;
@@ -30,10 +33,11 @@ public class AuthenticateProxy {
 	
 	private void autenticate() throws IOException {
 		boolean flag = false;
-        /*Properties properties = new Properties();        
+        Properties properties = new Properties();        
         InputStream input = null;
+        File baseDirectory = CurrentInstance.get(VaadinRequest.class).getService().getBaseDirectory();       
         try {        	
-        	input = new FileInputStream(new File("config.properties"));
+        	input = new FileInputStream(new File(baseDirectory.getAbsolutePath().toString() + "/WEB-INF/classes/config.properties"));
         	properties.load(input);
         	input.close();
             paramAuthUser = properties.getProperty("authUser");
@@ -46,14 +50,7 @@ public class AuthenticateProxy {
             System.out.println("Missing config file: " + e.getMessage());
         } finally {
             IOUtils.closeQuietly(input);
-        }*/
-
-		flag = true;
-        paramAuthUser = "Sandy";
-        paramAuthPassword = "Qwerty5";
-        paramProxySet = "true";
-        paramProxyHost = "200.55.147.68";
-        paramProxyPort = "443";
+        }
 		
         if ((flag) && (paramProxySet != null ? Boolean.parseBoolean(paramProxySet) : false)) {
             paramAuthUser = paramAuthUser != null ? paramAuthUser : "";

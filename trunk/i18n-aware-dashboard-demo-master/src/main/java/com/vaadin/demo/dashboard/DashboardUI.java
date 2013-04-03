@@ -18,7 +18,9 @@ import com.opnworks.vaadin.i18n.I18NService;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.data.Property;
+import com.vaadin.data.Container.ItemSetChangeEvent;
 import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.demo.dashboard.data.DataProvider;
 import com.vaadin.demo.dashboard.data.Generator;
 import com.vaadin.demo.dashboard.data.MyConverterFactory;
@@ -40,6 +42,7 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DragAndDropWrapper;
@@ -54,6 +57,7 @@ import com.vaadin.ui.NativeButton;
 import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
+import com.vaadin.ui.Select;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -62,7 +66,7 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("dashboard")
 @Title("QuickTickets Dashboard")
 public class DashboardUI extends UI {
-	AuthenticateProxy autenticateProxy = new AuthenticateProxy();
+	//AuthenticateProxy autenticateProxy = new AuthenticateProxy();
 	
     DataProvider dataProvider = new DataProvider();
 
@@ -238,14 +242,22 @@ public class DashboardUI extends UI {
                 addStyleName("main-view");
                 addComponent(new VerticalLayout() {
                     // Sidebar
-                    {
+                    {                    	
+                        /*ComboBox languageSelector = new ComboBox("DashBoard.language");
+                        languageSelector.addItem(Locale.ENGLISH);
+                        languageSelector.setItemCaption(Locale.ENGLISH, "ENGLISH");
+                        languageSelector.addItem(Locale.FRENCH);
+                        languageSelector.setItemCaption(Locale.FRENCH, "FRENCH");
+
+                        addComponent(languageSelector);*/
+                    	
                         addStyleName("sidebar");
                         setWidth(null);
                         setHeight("100%");
 
                         // Branding element
                         addComponent(new CssLayout() {
-                            {
+                            {                            	
                                 addStyleName("branding");
                                 Label logo = new Label(
                                         "<span>QuickTickets</span> Dashboard",
@@ -296,6 +308,8 @@ public class DashboardUI extends UI {
                                 settingsMenu.addSeparator();
                                 settingsMenu.addItem("My Account", cmd);
                                 addComponent(settings);
+                                
+
 
                                 Button exit = new NativeButton("Exit");
                                 exit.addStyleName("icon-cancel");
@@ -410,27 +424,34 @@ public class DashboardUI extends UI {
 
     }
 
-    private NativeSelect createLanguageSelector() {
-        NativeSelect languageSelector = new NativeSelect();
+	private ComboBox createLanguageSelector() {
+		ComboBox languageSelector = new ComboBox();
         languageSelector.setImmediate(true);
         languageSelector.setNullSelectionAllowed(false);
         addLocale(Locale.ENGLISH, languageSelector);
         addLocale(Locale.FRENCH, languageSelector);
         addLocale(new Locale("es"), languageSelector);
-        languageSelector.setValue(i18NService.getLocale());
-        languageSelector.addListener(new Property.ValueChangeListener() {
+        languageSelector.setValue(i18NService.getLocale()); 
+        
+        languageSelector.addValueChangeListener(new ValueChangeListener() {			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 
-            public void valueChange(ValueChangeEvent event) {
+			@Override
+			public void valueChange(ValueChangeEvent event) {
                 Locale locale = (Locale) (event.getProperty().getValue());
                 i18NService.setLocale(locale);
-            }
-        });
+			}
+		});
+        
         return languageSelector;
     }
 
-    private void addLocale(Locale locale, NativeSelect languageSelector) {
+    private void addLocale(Locale locale, ComboBox languageSelector) {
         languageSelector.addItem(locale);
-        languageSelector.setItemCaption(locale, i18NService.getMessage(locale, "SamplerApplication.language"));
+        languageSelector.setItemCaption(locale, i18NService.getMessage(locale, "DashBoard.language"));
     }
     
     private Transferable items;

@@ -140,7 +140,7 @@ public class DataProvider {
             cache = new File("movies.txt");
         } else {
             File baseDirectory = vaadinRequest.getService().getBaseDirectory();
-            cache = new File(baseDirectory + "/movies.txt");
+            cache = new File(baseDirectory + "/WEB-INF/classes/movies.txt");
         }
 
         JsonObject json = null;
