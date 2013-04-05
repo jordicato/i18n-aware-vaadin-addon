@@ -30,7 +30,7 @@ public interface I18NService {
 	 *            the message arguments (if any).
 	 * @return the resolved message
 	 */
-	String getMessage(Locale locale, String key, Object... args);
+	String getMessage(Locale locale, @I18NAwareMessage String key, Object... args);
 
 	/**
 	 * Retrieve a message using the current locale ( may contain {@link java.text.MessageFormat} arguments).
@@ -41,7 +41,7 @@ public interface I18NService {
 	 *            the message arguments (if any).
 	 * @return the resolved message
 	 */
-	String getMessage(String key, Object... args);
+	String getMessage(@I18NAwareMessage String key, Object... args);
 
 	/**
 	 * Register a top level I18NAware

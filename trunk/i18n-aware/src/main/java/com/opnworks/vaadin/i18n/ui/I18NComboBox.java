@@ -72,10 +72,10 @@ public class I18NComboBox extends ComboBox implements I18NAwareField<Object>, I1
 		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
-	@Override
+	/*@Override
 	public void setItemCaption(Object itemId, @I18NAwareMessage String itemKey) {
 		setCaptionMessage(itemKey);
-	}
+	}*/
 
 	@Override
 	public void setRealCaption(String caption) {
