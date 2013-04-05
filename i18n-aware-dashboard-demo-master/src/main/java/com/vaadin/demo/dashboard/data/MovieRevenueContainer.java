@@ -1,17 +1,6 @@
-/**
- * DISCLAIMER
- * 
- * The quality of the code is such that you should not copy any of it as best
- * practice how to build Vaadin applications.
- * 
- * @author jouni@vaadin.com
- * 
- */
-
 package com.vaadin.demo.dashboard.data;
 
 import java.util.Date;
-
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 
@@ -26,7 +15,6 @@ public class MovieRevenueContainer extends IndexedContainer {
     }
 
     public void add(Date time, String title, double revenue) {
-
         Object id = addItem();
         Item item = getItem(id);
         if (item != null) {
@@ -35,5 +23,4 @@ public class MovieRevenueContainer extends IndexedContainer {
             item.getItemProperty("Revenue").setValue(revenue);
         }
     }
-
 }

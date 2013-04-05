@@ -1,19 +1,8 @@
-/**
- * DISCLAIMER
- * 
- * The quality of the code is such that you should not copy any of it as best
- * practice how to build Vaadin applications.
- * 
- * @author jouni@vaadin.com
- * 
- */
-
 package com.vaadin.demo.dashboard;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
-
 import com.vaadin.addon.timeline.Timeline;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.demo.dashboard.data.DataProvider;
@@ -35,27 +24,23 @@ public class SalesView extends VerticalLayout implements View {
 
     private Timeline timeline;
 
-    Color[] colors = new Color[] { new Color(52, 154, 255),
-            new Color(242, 81, 57), new Color(255, 201, 35),
-            new Color(83, 220, 164) };
+    Color[] colors = new Color[] { new Color(52, 154, 255), new Color(242, 81, 57), new Color(255, 201, 35), new Color(83, 220, 164) };
+
     int colorIndex = -1;
 
     @Override
     public void enter(ViewChangeEvent event) {
         setSizeFull();
         addStyleName("timeline");
-
-        Label header = new Label("Revenue by Movie Title");
+        Label header = new Label("com.vaadin.demo.dashboard.SalesView.Revenue_by_Movie_Title");
         header.addStyleName("h1");
         addComponent(header);
-
         HorizontalLayout toolbar = new HorizontalLayout();
         toolbar.setWidth("100%");
         toolbar.setSpacing(true);
         toolbar.setMargin(true);
         toolbar.addStyleName("toolbar");
         addComponent(toolbar);
-
         final ComboBox movieSelect = new ComboBox();
         ArrayList<Movie> movies = DataProvider.getMovies();
         for (Movie m : movies) {
@@ -63,18 +48,17 @@ public class SalesView extends VerticalLayout implements View {
         }
         movieSelect.setWidth("300px");
         toolbar.addComponent(movieSelect);
-        movieSelect.addShortcutListener(new ShortcutListener("Add",
-                KeyCode.ENTER, null) {
+        movieSelect.addShortcutListener(new ShortcutListener("Add", KeyCode.ENTER, null) {
 
             @Override
             public void handleAction(Object sender, Object target) {
                 addSelectedMovie(movieSelect);
             }
         });
-
-        Button add = new Button("Add");
+        Button add = new Button("com.vaadin.demo.dashboard.SalesView.Add");
         add.addStyleName("default");
         add.addClickListener(new ClickListener() {
+
             @Override
             public void buttonClick(ClickEvent event) {
                 addSelectedMovie(movieSelect);
@@ -82,9 +66,9 @@ public class SalesView extends VerticalLayout implements View {
         });
         toolbar.addComponent(add);
         toolbar.setComponentAlignment(add, Alignment.BOTTOM_LEFT);
-
-        Button clear = new Button("Clear");
+        Button clear = new Button("com.vaadin.demo.dashboard.SalesView.Clear");
         clear.addClickListener(new ClickListener() {
+
             @Override
             public void buttonClick(ClickEvent event) {
                 timeline.removeAllGraphDataSources();
@@ -93,7 +77,6 @@ public class SalesView extends VerticalLayout implements View {
         toolbar.addComponent(clear);
         toolbar.setComponentAlignment(clear, Alignment.BOTTOM_RIGHT);
         toolbar.setExpandRatio(clear, 1);
-
         timeline = new Timeline();
         timeline.setDateSelectVisible(false);
         timeline.setChartModesVisible(false);
@@ -101,29 +84,21 @@ public class SalesView extends VerticalLayout implements View {
         timeline.setZoomLevelsVisible(false);
         timeline.setSizeFull();
         timeline.setNoDataSourceCaption("<span class=\"v-label h2 light\">Add a data set from the dropdown above</span>");
-
         addComponent(timeline);
         setExpandRatio(timeline, 1);
-
-        // Add first 4 by default
         int i = 0;
         for (Movie m : DataProvider.getMovies()) {
             addDataSet(m.title);
-            if (++i > 3)
-                break;
+            if (++i > 3) break;
         }
-
         Date start = new Date();
         start.setMonth(start.getMonth() - 2);
         Date end = new Date();
-        if (timeline.getGraphDatasources().size() > 0)
-            timeline.setVisibleDateRange(start, end);
-
+        if (timeline.getGraphDatasources().size() > 0) timeline.setVisibleDateRange(start, end);
     }
 
     private void addSelectedMovie(final ComboBox movieSelect) {
-        if (movieSelect.getValue() != null
-                && !movieSelect.getValue().equals("")) {
+        if (movieSelect.getValue() != null && !movieSelect.getValue().equals("")) {
             String title = movieSelect.getValue().toString();
             addDataSet(title);
             movieSelect.removeItem(title);
@@ -132,8 +107,7 @@ public class SalesView extends VerticalLayout implements View {
     }
 
     private void addDataSet(String title) {
-        IndexedContainer revenue = ((DashboardUI) getUI()).dataProvider
-                .getRevenueForTitle(title);
+        IndexedContainer revenue = ((DashboardUI) getUI()).dataProvider.getRevenueForTitle(title);
         timeline.addGraphDataSource(revenue, "timestamp", "revenue");
         colorIndex = (colorIndex >= colors.length - 1 ? 0 : ++colorIndex);
         timeline.setGraphOutlineColor(revenue, colors[colorIndex]);

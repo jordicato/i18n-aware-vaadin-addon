@@ -1,75 +1,47 @@
 package com.vaadin.demo.dashboard.data;
 
-
 public class Generator {
 
     public static String randomFirstName() {
-        String[] names = { "Dave", "Mike", "Katherine", "Jonas", "Linus",
-                "Bob", "Anne", "Minna", "Elisa", "George", "Mathias", "Pekka",
-                "Fredrik", "Kate", "Teppo", "Kim", "Samatha", "Sam", "Linda",
-                "Jo", "Sarah", "Ray", "Michael", "Steve" };
+        String[] names = { "Dave", "Mike", "Katherine", "Jonas", "Linus", "Bob", "Anne", "Minna", "Elisa", "George", "Mathias", "Pekka", "Fredrik", "Kate", "Teppo", "Kim", "Samatha", "Sam", "Linda", "Jo", "Sarah", "Ray", "Michael", "Steve" };
         return names[(int) (Math.random() * names.length)];
     }
 
     public static String randomLastName() {
-        String[] names = { "Smith", "Lehtinen", "Chandler", "Hewlett",
-                "Packard", "Jobs", "Buffet", "Reagan", "Carthy", "Wu",
-                "Johnson", "Williams", "Jones", "Brown", "Davis", "Moore",
-                "Wilson", "Taylor", "Anderson", "Jackson", "White", "Harris",
-                "Martin", "King", "Lee", "Walker", "Wright", "Clark",
-                "Robinson", "Garcia", "Thomas", "Hall", "Lopez", "Scott",
-                "Adams", "Barker", "Morris", "Cook", "Rogers", "Rivera",
-                "Gray", "Price", "Perry", "Powell", "Russell", "Diaz" };
+        String[] names = { "Smith", "Lehtinen", "Chandler", "Hewlett", "Packard", "Jobs", "Buffet", "Reagan", "Carthy", "Wu", "Johnson", "Williams", "Jones", "Brown", "Davis", "Moore", "Wilson", "Taylor", "Anderson", "Jackson", "White", "Harris", "Martin", "King", "Lee", "Walker", "Wright", "Clark", "Robinson", "Garcia", "Thomas", "Hall", "Lopez", "Scott", "Adams", "Barker", "Morris", "Cook", "Rogers", "Rivera", "Gray", "Price", "Perry", "Powell", "Russell", "Diaz" };
         return names[(int) (Math.random() * names.length)];
     }
 
     public static String randomCompanyName() {
-
         String name = randomName();
-        if (Math.random() < 0.03)
-            name += " Technologies";
-        else if (Math.random() < 0.02)
-            name += " Investment";
-        if (Math.random() < 0.3)
-            name += " Inc";
-        else if (Math.random() < 0.2)
-            name += " Ltd.";
-
+        if (Math.random() < 0.03) name += " Technologies"; else if (Math.random() < 0.02) name += " Investment";
+        if (Math.random() < 0.3) name += " Inc"; else if (Math.random() < 0.2) name += " Ltd.";
         return name;
     }
 
     public static String randomWord(int len, boolean capitalized) {
-        String[] part = { "ger", "ma", "isa", "app", "le", "ni", "ke", "mic",
-                "ro", "soft", "wa", "re", "lo", "gi", "is", "acc", "el", "tes",
-                "la", "ko", "ni", "ka", "so", "ny", "mi", "nol", "ta", "pa",
-                "na", "so", "nic", "sa", "les", "for", "ce" };
+        String[] part = { "ger", "ma", "isa", "app", "le", "ni", "ke", "mic", "ro", "soft", "wa", "re", "lo", "gi", "is", "acc", "el", "tes", "la", "ko", "ni", "ka", "so", "ny", "mi", "nol", "ta", "pa", "na", "so", "nic", "sa", "les", "for", "ce" };
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < len; i++) {
             String p = part[(int) (Math.random() * part.length)];
-            if (i == 0 && capitalized)
-                p = Character.toUpperCase(p.charAt(0)) + p.substring(1);
+            if (i == 0 && capitalized) p = Character.toUpperCase(p.charAt(0)) + p.substring(1);
             sb.append(p);
         }
         return sb.toString();
-
     }
 
     public static String randomText(int words) {
         StringBuffer sb = new StringBuffer();
         int sentenceWordsLeft = 0;
         while (words-- > 0) {
-            if (sb.length() > 0)
-                sb.append(' ');
+            if (sb.length() > 0) sb.append(' ');
             if (sentenceWordsLeft == 0 && words > 0) {
                 sentenceWordsLeft = (int) (Math.random() * 15);
                 sb.append(randomWord(1 + (int) (Math.random() * 3), true));
             } else {
                 sentenceWordsLeft--;
                 sb.append(randomWord(1 + (int) (Math.random() * 3), false));
-                if (words > 0 && sentenceWordsLeft > 2 && Math.random() < 0.2)
-                    sb.append(',');
-                else if (sentenceWordsLeft == 0 || words == 0)
-                    sb.append('.');
+                if (words > 0 && sentenceWordsLeft > 2 && Math.random() < 0.2) sb.append(','); else if (sentenceWordsLeft == 0 || words == 0) sb.append('.');
             }
         }
         return sb.toString();
