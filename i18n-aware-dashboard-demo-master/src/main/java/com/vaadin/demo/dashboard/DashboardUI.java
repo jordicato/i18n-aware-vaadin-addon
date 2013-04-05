@@ -345,7 +345,7 @@ public class DashboardUI extends UI {
     }
 
     private ComboBox createLanguageSelector() {
-        ComboBox languageSelector = new ComboBox();
+        ComboBox languageSelector = new ComboBox("languageSelector.name");
         languageSelector.setImmediate(true);
         languageSelector.setNullSelectionAllowed(false);
         addLocale(Locale.ENGLISH, languageSelector);
