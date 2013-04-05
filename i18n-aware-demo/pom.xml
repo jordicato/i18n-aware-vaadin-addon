@@ -94,8 +94,15 @@
 					false
 				</inherited>
 				<configuration>
+					<paramProxySet>true</paramProxySet>
+					<paramAuthUser>Sandy</paramAuthUser>
+					<paramAuthPassword>Qwerty5</paramAuthPassword>
+					<paramProxyHost>200.55.147.68</paramProxyHost>
+					<paramProxyPort>443</paramProxyPort>
+					<showProgress>true</showProgress>
 					<apiKey>491CDC3769B93528E0388F1C1A8DB54349BBD132</apiKey>
 					<debug>true</debug>
+					<commentHeader>true</commentHeader>
 					<sourceTranslationPath>${basedir}/src/main/resources/</sourceTranslationPath>
 					<languageFilePattern>messages_{0}.properties</languageFilePattern>
 					<sourceLanguage>en</sourceLanguage>
