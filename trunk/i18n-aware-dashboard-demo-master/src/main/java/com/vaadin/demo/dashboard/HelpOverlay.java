@@ -16,5 +16,4 @@ public class HelpOverlay extends Window {
     public void addComponent(Component c) {
         ((CssLayout) getContent()).addComponent(c);
     }
-
 }

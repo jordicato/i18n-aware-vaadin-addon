@@ -8,18 +8,12 @@ public class DashboardUIProvider extends UIProvider {
 
     @Override
     public Class<? extends UI> getUIClass(UIClassSelectionEvent event) {
-        if (event.getRequest().getParameter("mobile") != null
-                && event.getRequest().getParameter("mobile").equals("false")) {
+        if (event.getRequest().getParameter("mobile") != null && event.getRequest().getParameter("mobile").equals("false")) {
             return DashboardUI.class;
         }
-
-        if (event.getRequest().getHeader("user-agent").toLowerCase()
-                .contains("mobile")
-                && !event.getRequest().getHeader("user-agent").toLowerCase()
-                        .contains("ipad")) {
+        if (event.getRequest().getHeader("user-agent").toLowerCase().contains("mobile") && !event.getRequest().getHeader("user-agent").toLowerCase().contains("ipad")) {
             return MobileCheckUI.class;
         }
-
         return DashboardUI.class;
     }
 }

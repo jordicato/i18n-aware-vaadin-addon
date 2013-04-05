@@ -1,7 +1,6 @@
 package com.vaadin.demo.dashboard;
 
 import java.text.SimpleDateFormat;
-
 import com.vaadin.demo.dashboard.ScheduleView.MovieEvent;
 import com.vaadin.demo.dashboard.data.DataProvider.Movie;
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -30,39 +29,31 @@ public class MovieDetailsWindow extends Window {
     public MovieDetailsWindow(Movie movie, MovieEvent event) {
         VerticalLayout l = new VerticalLayout();
         l.setSpacing(true);
-
         setCaption(movie.title);
         setContent(l);
         center();
         setCloseShortcut(KeyCode.ESCAPE, null);
         setResizable(false);
         setClosable(false);
-
         addStyleName("no-vertical-drag-hints");
         addStyleName("no-horizontal-drag-hints");
-
         HorizontalLayout details = new HorizontalLayout();
         details.setSpacing(true);
         details.setMargin(true);
         l.addComponent(details);
-
-        final Image coverImage = new Image("", new ExternalResource(
-                movie.posterUrl));
-
-        final Button more = new Button("More…");
-
+        final Image coverImage = new Image("", new ExternalResource(movie.posterUrl));
+        final Button more = new Button("com.vaadin.demo.dashboard.MovieDetailsWindow.More");
         DragAndDropWrapper cover = new DragAndDropWrapper(coverImage);
         cover.setDragStartMode(DragStartMode.NONE);
         cover.setWidth("200px");
         cover.setHeight("270px");
         cover.addStyleName("cover");
         cover.setDropHandler(new DropHandler() {
+
             @Override
             public void drop(DragAndDropEvent event) {
-                DragAndDropWrapper d = (DragAndDropWrapper) event
-                        .getTransferable().getSourceComponent();
-                if (d == event.getTargetDetails().getTarget())
-                    return;
+                DragAndDropWrapper d = (DragAndDropWrapper) event.getTransferable().getSourceComponent();
+                if (d == event.getTargetDetails().getTarget()) return;
                 Movie m = (Movie) d.getData();
                 coverImage.setSource(new ExternalResource(m.posterUrl));
                 coverImage.setAlternateText(m.title);
@@ -77,64 +68,56 @@ public class MovieDetailsWindow extends Window {
             }
         });
         details.addComponent(cover);
-
         FormLayout fields = new FormLayout();
         fields.setWidth("35em");
         fields.setSpacing(true);
         fields.setMargin(true);
         details.addComponent(fields);
-
         Label label;
         if (event != null) {
             SimpleDateFormat df = new SimpleDateFormat();
-
             df.applyPattern("dd-mm-yyyy");
             label = new Label(df.format(event.start));
             label.setSizeUndefined();
-            label.setCaption("Date");
+            label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Date");
             fields.addComponent(label);
-
             df.applyPattern("hh:mm a");
             label = new Label(df.format(event.start));
             label.setSizeUndefined();
-            label.setCaption("Starts");
+            label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Starts");
             fields.addComponent(label);
-
             label = new Label(df.format(event.end));
             label.setSizeUndefined();
-            label.setCaption("Ends");
+            label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Ends");
             fields.addComponent(label);
         }
-
         label = new Label(movie.duration + " minutes");
         label.setSizeUndefined();
-        label.setCaption("Duration");
+        label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Duration");
         fields.addComponent(label);
-
         synopsis.setData(movie.synopsis);
-        synopsis.setCaption("Synopsis");
+        synopsis.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Synopsis");
         updateSynopsis(movie, false);
         fields.addComponent(synopsis);
-
         more.addStyleName("link");
         fields.addComponent(more);
         more.addClickListener(new ClickListener() {
+
             @Override
             public void buttonClick(ClickEvent event) {
                 updateSynopsis(null, true);
                 event.getButton().setVisible(false);
             }
         });
-        
         HorizontalLayout footer = new HorizontalLayout();
         footer.addStyleName("footer");
         footer.setWidth("100%");
         footer.setMargin(true);
-
-        Button ok = new Button("Close");
+        Button ok = new Button("com.vaadin.demo.dashboard.MovieDetailsWindow.Close");
         ok.addStyleName("wide");
         ok.addStyleName("default");
         ok.addClickListener(new ClickListener() {
+
             @Override
             public void buttonClick(ClickEvent event) {
                 close();
@@ -152,9 +135,7 @@ public class MovieDetailsWindow extends Window {
             synopsis.setData(m.synopsis);
         }
         if (!expand) {
-            synopsisText = synopsisText.length() > 300 ? synopsisText
-                    .substring(0, 300) + "…" : synopsisText;
-
+            synopsisText = synopsisText.length() > 300 ? synopsisText.substring(0, 300) + "…" : synopsisText;
         }
         synopsis.setValue(synopsisText);
     }

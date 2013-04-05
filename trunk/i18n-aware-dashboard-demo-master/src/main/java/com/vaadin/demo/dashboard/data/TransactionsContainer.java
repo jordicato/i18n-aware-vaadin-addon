@@ -1,19 +1,8 @@
-/**
- * DISCLAIMER
- * 
- * The quality of the code is such that you should not copy any of it as best
- * practice how to build Vaadin applications.
- * 
- * @author jouni@vaadin.com
- * 
- */
-
 package com.vaadin.demo.dashboard.data;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 
@@ -33,8 +22,7 @@ public class TransactionsContainer extends IndexedContainer {
         addContainerProperty("Price", Double.class, 0);
     }
 
-    public void addTransaction(Calendar time, String country, String city,
-            String theater, String room, String title, int seats, double price) {
+    public void addTransaction(Calendar time, String country, String city, String theater, String room, String title, int seats, double price) {
         Object id = addItem();
         Item item = getItem(id);
         if (item != null) {
@@ -49,5 +37,4 @@ public class TransactionsContainer extends IndexedContainer {
             item.getItemProperty("Price").setValue(price);
         }
     }
-
 }
