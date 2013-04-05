@@ -8,8 +8,6 @@ public class TestAssignExpr {
     private String Caption;
 
     public TestAssignExpr() {
-
-    	Caption = "Caption";
-    	
+    	Caption = "Caption";    	
     }
 }

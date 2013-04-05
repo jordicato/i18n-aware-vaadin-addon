@@ -33,13 +33,10 @@ import japa.parser.ast.stmt.BreakStmt;
 import japa.parser.ast.stmt.CatchClause;
 import japa.parser.ast.stmt.ContinueStmt;
 import japa.parser.ast.stmt.DoStmt;
-import japa.parser.ast.stmt.EmptyStmt;
-import japa.parser.ast.stmt.ExplicitConstructorInvocationStmt;
 import japa.parser.ast.stmt.ExpressionStmt;
 import japa.parser.ast.stmt.ForStmt;
 import japa.parser.ast.stmt.ForeachStmt;
 import japa.parser.ast.stmt.IfStmt;
-import japa.parser.ast.stmt.LabeledStmt;
 import japa.parser.ast.stmt.Statement;
 import japa.parser.ast.stmt.SwitchEntryStmt;
 import japa.parser.ast.stmt.SwitchStmt;
@@ -246,8 +243,13 @@ public class KeyConverter {
 	private Class<?> getMatchingI18NClass(String className) {
 		Class<?> clas = null;
 		if (!className.isEmpty()) {
-			String classNameAux = PREFIX_I18NAWARE_CLASS.endsWith(".") ? PREFIX_I18NAWARE_CLASS.substring(0, PREFIX_I18NAWARE_CLASS.length() - 1)
-					+ className : (PREFIX_I18NAWARE_CLASS + className);
+			String classNameAux;
+			if (!className.equals("I18NService")) {
+				classNameAux = PREFIX_I18NAWARE_CLASS.endsWith(".") ? PREFIX_I18NAWARE_CLASS.substring(0, PREFIX_I18NAWARE_CLASS.length() - 1)
+						+ className : (PREFIX_I18NAWARE_CLASS + className);				 
+			} else {
+				classNameAux = "com.opnworks.vaadin.i18n.I18NService";
+			}
 			try {
 				clas = Class.forName(classNameAux);
 			}
@@ -897,7 +899,22 @@ public class KeyConverter {
 	// Process arguments for all methods called in source
 	private void processArgs(MethodCallExpr methodCallE) {
 		List<Expression> largs = methodCallE.getArgs();
+		//here
 		if (largs != null) {
+			for (Expression expArg : largs) {
+				if (expArg instanceof ObjectCreationExpr) {
+					ObjectCreationExpr exp = (ObjectCreationExpr) expArg;
+					List<BodyDeclaration> anonymousClassBody = exp.getAnonymousClassBody();
+					if (anonymousClassBody != null) {
+						for (BodyDeclaration member1 : anonymousClassBody ) {
+							processMember(member1);
+						}
+					}
+				} else if (expArg instanceof MethodCallExpr) {
+					processArgs((MethodCallExpr) expArg);
+				}
+			}		
+		
 			List<Integer> paramsPositions = getI18NAwareMessageParamsPositions(methodCallE);
 			if (!paramsPositions.isEmpty()) {
 				for (Integer pos : paramsPositions ) {
@@ -1154,7 +1171,6 @@ public class KeyConverter {
 								else {
 									processLiteralExprParam(exp);
 								}
-
 							}
 						}
 					}
@@ -1274,27 +1290,6 @@ public class KeyConverter {
 			ForStmt bs = (ForStmt) statement;
 			BlockStmt bs1 = (BlockStmt) bs.getBody();
 			processBlockStmt(bs1);
-		}
-		else if (statement instanceof BlockStmt) {
-			System.out.println("BlockStmt");
-		}
-		else if (statement instanceof EmptyStmt) {
-			System.out.println("EmptyStmt");
-		}
-		else if (statement instanceof ExplicitConstructorInvocationStmt) {
-			System.out.println("ExplicitConstructorInvocationStmt");
-		}
-		else if (statement instanceof LabeledStmt) {
-			System.out.println("LabeledStmt");
-		}		
-		else if (statement instanceof Statement) {
-			System.out.println("Statement");
-		}	
-		else if (statement instanceof SynchronizedStmt) {
-			System.out.println("SynchronizedStmt");
-		}	
-		else if (statement instanceof ExpressionStmt) {
-			System.out.println("ExpressionStmt");
 		}
 		else if (statement instanceof ThrowStmt || statement instanceof BreakStmt || statement instanceof ContinueStmt) {
 			// do nothing (for now)
