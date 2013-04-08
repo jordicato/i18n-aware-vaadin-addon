@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Set;
+import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
@@ -70,6 +71,9 @@ public class TransactionsView extends VerticalLayout implements View {
             }
         };
         t.setSizeFull();
+        if (I18NServiceImpl.getInstance() != null) {
+            System.out.println("LOCALE ----------- " + I18NServiceImpl.getInstance().getLocale());
+        }
         t.addStyleName("borderless");
         t.setSelectable(true);
         t.setColumnCollapsingAllowed(true);
