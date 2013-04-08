@@ -3,6 +3,7 @@ package com.vaadin.demo.dashboard;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Date;
+import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 import com.vaadin.addon.timeline.Timeline;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.demo.dashboard.data.DataProvider;

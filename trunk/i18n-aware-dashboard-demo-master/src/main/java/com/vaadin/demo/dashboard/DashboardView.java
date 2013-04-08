@@ -157,7 +157,7 @@ public class DashboardView extends VerticalLayout implements View {
         setExpandRatio(row, 1.5f);
         row.addComponent(createPanel(new TopGrossingMoviesChart()));
         TextArea notes = new TextArea("com.vaadin.demo.dashboard.DashboardView.Notes");
-        notes.setValue("Remember to:\n· Zoom in and out in the Sales view\n· Filter the transactions and drag a set of them to the Reports tab\n· Create a new report\n· Change the schedule of the movie theater");
+        notes.setValue("com.vaadin.demo.dashboard.DashboardView.Remember_to_n_Zoom_in_and_o");
         notes.setSizeFull();
         CssLayout panel = createPanel(notes);
         panel.addStyleName("notes");
@@ -184,7 +184,6 @@ public class DashboardView extends VerticalLayout implements View {
                 return super.formatPropertyValue(rowId, colId, property);
             }
         };
-        t.setCaption("com.vaadin.demo.dashboard.DashboardView.Top_10_Titles_by_Revenue");
         t.setWidth("100%");
         t.setPageLength(0);
         t.addStyleName("plain");
@@ -192,7 +191,9 @@ public class DashboardView extends VerticalLayout implements View {
         t.setSortEnabled(false);
         t.setColumnAlignment("Revenue", Align.RIGHT);
         t.setRowHeaderMode(RowHeaderMode.INDEX);
-        row.addComponent(createPanel(t));
+        Table table = (Table) t;
+        table.setCaption("com.vaadin.demo.dashboard.DashboardView.Top_10_Titles_by_Revenue");
+        row.addComponent(createPanel(table));
         row.addComponent(createPanel(new TopSixTheatersChart()));
     }
 
@@ -216,7 +217,6 @@ public class DashboardView extends VerticalLayout implements View {
         });
         panel.addComponent(configure);
         panel.addComponent(content);
-        
         return panel;
     }
 

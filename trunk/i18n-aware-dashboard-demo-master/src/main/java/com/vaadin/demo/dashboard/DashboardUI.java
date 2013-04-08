@@ -3,15 +3,9 @@ package com.vaadin.demo.dashboard;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import com.opnworks.vaadin.i18n.I18NService;
-import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
-import com.opnworks.vaadin.i18n.service_impl.ResourceBundleI18NMessageProvider;
+import com.opnworks.vaadin.i18n.I18NStaticService;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
-import com.vaadin.data.Property;
-import com.vaadin.data.Container.ItemSetChangeEvent;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.demo.dashboard.data.DataProvider;
@@ -47,10 +41,8 @@ import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.NativeButton;
-import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.Select;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -59,6 +51,8 @@ import com.vaadin.ui.VerticalLayout;
 @Theme("dashboard")
 @Title("QuickTickets Dashboard")
 public class DashboardUI extends UI {
+
+    I18NStaticService i18NAware = new I18NStaticService("messages", Locale.ENGLISH);
 
     DataProvider dataProvider = new DataProvider();
 
@@ -89,16 +83,11 @@ public class DashboardUI extends UI {
 
     private HelpManager helpManager;
 
-    private I18NService i18NService;
-
     @Override
     protected void init(VaadinRequest request) {
-        i18NService = new I18NServiceImpl(new ResourceBundleI18NMessageProvider("messages"));
-        I18NServiceImpl.setInstance(i18NService);
-        i18NService.setLocale(Locale.ENGLISH);
         getSession().setConverterFactory(new MyConverterFactory());
         helpManager = new HelpManager(this);
-        setLocale(Locale.US);
+        setLocale(Locale.ENGLISH);
         setContent(root);
         root.addStyleName("root");
         root.setSizeFull();
@@ -106,11 +95,11 @@ public class DashboardUI extends UI {
         bg.setSizeUndefined();
         bg.addStyleName("login-bg");
         root.addComponent(bg);
-        buildLoginView(false, i18NService);
-        i18NService.registerI18NAware(root);
+        buildLoginView(false);
+        I18NStaticService.getI18NServive().registerI18NAware(root);
     }
 
-    private void buildLoginView(boolean exit, final I18NService i18NService) {
+    private void buildLoginView(boolean exit) {
         if (exit) {
             root.removeAllComponents();
         }
@@ -167,7 +156,7 @@ public class DashboardUI extends UI {
             public void buttonClick(ClickEvent event) {
                 if (username.getValue() != null && username.getValue().equals("") && password.getValue() != null && password.getValue().equals("")) {
                     signin.removeShortcutListener(enter);
-                    buildMainView(i18NService);
+                    buildMainView();
                 } else {
                     if (loginPanel.getComponentCount() > 2) {
                         loginPanel.removeComponent(loginPanel.getComponent(2));
@@ -188,7 +177,7 @@ public class DashboardUI extends UI {
         loginLayout.setComponentAlignment(loginPanel, Alignment.MIDDLE_CENTER);
     }
 
-    private void buildMainView(I18NService i18nService) {
+    private void buildMainView() {
         nav = new Navigator(this, content);
         for (String route : routes.keySet()) {
             nav.addView(route, routes.get(route));
@@ -254,7 +243,7 @@ public class DashboardUI extends UI {
 
                                     @Override
                                     public void buttonClick(ClickEvent event) {
-                                        buildLoginView(true, i18NService);
+                                        buildLoginView(true);
                                     }
                                 });
                             }
@@ -351,7 +340,7 @@ public class DashboardUI extends UI {
         addLocale(Locale.ENGLISH, languageSelector);
         addLocale(Locale.FRENCH, languageSelector);
         addLocale(new Locale("es"), languageSelector);
-        languageSelector.setValue(i18NService.getLocale());
+        languageSelector.setValue(I18NStaticService.getI18NServive().getLocale());
         languageSelector.addValueChangeListener(new ValueChangeListener() {
 
             /**
@@ -362,7 +351,7 @@ public class DashboardUI extends UI {
             @Override
             public void valueChange(ValueChangeEvent event) {
                 Locale locale = (Locale) (event.getProperty().getValue());
-                i18NService.setLocale(locale);
+                I18NStaticService.getI18NServive().setLocale(locale);
             }
         });
         return languageSelector;
@@ -370,7 +359,7 @@ public class DashboardUI extends UI {
 
     private void addLocale(Locale locale, ComboBox languageSelector) {
         languageSelector.addItem(locale);
-        languageSelector.setItemCaption(locale, i18NService.getMessage(locale, "com.vaadin.demo.dashboard.DashboardUI.Language"));
+        languageSelector.setItemCaption(locale, I18NStaticService.getI18NServive().getMessage(locale, "com.vaadin.demo.dashboard.DashboardUI.Language"));
     }
 
     private Transferable items;
@@ -409,13 +398,5 @@ public class DashboardUI extends UI {
 
     HelpManager getHelpManager() {
         return helpManager;
-    }
-
-    public void onRequestStart(HttpServletRequest request, HttpServletResponse response) {
-        I18NServiceImpl.setInstance(i18NService);
-    }
-
-    public void onRequestEnd(HttpServletRequest request, HttpServletResponse response) {
-        I18NServiceImpl.setInstance(null);
     }
 }
