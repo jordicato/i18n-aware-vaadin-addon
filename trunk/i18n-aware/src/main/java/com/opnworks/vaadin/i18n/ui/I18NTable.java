@@ -6,7 +6,6 @@ import com.opnworks.vaadin.i18n.I18NAwareComponent;
 import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
-import com.opnworks.vaadin.i18n.data.util.I18NIndexedContainer;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
@@ -31,7 +30,7 @@ public class I18NTable extends Table implements I18NAwareComponent, I18NAwareCap
 	
 	private I18NAwareFieldSupport<Object> i18NAwareFieldSupport;
 	
-	private I18NIndexedContainer i18nIndexedContainer;
+	//private I18NIndexedContainer i18nIndexedContainer;
 
 	private String[] columnHeadersKeys;
 
@@ -41,7 +40,7 @@ public class I18NTable extends Table implements I18NAwareComponent, I18NAwareCap
 	public I18NTable() {
 		super();
 	}
-
+	
 	/**
 	 * Creates a new empty i18n table with caption.
 	 * 
@@ -85,7 +84,7 @@ public class I18NTable extends Table implements I18NAwareComponent, I18NAwareCap
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-
+		
 		getI18NAwareComponentCaptionSupport().i18NUpdate(i18N);
 
 		updateColumnHeaders(i18N);
@@ -188,12 +187,12 @@ public class I18NTable extends Table implements I18NAwareComponent, I18NAwareCap
 		return i18NAwareFieldSupport;
 	}
 	
-	private I18NIndexedContainer getI18NIndexedContainer() {
+	/*private I18NIndexedContainer getI18NIndexedContainer() {
 
 		if (i18nIndexedContainer == null) {
 			i18nIndexedContainer = new I18NIndexedContainer();
 		}
 
 		return i18nIndexedContainer;
-	}	
+	}	*/
 }

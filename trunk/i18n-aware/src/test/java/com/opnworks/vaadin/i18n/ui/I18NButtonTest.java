@@ -3,7 +3,6 @@ package com.opnworks.vaadin.i18n.ui;
 import org.junit.Test;
 
 import com.opnworks.vaadin.i18n.AbstractI18NTest;
-import com.vaadin.data.Property;
 import com.vaadin.ui.Button.ClickListener;
 
 /**
