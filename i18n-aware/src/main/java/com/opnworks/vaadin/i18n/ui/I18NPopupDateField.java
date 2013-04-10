@@ -8,7 +8,7 @@ import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
-import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.ValueContainer;
+import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.AwareValueContainer;
 import com.vaadin.data.Property;
 import com.vaadin.ui.PopupDateField;
 
@@ -146,7 +146,7 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 	private I18NAwareValueSupport getI18NInputPromptSupport() {
 
 		if (i18NInputPromptSupport == null) {
-			i18NInputPromptSupport = new I18NAwareValueSupport(new ValueContainer() {
+			i18NInputPromptSupport = new I18NAwareValueSupport(new AwareValueContainer() {
 				@Override
 				public void setValue(String value) {
 					setInputPrompt(value);

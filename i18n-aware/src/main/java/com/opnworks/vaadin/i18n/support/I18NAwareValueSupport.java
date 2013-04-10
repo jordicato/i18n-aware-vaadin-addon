@@ -4,7 +4,7 @@ import java.util.Locale;
 
 import com.opnworks.vaadin.i18n.I18NAwareValue;
 import com.opnworks.vaadin.i18n.I18NService;
-import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
+import com.opnworks.vaadin.i18n.I18NStaticService;
 
 /**
  * The I18NAwareValue Support class
@@ -14,19 +14,19 @@ import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 @SuppressWarnings("serial")
 public class I18NAwareValueSupport implements I18NAwareValue {
 
-	public interface ValueContainer {
+	public interface AwareValueContainer {
 		void setValue(String value);
 	}
 
-	protected ValueContainer valueContainer;
+	protected AwareValueContainer valueContainer;
 	private String valueKey;
 
 	private Object[] valueParams;
 
 	private Locale locale;
 
-	public I18NAwareValueSupport(ValueContainer valueContainer) {
-		this.valueContainer = valueContainer;
+	public I18NAwareValueSupport(AwareValueContainer awareValueContainer) {
+		this.valueContainer = awareValueContainer;
 	}
 
 	@Override
@@ -65,13 +65,18 @@ public class I18NAwareValueSupport implements I18NAwareValue {
 	public void setValueMessage(String valueKey, Object... valueParams) {
 		this.valueKey = valueKey;
 		this.valueParams = valueParams;
-
-		if (I18NServiceImpl.getInstance() != null) {
-			i18NUpdate(I18NServiceImpl.getInstance());
-		}
+		
+		if (I18NStaticService.getI18NServive() != null) {
+			i18NUpdate(I18NStaticService.getI18NServive());
+		}	
 	}
 
 	public void setValueParams(Object... valueParams) {
 		this.valueParams = valueParams;
+	}
+
+	@Override
+	public void setRealValue(String value) {
+		valueContainer.setValue(value);
 	}
 }

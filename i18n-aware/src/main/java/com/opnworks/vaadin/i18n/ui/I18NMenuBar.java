@@ -12,7 +12,7 @@ import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
-import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.ValueContainer;
+import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.AwareValueContainer;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.MenuBar;
 
@@ -33,7 +33,7 @@ public class I18NMenuBar extends MenuBar implements I18NAwareComponent, I18NAwar
 
 		private MenuItem delegate;
 
-		private I18NAwareValueSupport i18NTextSupport = new I18NAwareValueSupport(new ValueContainer() {
+		private I18NAwareValueSupport i18NTextSupport = new I18NAwareValueSupport(new AwareValueContainer() {
 			@Override
 			public void setValue(String value) {
 				I18NMenuItem.this.setText(value);

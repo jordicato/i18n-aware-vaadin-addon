@@ -21,9 +21,6 @@ import javax.tools.Diagnostic;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 
-import com.opnworks.vaadin.i18n.I18NStaticService;
-import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
-
 /**
  * The Aspect Generator
  * 
@@ -141,11 +138,7 @@ public class GenerateInstantiateSubclassAspectProcessor extends AbstractProcesso
 		
 		writer.write("com.opnworks.vaadin.i18n.I18NStaticService.getI18NServive().registerI18NAware(" + subclass.getSimpleName().replaceAll("I18N", "").toLowerCase() + ");\n");
 		
-		writer.write(subclass.getSimpleName().replaceAll("I18N", "").toLowerCase() + ".i18NUpdate(com.opnworks.vaadin.i18n.I18NStaticService.getI18NServive());\n");
-		
 		writer.write("return " + subclass.getSimpleName().replaceAll("I18N", "").toLowerCase() + ";\n");
-		
-		//writer.write("return new " + subclass.getSimpleName() + "( " + createParams(constructorParamTypes) + " );\n");
 
 		writer.write("}\n");
 	}

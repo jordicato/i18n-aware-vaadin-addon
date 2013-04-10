@@ -16,4 +16,12 @@ public interface I18NAwareValue extends I18NAware {
 	 *            the value message parameters.
 	 */
 	void setValueMessage(String valueKey, Object... valueParams);
+	
+	/**
+	 * Set the real value
+	 * 
+	 * @param caption
+	 *            the value
+	 */
+	void setRealValue(String value);
 }

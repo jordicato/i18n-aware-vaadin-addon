@@ -8,7 +8,7 @@ import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
-import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.ValueContainer;
+import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.AwareValueContainer;
 import com.vaadin.data.Property;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
@@ -20,13 +20,13 @@ import com.vaadin.ui.Label;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCaption, I18NAwareValue, ValueContainer {
+public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCaption, I18NAwareValue, AwareValueContainer {
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 
 	private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(this);
 
-	private I18NAwareValueSupport i18NDescriptionSupport = new I18NAwareValueSupport(new ValueContainer() {
+	private I18NAwareValueSupport i18NDescriptionSupport = new I18NAwareValueSupport(new AwareValueContainer() {
 		@Override
 		public void setValue(String value) {
 			setDescription(value);
@@ -157,5 +157,10 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 		}
 
 		return i18NAwareComponentCaptionSupport;
+	}
+
+	@Override
+	public void setRealValue(String value) {
+		super.setValue(value);
 	}
 }
