@@ -97,7 +97,6 @@ public class DashboardUI extends UI {
         bg.addStyleName("login-bg");
         root.addComponent(bg);
         buildLoginView(false);
-        I18NStaticService.getI18NServive().registerI18NAware(root);
     }
 
     private void buildLoginView(boolean exit) {
