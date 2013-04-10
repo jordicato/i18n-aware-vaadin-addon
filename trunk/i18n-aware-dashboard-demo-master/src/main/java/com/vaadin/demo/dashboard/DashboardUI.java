@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import com.opnworks.vaadin.i18n.I18NStaticService;
+import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -352,6 +353,7 @@ public class DashboardUI extends UI {
             public void valueChange(ValueChangeEvent event) {
                 Locale locale = (Locale) (event.getProperty().getValue());
                 I18NStaticService.getI18NServive().setLocale(locale);
+                getUI().requestRepaintAll();                
             }
         });
         return languageSelector;
