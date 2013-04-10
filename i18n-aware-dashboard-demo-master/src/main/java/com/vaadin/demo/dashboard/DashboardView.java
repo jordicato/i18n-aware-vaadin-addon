@@ -2,7 +2,6 @@ package com.vaadin.demo.dashboard;
 
 import java.text.DecimalFormat;
 import com.opnworks.vaadin.i18n.I18NService;
-import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 import com.vaadin.data.Property;
 import com.vaadin.demo.dashboard.data.DataProvider;
 import com.vaadin.demo.dashboard.data.Generator;
@@ -167,8 +166,9 @@ public class DashboardView extends VerticalLayout implements View {
         row.setSizeFull();
         row.setSpacing(true);
         addComponent(row);
-        setExpandRatio(row, 2);
-        t = new Table() {
+        setExpandRatio(row, 2);        
+        
+        t = new Table(); /*{
 
             @Override
             protected String formatPropertyValue(Object rowId, Object colId, Property<?> property) {
@@ -183,7 +183,7 @@ public class DashboardView extends VerticalLayout implements View {
                 }
                 return super.formatPropertyValue(rowId, colId, property);
             }
-        };
+        };*/
         t.setWidth("100%");
         t.setPageLength(0);
         t.addStyleName("plain");
@@ -191,9 +191,8 @@ public class DashboardView extends VerticalLayout implements View {
         t.setSortEnabled(false);
         t.setColumnAlignment("Revenue", Align.RIGHT);
         t.setRowHeaderMode(RowHeaderMode.INDEX);
-        Table table = (Table) t;
-        table.setCaption("com.vaadin.demo.dashboard.DashboardView.Top_10_Titles_by_Revenue");
-        row.addComponent(createPanel(table));
+        t.setCaption("com.vaadin.demo.dashboard.DashboardView.Top_10_Titles_by_Revenue");
+        row.addComponent(createPanel(t));
         row.addComponent(createPanel(new TopSixTheatersChart()));
     }
 
