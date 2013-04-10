@@ -11,7 +11,7 @@ public class Test {
     private CssLayout root = new CssLayout();
 
     public Test() {
-        button = new Button("The Button caption");        
+        button = new Button("The Button \n caption");        
     	root.addComponent(new HorizontalLayout() {
     		Button boton = new Button("The Button caption1");
     	});
