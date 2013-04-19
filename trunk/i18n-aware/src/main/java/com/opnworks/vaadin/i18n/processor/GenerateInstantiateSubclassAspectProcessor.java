@@ -135,7 +135,7 @@ public class GenerateInstantiateSubclassAspectProcessor extends AbstractProcesso
 		
 		writer.write(subclass.getSimpleName() + " " + subclass.getSimpleName().replaceAll("I18N", "").toLowerCase() + 
 				" = new " + subclass.getSimpleName() + "( " + createParams(constructorParamTypes) + " );\n");
-		
+				
 		writer.write("com.opnworks.vaadin.i18n.I18NStaticService.getI18NServive().registerI18NAware(" + subclass.getSimpleName().replaceAll("I18N", "").toLowerCase() + ");\n");
 		
 		writer.write("return " + subclass.getSimpleName().replaceAll("I18N", "").toLowerCase() + ";\n");

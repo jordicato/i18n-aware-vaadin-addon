@@ -2,6 +2,7 @@ package com.opnworks.vaadin.i18n.support;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
+import com.opnworks.vaadin.i18n.data.util.I18NCountLiterals;
 
 /**
  * The I18NAwareCaption Support
@@ -32,6 +33,6 @@ public class I18NCaptionSupport extends I18NAwareValueSupport implements I18NAwa
 
 	@Override
 	public void setRealCaption(String caption) {
-		valueContainer.setValue(caption);
+			valueContainer.setValue(caption);
 	}
 }
