@@ -8,7 +8,7 @@ public class TestAssignExpr {
     private String Caption;
 
     public TestAssignExpr() {
-        Caption = I18NCountLiterals.registerLiteral("Caption", "TestAssignExpr.Caption");
-        Caption = I18NCountLiterals.registerLiteral("Caption", "TestAssignExpr.Caption_1");
+        Caption = "Caption";
+        Caption = "Caption";
     }
 }

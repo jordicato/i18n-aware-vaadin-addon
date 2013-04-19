@@ -3,11 +3,17 @@ package com.opnworks.vaadin.i18n.converter.aop_mode;
 import japa.parser.JavaParser;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.ImportDeclaration;
+import japa.parser.ast.Node;
 import japa.parser.ast.body.BodyDeclaration;
 import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 import japa.parser.ast.body.ConstructorDeclaration;
+import japa.parser.ast.body.EmptyMemberDeclaration;
+import japa.parser.ast.body.EmptyTypeDeclaration;
 import japa.parser.ast.body.FieldDeclaration;
+import japa.parser.ast.body.InitializerDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
+import japa.parser.ast.body.ModifierSet;
+import japa.parser.ast.body.Parameter;
 import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.body.VariableDeclarator;
 import japa.parser.ast.expr.ArrayCreationExpr;
@@ -46,6 +52,8 @@ import japa.parser.ast.stmt.TryStmt;
 import japa.parser.ast.stmt.WhileStmt;
 import japa.parser.ast.type.ReferenceType;
 import japa.parser.ast.type.Type;
+import japa.parser.ast.visitor.GenericVisitor;
+import japa.parser.ast.visitor.VoidVisitor;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -159,11 +167,11 @@ public class KeyConverter {
 
 	}
 
-	class StringValue {
+	class StringVar {
 		private String id;
 		private String value;
 
-		public StringValue(String id, String value) {
+		public StringVar(String id, String value) {
 			this.id = id;
 			this.value = value;
 		}
@@ -174,6 +182,10 @@ public class KeyConverter {
 
 		public String getValue() {
 			return this.value;
+		}
+		
+		public void setValue(String value) {
+			this.value = value;
 		}
 	}
 
@@ -202,7 +214,7 @@ public class KeyConverter {
 	private String javaFileFullClassName;
 	private String[] stringToDiscard = { "<a href=", "alert(", "../", "http://" };
 	private List<Key> listKey;
-	private List<StringValue> lisStringValue = new ArrayList<StringValue>();
+	private List<StringVar> listStringVar = new ArrayList<StringVar>();
 	private List<VaadinVars> listVaadinVars = new ArrayList<VaadinVars>();
 	private List<ImportDeclaration> lidtarget;
 	private ResourceBundle bundle = null;
@@ -245,8 +257,12 @@ public class KeyConverter {
 		if (!className.isEmpty()) {
 			String classNameAux;
 			if (!className.equals("I18NService")) {
-				classNameAux = PREFIX_I18NAWARE_CLASS.endsWith(".") ? PREFIX_I18NAWARE_CLASS.substring(0, PREFIX_I18NAWARE_CLASS.length() - 1)
-						+ className : (PREFIX_I18NAWARE_CLASS + className);				 
+				if (className.equals("MenuItem")) {
+					classNameAux = "com.opnworks.vaadin.i18n.ui.I18NMenuBar";
+				} else {
+					classNameAux = PREFIX_I18NAWARE_CLASS.endsWith(".") ? PREFIX_I18NAWARE_CLASS.substring(0, PREFIX_I18NAWARE_CLASS.length() - 1)
+							+ className : (PREFIX_I18NAWARE_CLASS + className);
+				}
 			} else {
 				classNameAux = "com.opnworks.vaadin.i18n.I18NService";
 			}
@@ -500,7 +516,7 @@ public class KeyConverter {
 					if (filesrc.getName().endsWith(".java")) {
 						commandLineOutput.getOutput().println(filesrc.toString());
 
-						lisStringValue.clear();
+						//listStringVar.clear();
 
 						javaFileName = filesrc.getName().replaceAll(".java", "");
 
@@ -541,15 +557,120 @@ public class KeyConverter {
 		return this.optionChangeKey;
 	}
 
-	// Stores values of all String variables in each class
-	private void addStringVarValue(String id, String value) {
-		if (value.length() > 0) {
-			if (!isValueInStringValueList(value)) {
-				StringValue newStringValue = new StringValue(id, value);
-				lisStringValue.add(newStringValue);
+	// Get a String var from list if exist this exist
+	private StringVar getStringVarList(String id) {
+		for (StringVar s : listStringVar ) {
+			if (s.getId().equals(id)) {
+				return s;
 			}
 		}
+		return null;
 	}
+	
+	/*private StringVar getStringVar(String id) {
+		for (StringVar s : listStringVar ) {
+			if (s.id.equals(id)) {
+				return listStringVar.get(listStringVar.indexOf(s));
+			}
+		}		
+		return null;
+	}*/
+	
+	private StringLiteralExpr getExpressionValue(Expression expression) {
+		if (expression != null) {			
+			if (expression instanceof StringLiteralExpr) {
+				if (!isNumberParameter(((StringLiteralExpr) expression).getValue())) {
+					return (StringLiteralExpr) expression;					
+				}
+			}
+		}
+		return null;		
+	}
+		
+	// Stores values of all String variables in each class
+	private Expression addStringVarValue(String id, Expression expression) {		
+	
+		if (optionChangeKey) {
+			if (expression instanceof MethodCallExpr) {
+				MethodCallExpr mce = (MethodCallExpr) expression;
+				if (mce.getName().equals("registerLiteral")) {
+					StringLiteralExpr sle = (StringLiteralExpr) mce.getArgs().get(0);
+					return sle;
+				}
+			}
+		} else {
+		
+			if (!listStringVar.isEmpty()) {
+				StringVar stringV = new StringVar(javaFileFullClassName + id, "");
+				
+				StringLiteralExpr value = getExpressionValue(expression);
+				if (value != null) {
+					if (!value.getValue().equals("") && !value.getValue().equals(" ") && !value.getValue().equals("  ") && !value.getValue().equals("   ")) {
+						String key = processKey(value, false);
+						//stringV.setValue(key);
+						stringV.setValue(value.getValue());
+						listStringVar.add(stringV);
+						return setExpressionStringCount("I18NCountLiterals.registerLiteral", 
+								value.getValue(), key);
+					}
+				}				
+				
+				
+				
+				/*int in = listStringVar.indexOf(stringV);
+				
+				if (listStringVar.indexOf(stringV) < 0) {
+					listStringVar.add(stringV);
+				} else {
+					getStringVarList(stringV.getId()).setValue(value.getValue());
+				}*/
+					
+			} else {
+				StringVar stringV = new StringVar(javaFileFullClassName + id, "");
+				
+				StringLiteralExpr value = getExpressionValue(expression);
+				if (value != null) {
+					if (!value.getValue().equals("") && !value.getValue().equals(" ") && !value.getValue().equals("  ") && !value.getValue().equals("   ")) {
+						String key = processKey(value, false);
+						//stringV.setValue(key);
+						stringV.setValue(value.getValue());
+						listStringVar.add(stringV);
+						return setExpressionStringCount("I18NCountLiterals.registerLiteral", 
+								value.getValue(), key);
+					}
+				}
+		
+				//listStringVar.add(stringV);
+			}
+		}
+		
+		return null;
+		
+		/*if (stringV != null) {
+			if (stringV.getValue().equals("") && !value.equals("")) {
+				isInStringVarList(id).setValue(value);
+			}			
+		} else {*/
+			
+		//}
+	}
+
+	public List<StringVar> getStringVar() {
+		
+		return listStringVar;
+		
+	}
+	
+	/*private void addStringVarValue(String id, String value) {
+		if (value.length() > 0) {
+			if (!isValueInStringValueList(v)) {
+				if (!isValueInStringValueList(value)) {
+					StringValue newStringValue = new StringValue(id, value);
+					lisStringValue.add(newStringValue);
+				}
+			}
+		}
+	}*/
 
 	// Its determine if exist a va in listVaadinVars with id equal name param
 	private boolean isVarInVaadinVarsList(String name) {
@@ -694,31 +815,37 @@ public class KeyConverter {
 	}
 
 	// Its add a new key generated to listKey and Literal parameter in source
-	private void addKey(Key newKey, StringLiteralExpr key) {
+	private void addKey(Key newKey, StringLiteralExpr key, boolean overrideSource) {
 		if (!getChangeOptionKey()) {
-			key.setValue(newKey.getCompleteKey());
+			if (overrideSource) {
+				key.setValue(newKey.getCompleteKey());
+			}
 			listKey.add(newKey);
 			getCompleteKey(newKey.getCompleteKey()).setKeep(true);
 		}
 		else {
-			key.setValue(newKey.getValue());
+			if (overrideSource) {
+				key.setValue(newKey.getValue());
+			}
 			listKey.add(newKey);
 			getCompleteKey(newKey.getCompleteKey()).setKeep(true);
 		}
 	}
 
 	// Its add a generated key to listKey and bundle
-	private void addGeneratedKeyToBundleAndSource(StringLiteralExpr key, String gKey, String value) {
+	private String addGeneratedKeyToBundleAndSource(StringLiteralExpr key, String gKey, String value, boolean overrideSource) {
 		if (getKey(gKey) != null) {
 			Key keyAux = getKey(gKey);
 			Key newKey = new Key(gKey, value, javaFileFullClassName, keyAux.getMaxSuffixClass() + 1, keyAux.getMaxSuffixClass() + 1);
-			addKey(newKey, key);
+			addKey(newKey, key, overrideSource);
 			updateSuffixMax(gKey, listKey);
+			return newKey.getCompleteKey();
 		}
 		else {
 			Key newKey = new Key(gKey, value, javaFileFullClassName, 0, 0);
 			newKey.setKeep(true);
-			addKey(newKey, key);
+			addKey(newKey, key, overrideSource);
+			return newKey.getCompleteKey();
 		}
 	}
 
@@ -779,7 +906,7 @@ public class KeyConverter {
 	}
 
 	// Its process a literal generating their corresponding key
-	private void processKey(StringLiteralExpr key) {
+	private String processKey(StringLiteralExpr key, boolean overrideSource) {
 		boolean insert = false;
 		String value = key.getValue();
 		String gKey = key.getValue();
@@ -790,7 +917,9 @@ public class KeyConverter {
 			if (isInKeyList(gKey)) {
 				getCompleteKey(gKey).setKeep(true);
 				if (getCompleteKey(gKey).getIsLoadFromBundle()) {
-					key.setValue(gKey);
+					if (overrideSource) {
+						key.setValue(gKey);
+					}
 					insert = false;
 				}
 			}
@@ -800,15 +929,16 @@ public class KeyConverter {
 		}
 
 		if (insert) {
-			addGeneratedKeyToBundleAndSource(key, gKey, value);
+			return addGeneratedKeyToBundleAndSource(key, gKey, value, overrideSource);
 		}
+		return gKey;
 	}
 
 	// Its add the corresponding key to a literal to listKey, if the literal already is a key, return the corresponding text to source
 	private void processLiteral(StringLiteralExpr key) {
 		if ((key.getValue().length() > 0) ? (isTranslatable(key)) : false) {
 			if (!getChangeOptionKey()) {
-				processKey(key);
+				processKey(key, true);
 			}
 			else {
 				returnValueFromKey(key);
@@ -874,16 +1004,6 @@ public class KeyConverter {
 		}
 	}
 
-	// It determines if a text is assigned to a variable of String type in the class
-	private boolean isValueInStringValueList(String value) {
-		for (StringValue s : lisStringValue ) {
-			if (s.getValue().equals(value)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	// Its determine if listKey contains a Key with name "key"
 	private boolean isInKeyList(String key) {
 		// listKey.contains(k);
@@ -946,6 +1066,19 @@ public class KeyConverter {
 		}
 	}
 
+	private Expression setExpressionStringCount(String methodName, String stringParam, String key) {		
+		MethodCallExpr mce = new MethodCallExpr();
+		mce.setName(methodName);
+		
+		List<Expression> lexp = new ArrayList<Expression>();
+		lexp.add(new StringLiteralExpr(stringParam));
+		lexp.add(new StringLiteralExpr(key));
+		
+		mce.setArgs(lexp);
+		
+		return mce;				
+	}
+	
 	/**
 	 * Process every expression
 	 * 
@@ -960,7 +1093,16 @@ public class KeyConverter {
 
 		if (expression instanceof AssignExpr) {
 			AssignExpr ae = (AssignExpr) expression;
-
+			//here
+			//System.out.println("vars1 --- " + ae.getTarget().toString());			
+						
+			//if (isInStringVarList(ae.getTarget().toString()) != null) {
+				Expression expr = addStringVarValue(ae.getTarget().toString(), ae.getValue());
+				if (expr != null) {
+					ae.setValue(expr);
+				}
+			//}
+			
 			if (ae.getTarget() instanceof NameExpr) {
 				if (ae.getValue() instanceof ObjectCreationExpr) {
 					// varName = ae.getTarget().toString();
@@ -979,12 +1121,21 @@ public class KeyConverter {
 		else if (expression instanceof VariableDeclarationExpr) {
 			VariableDeclarationExpr vde = (VariableDeclarationExpr) expression;
 			Type varType = vde.getType();
+			
 			if (vde.getType() instanceof ReferenceType) {
 				for (VariableDeclarator vd : vde.getVars() ) {
 					// varName = vd.getId().getName();
+					if (varType.toString().equals("String")) {
+						//System.out.println("vars --- " + vd.getId().getName());
+						Expression expr = addStringVarValue(vd.getId().getName(), vd.getInit());
+						if (expr != null) {
+							vd.setInit(expr);
+						}
+					}
+
 					if (vd.getInit() != null) {	
-						addVaadinVars(vd.getId().getName(), varType.toString());
-						addStringVarValue(vd.getId().getName(), vd.getInit().toString());
+						addVaadinVars(vd.getId().getName(), varType.toString());						
+						//addStringVarValue(vd.getId().getName(), vd.getInit().toString());
 					}
 					if (vd.getInit() != null) {
 						if (vd.getInit() instanceof MethodCallExpr) {
@@ -1140,6 +1291,7 @@ public class KeyConverter {
 	 *            member to process
 	 */
 	private void processMember(BodyDeclaration member) {
+
 		if (member instanceof FieldDeclaration) {
 
 			FieldDeclaration fd = (FieldDeclaration) member;
@@ -1147,19 +1299,24 @@ public class KeyConverter {
 			if (!(fd.getType() instanceof PrimitiveType)) {
 				if (fd.getType().toString().equals("String")) {
 					for (VariableDeclarator vd : fd.getVariables() ) {
+						Expression expr = addStringVarValue(vd.getId().getName(), vd.getInit());
 						if (vd.getInit() != null) {
 							if ((!vd.getInit().toString().contains("+")) & (!vd.getInit().toString().contains("null"))) {
-								String v = ((StringLiteralExpr) vd.getInit()).getValue();
-								if (!isValueInStringValueList(v)) {
-									addStringVarValue(vd.getId().toString(), v);
+								//String v = ((StringLiteralExpr) vd.getInit()).getValue();
+								//if (!isValueInStringValueList(v)) {
+									//addStringVarValue(vd.getId().toString(), v);
 									// processLiteral((StringLiteralExpr) vd.getInit(), optionChangeKey);
 									String str = ((StringLiteralExpr) vd.getInit()).getValue();
+									if (expr != null) {
+										vd.setInit(expr);
+									}
+
 									if (isKey(str)) {
 										if (isInKeyList(str)) {
 											getKey(str).setKeep(true);
 										}
 									}
-								}
+								//}
 							}
 						}
 					}
@@ -1193,7 +1350,7 @@ public class KeyConverter {
 				processMember(member1);
 			}
 		}
-		else if (member instanceof MethodDeclaration || member instanceof ConstructorDeclaration) {
+		else if (member instanceof MethodDeclaration || member instanceof ConstructorDeclaration || member instanceof InitializerDeclaration) {
 
 			BlockStmt blockStmk = null;
 			// List<Parameter> params;
@@ -1202,11 +1359,14 @@ public class KeyConverter {
 				blockStmk = method.getBody();
 				// params = method.getParameters();
 			}
-			else {
+			else if (member instanceof ConstructorDeclaration) {
 				ConstructorDeclaration method = (ConstructorDeclaration) member;
 				// constructorName = method.getName();
 				blockStmk = method.getBlock();
 				// params = method.getParameters();
+			} else {
+				InitializerDeclaration method = (InitializerDeclaration) member;
+				blockStmk = method.getBlock();
 			}
 
 			processBlockStmt(blockStmk);
