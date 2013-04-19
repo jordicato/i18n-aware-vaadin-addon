@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import com.opnworks.vaadin.i18n.I18NStaticService;
-import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
+import com.opnworks.vaadin.i18n.data.util.I18NCountLiterals;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -119,12 +119,15 @@ public class DashboardUI extends UI {
         labels.setMargin(true);
         labels.addStyleName("labels");
         loginPanel.addComponent(labels);
-        Label welcome = new Label("com.vaadin.demo.dashboard.DashboardUI.Welcome");
+        String LB = I18NCountLiterals.registerLiteral("Welcome", "com.vaadin.demo.dashboard.DashboardUI.Welcome");
+        Label welcome = new Label(LB);
         welcome.setSizeUndefined();
         welcome.addStyleName("h4");
+        LB = I18NCountLiterals.registerLiteral("Welcome", "com.vaadin.demo.dashboard.DashboardUI.Welcome_1");
         labels.addComponent(welcome);
         labels.setComponentAlignment(welcome, Alignment.MIDDLE_LEFT);
-        Label title = new Label("com.vaadin.demo.dashboard.DashboardUI.QuickTickets_Dashboard");
+        LB = I18NCountLiterals.registerLiteral("QuickTickets Dashboard", "com.vaadin.demo.dashboard.DashboardUI.QuickTickets_Dashboard");
+        Label title = new Label(LB);
         title.setSizeUndefined();
         title.addStyleName("h2");
         title.addStyleName("light");
@@ -134,7 +137,8 @@ public class DashboardUI extends UI {
         fields.setSpacing(true);
         fields.setMargin(true);
         fields.addStyleName("fields");
-        final TextField username = new TextField("com.vaadin.demo.dashboard.DashboardUI.Username");
+        LB = I18NCountLiterals.registerLiteral("Username", "com.vaadin.demo.dashboard.DashboardUI.Username");
+        final TextField username = new TextField(LB);
         username.focus();
         fields.addComponent(username);
         final PasswordField password = new PasswordField("com.vaadin.demo.dashboard.DashboardUI.Password");
@@ -230,14 +234,14 @@ public class DashboardUI extends UI {
                                 MenuBar settings = new MenuBar();
                                 MenuItem settingsMenu = settings.addItem("", null);
                                 settingsMenu.setStyleName("icon-cog");
-                                settingsMenu.addItem("Settings", cmd);
-                                settingsMenu.addItem("Preferences", cmd);
+                                settingsMenu.addItem("com.vaadin.demo.dashboard.DashboardUI.Settings", cmd);
+                                settingsMenu.addItem("com.vaadin.demo.dashboard.DashboardUI.Preferences", cmd);
                                 settingsMenu.addSeparator();
-                                settingsMenu.addItem("My Account", cmd);
+                                settingsMenu.addItem("com.vaadin.demo.dashboard.DashboardUI.My_Account", cmd);
                                 addComponent(settings);
-                                Button exit = new NativeButton("Exit");
+                                Button exit = new NativeButton("com.vaadin.demo.dashboard.DashboardUI.Exit");
                                 exit.addStyleName("icon-cancel");
-                                exit.setDescription("Sign Out");
+                                exit.setDescription("com.vaadin.demo.dashboard.DashboardUI.Sign_Out");
                                 addComponent(exit);
                                 exit.addClickListener(new ClickListener() {
 
@@ -258,7 +262,7 @@ public class DashboardUI extends UI {
         });
         menu.removeAllComponents();
         for (final String view : new String[] { "dashboard", "sales", "transactions", "reports", "schedule" }) {
-            Button b = new NativeButton(view.substring(0, 1).toUpperCase() + view.substring(1).replace('-', ' '));
+        	Button b = new NativeButton(view.substring(0, 1).toUpperCase() + view.substring(1).replace('-', ' '));        	
             b.addStyleName("icon-" + view);
             b.addClickListener(new ClickListener() {
 
@@ -352,7 +356,7 @@ public class DashboardUI extends UI {
             public void valueChange(ValueChangeEvent event) {
                 Locale locale = (Locale) (event.getProperty().getValue());
                 I18NStaticService.getI18NServive().setLocale(locale);
-                getUI().requestRepaintAll();                
+                getUI().requestRepaintAll();
             }
         });
         return languageSelector;
