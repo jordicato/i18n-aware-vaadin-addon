@@ -11,10 +11,15 @@ public class TestItNotSupportExpressions {
 
     private Button button2;
 
+    private Button button3;
+
+    String stringVar = I18NCountLiterals.registerLiteral("button2", "TestItNotSupportExpressions.button2");
+
     public TestItNotSupportExpressions() {
         button = new Button("TestItNotSupportExpressions.Caption");
         button1 = new Button("Caption" + button.getCaption());
-        String stringVar = "button2";
         button2 = new Button("This is the " + stringVar);
+        stringVar = I18NCountLiterals.registerLiteral("button3", "TestItNotSupportExpressions.button3");
+        button3 = new Button("This is the new " + stringVar);
     }
 }
