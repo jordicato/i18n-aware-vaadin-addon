@@ -116,7 +116,7 @@ public class DashboardView extends VerticalLayout implements View {
                                 setSpacing(true);
                                 addStyleName("footer");
                                 setWidth("100%");
-                                Button cancel = new Button("Cancel");
+                                Button cancel = new Button("com.vaadin.demo.dashboard.DashboardView.Cancel");
                                 cancel.addClickListener(new ClickListener() {
 
                                     @Override
@@ -128,7 +128,7 @@ public class DashboardView extends VerticalLayout implements View {
                                 addComponent(cancel);
                                 setExpandRatio(cancel, 1);
                                 setComponentAlignment(cancel, Alignment.TOP_RIGHT);
-                                Button ok = new Button("Save");
+                                Button ok = new Button("com.vaadin.demo.dashboard.DashboardView.Save");
                                 ok.addStyleName("wide");
                                 ok.addStyleName("default");
                                 ok.addClickListener(new ClickListener() {
@@ -166,24 +166,8 @@ public class DashboardView extends VerticalLayout implements View {
         row.setSizeFull();
         row.setSpacing(true);
         addComponent(row);
-        setExpandRatio(row, 2);        
-        
-        t = new Table(); /*{
-
-            @Override
-            protected String formatPropertyValue(Object rowId, Object colId, Property<?> property) {
-                if (colId.equals("Revenue")) {
-                    if (property != null && property.getValue() != null) {
-                        Double r = (Double) property.getValue();
-                        String ret = new DecimalFormat("#.##").format(r);
-                        return "$" + ret;
-                    } else {
-                        return "";
-                    }
-                }
-                return super.formatPropertyValue(rowId, colId, property);
-            }
-        };*/
+        setExpandRatio(row, 2);
+        t = new Table();
         t.setWidth("100%");
         t.setPageLength(0);
         t.addStyleName("plain");
