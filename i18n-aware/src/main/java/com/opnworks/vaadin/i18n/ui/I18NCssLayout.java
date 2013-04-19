@@ -21,6 +21,10 @@ public class I18NCssLayout extends CssLayout implements I18NAwareLayout {
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 	private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();
 
+	public I18NCssLayout() {
+		super();
+	}
+	
 	@Override
 	public void addComponent(Component c) {
 		super.addComponent(c);

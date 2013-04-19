@@ -3,8 +3,9 @@ package com.opnworks.vaadin.i18n;
 	import java.util.Locale;
 
 	import com.opnworks.vaadin.i18n.I18NService;
+import com.opnworks.vaadin.i18n.data.util.I18NCountLiterals;
 	import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
-	import com.opnworks.vaadin.i18n.service_impl.ResourceBundleI18NMessageProvider;
+import com.opnworks.vaadin.i18n.service_impl.ResourceBundleI18NMessageProvider;
 
 	public class I18NStaticService {
 		
