@@ -21,7 +21,7 @@ public class I18NAwareValueSupport implements I18NAwareValue {
 
 	protected AwareValueContainer valueContainer;
 	private String valueKey;
-	private static String lastValueKey;
+	public static String lastValueKey;
 
 	private Object[] valueParams;
 
