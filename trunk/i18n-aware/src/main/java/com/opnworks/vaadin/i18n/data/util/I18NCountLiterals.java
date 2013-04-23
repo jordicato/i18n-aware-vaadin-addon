@@ -3,6 +3,9 @@ package com.opnworks.vaadin.i18n.data.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.opnworks.vaadin.i18n.I18NStaticService;
+import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
+
 public class I18NCountLiterals {
 
 	public static class StringLiteral {
@@ -52,6 +55,39 @@ public class I18NCountLiterals {
 		stringLiteral.setkey(key);
 		stringLiteralList.add(stringLiteral);
 		return literal;
+	}
+		
+	public static String registerBinaryExpression(Object... exp) {
+		
+		String stringFinal = "";		
+		
+		for (Object obj : exp) {
+			if (obj != "") {
+				String tempValue = obj.toString();
+				boolean keep = false;
+				
+				if ((!I18NCountLiterals.isKey(tempValue)) && (!I18NCountLiterals.getStringLiteral().getValue().equals(tempValue)) 
+						&& (I18NStaticService.getI18NServive().getMessage(I18NAwareValueSupport.lastValueKey).equals(tempValue))) {
+					tempValue = I18NAwareValueSupport.lastValueKey;
+					keep = true;
+				}
+				
+				if (I18NCountLiterals.isKey(tempValue)) {
+					stringFinal = stringFinal + I18NStaticService.getI18NServive().getMessage(tempValue);
+				} else {
+					if (I18NCountLiterals.getStringLiteral().getkey() != "") {					
+						stringFinal = stringFinal + tempValue;
+					} else {
+						if (keep) {
+							stringFinal = stringFinal + tempValue;
+						} else {
+							stringFinal = stringFinal + I18NStaticService.getI18NServive().getMessage(tempValue);
+						}
+					}
+				}				
+			}
+		}		
+		return stringFinal;		
 	}
 	
 	public static List<StringLiteral> getStringLiteralList() {
