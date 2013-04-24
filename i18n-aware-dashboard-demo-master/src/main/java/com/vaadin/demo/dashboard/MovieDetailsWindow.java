@@ -1,6 +1,7 @@
 package com.vaadin.demo.dashboard;
 
 import java.text.SimpleDateFormat;
+import com.opnworks.vaadin.i18n.data.util.I18NCountLiterals;
 import com.vaadin.demo.dashboard.ScheduleView.MovieEvent;
 import com.vaadin.demo.dashboard.data.DataProvider.Movie;
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -91,7 +92,7 @@ public class MovieDetailsWindow extends Window {
             label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Ends");
             fields.addComponent(label);
         }
-        label = new Label(movie.duration + " minutes");
+        label = new Label(I18NCountLiterals.registerBinaryExpression("com.vaadin.demo.dashboard.MovieDetailsWindow.minutes"));
         label.setSizeUndefined();
         label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Duration");
         fields.addComponent(label);
