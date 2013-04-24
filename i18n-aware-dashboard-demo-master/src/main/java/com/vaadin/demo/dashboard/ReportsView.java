@@ -235,7 +235,7 @@ public class ReportsView extends HorizontalLayout implements View {
         } else {
             SimpleDateFormat df = new SimpleDateFormat();
             df.applyPattern("M/dd/yyyy");
-            editor.setCaption(I18NCountLiterals.registerBinaryExpression("com.vaadin.demo.dashboard.ReportsView.Unnamed_Report", "", draftCount, ""));
+            editor.setCaption(I18NCountLiterals.registerBinaryExpression("com.vaadin.demo.dashboard.ReportsView.Unnamed_Report", " (", draftCount, ")"));
         }
         ((DashboardUI) UI.getCurrent()).updateReportsButtonBadge(draftCount + "");
         draftCount++;
