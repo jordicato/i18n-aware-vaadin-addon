@@ -3,17 +3,12 @@ package com.opnworks.vaadin.i18n.converter.aop_mode;
 import japa.parser.JavaParser;
 import japa.parser.ast.CompilationUnit;
 import japa.parser.ast.ImportDeclaration;
-import japa.parser.ast.Node;
 import japa.parser.ast.body.BodyDeclaration;
 import japa.parser.ast.body.ClassOrInterfaceDeclaration;
 import japa.parser.ast.body.ConstructorDeclaration;
-import japa.parser.ast.body.EmptyMemberDeclaration;
-import japa.parser.ast.body.EmptyTypeDeclaration;
 import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.InitializerDeclaration;
 import japa.parser.ast.body.MethodDeclaration;
-import japa.parser.ast.body.ModifierSet;
-import japa.parser.ast.body.Parameter;
 import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.body.VariableDeclarator;
 import japa.parser.ast.expr.ArrayCreationExpr;
@@ -52,9 +47,6 @@ import japa.parser.ast.stmt.TryStmt;
 import japa.parser.ast.stmt.WhileStmt;
 import japa.parser.ast.type.ReferenceType;
 import japa.parser.ast.type.Type;
-import japa.parser.ast.visitor.GenericVisitor;
-import japa.parser.ast.visitor.VoidVisitor;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -216,6 +208,7 @@ public class KeyConverter {
 	private List<Key> listKey;
 	private List<StringVar> listStringVar = new ArrayList<StringVar>();
 	private List<VaadinVars> listVaadinVars = new ArrayList<VaadinVars>();
+	private List<Object> createExpressionBinaryObjectList = new ArrayList<Object>();
 	private List<ImportDeclaration> lidtarget;
 	private ResourceBundle bundle = null;
 	private String defaultLang;
@@ -299,6 +292,8 @@ public class KeyConverter {
 			for (Expression expr : args ) {
 				if (expr instanceof StringLiteralExpr) {
 					return true;
+				} else if(expr instanceof BinaryExpr) {
+					return isBinaryExprOfLiterals((BinaryExpr) expr);
 				}
 			}
 		}
@@ -403,6 +398,7 @@ public class KeyConverter {
 		return true;
 	}
 
+	//Its return the complete key with suffix in the corresponding case
 	public Key getCompleteKey(String key) {
 		for (Key k : listKey ) {
 			if (k.getCompleteKey().equals(key)) {
@@ -412,6 +408,7 @@ public class KeyConverter {
 		return null;
 	}
 
+	//Return the listKey
 	public List<Key> getListKey() {
 		restructurelistKey();
 		return listKey;
@@ -516,20 +513,13 @@ public class KeyConverter {
 					if (filesrc.getName().endsWith(".java")) {
 						commandLineOutput.getOutput().println(filesrc.toString());
 
-						//listStringVar.clear();
-
 						javaFileName = filesrc.getName().replaceAll(".java", "");
 
 						String classJava = proccessJavaFile(filesrc.getAbsolutePath());
 						changeJavaClass(classJava, filesrc.getAbsolutePath());
 
 						for (Key localkey : listKey ) {
-							// if (!isInKeyList(localkey.key, generallistKey)){
 							commandLineOutput.getOutput().println(localkey.completeKey + " = " + localkey.getValue());
-							// System.out.println(localkey.completeKey + "_" + localkey.getSuffix() + " = " + localkey.getValue());
-							// addKeyToGenerallistKey(localkey.key);
-							// generallistKey.add(localkey);
-							// }
 						}
 					}
 				}
@@ -549,6 +539,7 @@ public class KeyConverter {
 		return key;
 	}
 
+	//Set the status aop_mode true/false
 	public void setChangeOptionKey(boolean opt) {
 		this.optionChangeKey = opt;
 	}
@@ -558,6 +549,7 @@ public class KeyConverter {
 	}
 
 	// Get a String var from list if exist this exist
+	@SuppressWarnings("unused")
 	private StringVar getStringVarList(String id) {
 		for (StringVar s : listStringVar ) {
 			if (s.getId().equals(id)) {
@@ -566,16 +558,8 @@ public class KeyConverter {
 		}
 		return null;
 	}
-	
-	/*private StringVar getStringVar(String id) {
-		for (StringVar s : listStringVar ) {
-			if (s.id.equals(id)) {
-				return listStringVar.get(listStringVar.indexOf(s));
-			}
-		}		
-		return null;
-	}*/
-	
+		
+	//Return the Srting value from a StringLiteralExpr Expression
 	private StringLiteralExpr getExpressionValue(Expression expression) {
 		if (expression != null) {			
 			if (expression instanceof StringLiteralExpr) {
@@ -613,18 +597,7 @@ public class KeyConverter {
 						return setExpressionStringCount("I18NCountLiterals.registerLiteral", 
 								value.getValue(), key);
 					}
-				}				
-				
-				
-				
-				/*int in = listStringVar.indexOf(stringV);
-				
-				if (listStringVar.indexOf(stringV) < 0) {
-					listStringVar.add(stringV);
-				} else {
-					getStringVarList(stringV.getId()).setValue(value.getValue());
-				}*/
-					
+				}					
 			} else {
 				StringVar stringV = new StringVar(javaFileFullClassName + id, "");
 				
@@ -639,20 +612,9 @@ public class KeyConverter {
 								value.getValue(), key);
 					}
 				}
-		
-				//listStringVar.add(stringV);
 			}
-		}
-		
+		}		
 		return null;
-		
-		/*if (stringV != null) {
-			if (stringV.getValue().equals("") && !value.equals("")) {
-				isInStringVarList(id).setValue(value);
-			}			
-		} else {*/
-			
-		//}
 	}
 
 	public List<StringVar> getStringVar() {
@@ -660,17 +622,6 @@ public class KeyConverter {
 		return listStringVar;
 		
 	}
-	
-	/*private void addStringVarValue(String id, String value) {
-		if (value.length() > 0) {
-			if (!isValueInStringValueList(v)) {
-				if (!isValueInStringValueList(value)) {
-					StringValue newStringValue = new StringValue(id, value);
-					lisStringValue.add(newStringValue);
-				}
-			}
-		}
-	}*/
 
 	// Its determine if exist a va in listVaadinVars with id equal name param
 	private boolean isVarInVaadinVarsList(String name) {
@@ -692,6 +643,7 @@ public class KeyConverter {
 		}
 	}
 
+	//Add a certain key to listKey from bundle
 	private void addKeyFromBundle(String key, String value) {
 		int suffix = getSuffix(key);
 		String auxKey = key;
@@ -714,7 +666,7 @@ public class KeyConverter {
 
 		while (bundleKeys.hasMoreElements()) {
 			String key = bundleKeys.nextElement();
-			String value = bundle.getString(key);
+			String value = bundle.getString(key).replace("\n", "\\n");
 			addKeyFromBundle(key, value);
 		}
 	}
@@ -728,6 +680,7 @@ public class KeyConverter {
 		return false;
 	}
 
+	//Its split a key in (size) characters
 	private String spliKey(String key, int size) {
 		if (key.length() > size) {
 			return key.substring(0, size);
@@ -794,24 +747,17 @@ public class KeyConverter {
 	}
 
 	// Its return the original value corresponding to a key from bundle
-	private void returnValueFromKey(StringLiteralExpr key) {
+	private String returnValueFromKey(StringLiteralExpr key) {
 		if (isKey(key.getValue()) ? (isInKeyList(key.getValue())) : false) {
 			if (!isKeyGeneratedBySystem(key.getValue())) {
 				getCompleteKey(key.getValue()).setKeep(true);
 			}
-			
-			/*String asd = getCompleteKey(key.getValue()).getValue();
-			
-			if (asd.contains("//n")) {
-				
-				String asd1 = asd.replace("//n", "\n");
-				key.setValue(asd1);
-				
-			} else {*/
-			
-			key.setValue(getCompleteKey(key.getValue()).getValue().replace("\n", "\\n"));
-			//}
+
+			String k = getCompleteKey(key.getValue()).getValue().replace("\n", "\\n");			
+			key.setValue(k);
+			return k;
 		}
+		return "";
 	}
 
 	// Its add a new key generated to listKey and Literal parameter in source
@@ -912,7 +858,7 @@ public class KeyConverter {
 		String gKey = key.getValue();
 		if (!isKey(gKey)) {
 			insert = true;
-			value = key.getValue().replace("\n", "/n");
+			value = key.getValue();
 			gKey = generateKey(gKey);
 			if (isInKeyList(gKey)) {
 				getCompleteKey(gKey).setKeep(true);
@@ -935,15 +881,16 @@ public class KeyConverter {
 	}
 
 	// Its add the corresponding key to a literal to listKey, if the literal already is a key, return the corresponding text to source
-	private void processLiteral(StringLiteralExpr key) {
+	private String processLiteral(StringLiteralExpr key) {
 		if ((key.getValue().length() > 0) ? (isTranslatable(key)) : false) {
 			if (!getChangeOptionKey()) {
-				processKey(key, true);
+				return processKey(key, true);
 			}
 			else {
 				returnValueFromKey(key);
 			}
 		}
+		return null;
 	}
 
 	// Its change the original java class source by the modified java class
@@ -996,10 +943,19 @@ public class KeyConverter {
 	 * @param largs
 	 */
 	private void processLiteralExprParam(ObjectCreationExpr exp) {
+		if (optionChangeKey) {
+			exp.setArgs(returnBinaryExpr(exp.getArgs()));
+		}
 		List<Integer> paramsPositions = getI18NAwareMessageParamsPositions(exp);
 		if (!paramsPositions.isEmpty()) {
 			for (Integer pos : paramsPositions ) {
-				processLiteral((StringLiteralExpr) exp.getArgs().get(pos));
+				if (exp.getArgs().get(pos) instanceof StringLiteralExpr) {
+					processLiteral((StringLiteralExpr) exp.getArgs().get(pos));
+				} else if(exp.getArgs().get(pos) instanceof BinaryExpr) {
+					if (!optionChangeKey) {
+						exp.getArgs().set(pos, processBinaryExpr((BinaryExpr) exp.getArgs().get(pos)));
+					}
+				} 
 			}
 		}
 	}
@@ -1022,50 +978,61 @@ public class KeyConverter {
 			return true;
 		}
 		catch (Exception e) {
-			// TODO: handle exception
 			return false;
 		}
 	}
 
 	// Process arguments for all methods called in source
 	private void processArgs(MethodCallExpr methodCallE) {
-		List<Expression> largs = methodCallE.getArgs();
-		//here
-		if (largs != null) {
-			for (Expression expArg : largs) {
-				if (expArg instanceof ObjectCreationExpr) {
-					ObjectCreationExpr exp = (ObjectCreationExpr) expArg;
-					List<BodyDeclaration> anonymousClassBody = exp.getAnonymousClassBody();
-					if (anonymousClassBody != null) {
-						for (BodyDeclaration member1 : anonymousClassBody ) {
-							processMember(member1);
+		if (!methodCallE.getName().equals("registerBinaryExpression")) {
+			List<Expression> largs = methodCallE.getArgs();
+			if (largs != null) {
+				for (Expression expArg : largs) {
+					if (expArg instanceof ObjectCreationExpr) {
+						ObjectCreationExpr exp = (ObjectCreationExpr) expArg;
+						List<BodyDeclaration> anonymousClassBody = exp.getAnonymousClassBody();
+						if (anonymousClassBody != null) {
+							for (BodyDeclaration member1 : anonymousClassBody ) {
+								processMember(member1);
+							}
+						}
+					} else if (expArg instanceof MethodCallExpr) {
+						processArgs((MethodCallExpr) expArg);
+					}
+				}		
+				
+				if (optionChangeKey) {
+					methodCallE.setArgs(returnBinaryExpr(methodCallE.getArgs()));
+				}
+				
+				List<Integer> paramsPositions = getI18NAwareMessageParamsPositions(methodCallE);
+				if (!paramsPositions.isEmpty()) {
+					for (Integer pos : paramsPositions ) {
+						if (largs.get(pos) instanceof StringLiteralExpr) {
+							processLiteral((StringLiteralExpr) largs.get(pos));
+						} else if(largs.get(pos) instanceof BinaryExpr) {
+							if (!optionChangeKey) {
+								methodCallE.getArgs().set(pos, processBinaryExpr((BinaryExpr) largs.get(pos)));
+							}
 						}
 					}
-				} else if (expArg instanceof MethodCallExpr) {
-					processArgs((MethodCallExpr) expArg);
 				}
-			}		
-		
-			List<Integer> paramsPositions = getI18NAwareMessageParamsPositions(methodCallE);
-			if (!paramsPositions.isEmpty()) {
-				for (Integer pos : paramsPositions ) {
-					processLiteral((StringLiteralExpr) largs.get(pos));
-				}
-			}
-			if (largs.size() > paramsPositions.size()) {
-				for (int i = 0; (i < largs.size()) && !(paramsPositions.contains(i)); i++ ) {
-					if (largs.get(i) instanceof ObjectCreationExpr) {
-						ObjectCreationExpr exp = (ObjectCreationExpr) largs.get(i);
-						processLiteralExprParam(exp);
-					}
-					else if (largs.get(i) instanceof MethodCallExpr) {
-						processArgs((MethodCallExpr) largs.get(i));
+				if (largs.size() > paramsPositions.size()) {
+					for (int i = 0; (i < largs.size()) && !(paramsPositions.contains(i)); i++ ) {
+						if (largs.get(i) instanceof ObjectCreationExpr) {
+							ObjectCreationExpr exp = (ObjectCreationExpr) largs.get(i);
+							processLiteralExprParam(exp);
+						}
+						else if (largs.get(i) instanceof MethodCallExpr) {
+							processArgs((MethodCallExpr) largs.get(i));
+						}
 					}
 				}
 			}
 		}
 	}
 
+	//It substitutes the literal value of a String var by the corresponding methodName with stringParam and the corresponding key
 	private Expression setExpressionStringCount(String methodName, String stringParam, String key) {		
 		MethodCallExpr mce = new MethodCallExpr();
 		mce.setName(methodName);
@@ -1079,6 +1046,81 @@ public class KeyConverter {
 		return mce;				
 	}
 	
+	private boolean createBinaryExpression() {
+		for (Object obj : createExpressionBinaryObjectList) {
+			if (obj instanceof StringLiteralExpr) {
+				if (isTranslatable((StringLiteralExpr) obj)) {
+					return true;
+				}
+			}
+		}		
+		return false;	
+	}
+	
+	//Its substitutes a BinaryExpr by the corresponding methodName
+	private Expression setExpressionBinaryOfString(String methodName) {
+		if (!createBinaryExpression()) {
+			return null;
+		}
+		
+		MethodCallExpr mce = new MethodCallExpr();
+		mce.setName(methodName);
+
+		List<Expression> lexp = new ArrayList<Expression>();
+		
+		for (Object obj : createExpressionBinaryObjectList) {			
+			if (obj instanceof StringLiteralExpr) {
+				lexp.add(new StringLiteralExpr(((StringLiteralExpr) obj).getValue()));
+			} else if (obj instanceof MethodCallExpr) {
+				lexp.add(new MethodCallExpr(((MethodCallExpr) obj).getScope(), ((MethodCallExpr) obj).getName(), ((MethodCallExpr) obj).getArgs()));
+			} else if (obj instanceof NameExpr) {
+				lexp.add(new NameExpr(obj.toString()));
+			}
+		}
+		
+		mce.setArgs(lexp);
+		
+		return mce;				
+	}
+	
+	//Create a BinaryExpr with exp params
+	private Expression createBinaryExpr(List<Expression> exp) {
+		for (Expression expr : exp) {
+			if (expr instanceof StringLiteralExpr) {
+				StringLiteralExpr sle = (StringLiteralExpr) expr;
+				processLiteral(sle);
+			}
+		}
+		
+		BinaryExpr be = new BinaryExpr((Expression) exp.get(0), (Expression) exp.get(1), japa.parser.ast.expr.BinaryExpr.Operator.plus);
+
+		for (int i = 2; i < exp.size(); i++) {
+			be = new BinaryExpr((Expression) be, (Expression) exp.get(i), japa.parser.ast.expr.BinaryExpr.Operator.plus);
+		}
+	
+		return be;		
+	}
+	
+	private List<Expression> returnBinaryExpr(List<Expression> exp) {
+		List<Expression> listExpr = new ArrayList<Expression>();
+		if (exp == null) {
+			return null;
+		}
+		for (Expression ex : exp) {
+			if (ex instanceof MethodCallExpr) {
+				MethodCallExpr mce = (MethodCallExpr) ex;
+				if (mce.getName().equals("registerBinaryExpression")) {					
+					listExpr.add(createBinaryExpr(mce.getArgs()));
+				} else {
+					listExpr.add(ex);
+				}
+			} else {
+				listExpr.add(ex);
+			}
+		}
+		return listExpr;		
+	}
+	
 	/**
 	 * Process every expression
 	 * 
@@ -1090,19 +1132,12 @@ public class KeyConverter {
 		if (expression == null) {
 			return null;
 		}
-
 		if (expression instanceof AssignExpr) {
 			AssignExpr ae = (AssignExpr) expression;
-			//here
-			//System.out.println("vars1 --- " + ae.getTarget().toString());			
-						
-			//if (isInStringVarList(ae.getTarget().toString()) != null) {
-				Expression expr = addStringVarValue(ae.getTarget().toString(), ae.getValue());
-				if (expr != null) {
-					ae.setValue(expr);
-				}
-			//}
-			
+			Expression expr = addStringVarValue(ae.getTarget().toString(), ae.getValue());
+			if (expr != null) {
+				ae.setValue(expr);
+			}			
 			if (ae.getTarget() instanceof NameExpr) {
 				if (ae.getValue() instanceof ObjectCreationExpr) {
 					// varName = ae.getTarget().toString();
@@ -1113,9 +1148,6 @@ public class KeyConverter {
 					// varName = ae.getTarget().toString();
 					processArgs((MethodCallExpr) ae.getValue());
 				}
-				/*
-				 * else if (ae.getValue() instanceof StringLiteralExpr) { addKey((StringLiteralExpr) ae.getValue(), optionChangeKey); }
-				 */
 			}
 		}
 		else if (expression instanceof VariableDeclarationExpr) {
@@ -1132,7 +1164,6 @@ public class KeyConverter {
 							vd.setInit(expr);
 						}
 					}
-
 					if (vd.getInit() != null) {	
 						addVaadinVars(vd.getId().getName(), varType.toString());						
 						//addStringVarValue(vd.getId().getName(), vd.getInit().toString());
@@ -1205,7 +1236,7 @@ public class KeyConverter {
 			// return expression;
 		}
 		else if (expression instanceof BinaryExpr) {
-			// processBinaryExpr((BinaryExpr) expression);
+			return processBinaryExpr((BinaryExpr) expression);
 		}
 		else if (expression instanceof FieldAccessExpr) {
 			// return expression;
@@ -1229,56 +1260,67 @@ public class KeyConverter {
 	}
 
 	private boolean isBinaryExprOfLiterals(BinaryExpr exp) {
-
 		Expression expLeft = ((BinaryExpr) exp).getLeft();
 		Expression expRight = ((BinaryExpr) exp).getRight();
-
 		if (!(expRight instanceof StringLiteralExpr)) {
-			return false;
+			return true;
 		}
 		else {
 			while (expLeft instanceof BinaryExpr) {
-
 				expRight = ((BinaryExpr) expLeft).getRight();
-				if (!(expRight instanceof StringLiteralExpr)) {
-					return false;
+				if (expRight instanceof StringLiteralExpr) {
+					return isTranslatable((StringLiteralExpr) expRight);
+					//return true;
 				}
 				else {
 					expLeft = ((BinaryExpr) expLeft).getLeft();
 				}
 			}
-			if (!(expLeft instanceof StringLiteralExpr)) {
-				return false;
+			if (expLeft instanceof StringLiteralExpr) {
+				return isTranslatable((StringLiteralExpr) expLeft);
+				//return true;
 			}
 		}
-
-		return true;
+		return false;
 	}
 
-	@SuppressWarnings("unused")
-	private BinaryExpr processBinaryExpr(BinaryExpr exp) {
-
-		if (isBinaryExprOfLiterals(exp)) {
-			processBinary(exp);
+	private Expression processBinaryExpr(BinaryExpr exp) {
+		createExpressionBinaryObjectList.clear();
+		processBinary(exp);
+		 
+		Expression resultExpression = setExpressionBinaryOfString("I18NCountLiterals.registerBinaryExpression");
+		
+		if (resultExpression != null) {
+			return resultExpression;
 		}
-
+		
 		return exp;
 	}
 
 	private BinaryExpr processBinary(BinaryExpr exp) {
-
 		Expression expLeft = ((BinaryExpr) exp).getLeft();
-		Expression expRight = ((BinaryExpr) exp).getRight();
-
+		Expression expRight = ((BinaryExpr) exp).getRight();		
 		if (expLeft instanceof BinaryExpr) {
 			processBinary((BinaryExpr) expLeft);
 		}
 		else if (expLeft instanceof StringLiteralExpr) {
-			processLiteral((StringLiteralExpr) expLeft);
+			String literalProcessed = processLiteral((StringLiteralExpr) expLeft);
+			if (literalProcessed == null) {
+				literalProcessed = ((StringLiteralExpr) expLeft).getValue();
+			}
+			createExpressionBinaryObjectList.add(new StringLiteralExpr(literalProcessed));
+		} else {
+			createExpressionBinaryObjectList.add(expLeft);
 		}
 
 		if (expRight instanceof StringLiteralExpr) {
-			processLiteral((StringLiteralExpr) expRight);
+			String literalProcessed = processLiteral((StringLiteralExpr) expRight);
+			if (literalProcessed == null) {
+				literalProcessed = ((StringLiteralExpr) expRight).getValue();
+			}
+			createExpressionBinaryObjectList.add(new StringLiteralExpr(literalProcessed));
+		} else {
+			createExpressionBinaryObjectList.add(expRight);
 		}
 
 		return exp;
@@ -1302,21 +1344,17 @@ public class KeyConverter {
 						Expression expr = addStringVarValue(vd.getId().getName(), vd.getInit());
 						if (vd.getInit() != null) {
 							if ((!vd.getInit().toString().contains("+")) & (!vd.getInit().toString().contains("null"))) {
-								//String v = ((StringLiteralExpr) vd.getInit()).getValue();
-								//if (!isValueInStringValueList(v)) {
-									//addStringVarValue(vd.getId().toString(), v);
-									// processLiteral((StringLiteralExpr) vd.getInit(), optionChangeKey);
+								if (vd.getInit() instanceof StringLiteralExpr) {	
 									String str = ((StringLiteralExpr) vd.getInit()).getValue();
-									if (expr != null) {
-										vd.setInit(expr);
-									}
-
 									if (isKey(str)) {
 										if (isInKeyList(str)) {
 											getKey(str).setKeep(true);
 										}
-									}
-								//}
+									}									
+								}
+								if (expr != null) {
+									vd.setInit(expr);
+								}
 							}
 						}
 					}
@@ -1326,11 +1364,8 @@ public class KeyConverter {
 						addVaadinVars(vd.getId().toString(), fd.getType().toString());
 						if (vd.getInit() != null) {
 							if (vd.getInit() instanceof ObjectCreationExpr) {
-
 								ObjectCreationExpr exp = (ObjectCreationExpr) vd.getInit();
-
 								List<BodyDeclaration> anonymousClassBody = exp.getAnonymousClassBody();
-
 								if (anonymousClassBody != null) {
 									for (BodyDeclaration member1 : anonymousClassBody ) {
 										processMember(member1);
