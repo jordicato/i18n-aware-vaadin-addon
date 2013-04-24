@@ -55,6 +55,8 @@ public class DashboardUI extends UI {
 
     I18NStaticService i18NAware = new I18NStaticService("messages", Locale.ENGLISH);
 
+    //AuthenticateProxy auth = new AuthenticateProxy();
+
     DataProvider dataProvider = new DataProvider();
 
     private static final long serialVersionUID = 1L;
@@ -221,7 +223,7 @@ public class DashboardUI extends UI {
                                 Image profilePic = new Image(null, new ThemeResource("img/profile-pic.png"));
                                 profilePic.setWidth("34px");
                                 addComponent(profilePic);
-                                Label userName = new Label(Generator.randomFirstName() + " " + Generator.randomLastName());
+                                Label userName = new Label(I18NCountLiterals.registerBinaryExpression(Generator.randomFirstName(), "", Generator.randomLastName()));
                                 userName.setSizeUndefined();
                                 addComponent(userName);
                                 Command cmd = new Command() {
@@ -262,7 +264,7 @@ public class DashboardUI extends UI {
         });
         menu.removeAllComponents();
         for (final String view : new String[] { "dashboard", "sales", "transactions", "reports", "schedule" }) {
-        	Button b = new NativeButton(view.substring(0, 1).toUpperCase() + view.substring(1).replace('-', ' '));        	
+            Button b = new NativeButton(view.substring(0, 1).toUpperCase() + view.substring(1).replace('-', ' '));
             b.addStyleName("icon-" + view);
             b.addClickListener(new ClickListener() {
 
