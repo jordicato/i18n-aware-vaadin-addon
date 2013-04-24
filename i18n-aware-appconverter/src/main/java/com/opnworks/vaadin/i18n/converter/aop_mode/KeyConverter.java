@@ -1299,24 +1299,6 @@ public class KeyConverter {
 		
 		return exp;
 	}
-
-	private boolean is(BinaryExpr exp) {
-		Expression expLeft = ((BinaryExpr) exp).getLeft();
-		Expression expRight = ((BinaryExpr) exp).getRight();		
-		if (expLeft instanceof BinaryExpr) {
-			is((BinaryExpr) expLeft);
-		}
-		else if (expLeft instanceof StringLiteralExpr) {
-			return isTranslatable((StringLiteralExpr) expLeft);
-		}
-
-		if (expRight instanceof StringLiteralExpr) {
-			return isTranslatable((StringLiteralExpr) expRight);
-		}
-
-		return false;
-	}
-
 	
 	private BinaryExpr processBinary(BinaryExpr exp) {
 		Expression expLeft = ((BinaryExpr) exp).getLeft();
