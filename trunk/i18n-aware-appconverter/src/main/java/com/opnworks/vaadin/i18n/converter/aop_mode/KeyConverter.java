@@ -890,7 +890,7 @@ public class KeyConverter {
 				returnValueFromKey(key);
 			}
 		}
-		return null;
+		return ((StringLiteralExpr) key).getValue();
 	}
 
 	// Its change the original java class source by the modified java class
@@ -1307,21 +1307,13 @@ public class KeyConverter {
 			processBinary((BinaryExpr) expLeft);
 		}
 		else if (expLeft instanceof StringLiteralExpr) {
-			String literalProcessed = processLiteral((StringLiteralExpr) expLeft);
-			if (literalProcessed == null) {
-				literalProcessed = ((StringLiteralExpr) expLeft).getValue();
-			}
-			createExpressionBinaryObjectList.add(new StringLiteralExpr(literalProcessed));
+			createExpressionBinaryObjectList.add(new StringLiteralExpr(processLiteral((StringLiteralExpr) expLeft)));
 		} else {
 			createExpressionBinaryObjectList.add(expLeft);
 		}
 
 		if (expRight instanceof StringLiteralExpr) {
-			String literalProcessed = processLiteral((StringLiteralExpr) expRight);
-			if (literalProcessed == null) {
-				literalProcessed = ((StringLiteralExpr) expRight).getValue();
-			}
-			createExpressionBinaryObjectList.add(new StringLiteralExpr(literalProcessed));
+			createExpressionBinaryObjectList.add(new StringLiteralExpr(processLiteral((StringLiteralExpr) expRight)));
 		} else {
 			createExpressionBinaryObjectList.add(expRight);
 		}
