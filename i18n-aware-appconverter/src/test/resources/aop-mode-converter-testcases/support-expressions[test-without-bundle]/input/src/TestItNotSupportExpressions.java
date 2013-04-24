@@ -1,3 +1,5 @@
+import java.util.Date;
+
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -25,6 +27,7 @@ public class TestItNotSupportExpressions {
                 + ", "
                 + item.getItemProperty("Country").getValue().toString());    	
         Button b = new NativeButton(view.substring(0, 1).toUpperCase()
-                + view.substring(1).replace('-', ' '));        
+                + view.substring(1).replace('-', ' '));
+        b.setCaption("Unnamed Report " + (df.format(new Date())) + " (" + draftCount + ")");
     }
 }

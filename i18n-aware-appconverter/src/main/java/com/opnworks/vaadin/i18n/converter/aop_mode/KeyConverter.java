@@ -1262,25 +1262,28 @@ public class KeyConverter {
 	private boolean isBinaryExprOfLiterals(BinaryExpr exp) {
 		Expression expLeft = ((BinaryExpr) exp).getLeft();
 		Expression expRight = ((BinaryExpr) exp).getRight();
-		if (!(expRight instanceof StringLiteralExpr)) {
-			return true;
+
+		if (expRight instanceof StringLiteralExpr) {
+			if (isTranslatable((StringLiteralExpr) expRight)) {
+				return true;
+			}
 		}
-		else {
 			while (expLeft instanceof BinaryExpr) {
-				expRight = ((BinaryExpr) expLeft).getRight();
-				if (expRight instanceof StringLiteralExpr) {
-					return isTranslatable((StringLiteralExpr) expRight);
-					//return true;
+				if (((BinaryExpr) expLeft).getRight() instanceof StringLiteralExpr) {					
+					if (isTranslatable((StringLiteralExpr) ((BinaryExpr) expLeft).getRight())) {
+						return true;
+					}
 				}
-				else {
-					expLeft = ((BinaryExpr) expLeft).getLeft();
-				}
+				
+				expLeft = ((BinaryExpr) expLeft).getLeft();				
 			}
+			
 			if (expLeft instanceof StringLiteralExpr) {
-				return isTranslatable((StringLiteralExpr) expLeft);
-				//return true;
+				if (isTranslatable((StringLiteralExpr) expLeft)) {
+					return true;
+				}
 			}
-		}
+			
 		return false;
 	}
 
@@ -1297,6 +1300,24 @@ public class KeyConverter {
 		return exp;
 	}
 
+	private boolean is(BinaryExpr exp) {
+		Expression expLeft = ((BinaryExpr) exp).getLeft();
+		Expression expRight = ((BinaryExpr) exp).getRight();		
+		if (expLeft instanceof BinaryExpr) {
+			is((BinaryExpr) expLeft);
+		}
+		else if (expLeft instanceof StringLiteralExpr) {
+			return isTranslatable((StringLiteralExpr) expLeft);
+		}
+
+		if (expRight instanceof StringLiteralExpr) {
+			return isTranslatable((StringLiteralExpr) expRight);
+		}
+
+		return false;
+	}
+
+	
 	private BinaryExpr processBinary(BinaryExpr exp) {
 		Expression expLeft = ((BinaryExpr) exp).getLeft();
 		Expression expRight = ((BinaryExpr) exp).getRight();		
