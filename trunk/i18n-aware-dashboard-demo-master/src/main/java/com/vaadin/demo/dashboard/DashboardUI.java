@@ -55,6 +55,8 @@ public class DashboardUI extends UI {
 
     I18NStaticService i18NAware = new I18NStaticService("messages", Locale.ENGLISH);
 
+    AuthenticateProxy auth = new AuthenticateProxy();
+
     DataProvider dataProvider = new DataProvider();
 
     private static final long serialVersionUID = 1L;
@@ -221,7 +223,7 @@ public class DashboardUI extends UI {
                                 Image profilePic = new Image(null, new ThemeResource("img/profile-pic.png"));
                                 profilePic.setWidth("34px");
                                 addComponent(profilePic);
-                                Label userName = new Label(I18NCountLiterals.registerBinaryExpression(Generator.randomFirstName(), "", Generator.randomLastName()));
+                                Label userName = new Label(Generator.randomFirstName() + "" + Generator.randomLastName());
                                 userName.setSizeUndefined();
                                 addComponent(userName);
                                 Command cmd = new Command() {
@@ -234,7 +236,7 @@ public class DashboardUI extends UI {
                                 MenuBar settings = new MenuBar();
                                 MenuItem settingsMenu = settings.addItem("", null);
                                 settingsMenu.setStyleName("icon-cog");
-                                settingsMenu.addItem("com.vaadin.demo.dashboard.DashboardUI.Settings", cmd);
+                                settingsMenu.addItem("com.vaadin.demo.dashboard.DashboardUI.Setting", cmd);
                                 settingsMenu.addItem("com.vaadin.demo.dashboard.DashboardUI.Preferences", cmd);
                                 settingsMenu.addSeparator();
                                 settingsMenu.addItem("com.vaadin.demo.dashboard.DashboardUI.My_Account", cmd);
@@ -338,7 +340,7 @@ public class DashboardUI extends UI {
     }
 
     private ComboBox createLanguageSelector() {
-        ComboBox languageSelector = new ComboBox("languageSelector.name");
+        ComboBox languageSelector = new ComboBox("com.vaadin.demo.dashboard.DashboardUI.Language");
         languageSelector.setImmediate(true);
         languageSelector.setNullSelectionAllowed(false);
         addLocale(Locale.ENGLISH, languageSelector);
@@ -364,7 +366,7 @@ public class DashboardUI extends UI {
 
     private void addLocale(Locale locale, ComboBox languageSelector) {
         languageSelector.addItem(locale);
-        languageSelector.setItemCaption(locale, I18NStaticService.getI18NServive().getMessage(locale, "com.vaadin.demo.dashboard.DashboardUI.Language"));
+        languageSelector.setItemCaption(locale, I18NStaticService.getI18NServive().getMessage(locale, "com.vaadin.demo.dashboard.DashboardUI.LanguageItem"));
     }
 
     private Transferable items;
