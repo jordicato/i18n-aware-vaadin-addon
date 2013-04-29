@@ -24,6 +24,6 @@ public class TestItNotSupportExpressions {
         button3 = new Button(I18NCountLiterals.registerBinaryExpression("TestItNotSupportExpressions.This_is_the_new", stringVar));
         Label l = new Label(I18NCountLiterals.registerBinaryExpression(df.format(((Date) item.getItemProperty("timestamp").getValue())), "TestItNotSupportExpressions.test", item.getItemProperty("City").getValue().toString(), ", ", item.getItemProperty("Country").getValue().toString()));
         Button b = new NativeButton(view.substring(0, 1).toUpperCase() + view.substring(1).replace('-', ' '));
-        b.setCaption(I18NCountLiterals.registerBinaryExpression("TestItNotSupportExpressions.Unnamed_Report", " (", draftCount, ")"));
+        b.setCaption(I18NCountLiterals.registerBinaryExpression("TestItNotSupportExpressions.Unnamed_Report", (df.format(new Date())), " (", movie.duration, ")"));
     }
 }

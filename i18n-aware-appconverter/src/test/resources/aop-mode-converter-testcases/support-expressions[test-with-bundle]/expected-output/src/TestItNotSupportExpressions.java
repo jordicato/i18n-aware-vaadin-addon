@@ -24,6 +24,6 @@ public class TestItNotSupportExpressions {
         button3 = new Button("This is the new " + stringVar);
         Label l = new Label(df.format(((Date) item.getItemProperty("timestamp").getValue())) + "test" + item.getItemProperty("City").getValue().toString() + ", " + item.getItemProperty("Country").getValue().toString());
         Button b = new NativeButton(view.substring(0, 1).toUpperCase() + view.substring(1).replace('-', ' '));
-        b.setCaption("Unnamed Report " + " (" + draftCount + ")");
+        b.setCaption("Unnamed Report " + (df.format(new Date())) + " (" + movie.duration + ")");
     }
 }

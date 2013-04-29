@@ -28,6 +28,6 @@ public class TestItNotSupportExpressions {
                 + item.getItemProperty("Country").getValue().toString());    	
         Button b = new NativeButton(view.substring(0, 1).toUpperCase()
                 + view.substring(1).replace('-', ' '));
-        b.setCaption("Unnamed Report " + (df.format(new Date())) + " (" + draftCount + ")");
+        b.setCaption("Unnamed Report " + (df.format(new Date())) + " (" + movie.duration + ")");
     }
 }
