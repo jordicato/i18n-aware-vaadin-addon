@@ -6,6 +6,11 @@ import java.util.List;
 import com.opnworks.vaadin.i18n.I18NStaticService;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
 
+/**
+ * The I18NCountLiterals
+ * 
+ * @author Sandy Rodriguez Garcia ( OpnWorks )
+ */
 public class I18NCountLiterals {
 
 	public static class StringLiteral {

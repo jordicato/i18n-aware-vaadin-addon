@@ -70,9 +70,12 @@ public class I18NTextArea extends TextArea implements I18NAwareFieldValue<String
 	 * @param value
 	 *            the value for the field
 	 */
-	public I18NTextArea(@I18NAwareMessage String captionKey, String value) {
+	public I18NTextArea(@I18NAwareMessage String captionKey, @I18NAwareMessage String value) {
 		super(captionKey, value);
 		getI18NAwareFieldValueSupport().setCaptionMessage(captionKey);
+		if (value != "") {
+			setValueMessage(value);
+		}
 	}
 
 	@Override
