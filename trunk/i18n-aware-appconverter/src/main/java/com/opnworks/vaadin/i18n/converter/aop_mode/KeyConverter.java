@@ -1073,8 +1073,8 @@ public class KeyConverter {
 				lexp.add(new StringLiteralExpr(((StringLiteralExpr) obj).getValue()));
 			} else if (obj instanceof MethodCallExpr) {
 				lexp.add(new MethodCallExpr(((MethodCallExpr) obj).getScope(), ((MethodCallExpr) obj).getName(), ((MethodCallExpr) obj).getArgs()));
-			} else if (obj instanceof NameExpr) {
-				lexp.add(new NameExpr(obj.toString()));
+			} else {
+				lexp.add((Expression) obj);
 			}
 		}
 		
