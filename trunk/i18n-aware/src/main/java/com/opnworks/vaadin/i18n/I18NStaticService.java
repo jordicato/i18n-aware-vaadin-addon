@@ -2,12 +2,11 @@ package com.opnworks.vaadin.i18n;
 
 import java.util.Locale;
 import com.opnworks.vaadin.i18n.I18NService;
-import com.opnworks.vaadin.i18n.data.util.I18NCountLiterals;
 import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
 import com.opnworks.vaadin.i18n.service_impl.ResourceBundleI18NMessageProvider;
 
 /**
- * The I18NCountLiterals
+ * The I18NStaticService
  * 
  * @author Sandy Rodriguez Garcia ( OpnWorks )
  */
