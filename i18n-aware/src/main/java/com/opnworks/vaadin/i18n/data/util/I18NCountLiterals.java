@@ -1,8 +1,5 @@
 package com.opnworks.vaadin.i18n.data.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.opnworks.vaadin.i18n.I18NStaticService;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
 
@@ -40,7 +37,6 @@ public class I18NCountLiterals {
 	}
 
 	private static StringLiteral stringLiteral = new StringLiteral("", "");
-	private static List<StringLiteral> stringLiteralList = new ArrayList<I18NCountLiterals.StringLiteral>();
 			
 	public static boolean isKey(String key) {
 		if (key == null) {
@@ -58,7 +54,6 @@ public class I18NCountLiterals {
 	public static String registerLiteral(String literal, String key) {
 		stringLiteral.setValue(literal);
 		stringLiteral.setkey(key);
-		stringLiteralList.add(stringLiteral);
 		return literal;
 	}
 		
@@ -94,21 +89,8 @@ public class I18NCountLiterals {
 		}		
 		return stringFinal;		
 	}
-	
-	public static List<StringLiteral> getStringLiteralList() {
-		return stringLiteralList;
-	}
-	
+
 	public static StringLiteral getStringLiteral() {
 		return stringLiteral;
-	}	
-	
-	public static StringLiteral getStringLiteralFromList(String literal) {
-		for (StringLiteral sl : stringLiteralList) {
-			if (sl.getValue().equals(literal)) {
-				return sl;
-			}
-		}
-		return null;
 	}
 }
