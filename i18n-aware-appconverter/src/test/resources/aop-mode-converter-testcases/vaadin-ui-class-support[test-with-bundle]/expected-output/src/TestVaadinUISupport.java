@@ -190,7 +190,7 @@ public class TestVaadinUISupport {
         comboBox.setCaption("The caption");
         comboBox.setDescription("The caption");
         comboBox.setRequiredError("The caption");
-        comboBox.setItemCaption(new Object(), "The_Caption");
+        comboBox.setItemCaption(new Object(), "The caption");
         cssLayout = new CssLayout();
         cssLayout.setCaption("The caption");
         cssLayout.setDescription("The caption");
