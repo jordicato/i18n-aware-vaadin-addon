@@ -11,8 +11,8 @@ public class TestTestMethodCallExpr {
     private ComboBox combo = new ComboBox("");
 
     public TestMethodCallExpr() {
-        button.setCaption("TestMethodCallExpr.Caption");
+        button.setCaption("Caption");
         combo.addItem("test");
-        combo.setItemCaption("test", I18NStaticService.getI18NServive().getMessage("TestMethodCallExpr.this_is_a_test"));
+        combo.setItemCaption("test", "this is a test");
     }
 }
