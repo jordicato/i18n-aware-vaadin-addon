@@ -1,10 +1,12 @@
 package com.opnworks.vaadin.i18n.ui;
 
-import com.opnworks.vaadin.i18n.I18NAwareField;
+import com.opnworks.vaadin.i18n.I18NAwareComponentValue;
+import com.opnworks.vaadin.i18n.I18NAwareFieldValue;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
+import com.opnworks.vaadin.i18n.I18NAwareValue;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
-import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
+import com.opnworks.vaadin.i18n.support.I18NAwareFieldValueSupport;
 import com.vaadin.data.Property;
 import com.vaadin.ui.RichTextArea;
 
@@ -15,9 +17,9 @@ import com.vaadin.ui.RichTextArea;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NRichTextArea extends RichTextArea implements I18NAwareField<String> {
+public class I18NRichTextArea extends RichTextArea implements I18NAwareFieldValue<String>, I18NAwareComponentValue, I18NAwareValue {
 
-	private I18NAwareFieldSupport<String> i18NAwareFieldSupport;
+	private I18NAwareFieldValueSupport<String> i18NAwareFieldValueSupport;
 
 	/**
 	 * Constructs an empty <code>RichTextArea</code> with no caption.
@@ -45,7 +47,7 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareField<Str
 	 */
 	public I18NRichTextArea(@I18NAwareMessage String captionKey) {
 		super(captionKey);
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
+		getI18NAwareFieldValueSupport().setCaptionMessage(captionKey);
 	}
 
 	/**
@@ -58,7 +60,7 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareField<Str
 	 */
 	public I18NRichTextArea(@I18NAwareMessage String captionKey, Property<?> dataSource) {
 		super(captionKey, dataSource);
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
+		getI18NAwareFieldValueSupport().setCaptionMessage(captionKey);
 	}
 
 	/**
@@ -71,12 +73,12 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareField<Str
 	 */
 	public I18NRichTextArea(@I18NAwareMessage String captionKey, String value) {
 		super(captionKey, value);
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
+		getI18NAwareFieldValueSupport().setCaptionMessage(captionKey);
 	}
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		getI18NAwareFieldSupport().i18NUpdate(i18N);
+		getI18NAwareFieldValueSupport().i18NUpdate(i18N);
 	}
 
 	@Override
@@ -86,7 +88,7 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareField<Str
 
 	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
+		getI18NAwareFieldValueSupport().setCaptionMessage(captionKey, params);
 	}
 
 	@Override
@@ -96,9 +98,26 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareField<Str
 
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
-		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
+		getI18NAwareFieldValueSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
+	@Override
+	public void setValue(@I18NAwareMessage String value) {
+		if (value != "") {
+			setValueMessage(value);
+		}
+	}
+	
+	@Override
+	public void setValueMessage(@I18NAwareMessage String valueKey, Object... valueParams) {
+		getI18NAwareFieldValueSupport().setValueMessage(valueKey, valueParams);
+	}
+	
+	@Override
+	public void setRealValue(String value) {
+		super.setValue(value);
+	}
+	
 	@Override
 	public void setRealCaption(String caption) {
 		super.setCaption(caption);
@@ -121,15 +140,16 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareField<Str
 
 	@Override
 	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
-		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
+		getI18NAwareFieldValueSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
-	private I18NAwareFieldSupport<String> getI18NAwareFieldSupport() {
+	private I18NAwareFieldValueSupport<String> getI18NAwareFieldValueSupport() {
 
-		if (i18NAwareFieldSupport == null) {
-			i18NAwareFieldSupport = new I18NAwareFieldSupport<String>(this);
+		if (i18NAwareFieldValueSupport == null) {
+			i18NAwareFieldValueSupport = new I18NAwareFieldValueSupport<String>(this);
 		}
 
-		return i18NAwareFieldSupport;
+		return i18NAwareFieldValueSupport;
 	}
+
 }

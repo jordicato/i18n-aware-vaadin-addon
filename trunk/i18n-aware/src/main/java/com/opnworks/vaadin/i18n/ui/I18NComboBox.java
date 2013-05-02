@@ -6,9 +6,12 @@ import com.opnworks.vaadin.i18n.I18NAwareComponent;
 import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
+import com.opnworks.vaadin.i18n.I18NStaticService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
+import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.vaadin.data.Container;
+import com.vaadin.data.Item;
 import com.vaadin.ui.ComboBox;
 
 /**
@@ -72,10 +75,15 @@ public class I18NComboBox extends ComboBox implements I18NAwareField<Object>, I1
 		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
-	/*@Override
+	@Override
+	public Item addItem(Object itemId) {
+		return super.addItem(itemId);		
+	}	
+	
+	@Override
 	public void setItemCaption(Object itemId, @I18NAwareMessage String itemKey) {
-		setCaptionMessage(itemKey);
-	}*/
+		super.setItemCaption(itemId, I18NStaticService.getI18NServive().getMessage(I18NStaticService.getI18NServive().getLocale(), itemKey));
+	}
 
 	@Override
 	public void setRealCaption(String caption) {
