@@ -106,7 +106,7 @@ public class DashboardUI extends UI {
             root.removeAllComponents();
         }
         helpManager.closeAll();
-        HelpOverlay w = helpManager.addOverlay("Welcome to the Dashboard Demo Application", "<p>This application is not real, it only demonstrates an application built with the <a href=\"http://vaadin.com\">Vaadin framework</a>.</p><p>No username or password is required, just click the ‘Sign In’ button to continue. You can try out a random username and password, though.</p>", "login");
+        HelpOverlay w = helpManager.addOverlay("Welcome to the Dashboard Demo Application", "<p>This application is not real, it only demonstrates an application built with the <a href=\"http://vaadin.com\">Vaadin framework</a>.</p><p>No username or password is required, just click the �Sign In button to continue. You can try out a random username and password, though.</p>", "login");
         w.center();
         addWindow(w);
         addStyleName("login");
@@ -349,9 +349,6 @@ public class DashboardUI extends UI {
         languageSelector.setValue(I18NStaticService.getI18NServive().getLocale());
         languageSelector.addValueChangeListener(new ValueChangeListener() {
 
-            /**
-			 * 
-			 */
             private static final long serialVersionUID = 1L;
 
             @Override
@@ -366,7 +363,7 @@ public class DashboardUI extends UI {
 
     private void addLocale(Locale locale, ComboBox languageSelector) {
         languageSelector.addItem(locale);
-        languageSelector.setItemCaption(locale, I18NStaticService.getI18NServive().getMessage(locale, "com.vaadin.demo.dashboard.DashboardUI.LanguageItem"));
+        languageSelector.setItemCaption(locale, locale.getDisplayLanguage(locale).substring(0, 1).toUpperCase() + locale.getDisplayLanguage(locale).substring(1));
     }
 
     private Transferable items;
