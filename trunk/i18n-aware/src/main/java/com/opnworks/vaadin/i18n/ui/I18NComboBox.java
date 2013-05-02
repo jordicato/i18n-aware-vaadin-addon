@@ -9,7 +9,6 @@ import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.I18NStaticService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
-import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.ui.ComboBox;

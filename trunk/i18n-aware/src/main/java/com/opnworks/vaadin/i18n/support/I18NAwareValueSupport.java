@@ -50,24 +50,29 @@ public class I18NAwareValueSupport implements I18NAwareValue {
 		setLocale(i18N.getLocale());
 
 		boolean keep = false;
-
+		
 		if (valueKey != null) {
-			if ((!I18NCountLiterals.isKey(valueKey)) && (!I18NCountLiterals.getStringLiteral().getValue().equals(valueKey)) 
-					&& (i18N.getMessage(I18NAwareValueSupport.lastValueKey, valueParams).equals(valueKey))) {
-				valueKey = I18NAwareValueSupport.lastValueKey;
-				keep = true;
-			}
 			
-			if (I18NCountLiterals.isKey(valueKey)) {
-				valueContainer.setValue(i18N.getMessage(valueKey, valueParams));
-			} else {
-				if (I18NCountLiterals.getStringLiteral().getkey() != "") {					
-					valueContainer.setValue(valueKey);
+			if (valueKey.startsWith("[+]")) {
+				valueContainer.setValue(I18NCountLiterals.getStringFromBinaryExpr());
+			} else {			
+				if ((!I18NCountLiterals.isKey(valueKey)) && (!I18NCountLiterals.getStringLiteral().getValue().equals(valueKey)) 
+						&& (i18N.getMessage(I18NAwareValueSupport.lastValueKey, valueParams).equals(valueKey))) {
+					valueKey = I18NAwareValueSupport.lastValueKey;
+					keep = true;
+				}
+				
+				if (I18NCountLiterals.isKey(valueKey)) {
+					valueContainer.setValue(i18N.getMessage(valueKey, valueParams));
 				} else {
-					if (keep) {
-						valueContainer.setValue(valueKey);
+					if ((I18NCountLiterals.getStringLiteral().getValue().equals(valueKey)) && (I18NCountLiterals.getStringLiteral().getkey() != "")) {					
+						valueContainer.setValue(i18N.getMessage(I18NCountLiterals.getStringLiteral().getkey()));
 					} else {
-						valueContainer.setValue(i18N.getMessage(valueKey, valueParams));
+						if (keep) {
+							valueContainer.setValue(valueKey);
+						} else {
+							valueContainer.setValue(i18N.getMessage(valueKey, valueParams));
+						}
 					}
 				}
 			}
