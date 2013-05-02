@@ -92,6 +92,63 @@ public class I18NRichTextAreaTest extends AbstractI18NTest {
 	}
 
 	@Test
+	public void testSetValueKey() {
+
+		final I18NRichTextArea i18NRichTextArea = new I18NRichTextArea();
+		
+		i18NRichTextArea.setValue(TEST_KEY_1);
+
+		i18NRichTextArea.setValueMessage(TEST_KEY_2);
+
+		performTest(i18NRichTextArea, new I18NAwareTest() {
+
+			@Override
+			public String getActualValue() {
+				return i18NRichTextArea.getValue();
+			}
+
+			@Override
+			public String getKey() {
+				return TEST_KEY_2;
+			}
+
+			@Override
+			public Object[] getParams() {
+				return null;
+			}
+		});
+
+	}
+	
+	@Test
+	public void testSetValueParams() {
+
+		final I18NRichTextArea i18NRichTextArea = new I18NRichTextArea();
+
+		final Object[] params = new Object[] { 1, 2, 3 };
+
+		i18NRichTextArea.setValueMessage(TEST_KEY_3, params);
+
+		performTest(i18NRichTextArea, new I18NAwareTest() {
+
+			@Override
+			public String getActualValue() {
+				return i18NRichTextArea.getValue();
+			}
+
+			@Override
+			public String getKey() {
+				return TEST_KEY_3;
+			}
+
+			@Override
+			public Object[] getParams() {
+				return params;
+			}
+		});
+	}
+	
+	@Test
 	public void testsetRequiredErrorMessage() {
 
 		final I18NRichTextArea i18NRichTextArea = new I18NRichTextArea(TEST_KEY_1);
