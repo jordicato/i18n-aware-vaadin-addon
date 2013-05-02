@@ -85,19 +85,19 @@ public class MovieDetailsWindow extends Window {
             df.applyPattern("hh:mm a");
             label = new Label(df.format(event.start));
             label.setSizeUndefined();
-            label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Mises_en_chantier");
+            label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Starts");
             fields.addComponent(label);
             label = new Label(df.format(event.end));
             label.setSizeUndefined();
-            label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Se_termine");
+            label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Ends");
             fields.addComponent(label);
         }
-        label = new Label(I18NCountLiterals.registerBinaryExpression("com.vaadin.demo.dashboard.MovieDetailsWindow.minutes"));
+        label = new Label(I18NCountLiterals.registerBinaryExpression(movie.duration, "com.vaadin.demo.dashboard.MovieDetailsWindow.minutes"));
         label.setSizeUndefined();
-        label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Dur_e");
+        label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Duration");
         fields.addComponent(label);
         synopsis.setData(movie.synopsis);
-        synopsis.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Carnet_de_bord");
+        synopsis.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Synopsis");
         updateSynopsis(movie, false);
         fields.addComponent(synopsis);
         more.addStyleName("link");
@@ -114,7 +114,7 @@ public class MovieDetailsWindow extends Window {
         footer.addStyleName("footer");
         footer.setWidth("100%");
         footer.setMargin(true);
-        Button ok = new Button("com.vaadin.demo.dashboard.MovieDetailsWindow.Fermer");
+        Button ok = new Button("com.vaadin.demo.dashboard.MovieDetailsWindow.Close");
         ok.addStyleName("wide");
         ok.addStyleName("default");
         ok.addClickListener(new ClickListener() {
@@ -136,7 +136,7 @@ public class MovieDetailsWindow extends Window {
             synopsis.setData(m.synopsis);
         }
         if (!expand) {
-            synopsisText = synopsisText.length() > 300 ? synopsisText.substring(0, 300) + "…" : synopsisText;
+            synopsisText = synopsisText.length() > 300 ? synopsisText.substring(0, 300) + " " : synopsisText;
         }
         synopsis.setValue(synopsisText);
     }

@@ -71,9 +71,6 @@ public class TransactionsView extends VerticalLayout implements View {
             }
         };
         t.setSizeFull();
-        if (I18NServiceImpl.getInstance() != null) {
-            System.out.println("LOCALE ----------- " + I18NServiceImpl.getInstance().getLocale());
-        }
         t.addStyleName("borderless");
         t.setSelectable(true);
         t.setColumnCollapsingAllowed(true);
