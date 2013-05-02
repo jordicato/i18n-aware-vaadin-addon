@@ -8,11 +8,7 @@ public class TestTestMethodCallExpr {
 
     private Button button = new Button("");
 
-    private ComboBox combo = new ComboBox("");
-
     public TestMethodCallExpr() {
         button.setCaption("Caption");
-        combo.addItem("test");
-        combo.setItemCaption("test", "this is a test");
     }
 }
