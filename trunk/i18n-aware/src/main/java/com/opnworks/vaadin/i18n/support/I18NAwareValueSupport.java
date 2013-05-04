@@ -21,6 +21,8 @@ public class I18NAwareValueSupport implements I18NAwareValue {
 
 	protected AwareValueContainer valueContainer;
 	private String valueKey;
+	private boolean fromBinaryExpr;
+	private Object[] objectList;
 	public static String lastValueKey;
 
 	private Object[] valueParams;
@@ -42,8 +44,16 @@ public class I18NAwareValueSupport implements I18NAwareValue {
 
 	public Object[] getValueParams() {
 		return valueParams;
+	}	
+	
+	public Object[] getObjectList() {
+		return objectList;
 	}
-
+	
+	public boolean isFromBinaryExpr() {
+		return fromBinaryExpr;
+	}
+	
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 
@@ -53,8 +63,8 @@ public class I18NAwareValueSupport implements I18NAwareValue {
 		
 		if (valueKey != null) {
 			
-			if (valueKey.startsWith("[+]")) {
-				valueContainer.setValue(I18NCountLiterals.getStringFromBinaryExpr());
+			if (isFromBinaryExpr()) {
+				valueContainer.setValue(I18NCountLiterals.getStringFromBinaryExpr(objectList));
 			} else {			
 				if ((!I18NCountLiterals.isKey(valueKey)) && (!I18NCountLiterals.getStringLiteral().getValue().equals(valueKey)) 
 						&& (i18N.getMessage(I18NAwareValueSupport.lastValueKey, valueParams).equals(valueKey))) {
@@ -93,8 +103,12 @@ public class I18NAwareValueSupport implements I18NAwareValue {
 		this.valueKey = valueKey;
 		if (I18NCountLiterals.isKey(valueKey)) {
 			I18NAwareValueSupport.lastValueKey = valueKey;
-			//I18NAwareValueSupport.lastValue = I18NStaticService.getI18NServive().getMessage(valueKey, valueParams);
 		}
+		
+		this.fromBinaryExpr = I18NCountLiterals.getIsBinaryExpr();
+		
+		this.objectList = I18NCountLiterals.getBinaryObjectList();
+		
 		this.valueParams = valueParams;
 		
 		if (I18NStaticService.getI18NServive() != null) {

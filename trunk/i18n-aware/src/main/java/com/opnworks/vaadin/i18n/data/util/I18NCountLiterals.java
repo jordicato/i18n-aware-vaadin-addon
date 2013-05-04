@@ -1,7 +1,5 @@
 package com.opnworks.vaadin.i18n.data.util;
 
-import java.util.ArrayList;
-
 import com.opnworks.vaadin.i18n.I18NStaticService;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
 
@@ -39,7 +37,8 @@ public class I18NCountLiterals {
 	}
 
 	private static StringLiteral stringLiteral = new StringLiteral("", "");
-	private static java.util.List<Object> objectList = new ArrayList<Object>();
+	private static Object[] objectList;
+	private static boolean isBinaryExpr = false;
 			
 	public static boolean isKey(String key) {
 		if (key == null) {
@@ -60,10 +59,10 @@ public class I18NCountLiterals {
 		return literal;
 	}
 			
-	public static String getStringFromBinaryExpr() {
+	public static String getStringFromBinaryExpr(Object... exp) {
 		String stringFinal = "";	
 		
-		for (Object obj : objectList) {
+		for (Object obj : exp) {
 			if (obj != "") {
 				String tempValue = obj.toString();
 				boolean keep = false;
@@ -88,29 +87,34 @@ public class I18NCountLiterals {
 					}
 				}				
 			}
-		}		
+		}
 		return stringFinal;			
 	}
 	
 	public static String registerBinaryExpression(Object... exp) {
-		if (!objectList.isEmpty()) {
-			objectList.clear();
-		}
-		for (Object obj : exp) {
-			objectList.add(obj);
-		}
-		return "[+]" + getStringFromBinaryExpr();	
+		objectList = null;
+		isBinaryExpr = true;		
+		objectList = exp;
+		return getStringFromBinaryExpr(exp);	
 	}
 
 	public static StringLiteral getStringLiteral() {
 		return stringLiteral;
 	}
 	
-	public static Object getBinaryObjectList() {
-		return objectList;
+	public static Object[] getBinaryObjectList() {
+		Object[] auxObjectList = objectList;
+		objectList = null;
+		return auxObjectList;
+	}
+	
+	public static boolean getIsBinaryExpr() {
+		boolean aux = isBinaryExpr;
+		isBinaryExpr = false;
+		return aux;
 	}
 	
 	public static void clearObjectList() {
-		objectList.clear();
+		objectList = null;
 	}
 }

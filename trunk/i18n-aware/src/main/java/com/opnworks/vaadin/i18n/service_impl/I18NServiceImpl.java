@@ -102,8 +102,9 @@ public class I18NServiceImpl implements I18NService {
 		if (!(i18NAware instanceof I18NAware)) {
 			throw new IllegalArgumentException("Expecting a I18NAware");
 		}
-
-		i18NAwares.add((I18NAware) i18NAware);
+		if (!i18NAwares.contains((I18NAware) i18NAware)) {
+			i18NAwares.add((I18NAware) i18NAware);
+		}
 	}
 
 	@Override
