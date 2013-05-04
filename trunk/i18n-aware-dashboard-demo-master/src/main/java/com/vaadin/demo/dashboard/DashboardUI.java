@@ -55,6 +55,8 @@ public class DashboardUI extends UI {
 
     I18NStaticService i18NAware = new I18NStaticService("messages", Locale.ENGLISH);
 
+    //AuthenticateProxy auth = new AuthenticateProxy();
+    
     DataProvider dataProvider = new DataProvider();
 
     private static final long serialVersionUID = 1L;
@@ -339,6 +341,7 @@ public class DashboardUI extends UI {
 
     private ComboBox createLanguageSelector() {
         ComboBox languageSelector = new ComboBox("com.vaadin.demo.dashboard.DashboardUI.Language");
+        //languageSelector.setReadOnly(true);
         languageSelector.setImmediate(true);
         languageSelector.setNullSelectionAllowed(false);
         addLocale(Locale.ENGLISH, languageSelector);
