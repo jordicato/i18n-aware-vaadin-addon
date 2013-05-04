@@ -92,9 +92,9 @@ public class MovieDetailsWindow extends Window {
             label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Ends");
             fields.addComponent(label);
         }
-        label = new Label(I18NCountLiterals.registerBinaryExpression(movie.duration, "com.vaadin.demo.dashboard.MovieDetailsWindow.minutes"));
+        label = new Label(I18NCountLiterals.registerBinaryExpression("com.vaadin.demo.dashboard.MovieDetailsWindow.Duration", ": ", movie.duration, "com.vaadin.demo.dashboard.MovieDetailsWindow.minutes"));
         label.setSizeUndefined();
-        label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Duration");
+        //label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Duration");
         fields.addComponent(label);
         synopsis.setData(movie.synopsis);
         synopsis.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Synopsis");
