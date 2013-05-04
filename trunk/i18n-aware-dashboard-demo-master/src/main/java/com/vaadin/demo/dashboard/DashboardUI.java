@@ -55,8 +55,6 @@ public class DashboardUI extends UI {
 
     I18NStaticService i18NAware = new I18NStaticService("messages", Locale.ENGLISH);
 
-    AuthenticateProxy auth = new AuthenticateProxy();
-
     DataProvider dataProvider = new DataProvider();
 
     private static final long serialVersionUID = 1L;
