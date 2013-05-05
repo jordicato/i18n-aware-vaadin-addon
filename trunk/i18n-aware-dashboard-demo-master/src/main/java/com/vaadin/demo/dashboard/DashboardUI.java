@@ -42,6 +42,7 @@ import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.Command;
 import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.NativeButton;
+import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.Table;
@@ -199,7 +200,7 @@ public class DashboardUI extends UI {
                 addComponent(new VerticalLayout() {
 
                     {
-                        ComboBox languageSelector = createLanguageSelector();
+                    	NativeSelect languageSelector = createLanguageSelector();
                         addComponent(languageSelector);
                         addStyleName("sidebar");
                         setWidth(null);
@@ -339,8 +340,8 @@ public class DashboardUI extends UI {
         });
     }
 
-    private ComboBox createLanguageSelector() {
-        ComboBox languageSelector = new ComboBox("com.vaadin.demo.dashboard.DashboardUI.Language");
+    private NativeSelect createLanguageSelector() {
+    	NativeSelect languageSelector = new NativeSelect("com.vaadin.demo.dashboard.DashboardUI.Language");
         //languageSelector.setReadOnly(true);
         languageSelector.setImmediate(true);
         languageSelector.setNullSelectionAllowed(false);
@@ -362,7 +363,7 @@ public class DashboardUI extends UI {
         return languageSelector;
     }
 
-    private void addLocale(Locale locale, ComboBox languageSelector) {
+    private void addLocale(Locale locale, NativeSelect languageSelector) {
         languageSelector.addItem(locale);
         languageSelector.setItemCaption(locale, locale.getDisplayLanguage(locale).substring(0, 1).toUpperCase() + locale.getDisplayLanguage(locale).substring(1));
     }
