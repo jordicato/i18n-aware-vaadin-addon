@@ -244,19 +244,22 @@
 					false
 				</inherited>
 				<configuration>
-					<paramProxySet>true</paramProxySet>
+					<!-- <paramProxySet>true</paramProxySet>
 					<paramAuthUser>Sandy</paramAuthUser>
-					<paramAuthPassword>Qwerty5</paramAuthPassword>
+					<paramAuthPassword>Qwerty123</paramAuthPassword>
 					<paramProxyHost>200.55.147.68</paramProxyHost>
-					<paramProxyPort>443</paramProxyPort>
+					<paramProxyPort>443</paramProxyPort> -->
 					<showProgress>true</showProgress>
 					<apiKey>491CDC3769B93528E0388F1C1A8DB54349BBD132</apiKey>
 					<debug>true</debug>
+					<smartSync>true</smartSync>
+					<smartSyncChangeFile>changefile</smartSyncChangeFile>
 					<commentHeader>true</commentHeader>
 					<sourceTranslationPath>${basedir}/src/main/resources/</sourceTranslationPath>
 					<languageFilePattern>messages_{0}.properties</languageFilePattern>
 					<sourceLanguage>en</sourceLanguage>
-					<destinationPath>${project.build.directory}/classes/</destinationPath>
+					<destinationPath>${basedir}/src/main/resources/</destinationPath>
+					<!-- <destinationPath>${project.build.directory}/classes/</destinationPath> -->
 					<!-- ar,zh,zh-CN,zh-TW,nl,fr,de,el,it,ja,ko,pt,ru,es -->
 					<targetLanguages>fr,es</targetLanguages>
 				</configuration>

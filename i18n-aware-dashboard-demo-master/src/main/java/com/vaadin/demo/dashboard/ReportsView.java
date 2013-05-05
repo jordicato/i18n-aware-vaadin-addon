@@ -83,13 +83,15 @@ public class ReportsView extends HorizontalLayout implements View {
                 l.setWidth("400px");
                 l.setMargin(true);
                 l.setSpacing(true);
-                final Window alert = new Window("com.vaadin.demo.dashboard.ReportsView.Unsaved_Changes", l);
+                final Window alert = new Window("", l);
                 alert.setModal(true);
                 alert.setResizable(false);
                 alert.setDraggable(false);
                 alert.addStyleName("dialog");
                 alert.setClosable(false);
+                Label unsavedchanges = new Label("com.vaadin.demo.dashboard.ReportsView.Unsaved_Changes");
                 Label message = new Label("com.vaadin.demo.dashboard.ReportsView.You_have_not_saved_this_report");
+                l.addComponent(unsavedchanges);
                 l.addComponent(message);
                 HorizontalLayout buttons = new HorizontalLayout();
                 buttons.setWidth("100%");
