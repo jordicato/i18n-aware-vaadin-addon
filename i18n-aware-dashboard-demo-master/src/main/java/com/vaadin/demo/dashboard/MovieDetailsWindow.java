@@ -80,21 +80,17 @@ public class MovieDetailsWindow extends Window {
             df.applyPattern("dd-mm-yyyy");
             label = new Label(I18NCountLiterals.registerBinaryExpression("com.vaadin.demo.dashboard.MovieDetailsWindow.Date", ": ", df.format(event.start)));
             label.setSizeUndefined();
-            //label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Date");
             fields.addComponent(label);
             df.applyPattern("hh:mm a");
             label = new Label(I18NCountLiterals.registerBinaryExpression("com.vaadin.demo.dashboard.MovieDetailsWindow.Starts", ": ", df.format(event.start)));
             label.setSizeUndefined();
-            //label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Starts");
             fields.addComponent(label);
             label = new Label(I18NCountLiterals.registerBinaryExpression("com.vaadin.demo.dashboard.MovieDetailsWindow.Ends", ": ", df.format(event.end)));
             label.setSizeUndefined();
-            //label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Ends");
             fields.addComponent(label);
         }
         label = new Label(I18NCountLiterals.registerBinaryExpression("com.vaadin.demo.dashboard.MovieDetailsWindow.Duration", ": ", movie.duration, "com.vaadin.demo.dashboard.MovieDetailsWindow.minutes"));
         label.setSizeUndefined();
-        //label.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Duration");
         fields.addComponent(label);
         synopsis.setData(movie.synopsis);
         synopsis.setCaption("com.vaadin.demo.dashboard.MovieDetailsWindow.Synopsis");

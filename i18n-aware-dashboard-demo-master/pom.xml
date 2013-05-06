@@ -253,7 +253,7 @@
 					<apiKey>491CDC3769B93528E0388F1C1A8DB54349BBD132</apiKey>
 					<debug>true</debug>
 					<smartSync>true</smartSync>
-					<smartSyncChangeFile>changefile</smartSyncChangeFile>
+					<smartSyncChangeFile>bundlechangefile</smartSyncChangeFile>
 					<commentHeader>true</commentHeader>
 					<sourceTranslationPath>${basedir}/src/main/resources/</sourceTranslationPath>
 					<languageFilePattern>messages_{0}.properties</languageFilePattern>
