@@ -93,7 +93,7 @@ public class I18NCountLiterals {
 	
 	public static String registerBinaryExpression(Object... exp) {
 		objectList = null;
-		isBinaryExpr = true;		
+		isBinaryExpr = true;
 		objectList = exp;
 		return getStringFromBinaryExpr(exp);	
 	}
