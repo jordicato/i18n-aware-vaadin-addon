@@ -56,8 +56,6 @@ public class DashboardUI extends UI {
 
     I18NStaticService i18NAware = new I18NStaticService("messages", Locale.ENGLISH);
 
-    //AuthenticateProxy auth = new AuthenticateProxy();
-    
     DataProvider dataProvider = new DataProvider();
 
     private static final long serialVersionUID = 1L;
@@ -128,7 +126,6 @@ public class DashboardUI extends UI {
         welcome.addStyleName("h4");
         LB = I18NCountLiterals.registerLiteral("Welcome", "com.vaadin.demo.dashboard.DashboardUI.Welcome_1");
         labels.addComponent(welcome);
-        labels.setComponentAlignment(welcome, Alignment.MIDDLE_LEFT);
         LB = I18NCountLiterals.registerLiteral("QuickTickets Dashboard", "com.vaadin.demo.dashboard.DashboardUI.QuickTickets_Dashboard");
         Label title = new Label(LB);
         title.setSizeUndefined();
@@ -200,7 +197,7 @@ public class DashboardUI extends UI {
                 addComponent(new VerticalLayout() {
 
                     {
-                    	NativeSelect languageSelector = createLanguageSelector();
+                        NativeSelect languageSelector = createLanguageSelector();
                         addComponent(languageSelector);
                         addStyleName("sidebar");
                         setWidth(null);
@@ -341,8 +338,7 @@ public class DashboardUI extends UI {
     }
 
     private NativeSelect createLanguageSelector() {
-    	NativeSelect languageSelector = new NativeSelect("com.vaadin.demo.dashboard.DashboardUI.Language");
-        //languageSelector.setReadOnly(true);
+        NativeSelect languageSelector = new NativeSelect("com.vaadin.demo.dashboard.DashboardUI.Language");
         languageSelector.setImmediate(true);
         languageSelector.setNullSelectionAllowed(false);
         addLocale(Locale.ENGLISH, languageSelector);
