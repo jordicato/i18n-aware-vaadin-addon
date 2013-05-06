@@ -18,7 +18,7 @@ public class ExplicitModeConverter implements Converter {
 	}
 
 	@Override
-	public void performI18NAwareProjectConversion(File sourceDir, File resourcesDir, String resourceBaseName, String defaultLanguage, boolean rollback) {
+	public void performI18NAwareProjectConversion(File sourceDir, File resourcesDir, String resourceBaseName, String defaultLanguage, String targetLanguages, boolean rollback) {
 		recursivedelete(sourceDir);
 		navigate(sourceDir, sourceDir);
 	}

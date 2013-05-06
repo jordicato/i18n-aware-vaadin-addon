@@ -392,7 +392,7 @@ public class KeyConverter {
 			bundle = ResourceBundle.getBundle(resourceName, new Locale(defaultLang), loader);
 		}
 		catch (Exception e) {
-			// TODO: handle exception
+			commandLineOutput.getOutput().println("Failed to load bundle at: " + e.getMessage());
 			return false;
 		}
 		return true;
@@ -430,6 +430,7 @@ public class KeyConverter {
 			return Integer.parseInt(suffix);
 		}
 		catch (Exception e) {
+			commandLineOutput.getOutput().println("Failed to parse: " + e.getMessage());
 			return -1;
 		}
 	}
@@ -500,7 +501,7 @@ public class KeyConverter {
 		if (listKey.isEmpty()) {
 			boolean exist = existBundle(pathBundle, bundleName);
 			if (exist) {
-				updatelistKeyWithBundle();
+				updatelistKeyWithBundle(bundle);
 			}
 		}
 
@@ -661,12 +662,12 @@ public class KeyConverter {
 		updateSuffixMax(auxKey, listKey);
 	}
 
-	public void updatelistKeyWithBundle() {
-		Enumeration<String> bundleKeys = bundle.getKeys();
+	public void updatelistKeyWithBundle(ResourceBundle resourceBundle) {
+		Enumeration<String> bundleKeys = resourceBundle.getKeys();
 
 		while (bundleKeys.hasMoreElements()) {
 			String key = bundleKeys.nextElement();
-			String value = bundle.getString(key).replace("\n", "\\n");
+			String value = resourceBundle.getString(key).replace("\n", "\\n");
 			addKeyFromBundle(key, value);
 		}
 	}
@@ -902,21 +903,29 @@ public class KeyConverter {
 			dest.close();
 		}
 		catch (IOException e) {
-			// TODO Auto-generated catch block
+			commandLineOutput.getOutput().println("Error caused by: " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
 
 	// Its clear the language bundle
 	public void clearBundleFile(String path, String defaultLanguage) {
-		File delete = new File(path + "_" + defaultLanguage + ".properties");
+		
+		String nameSpace = "";
+		
+		if (defaultLanguage != null) {
+			nameSpace = "_" + defaultLanguage;
+		}
+		
+		File delete = new File(path + nameSpace + ".properties");
 		if (delete.exists()) {
 			delete.delete();
 		}
 		try {
-			new FileWriter(new File(path + "_" + defaultLanguage + ".properties"), true);
+			new FileWriter(new File(path + nameSpace + ".properties"), true);
 		}
 		catch (IOException e) {
+			commandLineOutput.getOutput().println("Error caused by: " + e.getMessage());
 		}
 	}
 
@@ -978,13 +987,28 @@ public class KeyConverter {
 			return true;
 		}
 		catch (Exception e) {
+			commandLineOutput.getOutput().println("Parsing error at: " + e.getMessage());
 			return false;
 		}
 	}
 
 	// Process arguments for all methods called in source
 	private void processArgs(MethodCallExpr methodCallE) {
-		if (!methodCallE.getName().equals("registerBinaryExpression")) {
+		if (methodCallE.getName().equals("registerBinaryExpression")) {
+			List<Expression> largs = methodCallE.getArgs();
+			if (largs != null) {
+				for (Expression expArg : largs) {
+					if (expArg instanceof StringLiteralExpr) {
+						processLiteral((StringLiteralExpr) expArg);
+					}
+				}
+			}
+		} else if (methodCallE.getName().equals("registerLiteral")) {
+			List<Expression> largs = methodCallE.getArgs();
+			if (largs != null) {
+				processLiteral((StringLiteralExpr) largs.get(1));
+			}
+		} else {
 			List<Expression> largs = methodCallE.getArgs();
 			if (largs != null) {
 				for (Expression expArg : largs) {

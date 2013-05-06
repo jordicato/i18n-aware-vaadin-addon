@@ -19,5 +19,5 @@ public interface Converter {
 	 * @param rollback
 	 *            True to rollback conversion
 	 */
-	void performI18NAwareProjectConversion(File sourceDir, File resourcesDir, String resourceBaseName, String defaultLanguage, boolean rollback);
+	void performI18NAwareProjectConversion(File sourceDir, File resourcesDir, String resourceBaseName, String defaultLanguage, String targetLanguages, boolean rollback);
 }
