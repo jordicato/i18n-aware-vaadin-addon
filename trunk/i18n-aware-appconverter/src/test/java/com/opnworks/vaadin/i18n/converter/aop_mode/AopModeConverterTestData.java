@@ -12,6 +12,7 @@ public class AopModeConverterTestData implements TestRule {
 
 	private String resourceBaseName;
 	private String defaultLanguage;
+	private String targetLanguages;
 	private boolean rollback;
 
 	private File sourceDirCopy;
@@ -64,7 +65,7 @@ public class AopModeConverterTestData implements TestRule {
 	public void setDefaultLanguage(String defaultLanguage) {
 		this.defaultLanguage = defaultLanguage;
 	}
-
+	
 	public void setExpectedBundleDir(File expectedBundleDir) {
 		this.expectedBundleDir = expectedBundleDir;
 	}

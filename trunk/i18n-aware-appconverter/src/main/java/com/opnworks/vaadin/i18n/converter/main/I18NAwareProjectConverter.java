@@ -27,6 +27,7 @@ public class I18NAwareProjectConverter {
 	private static final String RESOURCES_DIR = "resourcesDir";
 	private static final String RESOURCE_BASE_NAME = "resourceBaseName";
 	private static final String DEFAULT_LANGUAGE = "defaultLanguage";
+	private static final String TARGET_LANGUAGES = "targetLanguages";
 	private static final String METHOD = "method";
 	private static final String ROLLBACK = "rollback";
 
@@ -87,6 +88,12 @@ public class I18NAwareProjectConverter {
 			return;
 		}
 
+		String targetLanguages = line.getOptionValue(TARGET_LANGUAGES);
+		if (targetLanguages == null) {
+			commandLineOutput.getOutput().println("Expecting '" + TARGET_LANGUAGES + "' parameter");
+			return;
+		}
+		
 		ConversionMethod conversionMethod = getConversionMethod(line);
 		if (conversionMethod == null) {
 			return;
@@ -99,7 +106,7 @@ public class I18NAwareProjectConverter {
 			DOMConfigurator.configure(log4jConfigurationPath);
 		}
 
-		performI18NAwareProjectConversion(sourceDir, resourcesDir, resourceBaseName, defaultLanguage, conversionMethod, rollback);
+		performI18NAwareProjectConversion(sourceDir, resourcesDir, resourceBaseName, defaultLanguage, targetLanguages, conversionMethod, rollback);
 	}
 
 	@SuppressWarnings("static-access")
@@ -117,6 +124,8 @@ public class I18NAwareProjectConverter {
 		options.addOption(withDescription("The base name of the bundle files").hasArg().create(RESOURCE_BASE_NAME));
 
 		options.addOption(withDescription("The default language").hasArg().create(DEFAULT_LANGUAGE));
+		
+		options.addOption(withDescription("The target languages").hasArg().create(TARGET_LANGUAGES));
 
 		options.addOption(withDescription("The conversion method").hasArg().create(METHOD));
 
@@ -162,7 +171,7 @@ public class I18NAwareProjectConverter {
 		formatter.printHelp("I18NAwareProjectConverter", options, true);
 	}
 
-	private static void performI18NAwareProjectConversion(File sourceDir, File resourcesDir, String resourceBaseName, String defaultLanguage,
+	private static void performI18NAwareProjectConversion(File sourceDir, File resourcesDir, String resourceBaseName, String defaultLanguage, String targetLanguages,
 			ConversionMethod conversionMethod, boolean rollback) {
 
 		commandLineOutput.println("Running I18NAware project convertion:");
@@ -170,9 +179,10 @@ public class I18NAwareProjectConverter {
 		commandLineOutput.println("resourcesDir: " + resourcesDir.getAbsolutePath());
 		commandLineOutput.println("resourceBaseName: " + resourceBaseName);
 		commandLineOutput.println("defaultLanguage: " + defaultLanguage);
+		commandLineOutput.println("targetLanguages: " + targetLanguages);
 		commandLineOutput.println("conversionMethod: " + conversionMethod.name());
 		commandLineOutput.println("rollback: " + rollback);
 
-		conversionMethod.getConverter().performI18NAwareProjectConversion(sourceDir, resourcesDir, resourceBaseName, defaultLanguage, rollback);
+		conversionMethod.getConverter().performI18NAwareProjectConversion(sourceDir, resourcesDir, resourceBaseName, defaultLanguage, targetLanguages, rollback);
 	}
 }

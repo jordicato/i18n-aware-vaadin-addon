@@ -165,7 +165,7 @@ public class AopModeConverterTest {
 		File bundleDirCopy = testData.getBundleDirCopy();
 
 		aopModeConverter.performI18NAwareProjectConversion(sourceDirCopy, bundleDirCopy, testData.getResourceBaseName(),
-				testData.getDefaultLanguage(), testData.isRollback());
+				testData.getDefaultLanguage(), null, testData.isRollback());
 
 		assertDirectoryEquals(testData.getExpectedSourceDir(), sourceDirCopy);
 		assertDirectoryEquals(testData.getExpectedBundleDir(), bundleDirCopy);
