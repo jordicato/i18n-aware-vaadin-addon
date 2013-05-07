@@ -7,6 +7,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
 import com.neodoo.maven.plugin.LocalizeMojo;
+import com.opnworks.vaadin.i18n.converter.AuthenticateProxy;
 import com.opnworks.vaadin.i18n.converter.Converter;
 import com.opnworks.vaadin.i18n.converter.aop_mode.KeyConverter.Key;
 import com.opnworks.vaadin.i18n.converter.main.CommandLineOutput;
@@ -34,7 +35,9 @@ public class AopModeConverter implements Converter {
 		
 		for (Key k : keyConverter.getListKey() ) {
 			writeFile(resourcesDir.getAbsolutePath() + "/" + resourceBaseName + "_" + defaultLanguage + ".properties", k.getCompleteKey() + " = " + k.getValue());
-		}		
+		}
+		
+		//AuthenticateProxy auth = new AuthenticateProxy(resourcesDir.getAbsolutePath());
 		
 		if (!rollback && (targetLanguages != null)) {		
 			try {
@@ -58,6 +61,7 @@ public class AopModeConverter implements Converter {
 		localizeMojo.setApiKey("491CDC3769B93528E0388F1C1A8DB54349BBD132");
 		localizeMojo.setDebug(true);
 		localizeMojo.setSmartSync(true);
+		localizeMojo.setMaxCalls(2);
 		localizeMojo.setSmartSyncChangeFile("bundlechangefile");
 		localizeMojo.setSourceTranslationPath(resourcesDir);
 		localizeMojo.setDestinationPath(resourcesDir);

@@ -294,6 +294,11 @@ public class KeyConverter {
 					return true;
 				} else if(expr instanceof BinaryExpr) {
 					return isBinaryExprOfLiterals((BinaryExpr) expr);
+				} else if (expr instanceof MethodCallExpr) {
+					MethodCallExpr mce = (MethodCallExpr) expr;
+					if (mce.getName().equals("registerLiteral") || mce.getName().equals("registerBinaryExpression")) {
+						return true;
+					}
 				}
 			}
 		}
@@ -964,7 +969,24 @@ public class KeyConverter {
 					if (!optionChangeKey) {
 						exp.getArgs().set(pos, processBinaryExpr((BinaryExpr) exp.getArgs().get(pos)));
 					}
-				} 
+				} else if (exp.getArgs().get(pos) instanceof MethodCallExpr) {
+					MethodCallExpr mce = (MethodCallExpr) exp.getArgs().get(pos);
+						if (mce.getName().equals("registerBinaryExpression")) {
+							List<Expression> largs = mce.getArgs();
+							if (largs != null) {
+								for (Expression expArg : largs) {
+									if (expArg instanceof StringLiteralExpr) {
+										processLiteral((StringLiteralExpr) expArg);
+									}
+								}
+							}
+						} else if (mce.getName().equals("registerLiteral")) {
+							List<Expression> largs = mce.getArgs();
+							if (largs != null) {
+								processLiteral((StringLiteralExpr) largs.get(1));
+							}
+						}
+				}			
 			}
 		}
 	}
