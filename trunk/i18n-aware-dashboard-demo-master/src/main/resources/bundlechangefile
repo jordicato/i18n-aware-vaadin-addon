@@ -1,5 +1,5 @@
 #SOURCE CHANGE FILE
-#Mon May 06 15:20:29 CEST 2013
+#Tue May 07 01:31:56 CEST 2013
 com.vaadin.demo.dashboard.ReportsView.Drag_items_to_the_canvas=Drag items to the canvas
 com.vaadin.demo.dashboard.TransactionsView.Create_Report_From_Selection=Create Report From Selection
 com.vaadin.demo.dashboard.ReportsView.Unsaved_Changes=Unsaved Changes
@@ -8,6 +8,7 @@ com.vaadin.demo.dashboard.ReportsView.You_have_not_saved_this_report=You have no
 com.vaadin.demo.dashboard.DashboardUI.Username=Username
 com.vaadin.demo.dashboard.ReportsView.Top_10_Titles_by_Revenue=Top 10 Titles by Revenue
 com.vaadin.demo.dashboard.DashboardUI.Welcome_1=Welcome
+com.vaadin.demo.dashboard.MovieDetailsWindow.Starts=Starts
 com.vaadin.demo.dashboard.DashboardUI.Sign_In=Sign In
 com.vaadin.demo.dashboard.ReportsView.Click_to_edit=Click to edit
 com.vaadin.demo.dashboard.MovieDetailsWindow.More=More
@@ -21,12 +22,14 @@ com.vaadin.demo.dashboard.DashboardView.Notifications_2_unread=Notifications (2 
 com.vaadin.demo.dashboard.DashboardUI.Language=Language
 com.vaadin.demo.dashboard.DashboardUI.Preferences=Preferences
 com.vaadin.demo.dashboard.DashboardView.Dashboard_Name=Dashboard Name
+com.vaadin.demo.dashboard.MovieDetailsWindow.Ends=Ends
 com.vaadin.demo.dashboard.ReportsView.Delete_draft=Delete draft
 com.vaadin.demo.dashboard.DashboardUI.QuickTickets_Dashboard=QuickTickets Dashboard
 com.vaadin.demo.dashboard.DashboardUI.Sign_Out=Sign Out
 com.vaadin.demo.dashboard.DashboardView.Notes=Notes
 com.vaadin.demo.dashboard.ReportsView.All_Drafts=All Drafts
 com.vaadin.demo.dashboard.ReportsView.Top_4_Revenue=Top 4 Revenue
+com.vaadin.demo.dashboard.MovieDetailsWindow.Date=Date
 com.vaadin.demo.dashboard.DashboardView.Remember_to_n_Zoom_in_and_o=Remember to\:\n - Zoom in and out in the Sales view\n - Filter the transactions and drag a set of them to the Reports tab\n - Create a new report\n - Change the schedule of the movie theater
 com.vaadin.demo.dashboard.DashboardView.Edit_Dashboard_1=Edit Dashboard
 com.vaadin.demo.dashboard.DashboardView.Notifications=Notifications
@@ -34,6 +37,7 @@ com.vaadin.demo.dashboard.ReportsView.Edit=Edit
 com.vaadin.demo.dashboard.ReportsView.Drafts=Drafts
 com.vaadin.demo.dashboard.ReportsView.Save=Save
 com.vaadin.demo.dashboard.DashboardUI.Exit=Exit
+com.vaadin.demo.dashboard.MovieDetailsWindow.Duration=Duration
 com.vaadin.demo.dashboard.DashboardView.Configure=Configure
 com.vaadin.demo.dashboard.ScheduleView.Calendar=Calendar
 com.vaadin.demo.dashboard.DashboardUI.Setting=Setting
@@ -45,6 +49,7 @@ com.vaadin.demo.dashboard.DashboardView.Top_10_Titles_by_Revenue=Top 10 Titles b
 com.vaadin.demo.dashboard.ReportsView.Cancel=Cancel
 com.vaadin.demo.dashboard.SalesView.Clear=Clear
 com.vaadin.demo.dashboard.DashboardView.Save=Save
+com.vaadin.demo.dashboard.MovieDetailsWindow.minutes=minutes
 com.vaadin.demo.dashboard.ScheduleView.Catalog=Catalog
 com.vaadin.demo.dashboard.SalesView.Add=Add
 com.vaadin.demo.dashboard.DashboardView.Cancel=Cancel
