@@ -2,7 +2,6 @@ package com.opnworks.vaadin.i18n.support;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
-import com.opnworks.vaadin.i18n.data.util.I18NCountLiterals;
 
 /**
  * The I18NAwareCaption Support

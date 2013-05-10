@@ -2,11 +2,15 @@ package com.opnworks.vaadin.i18n.ui;
 
 import java.util.Date;
 
+import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
 import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
+import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
+import com.opnworks.vaadin.i18n.support.I18NExpressions;
+import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.vaadin.data.Property;
 import com.vaadin.ui.InlineDateField;
 
@@ -17,10 +21,11 @@ import com.vaadin.ui.InlineDateField;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NInlineDateField extends InlineDateField implements I18NAwareField<Date> {
+public class I18NInlineDateField extends InlineDateField implements I18NAwareField<Date>, I18NAwareComponentExpression {
 
 	private I18NAwareFieldSupport<Date> i18NAwareFieldSupport;
-
+	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
+	
 	/**
 	 * Constructs an empty i18n <code>I18NInlineDateField</code> with no caption.
 	 */
@@ -45,7 +50,14 @@ public class I18NInlineDateField extends InlineDateField implements I18NAwareFie
 	 */
 	public I18NInlineDateField(@I18NAwareMessage String captionKey) {
 		super(captionKey);
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setCaptionMessage(i18NExpressions);
+		} else if (!I18NExpressions.isKey(captionKey)) {
+			setStringVarMessage(captionKey);
+		} else {		
+			setCaptionMessage(captionKey);
+		}
 	}
 
 	/**
@@ -57,7 +69,14 @@ public class I18NInlineDateField extends InlineDateField implements I18NAwareFie
 	 */
 	public I18NInlineDateField(@I18NAwareMessage String captionKey, Date value) {
 		super(captionKey, value);
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setCaptionMessage(i18NExpressions);
+		} else if (!I18NExpressions.isKey(captionKey)) {
+			setStringVarMessage(captionKey);
+		} else {		
+			setCaptionMessage(captionKey);
+		}
 	}
 
 	/**
@@ -69,7 +88,14 @@ public class I18NInlineDateField extends InlineDateField implements I18NAwareFie
 	 */
 	public I18NInlineDateField(@I18NAwareMessage String captionKey, Property<?> dataSource) {
 		super(captionKey, dataSource);
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setCaptionMessage(i18NExpressions);
+		} else if (!I18NExpressions.isKey(captionKey)) {
+			setStringVarMessage(captionKey);
+		} else {		
+			setCaptionMessage(captionKey);
+		}
 	}
 
 	@Override
@@ -77,11 +103,19 @@ public class I18NInlineDateField extends InlineDateField implements I18NAwareFie
 
 		setLocale(i18N.getLocale());
 		getI18NAwareFieldSupport().i18NUpdate(i18N);
+		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
 	}
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
-		setCaptionMessage(captionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setCaptionMessage(i18NExpressions);
+		} else if (!I18NExpressions.isKey(captionKey)) {
+			setStringVarMessage(captionKey);
+		} else {		
+			setCaptionMessage(captionKey);
+		}
 	}
 
 	@Override
@@ -91,7 +125,12 @@ public class I18NInlineDateField extends InlineDateField implements I18NAwareFie
 
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setDescriptionMessage(i18NExpressions);
+		} else {
+			setDescriptionMessage(descriptionKey);
+		}
 	}
 
 	@Override
@@ -131,5 +170,29 @@ public class I18NInlineDateField extends InlineDateField implements I18NAwareFie
 		}
 
 		return i18NAwareFieldSupport;
+	}
+
+	@Override
+	public void setCaptionMessage(I18NExpressions expressions, Object... valueParams) {
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(expressions, valueParams);		
+	}
+
+	@Override
+	public void setDescriptionMessage(I18NExpressions expressions, Object... valueParams) {
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expressions, valueParams);		
+	}
+	
+	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
+
+		if (i18NAwareComponentExpressionSupport == null) {
+			i18NAwareComponentExpressionSupport = new I18NAwareComponentExpressionSupport(this);
+		}
+
+		return i18NAwareComponentExpressionSupport;
+	}
+
+	@Override
+	public void setStringVarMessage(String captionKey, Object... params) {
+		getI18NAwareComponentExpressionSupport().setStringVarMessage(captionKey, params);	
 	}
 }

@@ -1,10 +1,13 @@
 package com.opnworks.vaadin.i18n.ui;
 
-import com.opnworks.vaadin.i18n.I18NAwareComponent;
+import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
+import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
+import com.opnworks.vaadin.i18n.support.I18NExpressions;
+import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.vaadin.shared.ui.colorpicker.Color;
 import com.vaadin.ui.ColorPickerArea;
 
@@ -15,9 +18,10 @@ import com.vaadin.ui.ColorPickerArea;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NColorPickerArea extends ColorPickerArea implements I18NAwareComponent {
+public class I18NColorPickerArea extends ColorPickerArea implements I18NAwareComponentExpression {
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
+	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 
 	/**
 	 * Creates a new i18n ColorPickerArea. The value of the ColorPickerArea is false and it is immediate by default.
@@ -36,7 +40,14 @@ public class I18NColorPickerArea extends ColorPickerArea implements I18NAwareCom
 	 */
 	public I18NColorPickerArea(@I18NAwareMessage String captionKey) {
 		super(captionKey);
-		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setCaptionMessage(i18NExpressions);
+		} else if (!I18NExpressions.isKey(captionKey)) {
+			setStringVarMessage(captionKey);
+		} else {		
+			setCaptionMessage(captionKey);
+		}
 	}
 
 	/**
@@ -49,17 +60,32 @@ public class I18NColorPickerArea extends ColorPickerArea implements I18NAwareCom
 	 */
 	public I18NColorPickerArea(@I18NAwareMessage String captionKey, Color color) {
 		super(captionKey, color);
-		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setCaptionMessage(i18NExpressions);
+		} else if (!I18NExpressions.isKey(captionKey)) {
+			setStringVarMessage(captionKey);
+		} else {		
+			setCaptionMessage(captionKey);
+		}
 	}
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 		getI18NAwareComponentCaptionSupport().i18NUpdate(i18N);
+		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
 	}
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
-		setCaptionMessage(captionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setCaptionMessage(i18NExpressions);
+		} else if (!I18NExpressions.isKey(captionKey)) {
+			setStringVarMessage(captionKey);
+		} else {		
+			setCaptionMessage(captionKey);
+		}
 	}
 
 	@Override
@@ -69,7 +95,12 @@ public class I18NColorPickerArea extends ColorPickerArea implements I18NAwareCom
 
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setDescriptionMessage(i18NExpressions);
+		} else {
+			setDescriptionMessage(descriptionKey);
+		}
 	}
 
 	@Override
@@ -94,6 +125,30 @@ public class I18NColorPickerArea extends ColorPickerArea implements I18NAwareCom
 		}
 
 		return i18NAwareComponentCaptionSupport;
+	}
+
+	@Override
+	public void setCaptionMessage(I18NExpressions expressions, Object... valueParams) {
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(expressions, valueParams);		
+	}
+
+	@Override
+	public void setDescriptionMessage(I18NExpressions expressions, Object... valueParams) {
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expressions, valueParams);		
+	}
+	
+	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
+
+		if (i18NAwareComponentExpressionSupport == null) {
+			i18NAwareComponentExpressionSupport = new I18NAwareComponentExpressionSupport(this);
+		}
+
+		return i18NAwareComponentExpressionSupport;
+	}
+
+	@Override
+	public void setStringVarMessage(String captionKey, Object... params) {
+		getI18NAwareComponentExpressionSupport().setStringVarMessage(captionKey, params);		
 	}
 
 }
