@@ -3,8 +3,10 @@ package com.vaadin.demo.dashboard;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
-import com.opnworks.vaadin.i18n.I18NStaticService;
-import com.opnworks.vaadin.i18n.data.util.I18NCountLiterals;
+
+import com.opnworks.vaadin.i18n.I18NService;
+import com.opnworks.vaadin.i18n.I18NServiceSingleton;
+import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -30,7 +32,6 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.DragAndDropWrapper;
@@ -54,10 +55,10 @@ import com.vaadin.ui.VerticalLayout;
 @Title("QuickTickets Dashboard")
 public class DashboardUI extends UI {
 
-    I18NStaticService i18NAware = new I18NStaticService("messages", Locale.ENGLISH);
+    //AuthenticateProxy auth = new AuthenticateProxy();
 
-    AuthenticateProxy auth = new AuthenticateProxy();
-
+    I18NService i18NService = I18NServiceSingleton.getInstance().setInitParams("messages", Locale.ENGLISH);
+    
     DataProvider dataProvider = new DataProvider();
 
     private static final long serialVersionUID = 1L;
@@ -122,13 +123,13 @@ public class DashboardUI extends UI {
         labels.setMargin(true);
         labels.addStyleName("labels");
         loginPanel.addComponent(labels);
-        String LB = I18NCountLiterals.registerLiteral("Welcome", "com.vaadin.demo.dashboard.DashboardUI.Welcome");
+        String LB = I18NSupportExpression.getInstance().registerLiteral("Welcome", "com.vaadin.demo.dashboard.DashboardUI.Welcome");
         Label welcome = new Label(LB);
         welcome.setSizeUndefined();
         welcome.addStyleName("h4");
-        LB = I18NCountLiterals.registerLiteral("Welcome", "com.vaadin.demo.dashboard.DashboardUI.Welcome_1");
+        LB = I18NSupportExpression.getInstance().registerLiteral("Welcome", "com.vaadin.demo.dashboard.DashboardUI.Welcome_1");
         labels.addComponent(welcome);
-        LB = I18NCountLiterals.registerLiteral("QuickTickets Dashboard", "com.vaadin.demo.dashboard.DashboardUI.QuickTickets_Dashboard");
+        LB = I18NSupportExpression.getInstance().registerLiteral("QuickTickets Dashboard", "com.vaadin.demo.dashboard.DashboardUI.QuickTickets_Dashboard");
         Label title = new Label(LB);
         title.setSizeUndefined();
         title.addStyleName("h2");
@@ -139,7 +140,7 @@ public class DashboardUI extends UI {
         fields.setSpacing(true);
         fields.setMargin(true);
         fields.addStyleName("fields");
-        LB = I18NCountLiterals.registerLiteral("Username", "com.vaadin.demo.dashboard.DashboardUI.Username");
+        LB = I18NSupportExpression.getInstance().registerLiteral("Username", "com.vaadin.demo.dashboard.DashboardUI.Username");
         final TextField username = new TextField(LB);
         username.focus();
         fields.addComponent(username);
@@ -346,7 +347,7 @@ public class DashboardUI extends UI {
         addLocale(Locale.ENGLISH, languageSelector);
         addLocale(Locale.FRENCH, languageSelector);
         addLocale(new Locale("es"), languageSelector);
-        languageSelector.setValue(I18NStaticService.getI18NServive().getLocale());
+        languageSelector.setValue(I18NServiceSingleton.getInstance().getI18NServive().getLocale());
         languageSelector.addValueChangeListener(new ValueChangeListener() {
 
             private static final long serialVersionUID = 1L;
@@ -354,7 +355,7 @@ public class DashboardUI extends UI {
             @Override
             public void valueChange(ValueChangeEvent event) {
                 Locale locale = (Locale) (event.getProperty().getValue());
-                I18NStaticService.getI18NServive().setLocale(locale);
+                I18NServiceSingleton.getInstance().getI18NServive().setLocale(locale);
                 getUI().requestRepaintAll();
             }
         });
