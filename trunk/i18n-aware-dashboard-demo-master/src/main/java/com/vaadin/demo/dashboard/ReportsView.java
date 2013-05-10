@@ -6,8 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
-import com.opnworks.vaadin.i18n.data.util.I18NCountLiterals;
-import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
+import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.demo.dashboard.data.Generator;
@@ -237,7 +236,7 @@ public class ReportsView extends HorizontalLayout implements View {
         } else {
             SimpleDateFormat df = new SimpleDateFormat();
             df.applyPattern("M/dd/yyyy");
-            editor.setCaption(I18NCountLiterals.registerBinaryExpression("com.vaadin.demo.dashboard.ReportsView.Unnamed_Report", " (", draftCount, ")"));
+            editor.setCaption(I18NSupportExpression.getInstance().registerBinaryExpression("com.vaadin.demo.dashboard.ReportsView.Unnamed_Report", " (", draftCount, ")"));
         }
         ((DashboardUI) UI.getCurrent()).updateReportsButtonBadge(draftCount + "");
         draftCount++;
