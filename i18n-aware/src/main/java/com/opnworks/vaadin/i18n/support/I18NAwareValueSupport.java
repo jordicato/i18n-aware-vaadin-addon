@@ -4,8 +4,7 @@ import java.util.Locale;
 
 import com.opnworks.vaadin.i18n.I18NAwareValue;
 import com.opnworks.vaadin.i18n.I18NService;
-import com.opnworks.vaadin.i18n.I18NStaticService;
-import com.opnworks.vaadin.i18n.data.util.I18NCountLiterals;
+import com.opnworks.vaadin.i18n.I18NServiceSingleton;
 
 /**
  * The I18NAwareValue Support class
@@ -21,9 +20,6 @@ public class I18NAwareValueSupport implements I18NAwareValue {
 
 	protected AwareValueContainer valueContainer;
 	private String valueKey;
-	private boolean fromBinaryExpr;
-	private Object[] objectList;
-	public static String lastValueKey;
 
 	private Object[] valueParams;
 
@@ -45,46 +41,15 @@ public class I18NAwareValueSupport implements I18NAwareValue {
 	public Object[] getValueParams() {
 		return valueParams;
 	}	
-	
-	public Object[] getObjectList() {
-		return objectList;
-	}
-	
-	public boolean isFromBinaryExpr() {
-		return fromBinaryExpr;
-	}
-	
+
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-
 		setLocale(i18N.getLocale());
-
-		boolean keep = false;
-		
-		if (valueKey != null) {
-			
-			if (isFromBinaryExpr()) {
-				valueContainer.setValue(I18NCountLiterals.getStringFromBinaryExpr(objectList));
-			} else {			
-				if ((!I18NCountLiterals.isKey(valueKey)) && (!I18NCountLiterals.getStringLiteral().getValue().equals(valueKey)) 
-						&& (i18N.getMessage(I18NAwareValueSupport.lastValueKey, valueParams).equals(valueKey))) {
-					valueKey = I18NAwareValueSupport.lastValueKey;
-					keep = true;
-				}
-				
-				if (I18NCountLiterals.isKey(valueKey)) {
-					valueContainer.setValue(i18N.getMessage(valueKey, valueParams));
-				} else {
-					if ((I18NCountLiterals.getStringLiteral().getValue().equals(valueKey)) && (I18NCountLiterals.getStringLiteral().getkey() != "")) {					
-						valueContainer.setValue(i18N.getMessage(I18NCountLiterals.getStringLiteral().getkey()));
-					} else {
-						if (keep) {
-							valueContainer.setValue(valueKey);
-						} else {
-							valueContainer.setValue(i18N.getMessage(valueKey, valueParams));
-						}
-					}
-				}
+		if (valueKey != null) {			
+			if ((!I18NExpressions.isKey(valueKey)) && (i18N.getMessage(I18NSupportExpression.getInstance().getLastValueKey(), valueParams).equals(valueKey))) {
+				valueKey = I18NSupportExpression.getInstance().getLastValueKey();
+			} else {					
+				valueContainer.setValue(i18N.getMessage(valueKey, valueParams));
 			}
 		}
 	}
@@ -100,19 +65,16 @@ public class I18NAwareValueSupport implements I18NAwareValue {
 
 	@Override
 	public void setValueMessage(String valueKey, Object... valueParams) {
+		I18NSupportExpression.getInstance().setStringVarStatus(false);
 		this.valueKey = valueKey;
-		if (I18NCountLiterals.isKey(valueKey)) {
-			I18NAwareValueSupport.lastValueKey = valueKey;
+		if (isKey(valueKey)) {
+			I18NSupportExpression.getInstance().setLastValueKey(valueKey);
 		}
-		
-		this.fromBinaryExpr = I18NCountLiterals.getIsBinaryExpr();
-		
-		this.objectList = I18NCountLiterals.getBinaryObjectList();
 		
 		this.valueParams = valueParams;
 		
-		if (I18NStaticService.getI18NServive() != null) {
-			i18NUpdate(I18NStaticService.getI18NServive());
+		if (I18NServiceSingleton.getInstance().getI18NServive() != null) {
+			i18NUpdate(I18NServiceSingleton.getInstance().getI18NServive());
 		}	
 	}
 
@@ -124,4 +86,18 @@ public class I18NAwareValueSupport implements I18NAwareValue {
 	public void setRealValue(String value) {
 		valueContainer.setValue(value);
 	}
+	
+	public boolean isKey(String key) {
+		if (key == null) {
+			return false;
+		}
+		if (key.contains(" ")) {
+			return false;
+		}
+		if ( !(key.contains("_") || key.contains(".")) ) {
+			return false;
+		}
+		return true;
+	}	
+
 }

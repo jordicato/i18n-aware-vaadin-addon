@@ -1,5 +1,6 @@
 package com.opnworks.vaadin.i18n.ui;
 
+import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
 import com.opnworks.vaadin.i18n.I18NAwareContainer;
 import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NAwareFormFieldFactory;
@@ -7,8 +8,11 @@ import com.opnworks.vaadin.i18n.I18NAwareLayout;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
+import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFormFieldFactorySupport;
+import com.opnworks.vaadin.i18n.support.I18NExpressions;
+import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.FormFieldFactory;
 
@@ -20,9 +24,10 @@ import com.vaadin.ui.FormFieldFactory;
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings({ "serial", "deprecation" })
 @Deprecated
-public class I18NForm extends Form implements I18NAwareField<Object> {
+public class I18NForm extends Form implements I18NAwareField<Object>, I18NAwareComponentExpression {
 
 	private I18NAwareFieldSupport<Object> i18NAwareFieldSupport = new I18NAwareFieldSupport<Object>(this);
+	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 
 	/**
 	 * Constructs a new i18n form with I18NFormLayout layout and I18NVerticalLayout footer.
@@ -59,6 +64,7 @@ public class I18NForm extends Form implements I18NAwareField<Object> {
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
+		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
 		i18NAwareFieldSupport.i18NUpdate(i18N);
 		((I18NAwareContainer) getLayout()).i18NUpdate(i18N);
 		((I18NVerticalLayout) getFooter()).i18NUpdate(i18N);
@@ -66,7 +72,14 @@ public class I18NForm extends Form implements I18NAwareField<Object> {
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
-		setCaptionMessage(captionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setCaptionMessage(i18NExpressions);
+		} else if (!I18NExpressions.isKey(captionKey)) {
+			setStringVarMessage(captionKey);
+		} else {		
+			setCaptionMessage(captionKey);
+		}
 	}
 
 	@Override
@@ -76,7 +89,12 @@ public class I18NForm extends Form implements I18NAwareField<Object> {
 
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setDescriptionMessage(i18NExpressions);
+		} else {
+			setDescriptionMessage(descriptionKey);
+		}
 	}
 
 	@Override
@@ -119,8 +137,32 @@ public class I18NForm extends Form implements I18NAwareField<Object> {
 	}
 
 	@Override
-	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
+	public void setCaptionMessage(I18NExpressions expressions, Object... valueParams) {
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(expressions, valueParams);		
+	}
+
+	@Override
+	public void setDescriptionMessage(I18NExpressions expressions, Object... valueParams) {
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expressions, valueParams);		
+	}
+	
+	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
+
+		if (i18NAwareComponentExpressionSupport == null) {
+			i18NAwareComponentExpressionSupport = new I18NAwareComponentExpressionSupport(this);
+		}
+
+		return i18NAwareComponentExpressionSupport;
+	}
+
+	@Override
+	public void setRequiredErrorMessage(String requiredErrorKey, Object... requiredErrorParams) {
 		i18NAwareFieldSupport.setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
+	}
+
+	@Override
+	public void setStringVarMessage(String captionKey, Object... params) {
+		getI18NAwareComponentExpressionSupport().setStringVarMessage(captionKey, params);		
 	}
 
 }

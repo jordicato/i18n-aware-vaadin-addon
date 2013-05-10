@@ -4,10 +4,14 @@ import java.util.Locale;
 
 import com.opnworks.vaadin.i18n.I18NAware;
 import com.opnworks.vaadin.i18n.I18NAwareComponent;
+import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
+import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
+import com.opnworks.vaadin.i18n.support.I18NExpressions;
+import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.PopupView;
 
@@ -18,7 +22,7 @@ import com.vaadin.ui.PopupView;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NPopupView extends PopupView implements I18NAwareComponent {
+public class I18NPopupView extends PopupView implements I18NAwareComponentExpression {
 
 	/**
 	 * Used to deliver customized content-packages to the PopupView. These are dynamically loaded when they are redrawn. The user must take care that
@@ -90,7 +94,8 @@ public class I18NPopupView extends PopupView implements I18NAwareComponent {
 	private static final long serialVersionUID = 3994292451004562581L;
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
-
+	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
+	
 	/**
 	 * A simple way to create a PopupPanel. Note that the minimal representation may not be dynamically updated, in order to achieve this create your
 	 * own Content object and use {@link PopupView#PopupView(Content)}.
@@ -141,6 +146,8 @@ public class I18NPopupView extends PopupView implements I18NAwareComponent {
 
 		i18NAwareComponentCaptionSupport.i18NUpdate(i18nService);
 
+		getI18NAwareComponentExpressionSupport().i18NUpdate(i18nService);
+		
 		PopupView.Content content = getContent();
 
 		if (content instanceof I18NAware) {
@@ -156,7 +163,14 @@ public class I18NPopupView extends PopupView implements I18NAwareComponent {
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
-		setCaptionMessage(captionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setCaptionMessage(i18NExpressions);
+		} else if (!I18NExpressions.isKey(captionKey)) {
+			setStringVarMessage(captionKey);
+		} else {		
+			setCaptionMessage(captionKey);
+		}
 	}
 
 	@Override
@@ -166,7 +180,12 @@ public class I18NPopupView extends PopupView implements I18NAwareComponent {
 
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setDescriptionMessage(i18NExpressions);
+		} else {
+			setDescriptionMessage(descriptionKey);
+		}
 	}
 
 	@Override
@@ -184,4 +203,27 @@ public class I18NPopupView extends PopupView implements I18NAwareComponent {
 		super.setDescription(description);
 	}
 
+	@Override
+	public void setCaptionMessage(I18NExpressions expressions, Object... valueParams) {
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(expressions, valueParams);		
+	}
+
+	@Override
+	public void setDescriptionMessage(I18NExpressions expressions, Object... valueParams) {
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expressions, valueParams);		
+	}
+	
+	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
+
+		if (i18NAwareComponentExpressionSupport == null) {
+			i18NAwareComponentExpressionSupport = new I18NAwareComponentExpressionSupport(this);
+		}
+
+		return i18NAwareComponentExpressionSupport;
+	}
+
+	@Override
+	public void setStringVarMessage(String captionKey, Object... params) {
+		getI18NAwareComponentExpressionSupport().setStringVarMessage(captionKey, params);		
+	}
 }

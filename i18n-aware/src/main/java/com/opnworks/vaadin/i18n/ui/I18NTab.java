@@ -90,7 +90,7 @@ public class I18NTab implements Tab, I18NAwareCaption, CaptionContainer {
 	}
 
 	@Override
-	public void setCaption(@I18NAwareMessage String captionKey) {
+	public void setCaption(@I18NAwareMessage String captionKey) {		
 		setCaptionMessage(captionKey);
 	}
 

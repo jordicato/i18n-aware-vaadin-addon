@@ -1,14 +1,17 @@
 package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
-import com.opnworks.vaadin.i18n.I18NAwareComponent;
+import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NAwareValue;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
+import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
+import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.AwareValueContainer;
+import com.opnworks.vaadin.i18n.support.I18NExpressions;
 import com.vaadin.data.Property;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
@@ -20,10 +23,12 @@ import com.vaadin.ui.Label;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCaption, I18NAwareValue, AwareValueContainer {
+public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue, AwareValueContainer, I18NAwareComponentExpression {
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 
+	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
+	
 	private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(this);
 
 	private I18NAwareValueSupport i18NDescriptionSupport = new I18NAwareValueSupport(new AwareValueContainer() {
@@ -69,7 +74,14 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 	 */
 	public I18NLabel(@I18NAwareMessage String contentKey) {
 		super();
-		setCaptionMessage(contentKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setCaptionMessage(i18NExpressions);
+		} else if (!I18NExpressions.isKey(contentKey)) {
+			setStringVarMessage(contentKey);
+		} else {		
+			setCaptionMessage(contentKey);
+		}
 	}
 
 	/**
@@ -93,6 +105,8 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 
 		i18NDescriptionSupport.i18NUpdate(i18N);
 
+		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
+		
 		if (i18NAwareValueSupport != null) {
 			i18NAwareValueSupport.i18NUpdate(i18N);
 		}
@@ -100,7 +114,14 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
-		setCaptionMessage(captionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setCaptionMessage(i18NExpressions);
+		} else if (!I18NExpressions.isKey(captionKey)) {
+			setStringVarMessage(captionKey);
+		} else {		
+			setCaptionMessage(captionKey);
+		}
 	}
 
 	@Override
@@ -110,7 +131,12 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setDescriptionMessage(i18NExpressions);
+		} else {
+			setDescriptionMessage(descriptionKey);
+		}		
 	}
 
 	@Override
@@ -159,8 +185,32 @@ public class I18NLabel extends Label implements I18NAwareComponent, I18NAwareCap
 		return i18NAwareComponentCaptionSupport;
 	}
 
+	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
+
+		if (i18NAwareComponentExpressionSupport == null) {
+			i18NAwareComponentExpressionSupport = new I18NAwareComponentExpressionSupport(this);
+		}
+
+		return i18NAwareComponentExpressionSupport;
+	}
+	
 	@Override
 	public void setRealValue(String value) {
 		super.setValue(value);
+	}
+
+	@Override
+	public void setCaptionMessage(I18NExpressions expressions, Object... valueParams) {
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(expressions, valueParams);		
+	}
+
+	@Override
+	public void setDescriptionMessage(I18NExpressions expressions, Object... valueParams) {
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expressions, valueParams);		
+	}
+
+	@Override
+	public void setStringVarMessage(String captionKey, Object... params) {
+		getI18NAwareComponentExpressionSupport().setStringVarMessage(captionKey, params);		
 	}
 }

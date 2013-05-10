@@ -21,6 +21,8 @@ import com.opnworks.vaadin.i18n.service_impl.ResourceBundleI18NMessageProvider;
  */
 public class AbstractI18NTest {
 
+	
+	
 	public interface I18NAwareTest {
 
 		String getActualValue();
@@ -38,7 +40,10 @@ public class AbstractI18NTest {
 	protected static I18NService i18NService;
 
 	static {
-		i18NService = new I18NServiceImpl(new ResourceBundleI18NMessageProvider("test-messages"));
+		//i18NService = new I18NServiceImpl(new ResourceBundleI18NMessageProvider("test-messages"));
+		//I18NServiceSingleton.getInstance().setInitParams("test-messages", Locale.ENGLISH);
+		I18NServiceSingleton.getInstance().setInitParams("test-messages", Locale.ENGLISH);
+		//i18NService = I18NServiceSingleton.getInstance().getI18NServive();		
 	}
 
 	public <T extends I18NAware> void assertI18NAwareMessagePresent(Class<T> clazz, int paramPos, Class<?>... paramTypes) throws SecurityException,
@@ -77,18 +82,18 @@ public class AbstractI18NTest {
 
 	protected void performTest(I18NAware i18NAware, I18NAwareTest... tests) {
 
-		i18NService.setLocale(Locale.ENGLISH);
-		i18NAware.i18NUpdate(i18NService);
+		I18NServiceSingleton.getInstance().getI18NServive().setLocale(Locale.ENGLISH);
+		i18NAware.i18NUpdate(I18NServiceSingleton.getInstance().getI18NServive());
 
 		for (I18NAwareTest test : tests ) {
-			assertThat(test.getActualValue(), is(i18NService.getMessage(test.getKey(), test.getParams())));
+			assertThat(test.getActualValue(), is(I18NServiceSingleton.getInstance().getI18NServive().getMessage(test.getKey(), test.getParams())));
 		}
 
-		i18NService.setLocale(Locale.FRENCH);
-		i18NAware.i18NUpdate(i18NService);
+		I18NServiceSingleton.getInstance().getI18NServive().setLocale(Locale.FRENCH);
+		i18NAware.i18NUpdate(I18NServiceSingleton.getInstance().getI18NServive());
 
 		for (I18NAwareTest test : tests ) {
-			assertThat(test.getActualValue(), is(i18NService.getMessage(test.getKey(), test.getParams())));
+			assertThat(test.getActualValue(), is(I18NServiceSingleton.getInstance().getI18NServive().getMessage(test.getKey(), test.getParams())));
 		}
 	}
 

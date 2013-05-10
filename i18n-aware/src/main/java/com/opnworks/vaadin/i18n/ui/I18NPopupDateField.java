@@ -2,13 +2,17 @@ package com.opnworks.vaadin.i18n.ui;
 
 import java.util.Date;
 
+import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
 import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
+import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
+import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.AwareValueContainer;
+import com.opnworks.vaadin.i18n.support.I18NExpressions;
 import com.vaadin.data.Property;
 import com.vaadin.ui.PopupDateField;
 
@@ -19,10 +23,10 @@ import com.vaadin.ui.PopupDateField;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NPopupDateField extends PopupDateField implements I18NAwareField<Date> {
+public class I18NPopupDateField extends PopupDateField implements I18NAwareField<Date>, I18NAwareComponentExpression {
 
 	private I18NAwareFieldSupport<Date> i18NAwareFieldSupport;
-
+	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 	private I18NAwareValueSupport i18NInputPromptSupport;
 
 	/**
@@ -49,7 +53,14 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 	 */
 	public I18NPopupDateField(@I18NAwareMessage String captionKey) {
 		super(captionKey);
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setCaptionMessage(i18NExpressions);
+		} else if (!I18NExpressions.isKey(captionKey)) {
+			setStringVarMessage(captionKey);
+		} else {		
+			setCaptionMessage(captionKey);
+		}
 	}
 
 	/**
@@ -61,7 +72,14 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 	 */
 	public I18NPopupDateField(@I18NAwareMessage String captionKey, Date value) {
 		super(captionKey, value);
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setCaptionMessage(i18NExpressions);
+		} else if (!I18NExpressions.isKey(captionKey)) {
+			setStringVarMessage(captionKey);
+		} else {		
+			setCaptionMessage(captionKey);
+		}
 	}
 
 	/**
@@ -73,7 +91,14 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 	 */
 	public I18NPopupDateField(@I18NAwareMessage String captionKey, Property<?> dataSource) {
 		super(captionKey, dataSource);
-		getI18NAwareFieldSupport().setCaptionMessage(captionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setCaptionMessage(i18NExpressions);
+		} else if (!I18NExpressions.isKey(captionKey)) {
+			setStringVarMessage(captionKey);
+		} else {		
+			setCaptionMessage(captionKey);
+		}
 	}
 
 	@Override
@@ -81,13 +106,21 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 
 		setLocale(i18N.getLocale());
 
+		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
 		getI18NAwareFieldSupport().i18NUpdate(i18N);
 		getI18NInputPromptSupport().i18NUpdate(i18N);
 	}
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
-		setCaptionMessage(captionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setCaptionMessage(i18NExpressions);
+		} else if (!I18NExpressions.isKey(captionKey)) {
+			setStringVarMessage(captionKey);
+		} else {		
+			setCaptionMessage(captionKey);
+		}
 	}
 
 	@Override
@@ -97,7 +130,12 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
-		setDescriptionMessage(descriptionKey);
+		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
+		if (i18NExpressions != null) {			
+			setDescriptionMessage(i18NExpressions);
+		} else {
+			setDescriptionMessage(descriptionKey);
+		}
 	}
 
 	@Override
@@ -155,5 +193,29 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 		}
 
 		return i18NInputPromptSupport;
+	}
+
+	@Override
+	public void setCaptionMessage(I18NExpressions expressions, Object... valueParams) {
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(expressions, valueParams);		
+	}
+
+	@Override
+	public void setDescriptionMessage(I18NExpressions expressions, Object... valueParams) {
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expressions, valueParams);		
+	}
+	
+	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
+
+		if (i18NAwareComponentExpressionSupport == null) {
+			i18NAwareComponentExpressionSupport = new I18NAwareComponentExpressionSupport(this);
+		}
+
+		return i18NAwareComponentExpressionSupport;
+	}
+
+	@Override
+	public void setStringVarMessage(String captionKey, Object... params) {
+		getI18NAwareComponentExpressionSupport().setStringVarMessage(captionKey, params);		
 	}
 }
