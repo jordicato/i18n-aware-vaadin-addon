@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="i18n-aware-quicktickets-dashboard">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="i18n-aware-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/i18n-aware/i18n-aware">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="i18n-aware-aspects-0.1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/i18n-aware-aspects/i18n-aware-aspects">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="i18n-aware-quicktickets-dashboard"/>
+        <property name="java-output-path" value="/i18n-aware-quicktickets-dashboard/target/classes"/>
+    </wb-module>
+</project-modules>
