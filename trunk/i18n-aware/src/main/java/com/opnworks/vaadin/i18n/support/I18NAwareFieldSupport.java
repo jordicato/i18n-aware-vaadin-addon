@@ -8,7 +8,6 @@ import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NAwareValidator;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.AwareValueContainer;
-import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
 import com.vaadin.data.Validator;
 
 /**
@@ -37,7 +36,6 @@ public class I18NAwareFieldSupport<T> implements Serializable {
 	}
 
 	public void i18NUpdate(I18NService i18N) {
-
 		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
 
 		// Perform RequiredError internationalization
@@ -59,7 +57,6 @@ public class I18NAwareFieldSupport<T> implements Serializable {
 			else {
 				i18NRequiredErrorSupport.setValueParams(originalField.getCaption());
 			}
-
 			i18NRequiredErrorSupport.i18NUpdate(i18N);
 		}
 

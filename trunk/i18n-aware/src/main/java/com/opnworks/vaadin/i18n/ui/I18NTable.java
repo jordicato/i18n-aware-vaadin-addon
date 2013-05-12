@@ -12,8 +12,6 @@ import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
-import com.opnworks.vaadin.i18n.support.I18NExpressions;
-import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.vaadin.data.Container;
 import com.vaadin.event.Action;
 import com.vaadin.ui.Table;
@@ -30,12 +28,10 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 	private I18NAwareSupport i18NAwareSupport = new I18NAwareSupport();
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
-	
+
 	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
-	
+
 	private I18NAwareFieldSupport<Object> i18NAwareFieldSupport;
-	
-	//private I18NIndexedContainer i18nIndexedContainer;
 
 	private String[] columnHeadersKeys;
 
@@ -45,7 +41,7 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 	public I18NTable() {
 		super();
 	}
-	
+
 	/**
 	 * Creates a new empty i18n table with caption.
 	 * 
@@ -53,14 +49,7 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 	 */
 	public I18NTable(@I18NAwareMessage String captionKey) {
 		super(captionKey);
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	/**
@@ -71,14 +60,7 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 	 */
 	public I18NTable(@I18NAwareMessage String captionKey, Container dataSource) {
 		super(captionKey, dataSource);
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	@Override
@@ -92,7 +74,7 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 
 		registerI18NActions(actionHandler, null);
 	}
-	
+
 	public I18NAwareComponentCaptionSupport getI18NAwareComponentCaptionSupport() {
 
 		if (i18NAwareComponentCaptionSupport == null) {
@@ -103,11 +85,11 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		
+
 		getI18NAwareComponentCaptionSupport().i18NUpdate(i18N);
 
 		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
-		
+
 		updateColumnHeaders(i18N);
 
 		Container items = getContainerDataSource();
@@ -122,21 +104,14 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
 		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey, params);
 	}
-	
+
 	/**
 	 * Set Column headers message keys
 	 * 
@@ -151,12 +126,7 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setDescriptionMessage(i18NExpressions);
-		} else {
-			setDescriptionMessage(descriptionKey);
-		}
+		setDescriptionMessage(descriptionKey);
 	}
 
 	@Override
@@ -178,7 +148,7 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 	public void setRealRequiredError(String requiredMessage) {
 		super.setRequiredError(requiredMessage);
 	}
-	
+
 	@Override
 	public void setRealCaption(String caption) {
 		super.setCaption(caption);
@@ -210,7 +180,7 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 			setColumnHeaders(columnHeaders);
 		}
 	}
-	
+
 	private I18NAwareFieldSupport<Object> getI18NAwareFieldSupport() {
 
 		if (i18NAwareFieldSupport == null) {
@@ -221,15 +191,15 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 	}
 
 	@Override
-	public void setCaptionMessage(I18NExpressions expressions, Object... valueParams) {
-		getI18NAwareComponentExpressionSupport().setCaptionMessage(expressions, valueParams);		
+	public void setCaptionMessage(Object... expression) {
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(I18NExpressions expressions, Object... valueParams) {
-		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expressions, valueParams);		
+	public void setDescriptionMessage(Object... expression) {
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
-	
+
 	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
 
 		if (i18NAwareComponentExpressionSupport == null) {
@@ -239,17 +209,11 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 		return i18NAwareComponentExpressionSupport;
 	}
 
-	@Override
-	public void setStringVarMessage(String captionKey, Object... params) {
-		getI18NAwareComponentExpressionSupport().setStringVarMessage(captionKey, params);		
-	}
-	
-	/*private I18NIndexedContainer getI18NIndexedContainer() {
-
-		if (i18nIndexedContainer == null) {
-			i18nIndexedContainer = new I18NIndexedContainer();
-		}
-
-		return i18nIndexedContainer;
-	}	*/
+	/*
+	 * private I18NIndexedContainer getI18NIndexedContainer() {
+	 * 
+	 * if (i18nIndexedContainer == null) { i18nIndexedContainer = new I18NIndexedContainer(); }
+	 * 
+	 * return i18nIndexedContainer; }
+	 */
 }

@@ -9,6 +9,6 @@ import com.vaadin.ui.Component;
  * @author Pedro Rodriguez (OpnWorks)
  */
 public interface I18NAwareTableFieldFactory {
-	
+
 	I18NAwareFieldValue<?> createI18NAwareField(Container container, Object itemId, Object propertyId, Component uiContext);
 }

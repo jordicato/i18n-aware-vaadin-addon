@@ -95,7 +95,7 @@ public class I18NRichTextAreaTest extends AbstractI18NTest {
 	public void testSetValueKey() {
 
 		final I18NRichTextArea i18NRichTextArea = new I18NRichTextArea();
-		
+
 		i18NRichTextArea.setValue(TEST_KEY_1);
 
 		i18NRichTextArea.setValueMessage(TEST_KEY_2);
@@ -119,7 +119,7 @@ public class I18NRichTextAreaTest extends AbstractI18NTest {
 		});
 
 	}
-	
+
 	@Test
 	public void testSetValueParams() {
 
@@ -147,7 +147,7 @@ public class I18NRichTextAreaTest extends AbstractI18NTest {
 			}
 		});
 	}
-	
+
 	@Test
 	public void testsetRequiredErrorMessage() {
 

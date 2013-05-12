@@ -7,9 +7,8 @@ import com.opnworks.vaadin.i18n.I18NAwareFieldValue;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NAwareValidator;
 import com.opnworks.vaadin.i18n.I18NService;
-import com.vaadin.data.Validator;
-import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.AwareValueContainer;
+import com.vaadin.data.Validator;
 
 /**
  * The I18NAwareFieldSupport
@@ -27,7 +26,7 @@ public class I18NAwareFieldValueSupport<T> implements Serializable {
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 	private I18NAwareComponentValueSupport i18NAwareComponentValueSupport;
 
-	private I18NAwareValueSupport i18NRequiredErrorSupport = new I18NAwareValueSupport(new AwareValueContainer() {	
+	private I18NAwareValueSupport i18NRequiredErrorSupport = new I18NAwareValueSupport(new AwareValueContainer() {
 		@Override
 		public void setValue(String value) {
 			originalField.setRealRequiredError(value);
@@ -43,7 +42,7 @@ public class I18NAwareFieldValueSupport<T> implements Serializable {
 	public void i18NUpdate(I18NService i18N) {
 
 		i18NAwareComponentValueSupport.i18NUpdate(i18N);
-		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);		
+		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
 
 		// Perform RequiredError internationalization
 		if (i18NRequiredErrorSupport.getValueKey() != null) {
@@ -92,7 +91,7 @@ public class I18NAwareFieldValueSupport<T> implements Serializable {
 	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object[] requiredErrorParams) {
 		i18NRequiredErrorSupport.setValueMessage(requiredErrorKey, requiredErrorParams);
 	}
-	
+
 	public void setValueMessage(@I18NAwareMessage String valueKey, Object... params) {
 		i18NAwareComponentValueSupport.setValueMessage(valueKey, params);
 	}

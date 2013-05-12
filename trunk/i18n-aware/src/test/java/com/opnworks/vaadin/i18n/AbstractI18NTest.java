@@ -11,8 +11,6 @@ import java.util.Arrays;
 import java.util.Locale;
 
 import com.opnworks.vaadin.i18n.service_impl.I18NAwareMessageParametersHelper;
-import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
-import com.opnworks.vaadin.i18n.service_impl.ResourceBundleI18NMessageProvider;
 
 /**
  * The Abstract I18N Unit Test
@@ -21,8 +19,6 @@ import com.opnworks.vaadin.i18n.service_impl.ResourceBundleI18NMessageProvider;
  */
 public class AbstractI18NTest {
 
-	
-	
 	public interface I18NAwareTest {
 
 		String getActualValue();
@@ -40,10 +36,10 @@ public class AbstractI18NTest {
 	protected static I18NService i18NService;
 
 	static {
-		//i18NService = new I18NServiceImpl(new ResourceBundleI18NMessageProvider("test-messages"));
-		//I18NServiceSingleton.getInstance().setInitParams("test-messages", Locale.ENGLISH);
+		// i18NService = new I18NServiceImpl(new ResourceBundleI18NMessageProvider("test-messages"));
+		// I18NServiceSingleton.getInstance().setInitParams("test-messages", Locale.ENGLISH);
 		I18NServiceSingleton.getInstance().setInitParams("test-messages", Locale.ENGLISH);
-		//i18NService = I18NServiceSingleton.getInstance().getI18NServive();		
+		// i18NService = I18NServiceSingleton.getInstance().getI18NServive();
 	}
 
 	public <T extends I18NAware> void assertI18NAwareMessagePresent(Class<T> clazz, int paramPos, Class<?>... paramTypes) throws SecurityException,

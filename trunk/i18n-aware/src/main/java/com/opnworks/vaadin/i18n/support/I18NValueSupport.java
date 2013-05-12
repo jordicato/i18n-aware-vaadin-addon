@@ -30,7 +30,7 @@ public class I18NValueSupport extends I18NAwareValueSupport implements I18NAware
 
 	@Override
 	public void setValueMessage(@I18NAwareMessage String valueKey, Object... params) {
-	 	super.setValueMessage(valueKey, params);
+		super.setValueMessage(valueKey, params);
 	}
 
 	@Override

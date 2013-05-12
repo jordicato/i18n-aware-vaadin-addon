@@ -1,14 +1,14 @@
 package com.opnworks.vaadin.i18n.ui;
 
-import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
+import com.opnworks.vaadin.i18n.I18NAwareComponentValueExpression;
 import com.opnworks.vaadin.i18n.I18NAwareField;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
+import com.opnworks.vaadin.i18n.support.I18NAwareComponentValueExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.opnworks.vaadin.i18n.support.I18NExpressions;
-import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.vaadin.data.Property;
 import com.vaadin.ui.TextField;
 
@@ -19,10 +19,11 @@ import com.vaadin.ui.TextField;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NTextField extends TextField implements I18NAwareField<String>, I18NAwareComponentExpression {
+public class I18NTextField extends TextField implements I18NAwareField<String>, I18NAwareComponentValueExpression {
 
 	private I18NAwareFieldSupport<String> i18NAwareFieldSupport;
 	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
+	private I18NAwareComponentValueExpressionSupport i18NAwareComponentValueExpressionSupport;
 
 	/**
 	 * Constructs an empty i18n <code>TextField</code> with no caption.
@@ -49,14 +50,23 @@ public class I18NTextField extends TextField implements I18NAwareField<String>, 
 	 */
 	public I18NTextField(@I18NAwareMessage String captionKey) {
 		super(captionKey);
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
+	}
+
+	public I18NTextField(I18NExpressions captionExpression) {
+		super(captionExpression.getStringFinal());
+		setCaptionMessage(captionExpression.getObjectlist());
+	}
+
+	public I18NTextField(I18NExpressions captionExpression, I18NExpressions valueExpression) {
+		super(captionExpression.getStringFinal(), valueExpression.getStringFinal());
+		setCaptionMessage(captionExpression.getObjectlist());
+		setValueMessage(valueExpression.getObjectlist());
+	}
+
+	public I18NTextField(I18NExpressions captionExpression, Property<?> dataSource) {
+		super(captionExpression.getStringFinal(), dataSource);
+		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
 	/**
@@ -69,44 +79,36 @@ public class I18NTextField extends TextField implements I18NAwareField<String>, 
 	 */
 	public I18NTextField(@I18NAwareMessage String captionKey, Property<?> dataSource) {
 		super(captionKey, dataSource);
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	public I18NTextField(@I18NAwareMessage String captionKey, String value) {
 		super(captionKey, value);
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 		getI18NAwareFieldSupport().i18NUpdate(i18N);
 		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
+		getI18NAwareComponentValueExpressionSupport().i18NUpdate(i18N);
+	}
+
+	public void setCaption(Object... expression) {
+		setCaptionMessage(expression);
+	}
+
+	public void setDescription(Object... expression) {
+		setDescriptionMessage(expression);
+	}
+
+	public void setValue(Object... expression) {
+		setValueMessage(expression);
 	}
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	@Override
@@ -116,12 +118,7 @@ public class I18NTextField extends TextField implements I18NAwareField<String>, 
 
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setDescriptionMessage(i18NExpressions);
-		} else {
-			setDescriptionMessage(descriptionKey);
-		}
+		setDescriptionMessage(descriptionKey);
 	}
 
 	@Override
@@ -164,15 +161,15 @@ public class I18NTextField extends TextField implements I18NAwareField<String>, 
 	}
 
 	@Override
-	public void setCaptionMessage(I18NExpressions expressions, Object... valueParams) {
-		getI18NAwareComponentExpressionSupport().setCaptionMessage(expressions, valueParams);		
+	public void setCaptionMessage(Object... expression) {
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(I18NExpressions expressions, Object... valueParams) {
-		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expressions, valueParams);		
+	public void setDescriptionMessage(Object... expression) {
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
-	
+
 	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
 
 		if (i18NAwareComponentExpressionSupport == null) {
@@ -182,8 +179,22 @@ public class I18NTextField extends TextField implements I18NAwareField<String>, 
 		return i18NAwareComponentExpressionSupport;
 	}
 
+	private I18NAwareComponentValueExpressionSupport getI18NAwareComponentValueExpressionSupport() {
+
+		if (i18NAwareComponentValueExpressionSupport == null) {
+			i18NAwareComponentValueExpressionSupport = new I18NAwareComponentValueExpressionSupport(this);
+		}
+
+		return i18NAwareComponentValueExpressionSupport;
+	}
+
 	@Override
-	public void setStringVarMessage(String captionKey, Object... params) {
-		getI18NAwareComponentExpressionSupport().setStringVarMessage(captionKey, params);		
+	public void setValueMessage(Object... expression) {
+		getI18NAwareComponentValueExpressionSupport().setValueMessage(expression);
+	}
+
+	@Override
+	public void setRealValue(String value) {
+		super.setValue(value);
 	}
 }

@@ -26,16 +26,22 @@ public class AbstractI18NAwareValidatorTest extends AbstractI18NTest {
 	}
 
 	protected void performTest(I18NAwareValidator i18NServiceAwareValidator, I18NAwareValidatorTest test) {
-		
+
 		I18NServiceSingleton.getInstance().getI18NServive().setLocale(Locale.ENGLISH);
 		i18NServiceAwareValidator.i18NUpdate(I18NServiceSingleton.getInstance().getI18NServive());
 
-		assertThat(test.getActualValue(), is(I18NServiceSingleton.getInstance().getI18NServive().getMessage(test.getKey(), I18NServiceSingleton.getInstance().getI18NServive().getMessage(test.getFieldKey()))));
+		assertThat(
+				test.getActualValue(),
+				is(I18NServiceSingleton.getInstance().getI18NServive()
+						.getMessage(test.getKey(), I18NServiceSingleton.getInstance().getI18NServive().getMessage(test.getFieldKey()))));
 
 		I18NServiceSingleton.getInstance().getI18NServive().setLocale(Locale.FRENCH);
 		i18NServiceAwareValidator.i18NUpdate(I18NServiceSingleton.getInstance().getI18NServive());
 
-		assertThat(test.getActualValue(), is(I18NServiceSingleton.getInstance().getI18NServive().getMessage(test.getKey(), I18NServiceSingleton.getInstance().getI18NServive().getMessage(test.getFieldKey()))));
+		assertThat(
+				test.getActualValue(),
+				is(I18NServiceSingleton.getInstance().getI18NServive()
+						.getMessage(test.getKey(), I18NServiceSingleton.getInstance().getI18NServive().getMessage(test.getFieldKey()))));
 	}
 
 }

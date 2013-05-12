@@ -29,7 +29,7 @@ public class I18NTab implements Tab, I18NAwareCaption, CaptionContainer {
 	public I18NTab() {
 		super();
 	}
-	
+
 	public I18NTab(Tab delegate) {
 		this.delegate = delegate;
 	}
@@ -90,7 +90,7 @@ public class I18NTab implements Tab, I18NAwareCaption, CaptionContainer {
 	}
 
 	@Override
-	public void setCaption(@I18NAwareMessage String captionKey) {		
+	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
 	}
 
