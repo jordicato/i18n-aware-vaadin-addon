@@ -1,0 +1,5 @@
+analyseLocally=false
+eclipse.preferences.version=1
+projectKey=com.vaadin.demo\:i18n-aware-quicktickets-dashboard
+serverUrl=http\://aws.opnworks.com/sonar
+version=2
