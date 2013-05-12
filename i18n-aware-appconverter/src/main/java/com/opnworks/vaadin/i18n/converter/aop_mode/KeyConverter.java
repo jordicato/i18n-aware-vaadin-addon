@@ -47,6 +47,7 @@ import japa.parser.ast.stmt.TryStmt;
 import japa.parser.ast.stmt.WhileStmt;
 import japa.parser.ast.type.ReferenceType;
 import japa.parser.ast.type.Type;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -1337,7 +1338,7 @@ public class KeyConverter {
 		createExpressionBinaryObjectList.clear();
 		processBinary(exp);
 		 
-		Expression resultExpression = setExpressionBinaryOfString("I18NCountLiterals.registerBinaryExpression");
+		Expression resultExpression = setExpressionBinaryOfString("I18NSupportExpression.getInstance().registerBinaryExpression");
 		
 		if (resultExpression != null) {
 			return resultExpression;
