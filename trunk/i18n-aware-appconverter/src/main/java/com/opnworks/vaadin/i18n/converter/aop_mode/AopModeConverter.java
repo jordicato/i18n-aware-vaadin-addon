@@ -3,11 +3,11 @@ package com.opnworks.vaadin.i18n.converter.aop_mode;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
 import com.neodoo.maven.plugin.LocalizeMojo;
-import com.opnworks.vaadin.i18n.converter.AuthenticateProxy;
 import com.opnworks.vaadin.i18n.converter.Converter;
 import com.opnworks.vaadin.i18n.converter.aop_mode.KeyConverter.Key;
 import com.opnworks.vaadin.i18n.converter.main.CommandLineOutput;
@@ -38,7 +38,7 @@ public class AopModeConverter implements Converter {
 		}
 		
 		//AuthenticateProxy auth = new AuthenticateProxy(resourcesDir.getAbsolutePath());
-		
+				
 		if (!rollback && (targetLanguages != null)) {		
 			try {
 				generateBundlesFiles(resourcesDir, resourceBaseName, defaultLanguage, targetLanguages, rollback);
