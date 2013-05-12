@@ -27,14 +27,14 @@ public class I18NAwareComponentCaptionSupport implements Serializable, I18NAware
 			originalComponent.setRealCaption(caption);
 		}
 	});
-	
-	private I18NAwareValueSupport descriptionI18NSupport = new I18NAwareValueSupport(new AwareValueContainer() {		
+
+	private I18NAwareValueSupport descriptionI18NSupport = new I18NAwareValueSupport(new AwareValueContainer() {
 		@Override
 		public void setValue(String value) {
 			originalComponent.setRealDescription(value);
 		}
 	});
-	
+
 	public I18NAwareComponentCaptionSupport(I18NAwareComponent originalComponent) {
 		this.originalComponent = originalComponent;
 	}

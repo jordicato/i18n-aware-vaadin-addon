@@ -1,26 +1,26 @@
 package com.opnworks.vaadin.i18n.support;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
-import com.opnworks.vaadin.i18n.I18NAwareExpression;
+import com.opnworks.vaadin.i18n.I18NAwareValueExpression;
 
 /**
  * The I18NExpressionSupport Support
  * 
  * @author Sandy Rodriguez Garcia ( OpnWorks )
  */
-public class I18NExpressionSupport extends I18NAwareExpressionSupport implements I18NAwareCaption, I18NAwareExpression {
+public class I18NValueExpressionSupport extends I18NAwareExpressionSupport implements I18NAwareCaption, I18NAwareValueExpression {
 
 	private static final long serialVersionUID = 834474279827581783L;
 
-	public interface ExpressionContainer {
-		void setRealCaption(String caption);
+	public interface ValueExpressionContainer {
+		void setRealValue(String value);
 	}
 
-	public I18NExpressionSupport(final ExpressionContainer captionContainer) {
+	public I18NValueExpressionSupport(final ValueExpressionContainer valueCaptionContainer) {
 		super(new AwareExpressionContainer() {
 			@Override
 			public void setValue(String value) {
-				captionContainer.setRealCaption(value);
+				valueCaptionContainer.setRealValue(value);
 			}
 		});
 	}
@@ -38,5 +38,15 @@ public class I18NExpressionSupport extends I18NAwareExpressionSupport implements
 	@Override
 	public void setRealCaption(String caption) {
 		valueContainer.setValue(caption);
+	}
+
+	@Override
+	public void setDescriptionMessage(Object... expression) {
+		super.setDescriptionMessage(expression);
+	}
+
+	@Override
+	public void setValueMessage(Object... expression) {
+		super.setValueMessage(expression);
 	}
 }

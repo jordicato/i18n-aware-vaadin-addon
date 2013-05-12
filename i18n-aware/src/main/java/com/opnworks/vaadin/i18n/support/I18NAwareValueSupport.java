@@ -13,7 +13,7 @@ import com.opnworks.vaadin.i18n.I18NServiceSingleton;
  */
 @SuppressWarnings("serial")
 public class I18NAwareValueSupport implements I18NAwareValue {
-	
+
 	public interface AwareValueContainer {
 		void setValue(String value);
 	}
@@ -40,17 +40,14 @@ public class I18NAwareValueSupport implements I18NAwareValue {
 
 	public Object[] getValueParams() {
 		return valueParams;
-	}	
+	}
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 		setLocale(i18N.getLocale());
-		if (valueKey != null) {			
-			if ((!I18NExpressions.isKey(valueKey)) && (i18N.getMessage(I18NSupportExpression.getInstance().getLastValueKey(), valueParams).equals(valueKey))) {
-				valueKey = I18NSupportExpression.getInstance().getLastValueKey();
-			} else {					
-				valueContainer.setValue(i18N.getMessage(valueKey, valueParams));
-			}
+
+		if (valueKey != null) {
+			valueContainer.setValue(i18N.getMessage(valueKey, valueParams));
 		}
 	}
 
@@ -65,17 +62,13 @@ public class I18NAwareValueSupport implements I18NAwareValue {
 
 	@Override
 	public void setValueMessage(String valueKey, Object... valueParams) {
-		I18NSupportExpression.getInstance().setStringVarStatus(false);
 		this.valueKey = valueKey;
-		if (isKey(valueKey)) {
-			I18NSupportExpression.getInstance().setLastValueKey(valueKey);
-		}
-		
+
 		this.valueParams = valueParams;
-		
+
 		if (I18NServiceSingleton.getInstance().getI18NServive() != null) {
 			i18NUpdate(I18NServiceSingleton.getInstance().getI18NServive());
-		}	
+		}
 	}
 
 	public void setValueParams(Object... valueParams) {
@@ -86,7 +79,7 @@ public class I18NAwareValueSupport implements I18NAwareValue {
 	public void setRealValue(String value) {
 		valueContainer.setValue(value);
 	}
-	
+
 	public boolean isKey(String key) {
 		if (key == null) {
 			return false;
@@ -94,10 +87,10 @@ public class I18NAwareValueSupport implements I18NAwareValue {
 		if (key.contains(" ")) {
 			return false;
 		}
-		if ( !(key.contains("_") || key.contains(".")) ) {
+		if (!(key.contains("_") || key.contains("."))) {
 			return false;
 		}
 		return true;
-	}	
+	}
 
 }

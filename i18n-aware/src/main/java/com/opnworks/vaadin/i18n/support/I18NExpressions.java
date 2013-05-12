@@ -10,39 +10,44 @@ import com.opnworks.vaadin.i18n.I18NServiceSingleton;
 public class I18NExpressions {
 
 	private Object[] objectList;
-	
+
+	public I18NExpressions(Object... objects) {
+		objectList = objects;
+	}
+
 	public void setObjectlist(Object[] objectList) {
 		this.objectList = objectList;
 	}
-	
+
 	public Object[] getObjectlist() {
 		return objectList;
 	}
-	
+
 	public String getStringFinal() {
 		return getStringFromBinaryExpr();
 	}
-	
+
 	public String getStringFromBinaryExpr() {
 		if (objectList == null) {
 			return null;
-		} else {
-			String stringFinal = "";	
-			
-			for (Object obj : objectList) {
-				if (obj != "") {					
+		}
+		else {
+			String stringFinal = "";
+
+			for (Object obj : objectList ) {
+				if (obj != "") {
 					if (isKey(obj.toString())) {
 						stringFinal = stringFinal + I18NServiceSingleton.getInstance().getI18NServive().getMessage(obj.toString());
-					} else {
+					}
+					else {
 						stringFinal = stringFinal + obj.toString();
-					}					
+					}
 				}
 			}
-			
 			return stringFinal;
 		}
 	}
-	
+
 	public static boolean isKey(String key) {
 		if (key == null) {
 			return false;
@@ -50,9 +55,9 @@ public class I18NExpressions {
 		if (key.contains(" ")) {
 			return false;
 		}
-		if ( !(key.contains("_") || key.contains(".")) ) {
+		if (!(key.contains("_") || key.contains("."))) {
 			return false;
 		}
 		return true;
-	}	
+	}
 }

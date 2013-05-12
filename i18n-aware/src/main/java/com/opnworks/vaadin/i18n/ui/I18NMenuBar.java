@@ -13,9 +13,7 @@ import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
-import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.AwareValueContainer;
-import com.opnworks.vaadin.i18n.support.I18NExpressions;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.MenuBar;
 
@@ -27,7 +25,7 @@ import com.vaadin.ui.MenuBar;
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
 public class I18NMenuBar extends MenuBar implements I18NAwareComponentExpression, I18NAwareCaption {
-	
+
 	public class I18NMenuItem extends MenuItem implements I18NAware {
 
 		private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();
@@ -297,14 +295,7 @@ public class I18NMenuBar extends MenuBar implements I18NAwareComponentExpression
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	@Override
@@ -314,12 +305,7 @@ public class I18NMenuBar extends MenuBar implements I18NAwareComponentExpression
 
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setDescriptionMessage(i18NExpressions);
-		} else {
-			setDescriptionMessage(descriptionKey);
-		}
+		setDescriptionMessage(descriptionKey);
 	}
 
 	@Override
@@ -343,15 +329,15 @@ public class I18NMenuBar extends MenuBar implements I18NAwareComponentExpression
 	}
 
 	@Override
-	public void setCaptionMessage(I18NExpressions expressions, Object... valueParams) {
-		getI18NAwareComponentExpressionSupport().setCaptionMessage(expressions, valueParams);		
+	public void setCaptionMessage(Object... expression) {
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(I18NExpressions expressions, Object... valueParams) {
-		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expressions, valueParams);		
+	public void setDescriptionMessage(Object... expression) {
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
-	
+
 	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
 
 		if (i18NAwareComponentExpressionSupport == null) {
@@ -361,8 +347,4 @@ public class I18NMenuBar extends MenuBar implements I18NAwareComponentExpression
 		return i18NAwareComponentExpressionSupport;
 	}
 
-	@Override
-	public void setStringVarMessage(String captionKey, Object... params) {
-		getI18NAwareComponentExpressionSupport().setStringVarMessage(captionKey, params);		
-	}
 }

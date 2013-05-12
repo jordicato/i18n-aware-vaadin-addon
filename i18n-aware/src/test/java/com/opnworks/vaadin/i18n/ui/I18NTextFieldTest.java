@@ -90,7 +90,7 @@ public class I18NTextFieldTest extends AbstractI18NTest {
 			}
 		});
 	}
-	
+
 	@Test
 	public void testsetRequiredErrorMessage() {
 

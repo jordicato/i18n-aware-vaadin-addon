@@ -9,8 +9,6 @@ import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
-import com.opnworks.vaadin.i18n.support.I18NExpressions;
-import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.vaadin.data.Property;
 import com.vaadin.ui.InlineDateField;
 
@@ -25,7 +23,7 @@ public class I18NInlineDateField extends InlineDateField implements I18NAwareFie
 
 	private I18NAwareFieldSupport<Date> i18NAwareFieldSupport;
 	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
-	
+
 	/**
 	 * Constructs an empty i18n <code>I18NInlineDateField</code> with no caption.
 	 */
@@ -50,14 +48,7 @@ public class I18NInlineDateField extends InlineDateField implements I18NAwareFie
 	 */
 	public I18NInlineDateField(@I18NAwareMessage String captionKey) {
 		super(captionKey);
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	/**
@@ -69,14 +60,7 @@ public class I18NInlineDateField extends InlineDateField implements I18NAwareFie
 	 */
 	public I18NInlineDateField(@I18NAwareMessage String captionKey, Date value) {
 		super(captionKey, value);
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	/**
@@ -88,14 +72,7 @@ public class I18NInlineDateField extends InlineDateField implements I18NAwareFie
 	 */
 	public I18NInlineDateField(@I18NAwareMessage String captionKey, Property<?> dataSource) {
 		super(captionKey, dataSource);
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	@Override
@@ -108,14 +85,7 @@ public class I18NInlineDateField extends InlineDateField implements I18NAwareFie
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	@Override
@@ -125,12 +95,7 @@ public class I18NInlineDateField extends InlineDateField implements I18NAwareFie
 
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setDescriptionMessage(i18NExpressions);
-		} else {
-			setDescriptionMessage(descriptionKey);
-		}
+		setDescriptionMessage(descriptionKey);
 	}
 
 	@Override
@@ -173,15 +138,15 @@ public class I18NInlineDateField extends InlineDateField implements I18NAwareFie
 	}
 
 	@Override
-	public void setCaptionMessage(I18NExpressions expressions, Object... valueParams) {
-		getI18NAwareComponentExpressionSupport().setCaptionMessage(expressions, valueParams);		
+	public void setCaptionMessage(Object... expression) {
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(I18NExpressions expressions, Object... valueParams) {
-		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expressions, valueParams);		
+	public void setDescriptionMessage(Object... expression) {
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
-	
+
 	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
 
 		if (i18NAwareComponentExpressionSupport == null) {
@@ -191,8 +156,4 @@ public class I18NInlineDateField extends InlineDateField implements I18NAwareFie
 		return i18NAwareComponentExpressionSupport;
 	}
 
-	@Override
-	public void setStringVarMessage(String captionKey, Object... params) {
-		getI18NAwareComponentExpressionSupport().setStringVarMessage(captionKey, params);	
-	}
 }

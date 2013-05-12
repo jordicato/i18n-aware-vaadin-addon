@@ -10,7 +10,6 @@ import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareExpressionSupport.AwareExpressionContainer;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport;
-import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport.CaptionContainer;
 import com.opnworks.vaadin.i18n.support.I18NExpressions;
 import com.vaadin.ui.Upload;
@@ -27,13 +26,13 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 
-	private I18NAwareExpressionSupport buttonExpressionCaptionI18NCaptionSupport = new I18NAwareExpressionSupport(new AwareExpressionContainer() {		
+	private I18NAwareExpressionSupport buttonExpressionCaptionI18NCaptionSupport = new I18NAwareExpressionSupport(new AwareExpressionContainer() {
 		@Override
 		public void setValue(String value) {
-			setButtonRealCaption(value);			
+			setButtonRealCaption(value);
 		}
 	});
-	
+
 	private I18NCaptionSupport buttonCaptionI18NCaptionSupport = new I18NCaptionSupport(new CaptionContainer() {
 		@Override
 		public void setRealCaption(String caption) {
@@ -57,14 +56,7 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 	 */
 	public I18NUpload(@I18NAwareMessage String captionKey, Receiver receiver) {
 		super(captionKey, receiver);
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	@Override
@@ -76,36 +68,24 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 
 	@Override
 	public void setButtonCaption(@I18NAwareMessage String buttonCaptionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {	
-			setButtonCaptionMessage(i18NExpressions);
-		} else {
-			setButtonCaptionMessage(buttonCaptionKey);
-		}
+		setButtonCaptionMessage(buttonCaptionKey);
 	}
 
 	public void setButtonCaptionMessage(@I18NAwareMessage String buttonCaptionKey, Object... buttonCaptionParams) {
-		buttonCaptionI18NCaptionSupport.setCaptionMessage(buttonCaptionKey, buttonCaptionParams);		
+		buttonCaptionI18NCaptionSupport.setCaptionMessage(buttonCaptionKey, buttonCaptionParams);
 	}
 
 	public void setButtonCaptionMessage(I18NExpressions expressions, Object... buttonCaptionParams) {
-		buttonExpressionCaptionI18NCaptionSupport.setCaptionMessage(expressions, buttonCaptionParams);		
+		buttonExpressionCaptionI18NCaptionSupport.setCaptionMessage(expressions, buttonCaptionParams);
 	}
-	
+
 	public void setButtonRealCaption(String buttonCaption) {
 		super.setButtonCaption(buttonCaption);
 	}
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	@Override
@@ -115,12 +95,7 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setDescriptionMessage(i18NExpressions);
-		} else {
-			setDescriptionMessage(descriptionKey);
-		}
+		setDescriptionMessage(descriptionKey);
 	}
 
 	@Override
@@ -148,15 +123,15 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 	}
 
 	@Override
-	public void setCaptionMessage(I18NExpressions expressions, Object... valueParams) {
-		getI18NAwareComponentExpressionSupport().setCaptionMessage(expressions, valueParams);		
+	public void setCaptionMessage(Object... expression) {
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(I18NExpressions expressions, Object... valueParams) {
-		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expressions, valueParams);		
+	public void setDescriptionMessage(Object... expression) {
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
-	
+
 	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
 
 		if (i18NAwareComponentExpressionSupport == null) {
@@ -166,8 +141,4 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 		return i18NAwareComponentExpressionSupport;
 	}
 
-	@Override
-	public void setStringVarMessage(String captionKey, Object... params) {
-		getI18NAwareComponentExpressionSupport().setStringVarMessage(captionKey, params);		
-	}
 }

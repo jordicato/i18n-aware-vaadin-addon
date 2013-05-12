@@ -3,27 +3,31 @@ package com.opnworks.vaadin.i18n.support;
 import java.io.Serializable;
 import java.util.Locale;
 
-import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
-import com.opnworks.vaadin.i18n.I18NAwareExpression;
+import com.opnworks.vaadin.i18n.I18NAwareComponentValueExpression;
+import com.opnworks.vaadin.i18n.I18NAwareValueExpression;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareExpressionSupport.AwareExpressionContainer;
 import com.opnworks.vaadin.i18n.support.I18NExpressionSupport.ExpressionContainer;
+import com.opnworks.vaadin.i18n.support.I18NValueExpressionSupport.ValueExpressionContainer;
 
-/**
- * The I18NAwareComponentExpressionSupport
- * 
- * @author Sandy Rodriguez Garcia ( OpnWorks )
- */
-public class I18NAwareComponentExpressionSupport implements Serializable, I18NAwareExpression {
+public class I18NAwareComponentValueExpressionSupport implements Serializable, I18NAwareValueExpression {
 
-	private static final long serialVersionUID = 6366729672586015894L;
+	private static final long serialVersionUID = 7478489345554644052L;
 
-	private I18NAwareComponentExpression originalComponent;
+	private I18NAwareComponentValueExpression originalComponent;
 
 	private I18NExpressionSupport i18NExpressionSupport = new I18NExpressionSupport(new ExpressionContainer() {
 		@Override
 		public void setRealCaption(String caption) {
 			originalComponent.setRealCaption(caption);
+		}
+	});
+
+	private I18NValueExpressionSupport i18NValueExpressionSupport = new I18NValueExpressionSupport(new ValueExpressionContainer() {
+
+		@Override
+		public void setRealValue(String value) {
+			originalComponent.setRealValue(value);
 		}
 	});
 
@@ -35,7 +39,7 @@ public class I18NAwareComponentExpressionSupport implements Serializable, I18NAw
 		}
 	});
 
-	public I18NAwareComponentExpressionSupport(I18NAwareComponentExpression originalComponent) {
+	public I18NAwareComponentValueExpressionSupport(I18NAwareComponentValueExpression originalComponent) {
 		this.originalComponent = originalComponent;
 	}
 
@@ -50,6 +54,7 @@ public class I18NAwareComponentExpressionSupport implements Serializable, I18NAw
 
 		i18NExpressionSupport.i18NUpdate(i18N);
 		descriptionI18NSupport.i18NUpdate(i18N);
+		i18NValueExpressionSupport.i18NUpdate(i18N);
 	}
 
 	@Override
@@ -79,5 +84,10 @@ public class I18NAwareComponentExpressionSupport implements Serializable, I18NAw
 	@Override
 	public void setRealDescription(String description) {
 		originalComponent.setRealDescription(description);
+	}
+
+	@Override
+	public void setValueMessage(Object... expression) {
+		i18NValueExpressionSupport.setValueMessage(expression);
 	}
 }

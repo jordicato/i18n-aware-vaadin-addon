@@ -8,7 +8,7 @@ package com.opnworks.vaadin.i18n;
 public interface I18NAwareComponentValue extends I18NAwareComponent, I18NAwareValue {
 
 	void setValue(String value);
-	
+
 	void setRealValue(String value);
 
 }

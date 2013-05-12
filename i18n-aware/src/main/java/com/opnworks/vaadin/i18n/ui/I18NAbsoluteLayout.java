@@ -8,8 +8,6 @@ import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
-import com.opnworks.vaadin.i18n.support.I18NExpressions;
-import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Component;
 
@@ -23,7 +21,8 @@ import com.vaadin.ui.Component;
 public class I18NAbsoluteLayout extends AbsoluteLayout implements I18NAwareLayout, I18NAwareComponentExpression {
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
-	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport = new I18NAwareComponentExpressionSupport((I18NAwareComponentExpression) this);
+	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport = new I18NAwareComponentExpressionSupport(
+			(I18NAwareComponentExpression) this);
 	private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();
 
 	@Override
@@ -46,14 +45,7 @@ public class I18NAbsoluteLayout extends AbsoluteLayout implements I18NAwareLayou
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	@Override
@@ -63,12 +55,7 @@ public class I18NAbsoluteLayout extends AbsoluteLayout implements I18NAwareLayou
 
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setDescriptionMessage(i18NExpressions);
-		} else {
-			setDescriptionMessage(descriptionKey);
-		}		
+		setDescriptionMessage(descriptionKey);
 	}
 
 	@Override
@@ -87,18 +74,13 @@ public class I18NAbsoluteLayout extends AbsoluteLayout implements I18NAwareLayou
 	}
 
 	@Override
-	public void setCaptionMessage(I18NExpressions expressions, Object... valueParams) {
-		i18NAwareComponentExpressionSupport.setCaptionMessage(expressions, valueParams);
+	public void setCaptionMessage(Object... expression) {
+		i18NAwareComponentExpressionSupport.setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(I18NExpressions expressions, Object... valueParams) {
-		i18NAwareComponentExpressionSupport.setDescriptionMessage(expressions, valueParams);
+	public void setDescriptionMessage(Object... expression) {
+		i18NAwareComponentExpressionSupport.setDescriptionMessage(expression);
 	}
 
-	@Override
-	public void setStringVarMessage(String captionKey, Object... params) {
-		i18NAwareComponentExpressionSupport.setStringVarMessage(captionKey, params);	
-	}
-	
 }

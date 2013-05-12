@@ -8,8 +8,6 @@ import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentAltTextSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
-import com.opnworks.vaadin.i18n.support.I18NExpressions;
-import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Image;
 
@@ -43,14 +41,7 @@ public class I18NImage extends Image implements I18NAwareComponentExpression, I1
 	 */
 	public I18NImage(@I18NAwareMessage String captionKey) {
 		super(captionKey);
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	/**
@@ -63,14 +54,7 @@ public class I18NImage extends Image implements I18NAwareComponentExpression, I1
 	 */
 	public I18NImage(@I18NAwareMessage String captionKey, Resource resource) {
 		super(captionKey, resource);
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	@Override
@@ -81,14 +65,7 @@ public class I18NImage extends Image implements I18NAwareComponentExpression, I1
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	@Override
@@ -98,12 +75,7 @@ public class I18NImage extends Image implements I18NAwareComponentExpression, I1
 
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setDescriptionMessage(i18NExpressions);
-		} else {
-			setDescriptionMessage(descriptionKey);
-		}
+		setDescriptionMessage(descriptionKey);
 	}
 
 	@Override
@@ -114,8 +86,8 @@ public class I18NImage extends Image implements I18NAwareComponentExpression, I1
 	@Override
 	public void setAlternateText(@I18NAwareMessage String altTextKey) {
 		setAltTextMessage(altTextKey);
-	}	
-	
+	}
+
 	@Override
 	public void setAltTextMessage(String altTextKey, Object... params) {
 		getI18NAwareComponentAltTextSupport().setAltTextMessage(altTextKey, params);
@@ -155,15 +127,15 @@ public class I18NImage extends Image implements I18NAwareComponentExpression, I1
 	}
 
 	@Override
-	public void setCaptionMessage(I18NExpressions expressions, Object... valueParams) {
-		getI18NAwareComponentExpressionSupport().setCaptionMessage(expressions, valueParams);		
+	public void setCaptionMessage(Object... expression) {
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(I18NExpressions expressions, Object... valueParams) {
-		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expressions, valueParams);		
+	public void setDescriptionMessage(Object... expression) {
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
-	
+
 	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
 
 		if (i18NAwareComponentExpressionSupport == null) {
@@ -173,8 +145,4 @@ public class I18NImage extends Image implements I18NAwareComponentExpression, I1
 		return i18NAwareComponentExpressionSupport;
 	}
 
-	@Override
-	public void setStringVarMessage(String captionKey, Object... params) {
-		getI18NAwareComponentExpressionSupport().setStringVarMessage(captionKey, params);		
-	}
 }

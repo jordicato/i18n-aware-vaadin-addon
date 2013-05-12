@@ -8,7 +8,7 @@ package com.opnworks.vaadin.i18n;
 public interface I18NAwareComponentExpression extends I18NAwareComponent, I18NAwareExpression {
 
 	void setCaption(String value);
-	
+
 	void setRealCaption(String value);
 
 }

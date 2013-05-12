@@ -10,8 +10,6 @@ import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
-import com.opnworks.vaadin.i18n.support.I18NExpressions;
-import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.PopupView;
 
@@ -95,7 +93,7 @@ public class I18NPopupView extends PopupView implements I18NAwareComponentExpres
 
 	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
-	
+
 	/**
 	 * A simple way to create a PopupPanel. Note that the minimal representation may not be dynamically updated, in order to achieve this create your
 	 * own Content object and use {@link PopupView#PopupView(Content)}.
@@ -104,29 +102,29 @@ public class I18NPopupView extends PopupView implements I18NAwareComponentExpres
 	 *            the minimal textual representation as HTML
 	 * @param large
 	 *            the full, Component-type representation
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 */
 
 	static Content content = new Content() {
-		
+
 		@Override
 		public Component getPopupComponent() {
 			// TODO Auto-generated method stub
 			return null;
 		}
-		
+
 		@Override
 		public String getMinimizedValueAsHTML() {
 			// TODO Auto-generated method stub
 			return null;
 		}
 	};
-	
+
 	public I18NPopupView() {
 		super(content);
 	}
-	
+
 	public I18NPopupView(final java.lang.String small, final Component large) {
 		super(small, large);
 	}
@@ -147,7 +145,7 @@ public class I18NPopupView extends PopupView implements I18NAwareComponentExpres
 		i18NAwareComponentCaptionSupport.i18NUpdate(i18nService);
 
 		getI18NAwareComponentExpressionSupport().i18NUpdate(i18nService);
-		
+
 		PopupView.Content content = getContent();
 
 		if (content instanceof I18NAware) {
@@ -163,14 +161,7 @@ public class I18NPopupView extends PopupView implements I18NAwareComponentExpres
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	@Override
@@ -180,12 +171,7 @@ public class I18NPopupView extends PopupView implements I18NAwareComponentExpres
 
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setDescriptionMessage(i18NExpressions);
-		} else {
-			setDescriptionMessage(descriptionKey);
-		}
+		setDescriptionMessage(descriptionKey);
 	}
 
 	@Override
@@ -204,15 +190,15 @@ public class I18NPopupView extends PopupView implements I18NAwareComponentExpres
 	}
 
 	@Override
-	public void setCaptionMessage(I18NExpressions expressions, Object... valueParams) {
-		getI18NAwareComponentExpressionSupport().setCaptionMessage(expressions, valueParams);		
+	public void setCaptionMessage(Object... expression) {
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(I18NExpressions expressions, Object... valueParams) {
-		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expressions, valueParams);		
+	public void setDescriptionMessage(Object... expression) {
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
-	
+
 	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
 
 		if (i18NAwareComponentExpressionSupport == null) {
@@ -222,8 +208,4 @@ public class I18NPopupView extends PopupView implements I18NAwareComponentExpres
 		return i18NAwareComponentExpressionSupport;
 	}
 
-	@Override
-	public void setStringVarMessage(String captionKey, Object... params) {
-		getI18NAwareComponentExpressionSupport().setStringVarMessage(captionKey, params);		
-	}
 }

@@ -2,6 +2,7 @@ package com.opnworks.vaadin.i18n.support;
 
 import com.opnworks.vaadin.i18n.I18NAwareAltText;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
+
 /**
  * The I18NAwareAltText Support
  * 
@@ -14,9 +15,9 @@ public class I18NAltTextSupport extends I18NAwareValueSupport implements I18NAwa
 	public interface AltTextContainer {
 		void setRealAltText(String altText);
 	}
-	
+
 	public I18NAltTextSupport(final AltTextContainer altTextContainer) {
-		super(new AwareValueContainer() {			
+		super(new AwareValueContainer() {
 			@Override
 			public void setValue(String value) {
 				altTextContainer.setRealAltText(value);

@@ -7,7 +7,6 @@ import com.opnworks.vaadin.i18n.I18NAwareComponentValue;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NAwareValue;
 import com.opnworks.vaadin.i18n.I18NService;
-import com.opnworks.vaadin.i18n.support.I18NValueSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.AwareValueContainer;
 import com.opnworks.vaadin.i18n.support.I18NValueSupport.ValueContainer;
 
@@ -22,17 +21,17 @@ public class I18NAwareComponentValueSupport implements Serializable, I18NAwareVa
 	 */
 	private static final long serialVersionUID = 8232080295463303716L;
 
-	private I18NAwareComponentValue originalComponent;	
+	private I18NAwareComponentValue originalComponent;
 
-	private I18NValueSupport i18NValueSupport = new I18NValueSupport(new ValueContainer() {		
+	private I18NValueSupport i18NValueSupport = new I18NValueSupport(new ValueContainer() {
 		@Override
 		public void setRealValue(String value) {
 			originalComponent.setRealValue(value);
 		}
 	});
-	
+
 	private I18NAwareValueSupport descriptionI18NSupport = new I18NAwareValueSupport(new AwareValueContainer() {
-		
+
 		@Override
 		public void setValue(String value) {
 			originalComponent.setRealDescription(value);
@@ -53,7 +52,7 @@ public class I18NAwareComponentValueSupport implements Serializable, I18NAwareVa
 
 		originalComponent.setLocale(i18N.getLocale());
 
-		i18NValueSupport.i18NUpdate(i18N);	
+		i18NValueSupport.i18NUpdate(i18N);
 	}
 
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {

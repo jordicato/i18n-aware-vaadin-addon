@@ -6,7 +6,7 @@ import java.util.Locale;
 import com.opnworks.vaadin.i18n.I18NAwareAltText;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
-import com.opnworks.vaadin.i18n.support.I18NAltTextSupport.AltTextContainer;;
+import com.opnworks.vaadin.i18n.support.I18NAltTextSupport.AltTextContainer;
 
 /**
  * The I18NAwareComponentAltText
@@ -19,7 +19,7 @@ public class I18NAwareComponentAltTextSupport implements Serializable, I18NAware
 
 	private I18NAwareAltText component;
 
-	private I18NAltTextSupport i18NAltTextSupport = new I18NAltTextSupport(new AltTextContainer() {		
+	private I18NAltTextSupport i18NAltTextSupport = new I18NAltTextSupport(new AltTextContainer() {
 		@Override
 		public void setRealAltText(String altText) {
 			component.setRealAltText(altText);

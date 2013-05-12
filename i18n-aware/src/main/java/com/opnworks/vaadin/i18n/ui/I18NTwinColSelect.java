@@ -8,9 +8,7 @@ import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport;
-import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport.CaptionContainer;
-import com.opnworks.vaadin.i18n.support.I18NExpressions;
 import com.vaadin.data.Container;
 import com.vaadin.ui.TwinColSelect;
 
@@ -24,7 +22,7 @@ import com.vaadin.ui.TwinColSelect;
 public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField<Object>, I18NAwareComponentExpression {
 
 	private I18NAwareFieldSupport<Object> i18NAwareFieldSupport;
-	
+
 	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 
 	private I18NCaptionSupport leftColumnCaptionSupport;
@@ -45,14 +43,7 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField<O
 	 */
 	public I18NTwinColSelect(@I18NAwareMessage String captionKey) {
 		super(captionKey);
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	/**
@@ -63,14 +54,7 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField<O
 	 */
 	public I18NTwinColSelect(@I18NAwareMessage String captionKey, Container dataSource) {
 		super(captionKey, dataSource);
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	@Override
@@ -83,14 +67,7 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField<O
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	@Override
@@ -100,12 +77,7 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField<O
 
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setDescriptionMessage(i18NExpressions);
-		} else {
-			setDescriptionMessage(descriptionKey);
-		}
+		setDescriptionMessage(descriptionKey);
 	}
 
 	@Override
@@ -202,15 +174,15 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField<O
 	}
 
 	@Override
-	public void setCaptionMessage(I18NExpressions expressions, Object... valueParams) {
-		getI18NAwareComponentExpressionSupport().setCaptionMessage(expressions, valueParams);		
+	public void setCaptionMessage(Object... expression) {
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(I18NExpressions expressions, Object... valueParams) {
-		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expressions, valueParams);		
+	public void setDescriptionMessage(Object... expression) {
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
-	
+
 	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
 
 		if (i18NAwareComponentExpressionSupport == null) {
@@ -220,8 +192,4 @@ public class I18NTwinColSelect extends TwinColSelect implements I18NAwareField<O
 		return i18NAwareComponentExpressionSupport;
 	}
 
-	@Override
-	public void setStringVarMessage(String captionKey, Object... params) {
-		getI18NAwareComponentExpressionSupport().setStringVarMessage(captionKey, params);		
-	}
 }

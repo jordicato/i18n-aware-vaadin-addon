@@ -9,8 +9,6 @@ import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldValueSupport;
-import com.opnworks.vaadin.i18n.support.I18NExpressions;
-import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.vaadin.data.Property;
 import com.vaadin.ui.RichTextArea;
 
@@ -21,7 +19,8 @@ import com.vaadin.ui.RichTextArea;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NRichTextArea extends RichTextArea implements I18NAwareFieldValue<String>, I18NAwareComponentExpression, I18NAwareComponentValue, I18NAwareValue {
+public class I18NRichTextArea extends RichTextArea implements I18NAwareFieldValue<String>, I18NAwareComponentExpression, I18NAwareComponentValue,
+		I18NAwareValue {
 
 	private I18NAwareFieldValueSupport<String> i18NAwareFieldValueSupport;
 	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
@@ -52,14 +51,7 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareFieldValu
 	 */
 	public I18NRichTextArea(@I18NAwareMessage String captionKey) {
 		super(captionKey);
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	/**
@@ -72,14 +64,7 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareFieldValu
 	 */
 	public I18NRichTextArea(@I18NAwareMessage String captionKey, Property<?> dataSource) {
 		super(captionKey, dataSource);
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	/**
@@ -92,14 +77,7 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareFieldValu
 	 */
 	public I18NRichTextArea(@I18NAwareMessage String captionKey, String value) {
 		super(captionKey, value);
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	@Override
@@ -110,14 +88,7 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareFieldValu
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setCaptionMessage(i18NExpressions);
-		} else if (!I18NExpressions.isKey(captionKey)) {
-			setStringVarMessage(captionKey);
-		} else {		
-			setCaptionMessage(captionKey);
-		}
+		setCaptionMessage(captionKey);
 	}
 
 	@Override
@@ -127,12 +98,7 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareFieldValu
 
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
-		I18NExpressions i18NExpressions = I18NSupportExpression.getInstance().getI18NExpressions();
-		if (i18NExpressions != null) {			
-			setDescriptionMessage(i18NExpressions);
-		} else {
-			setDescriptionMessage(descriptionKey);
-		}
+		setDescriptionMessage(descriptionKey);
 	}
 
 	@Override
@@ -146,17 +112,17 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareFieldValu
 			setValueMessage(value);
 		}
 	}
-	
+
 	@Override
 	public void setValueMessage(@I18NAwareMessage String valueKey, Object... valueParams) {
 		getI18NAwareFieldValueSupport().setValueMessage(valueKey, valueParams);
 	}
-	
+
 	@Override
 	public void setRealValue(String value) {
 		super.setValue(value);
 	}
-	
+
 	@Override
 	public void setRealCaption(String caption) {
 		super.setCaption(caption);
@@ -192,15 +158,15 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareFieldValu
 	}
 
 	@Override
-	public void setCaptionMessage(I18NExpressions expressions, Object... valueParams) {
-		getI18NAwareComponentExpressionSupport().setCaptionMessage(expressions, valueParams);		
+	public void setCaptionMessage(Object... expression) {
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(I18NExpressions expressions, Object... valueParams) {
-		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expressions, valueParams);		
+	public void setDescriptionMessage(Object... expression) {
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
-	
+
 	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
 
 		if (i18NAwareComponentExpressionSupport == null) {
@@ -210,8 +176,4 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareFieldValu
 		return i18NAwareComponentExpressionSupport;
 	}
 
-	@Override
-	public void setStringVarMessage(String captionKey, Object... params) {
-		getI18NAwareComponentExpressionSupport().setStringVarMessage(captionKey, params);		
-	}
 }
