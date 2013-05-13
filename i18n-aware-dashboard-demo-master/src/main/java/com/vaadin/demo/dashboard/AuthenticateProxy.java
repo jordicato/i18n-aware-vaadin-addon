@@ -8,7 +8,9 @@ import java.io.InputStream;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.util.Properties;
+
 import org.apache.commons.io.IOUtils;
+
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.util.CurrentInstance;
 

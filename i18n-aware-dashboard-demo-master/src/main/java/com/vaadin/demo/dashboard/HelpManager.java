@@ -2,6 +2,7 @@ package com.vaadin.demo.dashboard;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.vaadin.navigator.View;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;

@@ -1,8 +1,5 @@
 package com.vaadin.demo.dashboard;
 
-import java.text.DecimalFormat;
-import com.opnworks.vaadin.i18n.I18NService;
-import com.vaadin.data.Property;
 import com.vaadin.demo.dashboard.data.DataProvider;
 import com.vaadin.demo.dashboard.data.Generator;
 import com.vaadin.event.LayoutEvents.LayoutClickEvent;

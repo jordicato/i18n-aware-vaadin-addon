@@ -6,7 +6,6 @@ import java.util.Locale;
 
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.I18NServiceSingleton;
-import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -123,14 +122,14 @@ public class DashboardUI extends UI {
         labels.setMargin(true);
         labels.addStyleName("labels");
         loginPanel.addComponent(labels);
-        String LB = I18NSupportExpression.getInstance().registerLiteral("Welcome", "com.vaadin.demo.dashboard.DashboardUI.Welcome");
-        Label welcome = new Label(LB);
+        //String LB = I18NSupportExpression.getInstance().registerLiteral("Welcome", "com.vaadin.demo.dashboard.DashboardUI.Welcome");
+        Label welcome = new Label("com.vaadin.demo.dashboard.DashboardUI.Welcome");
         welcome.setSizeUndefined();
         welcome.addStyleName("h4");
-        LB = I18NSupportExpression.getInstance().registerLiteral("Welcome", "com.vaadin.demo.dashboard.DashboardUI.Welcome_1");
+        //LB = I18NSupportExpression.getInstance().registerLiteral("Welcome", "com.vaadin.demo.dashboard.DashboardUI.Welcome_1");
         labels.addComponent(welcome);
-        LB = I18NSupportExpression.getInstance().registerLiteral("QuickTickets Dashboard", "com.vaadin.demo.dashboard.DashboardUI.QuickTickets_Dashboard");
-        Label title = new Label(LB);
+        //LB = I18NSupportExpression.getInstance().registerLiteral("QuickTickets Dashboard", "com.vaadin.demo.dashboard.DashboardUI.QuickTickets_Dashboard");
+        Label title = new Label("com.vaadin.demo.dashboard.DashboardUI.QuickTickets_Dashboard");
         title.setSizeUndefined();
         title.addStyleName("h2");
         title.addStyleName("light");
@@ -140,8 +139,8 @@ public class DashboardUI extends UI {
         fields.setSpacing(true);
         fields.setMargin(true);
         fields.addStyleName("fields");
-        LB = I18NSupportExpression.getInstance().registerLiteral("Username", "com.vaadin.demo.dashboard.DashboardUI.Username");
-        final TextField username = new TextField(LB);
+        //LB = I18NSupportExpression.getInstance().registerLiteral("Username", "com.vaadin.demo.dashboard.DashboardUI.Username");
+        final TextField username = new TextField("com.vaadin.demo.dashboard.DashboardUI.Username");
         username.focus();
         fields.addComponent(username);
         final PasswordField password = new PasswordField("com.vaadin.demo.dashboard.DashboardUI.Password");
