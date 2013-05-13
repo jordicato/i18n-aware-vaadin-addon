@@ -3,6 +3,7 @@ package com.vaadin.demo.dashboard.data;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 

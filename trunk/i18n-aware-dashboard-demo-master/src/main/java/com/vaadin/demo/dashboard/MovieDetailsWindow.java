@@ -1,7 +1,9 @@
 package com.vaadin.demo.dashboard;
 
 import java.text.SimpleDateFormat;
-import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
+
+import com.opnworks.vaadin.i18n.support.I18NExpression;
+import com.opnworks.vaadin.i18n.ui.I18NLabel;
 import com.vaadin.demo.dashboard.ScheduleView.MovieEvent;
 import com.vaadin.demo.dashboard.data.DataProvider.Movie;
 import com.vaadin.event.ShortcutAction.KeyCode;
@@ -19,13 +21,13 @@ import com.vaadin.ui.DragAndDropWrapper.DragStartMode;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
+@SuppressWarnings("serial")
 public class MovieDetailsWindow extends Window {
 
-    Label synopsis = new Label();
+	I18NLabel synopsis = new I18NLabel();
 
     public MovieDetailsWindow(Movie movie, MovieEvent event) {
         VerticalLayout l = new VerticalLayout();
@@ -74,22 +76,22 @@ public class MovieDetailsWindow extends Window {
         fields.setSpacing(true);
         fields.setMargin(true);
         details.addComponent(fields);
-        Label label;
+        I18NLabel label;
         if (event != null) {
             SimpleDateFormat df = new SimpleDateFormat();
             df.applyPattern("dd-mm-yyyy");
-            label = new Label(I18NSupportExpression.getInstance().registerBinaryExpression("com.vaadin.demo.dashboard.MovieDetailsWindow.Date", ": ", df.format(event.start)));
+            label = new I18NLabel(new I18NExpression("com.vaadin.demo.dashboard.MovieDetailsWindow.Date", ": ", df.format(event.start)));
             label.setSizeUndefined();
             fields.addComponent(label);
             df.applyPattern("hh:mm a");
-            label = new Label(I18NSupportExpression.getInstance().registerBinaryExpression("com.vaadin.demo.dashboard.MovieDetailsWindow.Starts", ": ", df.format(event.start)));
+            label = new I18NLabel(new I18NExpression("com.vaadin.demo.dashboard.MovieDetailsWindow.Starts", ": ", df.format(event.start)));
             label.setSizeUndefined();
             fields.addComponent(label);
-            label = new Label(I18NSupportExpression.getInstance().registerBinaryExpression("com.vaadin.demo.dashboard.MovieDetailsWindow.Ends", ": ", df.format(event.end)));
+            label = new I18NLabel(new I18NExpression("com.vaadin.demo.dashboard.MovieDetailsWindow.Ends", ": ", df.format(event.end)));
             label.setSizeUndefined();
             fields.addComponent(label);
         }
-        label = new Label(I18NSupportExpression.getInstance().registerBinaryExpression("com.vaadin.demo.dashboard.MovieDetailsWindow.Duration", ": ", movie.duration, "com.vaadin.demo.dashboard.MovieDetailsWindow.minutes"));
+        label = new I18NLabel(new I18NExpression("com.vaadin.demo.dashboard.MovieDetailsWindow.Duration", ": ", movie.duration, "com.vaadin.demo.dashboard.MovieDetailsWindow.minutes"));
         label.setSizeUndefined();
         fields.addComponent(label);
         synopsis.setData(movie.synopsis);

@@ -6,7 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
-import com.opnworks.vaadin.i18n.support.I18NSupportExpression;
+
+import com.opnworks.vaadin.i18n.ui.I18NHorizontalLayout;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.demo.dashboard.data.Generator;
@@ -227,7 +228,7 @@ public class ReportsView extends HorizontalLayout implements View {
             helpManager.addOverlay("Palette", "Drag the items from the palette onto the canvas", "palette");
             helpManager.addOverlay("Re-order", "Drag the items on the canvas to re-order them", "reorder").center();
         }
-        HorizontalLayout editor = new HorizontalLayout();
+        I18NHorizontalLayout editor = new I18NHorizontalLayout();
         editor.setSizeFull();
         if (which == 1) {
             editor.setCaption("com.vaadin.demo.dashboard.ReportsView.Monthly_revenue");
@@ -236,7 +237,7 @@ public class ReportsView extends HorizontalLayout implements View {
         } else {
             SimpleDateFormat df = new SimpleDateFormat();
             df.applyPattern("M/dd/yyyy");
-            editor.setCaption(I18NSupportExpression.getInstance().registerBinaryExpression("com.vaadin.demo.dashboard.ReportsView.Unnamed_Report", " (", draftCount, ")"));
+            editor.setCaption("com.vaadin.demo.dashboard.ReportsView.Unnamed_Report", " (", draftCount, ")");
         }
         ((DashboardUI) UI.getCurrent()).updateReportsButtonBadge(draftCount + "");
         draftCount++;

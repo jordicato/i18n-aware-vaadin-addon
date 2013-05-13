@@ -3,7 +3,9 @@ package com.vaadin.demo.dashboard;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.vaadin.cssinject.CSSInject;
+
 import com.vaadin.addon.calendar.event.CalendarEvent;
 import com.vaadin.addon.calendar.event.CalendarEventProvider;
 import com.vaadin.addon.calendar.ui.Calendar;
