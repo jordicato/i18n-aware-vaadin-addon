@@ -589,6 +589,5 @@
 		<!--		
 		<module>i18n-aware-sampler</module>
 		-->
-    <module>microsoft-api-translate-java-maven-plugin</module>
   </modules>
 </project>
