@@ -107,7 +107,7 @@ public class DashboardUI extends UI {
             root.removeAllComponents();
         }
         helpManager.closeAll();
-        HelpOverlay w = helpManager.addOverlay("Welcome to the Dashboard Demo Application", "<p>This application is not real, it only demonstrates an application built with the <a href=\"http://vaadin.com\">Vaadin framework</a>.</p><p>No username or password is required, just click the ˜Sign In button to continue. You can try out a random username and password, though.</p>", "login");
+        HelpOverlay w = helpManager.addOverlay("Welcome to the Dashboard Demo Application", "<p>This application is not real, it only demonstrates an application built with the <a href=\"http://vaadin.com\">Vaadin framework</a>.</p><p>No username or password is required, just click the Sign In button to continue. You can try out a random username and password, though.</p>", "login");
         w.center();
         addWindow(w);
         addStyleName("login");
