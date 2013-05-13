@@ -7,11 +7,11 @@ import com.opnworks.vaadin.i18n.I18NServiceSingleton;
  * 
  * @author Sandy Rodriguez Garcia ( OpnWorks )
  */
-public class I18NExpressions {
+public class I18NExpression {
 
 	private Object[] objectList;
 
-	public I18NExpressions(Object... objects) {
+	public I18NExpression(Object... objects) {
 		objectList = objects;
 	}
 

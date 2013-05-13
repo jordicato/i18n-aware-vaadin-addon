@@ -8,7 +8,7 @@ import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentValueExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
-import com.opnworks.vaadin.i18n.support.I18NExpressions;
+import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.vaadin.data.Property;
 import com.vaadin.ui.TextField;
 
@@ -53,19 +53,19 @@ public class I18NTextField extends TextField implements I18NAwareField<String>, 
 		setCaptionMessage(captionKey);
 	}
 
-	public I18NTextField(I18NExpressions captionExpression) {
-		super(captionExpression.getStringFinal());
+	public I18NTextField(I18NExpression captionExpression) {
+		super(captionExpression.getStringFinal());		
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
-	public I18NTextField(I18NExpressions captionExpression, I18NExpressions valueExpression) {
-		super(captionExpression.getStringFinal(), valueExpression.getStringFinal());
+	public I18NTextField(I18NExpression captionExpression, I18NExpression valueExpression) {
+		super(captionExpression.getStringFinal(), valueExpression.getStringFinal());		
 		setCaptionMessage(captionExpression.getObjectlist());
 		setValueMessage(valueExpression.getObjectlist());
 	}
 
-	public I18NTextField(I18NExpressions captionExpression, Property<?> dataSource) {
-		super(captionExpression.getStringFinal(), dataSource);
+	public I18NTextField(I18NExpression captionExpression, Property<?> dataSource) {
+		super(captionExpression.getStringFinal(), dataSource);		
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 

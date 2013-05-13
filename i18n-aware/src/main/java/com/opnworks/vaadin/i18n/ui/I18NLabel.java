@@ -10,7 +10,7 @@ import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.AwareValueContainer;
-import com.opnworks.vaadin.i18n.support.I18NExpressions;
+import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.vaadin.data.Property;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Label;
@@ -47,11 +47,6 @@ public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue
 		super();
 	}
 
-	public I18NLabel(I18NExpressions expressions) {
-		super(expressions.getStringFinal());
-		setCaptionMessage(expressions);
-	}
-
 	/**
 	 * Creates a new instance of I18NLabel with text-contents read from given datasource.
 	 * 
@@ -81,6 +76,11 @@ public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue
 		setCaptionMessage(contentKey);
 	}
 
+	public I18NLabel(I18NExpression expressions) {
+		super(expressions.getStringFinal());
+		setCaptionMessage(expressions.getObjectlist());
+	}
+
 	/**
 	 * Creates a new instance of I18NLabel with text-contents.
 	 * 
@@ -95,6 +95,11 @@ public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue
 		// setCaptionMessage(contentKey);
 	}
 
+	public I18NLabel(I18NExpression captionExpression, ContentMode contentMode) {
+		super(captionExpression.getStringFinal(), contentMode);		
+		setCaptionMessage(captionExpression.getObjectlist());
+	}
+
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 
@@ -107,6 +112,14 @@ public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue
 		if (i18NAwareValueSupport != null) {
 			i18NAwareValueSupport.i18NUpdate(i18N);
 		}
+	}
+
+	public void setCaption(Object... expression) {
+		setCaptionMessage(expression);
+	}
+
+	public void setDescription(Object... expression) {
+		setDescriptionMessage(expression);
 	}
 
 	@Override

@@ -11,7 +11,7 @@ import com.opnworks.vaadin.i18n.support.I18NAwareExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareExpressionSupport.AwareExpressionContainer;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport.CaptionContainer;
-import com.opnworks.vaadin.i18n.support.I18NExpressions;
+import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.vaadin.ui.Upload;
 
 /**
@@ -75,7 +75,7 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 		buttonCaptionI18NCaptionSupport.setCaptionMessage(buttonCaptionKey, buttonCaptionParams);
 	}
 
-	public void setButtonCaptionMessage(I18NExpressions expressions, Object... buttonCaptionParams) {
+	public void setButtonCaptionMessage(I18NExpression expressions, Object... buttonCaptionParams) {
 		buttonExpressionCaptionI18NCaptionSupport.setCaptionMessage(expressions, buttonCaptionParams);
 	}
 

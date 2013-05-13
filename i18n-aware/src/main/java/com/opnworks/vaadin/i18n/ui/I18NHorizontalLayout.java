@@ -37,6 +37,14 @@ public class I18NHorizontalLayout extends HorizontalLayout implements I18NAwareL
 		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
 	}
 
+	public void setCaption(Object... expression) {
+		setCaptionMessage(expression);
+	}
+
+	public void setDescription(Object... expression) {
+		setDescriptionMessage(expression);
+	}
+
 	@Override
 	public void removeComponent(Component c) {
 		super.removeComponent(c);
