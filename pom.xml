@@ -18,6 +18,7 @@
 			<id>public-releases</id>
 			<name>OpnWorks Public Releases</name>
 			<url>http://server01.opnworks.com/nexus/content/repositories/public-releases</url>
+			<layout>default</layout>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
