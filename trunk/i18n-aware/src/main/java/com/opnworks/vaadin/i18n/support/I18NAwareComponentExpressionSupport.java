@@ -4,10 +4,13 @@ import java.io.Serializable;
 import java.util.Locale;
 
 import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
+import com.opnworks.vaadin.i18n.I18NAwareComponentValueExpression;
 import com.opnworks.vaadin.i18n.I18NAwareExpression;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareExpressionSupport.AwareExpressionContainer;
 import com.opnworks.vaadin.i18n.support.I18NExpressionSupport.ExpressionContainer;
+import com.opnworks.vaadin.i18n.support.I18NValueExpressionSupport;
+import com.opnworks.vaadin.i18n.support.I18NValueExpressionSupport.ValueExpressionContainer;;
 
 /**
  * The I18NAwareComponentExpressionSupport
@@ -19,6 +22,7 @@ public class I18NAwareComponentExpressionSupport implements Serializable, I18NAw
 	private static final long serialVersionUID = 6366729672586015894L;
 
 	private I18NAwareComponentExpression originalComponent;
+	private I18NAwareComponentValueExpression originalValueComponent;
 
 	private I18NExpressionSupport i18NExpressionSupport = new I18NExpressionSupport(new ExpressionContainer() {
 		@Override
@@ -35,6 +39,14 @@ public class I18NAwareComponentExpressionSupport implements Serializable, I18NAw
 		}
 	});
 
+	private I18NValueExpressionSupport valueI18NSupport = new I18NValueExpressionSupport(new ValueExpressionContainer() {
+		
+		@Override
+		public void setRealValue(String value) {
+			originalValueComponent.setRealValue(value);
+		}
+	});
+	
 	public I18NAwareComponentExpressionSupport(I18NAwareComponentExpression originalComponent) {
 		this.originalComponent = originalComponent;
 	}
@@ -50,6 +62,7 @@ public class I18NAwareComponentExpressionSupport implements Serializable, I18NAw
 
 		i18NExpressionSupport.i18NUpdate(i18N);
 		descriptionI18NSupport.i18NUpdate(i18N);
+		valueI18NSupport.i18NUpdate(i18N);
 	}
 
 	@Override
@@ -64,6 +77,12 @@ public class I18NAwareComponentExpressionSupport implements Serializable, I18NAw
 
 	public void setDescriptionMessage(Object... expression) {
 		descriptionI18NSupport.setDescriptionMessage(expression);
+	}
+	
+	@Override
+	public void setDescriptionMessage(String descriptionKey, Object... descriptionParams) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override

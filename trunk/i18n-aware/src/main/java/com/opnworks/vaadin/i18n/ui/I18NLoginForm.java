@@ -5,7 +5,6 @@ import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport.CaptionContainer;
@@ -21,7 +20,6 @@ import com.vaadin.ui.LoginForm;
 @Deprecated
 public class I18NLoginForm extends LoginForm implements I18NAwareCaption, I18NAwareComponentExpression {
 
-	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 
 	private I18NCaptionSupport captionSupport = new I18NCaptionSupport(new CaptionContainer() {
@@ -66,6 +64,14 @@ public class I18NLoginForm extends LoginForm implements I18NAwareCaption, I18NAw
 		setCaptionMessage(captionKey);
 	}
 
+	public void setCaption(Object... expression) {
+		setCaptionMessage(expression);
+	}
+
+	public void setDescription(Object... expression) {
+		setDescriptionMessage(expression);
+	}
+
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
@@ -73,7 +79,7 @@ public class I18NLoginForm extends LoginForm implements I18NAwareCaption, I18NAw
 
 	@Override
 	public void setDescriptionMessage(String descriptionKey, Object... descriptionParams) {
-		getI18NAwareComponentCaptionSupport().setDescriptionMessage(descriptionKey, descriptionParams);
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
@@ -113,15 +119,6 @@ public class I18NLoginForm extends LoginForm implements I18NAwareCaption, I18NAw
 
 	public void setUsernameCaptionKey(@I18NAwareMessage String usernameCaptionKey) {
 		usernameCaptionSupport.setCaptionMessage(usernameCaptionKey);
-	}
-
-	private I18NAwareComponentCaptionSupport getI18NAwareComponentCaptionSupport() {
-
-		if (i18NAwareComponentCaptionSupport == null) {
-			i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
-		}
-
-		return i18NAwareComponentCaptionSupport;
 	}
 
 	@Override

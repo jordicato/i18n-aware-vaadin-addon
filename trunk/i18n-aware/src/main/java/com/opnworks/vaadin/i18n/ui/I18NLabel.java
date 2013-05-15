@@ -24,19 +24,9 @@ import com.vaadin.ui.Label;
 @SuppressWarnings("serial")
 public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue, AwareValueContainer, I18NAwareComponentExpression {
 
-	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
-
 	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 
 	private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(this);
-
-	private I18NAwareValueSupport i18NDescriptionSupport = new I18NAwareValueSupport(new AwareValueContainer() {
-		@Override
-		public void setValue(String value) {
-			setDescription(value);
-
-		}
-	});
 
 	private I18NAwareValueSupport i18NAwareValueSupport;
 
@@ -105,8 +95,6 @@ public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue
 
 		captionSupport.i18NUpdate(i18N);
 
-		i18NDescriptionSupport.i18NUpdate(i18N);
-
 		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
 
 		if (i18NAwareValueSupport != null) {
@@ -139,7 +127,7 @@ public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue
 
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
-		getI18NAwareComponentCaptionSupport().setDescriptionMessage(descriptionKey, descriptionParams);
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
@@ -156,7 +144,7 @@ public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue
 	public void setValue(String value) {
 		super.setValue(value);
 	}
-
+	
 	@Override
 	public void setValueMessage(@I18NAwareMessage String textKey, Object... params) {
 
@@ -172,15 +160,6 @@ public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue
 		if (i18NAwareValueSupport == null) {
 			i18NAwareValueSupport = new I18NAwareValueSupport(this);
 		}
-	}
-
-	private I18NAwareComponentCaptionSupport getI18NAwareComponentCaptionSupport() {
-
-		if (i18NAwareComponentCaptionSupport == null) {
-			i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
-		}
-
-		return i18NAwareComponentCaptionSupport;
 	}
 
 	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {

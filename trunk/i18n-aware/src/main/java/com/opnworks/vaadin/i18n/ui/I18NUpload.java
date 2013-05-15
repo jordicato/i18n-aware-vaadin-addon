@@ -5,13 +5,12 @@ import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareExpressionSupport.AwareExpressionContainer;
-import com.opnworks.vaadin.i18n.support.I18NCaptionSupport;
-import com.opnworks.vaadin.i18n.support.I18NCaptionSupport.CaptionContainer;
 import com.opnworks.vaadin.i18n.support.I18NExpression;
+import com.opnworks.vaadin.i18n.support.I18NExpressionSupport;
+import com.opnworks.vaadin.i18n.support.I18NExpressionSupport.ExpressionContainer;
 import com.vaadin.ui.Upload;
 
 /**
@@ -23,7 +22,6 @@ import com.vaadin.ui.Upload;
 @SuppressWarnings("serial")
 public class I18NUpload extends Upload implements I18NAwareComponentExpression, I18NAwareCaption {
 
-	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 
 	private I18NAwareExpressionSupport buttonExpressionCaptionI18NCaptionSupport = new I18NAwareExpressionSupport(new AwareExpressionContainer() {
@@ -33,10 +31,11 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 		}
 	});
 
-	private I18NCaptionSupport buttonCaptionI18NCaptionSupport = new I18NCaptionSupport(new CaptionContainer() {
+	private I18NExpressionSupport buttonCaptionI18NCaptionSupport = new I18NExpressionSupport(new ExpressionContainer() {
+		
 		@Override
 		public void setRealCaption(String caption) {
-			setButtonRealCaption(caption);
+			setRealCaption(caption);
 		}
 	});
 
@@ -59,10 +58,15 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 		setCaptionMessage(captionKey);
 	}
 
+	public I18NUpload(I18NExpression captionExpression, Receiver receiver) {
+		super(captionExpression.getStringFinal(), receiver);		
+		setCaptionMessage(captionExpression.getObjectlist());
+	}
+
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 
-		getI18NAwareComponentCaptionSupport().i18NUpdate(i18N);
+		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
 		buttonCaptionI18NCaptionSupport.i18NUpdate(i18N);
 	}
 
@@ -71,12 +75,16 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 		setButtonCaptionMessage(buttonCaptionKey);
 	}
 
+	public void setButtonCaption(Object... expression) {
+		setButtonCaptionMessage(expression);
+	}
+
 	public void setButtonCaptionMessage(@I18NAwareMessage String buttonCaptionKey, Object... buttonCaptionParams) {
 		buttonCaptionI18NCaptionSupport.setCaptionMessage(buttonCaptionKey, buttonCaptionParams);
 	}
 
-	public void setButtonCaptionMessage(I18NExpression expressions, Object... buttonCaptionParams) {
-		buttonExpressionCaptionI18NCaptionSupport.setCaptionMessage(expressions, buttonCaptionParams);
+	public void setButtonCaptionMessage(Object... expressions) {
+		buttonExpressionCaptionI18NCaptionSupport.setCaptionMessage(expressions);
 	}
 
 	public void setButtonRealCaption(String buttonCaption) {
@@ -88,9 +96,17 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 		setCaptionMessage(captionKey);
 	}
 
+	public void setCaption(Object... expression) {
+		setCaptionMessage(expression);
+	}
+
+	public void setDescription(Object... expression) {
+		setDescriptionMessage(expression);
+	}
+
 	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey, params);
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(captionKey, params);
 	}
 
 	@Override
@@ -100,7 +116,7 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
-		getI18NAwareComponentCaptionSupport().setDescriptionMessage(descriptionKey, descriptionParams);
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
@@ -111,15 +127,6 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 	@Override
 	public void setRealDescription(String description) {
 		super.setDescription(description);
-	}
-
-	private I18NAwareComponentCaptionSupport getI18NAwareComponentCaptionSupport() {
-
-		if (i18NAwareComponentCaptionSupport == null) {
-			i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
-		}
-
-		return i18NAwareComponentCaptionSupport;
 	}
 
 	@Override

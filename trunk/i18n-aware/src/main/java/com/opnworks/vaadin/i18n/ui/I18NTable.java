@@ -1,17 +1,14 @@
 package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAware;
-import com.opnworks.vaadin.i18n.I18NAwareCaption;
-import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
-import com.opnworks.vaadin.i18n.I18NAwareField;
+import com.opnworks.vaadin.i18n.I18NAwareFieldExpression;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.service_impl.I18NServiceImpl;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
+import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.vaadin.data.Container;
 import com.vaadin.event.Action;
 import com.vaadin.ui.Table;
@@ -23,13 +20,9 @@ import com.vaadin.ui.Table;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NTable extends Table implements I18NAwareComponentExpression, I18NAwareCaption, I18NAwareField<Object> {
+public class I18NTable extends Table implements I18NAwareFieldExpression<Object> {
 
 	private I18NAwareSupport i18NAwareSupport = new I18NAwareSupport();
-
-	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
-
-	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 
 	private I18NAwareFieldSupport<Object> i18NAwareFieldSupport;
 
@@ -52,6 +45,11 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 		setCaptionMessage(captionKey);
 	}
 
+	public I18NTable(I18NExpression captionExpression) {
+		super(captionExpression.getStringFinal());		
+		setCaptionMessage(captionExpression.getObjectlist());
+	}
+
 	/**
 	 * Creates a new i18n table with caption and connect it to a Container.
 	 * 
@@ -61,6 +59,11 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 	public I18NTable(@I18NAwareMessage String captionKey, Container dataSource) {
 		super(captionKey, dataSource);
 		setCaptionMessage(captionKey);
+	}
+	
+	public I18NTable(I18NExpression captionExpression, Container dataSource) {
+		super(captionExpression.getStringFinal(), dataSource);		
+		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
 	@Override
@@ -75,21 +78,10 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 		registerI18NActions(actionHandler, null);
 	}
 
-	public I18NAwareComponentCaptionSupport getI18NAwareComponentCaptionSupport() {
-
-		if (i18NAwareComponentCaptionSupport == null) {
-			i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
-		}
-		return i18NAwareComponentCaptionSupport;
-	}
-
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-
-		getI18NAwareComponentCaptionSupport().i18NUpdate(i18N);
-
-		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
-
+		getI18NAwareFieldSupport().i18NUpdate(i18N);
+		
 		updateColumnHeaders(i18N);
 
 		Container items = getContainerDataSource();
@@ -107,9 +99,13 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 		setCaptionMessage(captionKey);
 	}
 
+	public void setCaption(Object... expression) {
+		setCaptionMessage(expression);
+	}
+
 	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey, params);
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
 	}
 
 	/**
@@ -129,9 +125,13 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 		setDescriptionMessage(descriptionKey);
 	}
 
+	public void setDescription(Object... expression) {
+		setDescriptionMessage(expression);
+	}
+
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
-		getI18NAwareComponentCaptionSupport().setDescriptionMessage(descriptionKey, descriptionParams);
+		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
@@ -184,7 +184,7 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 	private I18NAwareFieldSupport<Object> getI18NAwareFieldSupport() {
 
 		if (i18NAwareFieldSupport == null) {
-			i18NAwareFieldSupport = new I18NAwareFieldSupport<Object>((I18NAwareField<Object>) this);
+			i18NAwareFieldSupport = new I18NAwareFieldSupport<Object>(this);
 		}
 
 		return i18NAwareFieldSupport;
@@ -192,21 +192,30 @@ public class I18NTable extends Table implements I18NAwareComponentExpression, I1
 
 	@Override
 	public void setCaptionMessage(Object... expression) {
-		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
+		getI18NAwareFieldSupport().setCaptionMessage(expression);
 	}
 
 	@Override
 	public void setDescriptionMessage(Object... expression) {
-		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
+		getI18NAwareFieldSupport().setDescriptionMessage(expression);
 	}
 
-	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
+	@Override
+	public void setRealValue(Object value) {
+		// TODO Auto-generated method stub
+		super.setValue(value);
+	}
 
-		if (i18NAwareComponentExpressionSupport == null) {
-			i18NAwareComponentExpressionSupport = new I18NAwareComponentExpressionSupport(this);
-		}
+	@Override
+	public void setValueMessage(Object... expression) {
+		// TODO Auto-generated method stub
+		
+	}
 
-		return i18NAwareComponentExpressionSupport;
+	@Override
+	public void setValueMessage(String valueKey, Object... valueParams) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/*

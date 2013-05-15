@@ -32,7 +32,7 @@ public class I18NExpressionSupport extends I18NAwareExpressionSupport implements
 
 	@Override
 	public void setCaptionMessage(String captionKey, Object... params) {
-		setCaptionMessage(captionKey, params);
+		super.setCaptionMessage(captionKey, params);
 	}
 
 	@Override

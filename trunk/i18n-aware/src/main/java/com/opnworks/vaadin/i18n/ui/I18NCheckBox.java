@@ -1,12 +1,11 @@
 package com.opnworks.vaadin.i18n.ui;
 
-import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
-import com.opnworks.vaadin.i18n.I18NAwareField;
+import com.opnworks.vaadin.i18n.I18NAwareFieldExpression;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
+import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.vaadin.data.Property;
 import com.vaadin.ui.CheckBox;
 
@@ -17,10 +16,9 @@ import com.vaadin.ui.CheckBox;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NCheckBox extends CheckBox implements I18NAwareField<Boolean>, I18NAwareComponentExpression {
+public class I18NCheckBox extends CheckBox implements I18NAwareFieldExpression<Boolean> {
 
 	private I18NAwareFieldSupport<Boolean> i18NAwareFieldSupport;
-	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 
 	/**
 	 * Creates a new i18n switch button.
@@ -42,6 +40,11 @@ public class I18NCheckBox extends CheckBox implements I18NAwareField<Boolean>, I
 		setCaptionMessage(captionKey);
 	}
 
+	public I18NCheckBox(I18NExpression captionExpression) {
+		super(captionExpression.getStringFinal());		
+		setCaptionMessage(captionExpression.getObjectlist());
+	}
+
 	/**
 	 * Creates a new switch button with a caption and a set initial state.
 	 * 
@@ -53,6 +56,11 @@ public class I18NCheckBox extends CheckBox implements I18NAwareField<Boolean>, I
 	public I18NCheckBox(@I18NAwareMessage String captionKey, boolean initialState) {
 		super(captionKey, initialState);
 		setCaptionMessage(captionKey);
+	}
+
+	public I18NCheckBox(I18NExpression captionExpression, boolean initialState) {
+		super(captionExpression.getStringFinal(), initialState);		
+		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
 	/**
@@ -72,12 +80,15 @@ public class I18NCheckBox extends CheckBox implements I18NAwareField<Boolean>, I
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 		getI18NAwareFieldSupport().i18NUpdate(i18N);
-		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
 	}
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
+	}
+
+	public void setCaption(Object... expression) {
+		setCaptionMessage(expression);
 	}
 
 	@Override
@@ -88,6 +99,10 @@ public class I18NCheckBox extends CheckBox implements I18NAwareField<Boolean>, I
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
+	}
+
+	public void setDescription(Object... expression) {
+		setDescriptionMessage(expression);
 	}
 
 	@Override
@@ -131,21 +146,33 @@ public class I18NCheckBox extends CheckBox implements I18NAwareField<Boolean>, I
 
 	@Override
 	public void setCaptionMessage(Object... expression) {
-		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
+		getI18NAwareFieldSupport().setCaptionMessage(expression);
 	}
 
 	@Override
 	public void setDescriptionMessage(Object... expression) {
-		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
+		getI18NAwareFieldSupport().setDescriptionMessage(expression);
 	}
 
-	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
 
-		if (i18NAwareComponentExpressionSupport == null) {
-			i18NAwareComponentExpressionSupport = new I18NAwareComponentExpressionSupport(this);
-		}
+	public void setValue(Object... expression) {
+		setValueMessage(expression);
+	}
+	
 
-		return i18NAwareComponentExpressionSupport;
+	@Override
+	public void setValueMessage(Object... expression) {
+		getI18NAwareFieldSupport().setValueMessage(expression);
+	}
+
+	@Override
+	public void setValueMessage(String valueKey, Object... valueParams) {
+		getI18NAwareFieldSupport().setValueMessage(valueKey, valueParams);
+	}
+
+	@Override
+	public void setRealValue(Object value) {
+		super.setValue(Boolean.valueOf(value.toString()));
 	}
 
 }

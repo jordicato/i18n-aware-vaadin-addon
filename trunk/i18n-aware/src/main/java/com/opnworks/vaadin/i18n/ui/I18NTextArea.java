@@ -1,14 +1,11 @@
 package com.opnworks.vaadin.i18n.ui;
 
-import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
-import com.opnworks.vaadin.i18n.I18NAwareComponentValue;
-import com.opnworks.vaadin.i18n.I18NAwareFieldValue;
+import com.opnworks.vaadin.i18n.I18NAwareFieldExpression;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
-import com.opnworks.vaadin.i18n.I18NAwareValue;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
-import com.opnworks.vaadin.i18n.support.I18NAwareFieldValueSupport;
+import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
+import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.vaadin.data.Property;
 import com.vaadin.ui.TextArea;
 
@@ -19,11 +16,9 @@ import com.vaadin.ui.TextArea;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NTextArea extends TextArea implements I18NAwareComponentExpression, I18NAwareFieldValue<String>, I18NAwareComponentValue,
-		I18NAwareValue {
+public class I18NTextArea extends TextArea implements I18NAwareFieldExpression<String> {
 
-	private I18NAwareFieldValueSupport<String> i18NAwareFieldValueSupport;
-	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
+	private I18NAwareFieldSupport<String> i18NAwareFieldSupport;
 
 	/**
 	 * Constructs an empty i18n TextArea.
@@ -53,6 +48,11 @@ public class I18NTextArea extends TextArea implements I18NAwareComponentExpressi
 		setCaptionMessage(captionKey);
 	}
 
+	public I18NTextArea(I18NExpression captionExpression) {
+		super(captionExpression.getStringFinal());		
+		setCaptionMessage(captionExpression.getObjectlist());
+	}
+
 	/**
 	 * Constructs a i18n TextArea with given caption and property data source.
 	 * 
@@ -64,6 +64,11 @@ public class I18NTextArea extends TextArea implements I18NAwareComponentExpressi
 	public I18NTextArea(@I18NAwareMessage String captionKey, Property<?> dataSource) {
 		super(captionKey, dataSource);
 		setCaptionMessage(captionKey);
+	}
+
+	public I18NTextArea(I18NExpression captionExpression, Property<?> dataSource) {
+		super(captionExpression.getStringFinal(), dataSource);		
+		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
 	/**
@@ -82,10 +87,17 @@ public class I18NTextArea extends TextArea implements I18NAwareComponentExpressi
 		}
 	}
 
+	public I18NTextArea(I18NExpression captionExpression, String value) {
+		super(captionExpression.getStringFinal(), value);		
+		setCaptionMessage(captionExpression.getObjectlist());
+		if (value != "") {
+			setValueMessage(value);
+		}
+	}
+
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		getI18NAwareFieldValueSupport().i18NUpdate(i18N);
-		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
+		getI18NAwareFieldSupport().i18NUpdate(i18N);
 	}
 
 	@Override
@@ -93,9 +105,17 @@ public class I18NTextArea extends TextArea implements I18NAwareComponentExpressi
 		setCaptionMessage(captionKey);
 	}
 
+	public void setCaption(Object... expression) {
+		setCaptionMessage(expression);
+	}
+
+	public void setDescription(Object... expression) {
+		setDescriptionMessage(expression);
+	}
+
 	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		getI18NAwareFieldValueSupport().setCaptionMessage(captionKey, params);
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
 	}
 
 	@Override
@@ -105,7 +125,7 @@ public class I18NTextArea extends TextArea implements I18NAwareComponentExpressi
 
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
-		getI18NAwareFieldValueSupport().setDescriptionMessage(descriptionKey, descriptionParams);
+		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
@@ -130,7 +150,7 @@ public class I18NTextArea extends TextArea implements I18NAwareComponentExpressi
 
 	@Override
 	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
-		getI18NAwareFieldValueSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
+		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
 
 	@Override
@@ -140,41 +160,41 @@ public class I18NTextArea extends TextArea implements I18NAwareComponentExpressi
 		}
 	}
 
+	public void setValue(Object... expression) {
+		setValueMessage(expression);
+	}
+
 	@Override
 	public void setValueMessage(@I18NAwareMessage String valueKey, Object... valueParams) {
-		getI18NAwareFieldValueSupport().setValueMessage(valueKey, valueParams);
+		getI18NAwareFieldSupport().setValueMessage(valueKey, valueParams);
 	}
 
-	@Override
-	public void setRealValue(String value) {
-		super.setValue(value);
-	}
+	private I18NAwareFieldSupport<String> getI18NAwareFieldSupport() {
 
-	private I18NAwareFieldValueSupport<String> getI18NAwareFieldValueSupport() {
-
-		if (i18NAwareFieldValueSupport == null) {
-			i18NAwareFieldValueSupport = new I18NAwareFieldValueSupport<String>(this);
+		if (i18NAwareFieldSupport == null) {
+			i18NAwareFieldSupport = new I18NAwareFieldSupport<String>(this);
 		}
 
-		return i18NAwareFieldValueSupport;
+		return i18NAwareFieldSupport;
 	}
 
 	@Override
 	public void setCaptionMessage(Object... expression) {
-		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
+		getI18NAwareFieldSupport().setCaptionMessage(expression);
 	}
 
 	@Override
 	public void setDescriptionMessage(Object... expression) {
-		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
+		getI18NAwareFieldSupport().setDescriptionMessage(expression);
 	}
 
-	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
+	@Override
+	public void setRealValue(Object value) {
+		super.setValue((String) value);
+	}
 
-		if (i18NAwareComponentExpressionSupport == null) {
-			i18NAwareComponentExpressionSupport = new I18NAwareComponentExpressionSupport(this);
-		}
-
-		return i18NAwareComponentExpressionSupport;
+	@Override
+	public void setValueMessage(Object... expression) {
+		getI18NAwareFieldSupport().setValueMessage(expression);
 	}
 }
