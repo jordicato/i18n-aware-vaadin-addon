@@ -9,6 +9,7 @@ import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
+import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.AwareValueContainer;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
@@ -54,6 +55,12 @@ public class I18NWindow extends Window implements I18NAwareComponentExpression, 
 		setContent(new I18NVerticalLayout());
 	}
 
+	public I18NWindow(I18NExpression captionExpression) {
+		super(captionExpression.getStringFinal());		
+		setCaptionMessage(captionExpression.getObjectlist());
+		setContent(new I18NVerticalLayout());
+	}
+
 	/**
 	 * Creates a new unnamed i18n window with the given content and title.
 	 * 
@@ -65,6 +72,11 @@ public class I18NWindow extends Window implements I18NAwareComponentExpression, 
 	public I18NWindow(@I18NAwareMessage String captionKey, ComponentContainer content) {
 		super(captionKey, content);
 		setCaptionMessage(captionKey);
+	}
+
+	public I18NWindow(I18NExpression captionExpression, ComponentContainer content) {
+		super(captionExpression.getStringFinal(), content);		
+		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
 	@Override
@@ -81,6 +93,14 @@ public class I18NWindow extends Window implements I18NAwareComponentExpression, 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
+	}
+
+	public void setCaption(Object... expression) {
+		setCaptionMessage(expression);
+	}
+
+	public void setDescription(Object... expression) {
+		setDescriptionMessage(expression);
 	}
 
 	@Override

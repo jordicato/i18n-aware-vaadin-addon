@@ -1,12 +1,11 @@
 package com.opnworks.vaadin.i18n.ui;
 
-import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
-import com.opnworks.vaadin.i18n.I18NAwareField;
+import com.opnworks.vaadin.i18n.I18NAwareFieldExpression;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
+import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.vaadin.data.Property;
 import com.vaadin.ui.PasswordField;
 
@@ -17,10 +16,9 @@ import com.vaadin.ui.PasswordField;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NPasswordField extends PasswordField implements I18NAwareField<String>, I18NAwareComponentExpression {
+public class I18NPasswordField extends PasswordField implements I18NAwareFieldExpression<String> {
 
 	private I18NAwareFieldSupport<String> i18NAwareFieldSupport;
-	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 
 	/**
 	 * Constructs an empty I18NPasswordField.
@@ -50,6 +48,11 @@ public class I18NPasswordField extends PasswordField implements I18NAwareField<S
 		setCaptionMessage(captionKey);
 	}
 
+	public I18NPasswordField(I18NExpression captionExpression) {
+		super(captionExpression.getStringFinal());		
+		setCaptionMessage(captionExpression.getObjectlist());
+	}
+
 	/**
 	 * Constructs a I18NPasswordField with given caption and property data source.
 	 * 
@@ -61,6 +64,11 @@ public class I18NPasswordField extends PasswordField implements I18NAwareField<S
 	public I18NPasswordField(@I18NAwareMessage String captionKey, Property<?> dataSource) {
 		super(captionKey, dataSource);
 		setCaptionMessage(captionKey);
+	}
+
+	public I18NPasswordField(I18NExpression captionExpression, Property<?> dataSource) {
+		super(captionExpression.getStringFinal(), dataSource);		
+		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
 	/**
@@ -76,15 +84,23 @@ public class I18NPasswordField extends PasswordField implements I18NAwareField<S
 		setCaptionMessage(captionKey);
 	}
 
+	public I18NPasswordField(I18NExpression captionExpression, String value) {
+		super(captionExpression.getStringFinal(), value);		
+		setCaptionMessage(captionExpression.getObjectlist());
+	}
+
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 		getI18NAwareFieldSupport().i18NUpdate(i18N);
-		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
 	}
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
+	}
+
+	public void setCaption(Object... expression) {
+		setCaptionMessage(expression);
 	}
 
 	@Override
@@ -95,6 +111,10 @@ public class I18NPasswordField extends PasswordField implements I18NAwareField<S
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
+	}
+
+	public void setDescription(Object... expression) {
+		setDescriptionMessage(expression);
 	}
 
 	@Override
@@ -138,21 +158,36 @@ public class I18NPasswordField extends PasswordField implements I18NAwareField<S
 
 	@Override
 	public void setCaptionMessage(Object... expression) {
-		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
+		getI18NAwareFieldSupport().setCaptionMessage(expression);
 	}
 
 	@Override
 	public void setDescriptionMessage(Object... expression) {
-		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
+		getI18NAwareFieldSupport().setDescriptionMessage(expression);
 	}
 
-	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
+	public void setValue(String value) {
+		setValueMessage(value);
+	}
 
-		if (i18NAwareComponentExpressionSupport == null) {
-			i18NAwareComponentExpressionSupport = new I18NAwareComponentExpressionSupport(this);
-		}
+	public void setValue(Object... expression) {
+		setValueMessage(expression);
+	}
 
-		return i18NAwareComponentExpressionSupport;
+	@Override
+	public void setRealValue(Object value) {
+		// TODO Auto-generated method stub
+		super.setValue(value.toString());
+	}
+
+	@Override
+	public void setValueMessage(Object... expression) {
+		getI18NAwareFieldSupport().setValueMessage(expression);
+	}
+
+	@Override
+	public void setValueMessage(String valueKey, Object... valueParams) {
+		getI18NAwareFieldSupport().setValueMessage(valueKey, valueParams);
 	}
 
 }

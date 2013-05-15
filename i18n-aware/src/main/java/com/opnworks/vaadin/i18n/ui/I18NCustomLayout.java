@@ -8,7 +8,6 @@ import com.opnworks.vaadin.i18n.I18NAwareLayout;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
 import com.vaadin.ui.Component;
@@ -23,7 +22,6 @@ import com.vaadin.ui.CustomLayout;
 @SuppressWarnings("serial")
 public class I18NCustomLayout extends CustomLayout implements I18NAwareLayout, I18NAwareComponentExpression {
 
-	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 	private I18NAwareSupport i18nAwareSupport = new I18NAwareSupport();
 
@@ -70,7 +68,6 @@ public class I18NCustomLayout extends CustomLayout implements I18NAwareLayout, I
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
 		i18nAwareSupport.i18NUpdate(i18N);
 		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
 	}
@@ -86,9 +83,17 @@ public class I18NCustomLayout extends CustomLayout implements I18NAwareLayout, I
 		setCaptionMessage(captionKey);
 	}
 
+	public void setCaption(Object... expression) {
+		setCaptionMessage(expression);
+	}
+
+	public void setDescription(Object... expression) {
+		setDescriptionMessage(expression);
+	}
+
 	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(captionKey, params);
 	}
 
 	@Override
@@ -98,7 +103,7 @@ public class I18NCustomLayout extends CustomLayout implements I18NAwareLayout, I
 
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
-		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override

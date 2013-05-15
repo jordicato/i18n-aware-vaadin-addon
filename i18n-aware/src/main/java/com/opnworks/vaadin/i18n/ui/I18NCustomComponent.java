@@ -5,7 +5,6 @@ import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
@@ -19,7 +18,6 @@ import com.vaadin.ui.CustomComponent;
 @SuppressWarnings("serial")
 public class I18NCustomComponent extends CustomComponent implements I18NAwareComponentExpression {
 
-	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 
 	/**
@@ -52,8 +50,6 @@ public class I18NCustomComponent extends CustomComponent implements I18NAwareCom
 	@Override
 	public void i18NUpdate(I18NService i18nService) {
 
-		i18NAwareComponentCaptionSupport.i18NUpdate(i18nService);
-
 		getI18NAwareComponentExpressionSupport().i18NUpdate(i18nService);
 
 		Component root = getCompositionRoot();
@@ -68,9 +64,17 @@ public class I18NCustomComponent extends CustomComponent implements I18NAwareCom
 		setCaptionMessage(captionKey);
 	}
 
+	public void setCaption(Object... expression) {
+		setCaptionMessage(expression);
+	}
+
+	public void setDescription(Object... expression) {
+		setDescriptionMessage(expression);
+	}
+
 	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(captionKey, params);
 	}
 
 	@Override
@@ -80,7 +84,7 @@ public class I18NCustomComponent extends CustomComponent implements I18NAwareCom
 
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
-		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override

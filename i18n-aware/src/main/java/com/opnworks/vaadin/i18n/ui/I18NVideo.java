@@ -6,8 +6,8 @@ import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentAltTextSupport;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
+import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Video;
 
@@ -20,7 +20,6 @@ import com.vaadin.ui.Video;
 @SuppressWarnings("serial")
 public class I18NVideo extends Video implements I18NAwareComponentExpression, I18NAwareAltText {
 
-	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport;
 	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 	private I18NAwareComponentAltTextSupport i18NAwareComponentAltTextSupport;
 
@@ -44,6 +43,11 @@ public class I18NVideo extends Video implements I18NAwareComponentExpression, I1
 		setCaptionMessage(captionKey);
 	}
 
+	public I18NVideo(I18NExpression captionExpression) {
+		super(captionExpression.getStringFinal());		
+		setCaptionMessage(captionExpression.getObjectlist());
+	}
+
 	/**
 	 * Creates a new i18n Video with caption message key and click listener.
 	 * 
@@ -57,10 +61,15 @@ public class I18NVideo extends Video implements I18NAwareComponentExpression, I1
 		setCaptionMessage(captionKey);
 	}
 
+	public I18NVideo(I18NExpression captionExpression, Resource resource) {
+		super(captionExpression.getStringFinal(), resource);		
+		setCaptionMessage(captionExpression.getObjectlist());
+	}
+
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		getI18NAwareComponentCaptionSupport().i18NUpdate(i18N);
 		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
+		getI18NAwareComponentAltTextSupport().i18NUpdate(i18N);
 	}
 
 	@Override
@@ -68,9 +77,17 @@ public class I18NVideo extends Video implements I18NAwareComponentExpression, I1
 		setCaptionMessage(captionKey);
 	}
 
+	public void setCaption(Object... expression) {
+		setCaptionMessage(expression);
+	}
+
+	public void setDescription(Object... expression) {
+		setDescriptionMessage(expression);
+	}
+
 	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		getI18NAwareComponentCaptionSupport().setCaptionMessage(captionKey, params);
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(captionKey, params);
 	}
 
 	@Override
@@ -80,7 +97,7 @@ public class I18NVideo extends Video implements I18NAwareComponentExpression, I1
 
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
-		getI18NAwareComponentCaptionSupport().setDescriptionMessage(descriptionKey, descriptionParams);
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
@@ -106,15 +123,6 @@ public class I18NVideo extends Video implements I18NAwareComponentExpression, I1
 	@Override
 	public void setRealDescription(String description) {
 		super.setDescription(description);
-	}
-
-	private I18NAwareComponentCaptionSupport getI18NAwareComponentCaptionSupport() {
-
-		if (i18NAwareComponentCaptionSupport == null) {
-			i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
-		}
-
-		return i18NAwareComponentCaptionSupport;
 	}
 
 	private I18NAwareComponentAltTextSupport getI18NAwareComponentAltTextSupport() {

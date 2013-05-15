@@ -2,15 +2,14 @@ package com.opnworks.vaadin.i18n.ui;
 
 import java.util.Date;
 
-import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
-import com.opnworks.vaadin.i18n.I18NAwareField;
+import com.opnworks.vaadin.i18n.I18NAwareFieldExpression;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.AwareValueContainer;
+import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.vaadin.data.Property;
 import com.vaadin.ui.PopupDateField;
 
@@ -21,10 +20,9 @@ import com.vaadin.ui.PopupDateField;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NPopupDateField extends PopupDateField implements I18NAwareField<Date>, I18NAwareComponentExpression {
+public class I18NPopupDateField extends PopupDateField implements I18NAwareFieldExpression<Date> {
 
 	private I18NAwareFieldSupport<Date> i18NAwareFieldSupport;
-	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 	private I18NAwareValueSupport i18NInputPromptSupport;
 
 	/**
@@ -54,6 +52,11 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 		setCaptionMessage(captionKey);
 	}
 
+	public I18NPopupDateField(I18NExpression captionExpression) {
+		super(captionExpression.getStringFinal());		
+		setCaptionMessage(captionExpression.getObjectlist());
+	}
+
 	/**
 	 * Constructs an i18n <code>PopupDateField</code> with caption message key and initial value.
 	 * 
@@ -64,6 +67,11 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 	public I18NPopupDateField(@I18NAwareMessage String captionKey, Date value) {
 		super(captionKey, value);
 		setCaptionMessage(captionKey);
+	}
+
+	public I18NPopupDateField(I18NExpression captionExpression, Date value) {
+		super(captionExpression.getStringFinal(), value);		
+		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
 	/**
@@ -78,12 +86,16 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 		setCaptionMessage(captionKey);
 	}
 
+	public I18NPopupDateField(I18NExpression captionExpression, Property<?> dataSource) {
+		super(captionExpression.getStringFinal(), dataSource);		
+		setCaptionMessage(captionExpression.getObjectlist());
+	}
+
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 
 		setLocale(i18N.getLocale());
 
-		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
 		getI18NAwareFieldSupport().i18NUpdate(i18N);
 		getI18NInputPromptSupport().i18NUpdate(i18N);
 	}
@@ -91,6 +103,10 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
+	}
+
+	public void setCaption(Object... expression) {
+		setCaptionMessage(expression);
 	}
 
 	@Override
@@ -101,6 +117,10 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
+	}
+
+	public void setDescription(Object... expression) {
+		setDescriptionMessage(expression);
 	}
 
 	@Override
@@ -162,21 +182,30 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 
 	@Override
 	public void setCaptionMessage(Object... expression) {
-		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
+		getI18NAwareFieldSupport().setCaptionMessage(expression);
 	}
 
 	@Override
 	public void setDescriptionMessage(Object... expression) {
-		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
+		getI18NAwareFieldSupport().setDescriptionMessage(expression);
 	}
 
-	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
+	@Override
+	public void setRealValue(Object value) {
+		// TODO Auto-generated method stub
 
-		if (i18NAwareComponentExpressionSupport == null) {
-			i18NAwareComponentExpressionSupport = new I18NAwareComponentExpressionSupport(this);
-		}
+	}
 
-		return i18NAwareComponentExpressionSupport;
+	@Override
+	public void setValueMessage(Object... expression) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setValueMessage(String valueKey, Object... valueParams) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

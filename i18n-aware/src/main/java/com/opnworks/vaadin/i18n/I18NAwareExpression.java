@@ -10,6 +10,8 @@ public interface I18NAwareExpression extends I18NAwareCaption, I18NAware {
 	void setCaptionMessage(Object... expression);
 
 	void setDescriptionMessage(Object... expression);
+	
+	void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams);
 
 	void setRealDescription(String description);
 }

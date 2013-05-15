@@ -8,7 +8,6 @@ import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.PopupView;
@@ -91,7 +90,6 @@ public class I18NPopupView extends PopupView implements I18NAwareComponentExpres
 
 	private static final long serialVersionUID = 3994292451004562581L;
 
-	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
 	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 
 	/**
@@ -129,6 +127,11 @@ public class I18NPopupView extends PopupView implements I18NAwareComponentExpres
 		super(small, large);
 	}
 
+	/*public I18NPopupView(I18NExpression captionExpression, Component large) {
+		super(captionExpression.getStringFinal(), large);		
+		setCaptionMessage(captionExpression.getObjectlist());
+	}*/
+
 	/**
 	 * Creates a PopupView through the PopupView.Content interface. This allows the creator to dynamically change the contents of the PopupView.
 	 * 
@@ -141,8 +144,6 @@ public class I18NPopupView extends PopupView implements I18NAwareComponentExpres
 
 	@Override
 	public void i18NUpdate(I18NService i18nService) {
-
-		i18NAwareComponentCaptionSupport.i18NUpdate(i18nService);
 
 		getI18NAwareComponentExpressionSupport().i18NUpdate(i18nService);
 
@@ -164,9 +165,17 @@ public class I18NPopupView extends PopupView implements I18NAwareComponentExpres
 		setCaptionMessage(captionKey);
 	}
 
+	public void setCaption(Object... expression) {
+		setCaptionMessage(expression);
+	}
+
+	public void setDescription(Object... expression) {
+		setDescriptionMessage(expression);
+	}
+
 	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(captionKey, params);
 	}
 
 	@Override
@@ -176,7 +185,7 @@ public class I18NPopupView extends PopupView implements I18NAwareComponentExpres
 
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
-		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
+		getI18NAwareComponentExpressionSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override

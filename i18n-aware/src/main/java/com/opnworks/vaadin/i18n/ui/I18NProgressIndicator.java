@@ -1,13 +1,10 @@
 package com.opnworks.vaadin.i18n.ui;
 
 import com.opnworks.vaadin.i18n.I18NAwareCaption;
-import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
-import com.opnworks.vaadin.i18n.I18NAwareField;
+import com.opnworks.vaadin.i18n.I18NAwareFieldExpression;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.vaadin.data.Property;
 import com.vaadin.ui.ProgressIndicator;
@@ -19,10 +16,8 @@ import com.vaadin.ui.ProgressIndicator;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NProgressIndicator extends ProgressIndicator implements I18NAwareComponentExpression, I18NAwareCaption, I18NAwareField<Float> {
+public class I18NProgressIndicator extends ProgressIndicator implements I18NAwareCaption, I18NAwareFieldExpression<Float> {
 
-	private I18NAwareComponentCaptionSupport i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
-	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 	private I18NAwareFieldSupport<Float> i18NAwareFieldSupport;
 
 	/**
@@ -52,8 +47,7 @@ public class I18NProgressIndicator extends ProgressIndicator implements I18NAwar
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-		i18NAwareComponentCaptionSupport.i18NUpdate(i18N);
-		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
+		getI18NAwareFieldSupport().i18NUpdate(i18N);
 	}
 
 	@Override
@@ -61,9 +55,13 @@ public class I18NProgressIndicator extends ProgressIndicator implements I18NAwar
 		setCaptionMessage(captionKey);
 	}
 
+	public void setCaption(Object... expression) {
+		setCaptionMessage(expression);
+	}
+
 	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		i18NAwareComponentCaptionSupport.setCaptionMessage(captionKey, params);
+		getI18NAwareFieldSupport().setCaptionMessage(captionKey, params);
 	}
 
 	@Override
@@ -71,9 +69,13 @@ public class I18NProgressIndicator extends ProgressIndicator implements I18NAwar
 		setDescriptionMessage(descriptionKey);
 	}
 
+	public void setDescription(Object... expression) {
+		setDescriptionMessage(expression);
+	}
+
 	@Override
 	public void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams) {
-		i18NAwareComponentCaptionSupport.setDescriptionMessage(descriptionKey, descriptionParams);
+		getI18NAwareFieldSupport().setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override
@@ -112,21 +114,30 @@ public class I18NProgressIndicator extends ProgressIndicator implements I18NAwar
 
 	@Override
 	public void setCaptionMessage(Object... expression) {
-		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
+		getI18NAwareFieldSupport().setCaptionMessage(expression);
 	}
 
 	@Override
 	public void setDescriptionMessage(Object... expression) {
-		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
+		getI18NAwareFieldSupport().setDescriptionMessage(expression);
 	}
 
-	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
+	@Override
+	public void setRealValue(Object value) {
+		// TODO Auto-generated method stub
+		super.setValue((Float) value);
+	}
 
-		if (i18NAwareComponentExpressionSupport == null) {
-			i18NAwareComponentExpressionSupport = new I18NAwareComponentExpressionSupport(this);
-		}
+	@Override
+	public void setValueMessage(Object... expression) {
+		// TODO Auto-generated method stub
+		
+	}
 
-		return i18NAwareComponentExpressionSupport;
+	@Override
+	public void setValueMessage(String valueKey, Object... valueParams) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

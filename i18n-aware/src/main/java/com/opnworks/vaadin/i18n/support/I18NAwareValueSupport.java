@@ -80,17 +80,4 @@ public class I18NAwareValueSupport implements I18NAwareValue {
 		valueContainer.setValue(value);
 	}
 
-	public boolean isKey(String key) {
-		if (key == null) {
-			return false;
-		}
-		if (key.contains(" ")) {
-			return false;
-		}
-		if (!(key.contains("_") || key.contains("."))) {
-			return false;
-		}
-		return true;
-	}
-
 }

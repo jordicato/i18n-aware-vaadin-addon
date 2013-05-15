@@ -1,12 +1,11 @@
 package com.opnworks.vaadin.i18n.ui;
 
-import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
-import com.opnworks.vaadin.i18n.I18NAwareField;
+import com.opnworks.vaadin.i18n.I18NAwareFieldExpression;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
+import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.vaadin.ui.Slider;
 
 /**
@@ -16,10 +15,9 @@ import com.vaadin.ui.Slider;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NSlider extends Slider implements I18NAwareField<Double>, I18NAwareComponentExpression {
+public class I18NSlider extends Slider implements I18NAwareFieldExpression<Double> {
 
 	private I18NAwareFieldSupport<Double> i18NAwareFieldSupport;
-	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 
 	public I18NSlider() {
 		super();
@@ -57,6 +55,11 @@ public class I18NSlider extends Slider implements I18NAwareField<Double>, I18NAw
 		setCaptionMessage(captionKey);
 	}
 
+	public I18NSlider(I18NExpression captionExpression) {
+		super(captionExpression.getStringFinal());		
+		setCaptionMessage(captionExpression.getObjectlist());
+	}
+
 	/**
 	 * Create a new slider with given caption and range
 	 * 
@@ -69,15 +72,23 @@ public class I18NSlider extends Slider implements I18NAwareField<Double>, I18NAw
 		setCaptionMessage(captionKey);
 	}
 
+	public I18NSlider(I18NExpression captionExpression, int min, int max) {
+		super(captionExpression.getStringFinal(), min, max);		
+		setCaptionMessage(captionExpression.getObjectlist());
+	}
+
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 		getI18NAwareFieldSupport().i18NUpdate(i18N);
-		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
 	}
 
 	@Override
 	public void setCaption(@I18NAwareMessage String captionKey) {
 		setCaptionMessage(captionKey);
+	}
+
+	public void setCaption(Object... expression) {
+		setCaptionMessage(expression);
 	}
 
 	@Override
@@ -88,6 +99,10 @@ public class I18NSlider extends Slider implements I18NAwareField<Double>, I18NAw
 	@Override
 	public void setDescription(@I18NAwareMessage String descriptionKey) {
 		setDescriptionMessage(descriptionKey);
+	}
+
+	public void setDescription(Object... expression) {
+		setDescriptionMessage(expression);
 	}
 
 	@Override
@@ -131,21 +146,30 @@ public class I18NSlider extends Slider implements I18NAwareField<Double>, I18NAw
 
 	@Override
 	public void setCaptionMessage(Object... expression) {
-		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
+		getI18NAwareFieldSupport().setCaptionMessage(expression);
 	}
 
 	@Override
 	public void setDescriptionMessage(Object... expression) {
-		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
+		getI18NAwareFieldSupport().setDescriptionMessage(expression);
 	}
 
-	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
+	@Override
+	public void setRealValue(Object value) {
+		// TODO Auto-generated method stub
+		super.setValue((Double) value);
+	}
 
-		if (i18NAwareComponentExpressionSupport == null) {
-			i18NAwareComponentExpressionSupport = new I18NAwareComponentExpressionSupport(this);
-		}
+	@Override
+	public void setValueMessage(Object... expression) {
+		// TODO Auto-generated method stub
+		
+	}
 
-		return i18NAwareComponentExpressionSupport;
+	@Override
+	public void setValueMessage(String valueKey, Object... valueParams) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -1,12 +1,9 @@
 package com.opnworks.vaadin.i18n.ui;
 
-import com.opnworks.vaadin.i18n.I18NAwareComponentValueExpression;
-import com.opnworks.vaadin.i18n.I18NAwareField;
+import com.opnworks.vaadin.i18n.I18NAwareFieldExpression;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentValueExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.vaadin.data.Property;
@@ -19,11 +16,9 @@ import com.vaadin.ui.TextField;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NTextField extends TextField implements I18NAwareField<String>, I18NAwareComponentValueExpression {
+public class I18NTextField extends TextField implements I18NAwareFieldExpression<String> {
 
 	private I18NAwareFieldSupport<String> i18NAwareFieldSupport;
-	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
-	private I18NAwareComponentValueExpressionSupport i18NAwareComponentValueExpressionSupport;
 
 	/**
 	 * Constructs an empty i18n <code>TextField</code> with no caption.
@@ -90,8 +85,6 @@ public class I18NTextField extends TextField implements I18NAwareField<String>, 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 		getI18NAwareFieldSupport().i18NUpdate(i18N);
-		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
-		getI18NAwareComponentValueExpressionSupport().i18NUpdate(i18N);
 	}
 
 	public void setCaption(Object... expression) {
@@ -104,6 +97,10 @@ public class I18NTextField extends TextField implements I18NAwareField<String>, 
 
 	public void setValue(Object... expression) {
 		setValueMessage(expression);
+	}
+
+	public void setValue(@I18NAwareMessage String valueKey) {
+		setValueMessage(valueKey);
 	}
 
 	@Override
@@ -162,39 +159,26 @@ public class I18NTextField extends TextField implements I18NAwareField<String>, 
 
 	@Override
 	public void setCaptionMessage(Object... expression) {
-		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
+		getI18NAwareFieldSupport().setCaptionMessage(expression);
 	}
 
 	@Override
 	public void setDescriptionMessage(Object... expression) {
-		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
-	}
-
-	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
-
-		if (i18NAwareComponentExpressionSupport == null) {
-			i18NAwareComponentExpressionSupport = new I18NAwareComponentExpressionSupport(this);
-		}
-
-		return i18NAwareComponentExpressionSupport;
-	}
-
-	private I18NAwareComponentValueExpressionSupport getI18NAwareComponentValueExpressionSupport() {
-
-		if (i18NAwareComponentValueExpressionSupport == null) {
-			i18NAwareComponentValueExpressionSupport = new I18NAwareComponentValueExpressionSupport(this);
-		}
-
-		return i18NAwareComponentValueExpressionSupport;
+		getI18NAwareFieldSupport().setDescriptionMessage(expression);
 	}
 
 	@Override
 	public void setValueMessage(Object... expression) {
-		getI18NAwareComponentValueExpressionSupport().setValueMessage(expression);
+		getI18NAwareFieldSupport().setValueMessage(expression);
 	}
 
 	@Override
-	public void setRealValue(String value) {
-		super.setValue(value);
+	public void setRealValue(Object value) {
+		super.setValue(value.toString());
+	}
+
+	@Override
+	public void setValueMessage(String valueKey, Object... valueParams) {
+		getI18NAwareFieldSupport().setValueMessage(valueKey, valueParams);
 	}
 }

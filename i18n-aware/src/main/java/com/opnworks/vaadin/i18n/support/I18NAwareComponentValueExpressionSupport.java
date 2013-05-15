@@ -6,8 +6,10 @@ import java.util.Locale;
 import com.opnworks.vaadin.i18n.I18NAwareComponentValueExpression;
 import com.opnworks.vaadin.i18n.I18NAwareValueExpression;
 import com.opnworks.vaadin.i18n.I18NService;
-import com.opnworks.vaadin.i18n.support.I18NAwareExpressionSupport.AwareExpressionContainer;
 import com.opnworks.vaadin.i18n.support.I18NExpressionSupport.ExpressionContainer;
+import com.opnworks.vaadin.i18n.support.I18NAwareExpressionSupport;
+import com.opnworks.vaadin.i18n.support.I18NAwareExpressionSupport.AwareExpressionContainer;
+
 import com.opnworks.vaadin.i18n.support.I18NValueExpressionSupport.ValueExpressionContainer;
 
 public class I18NAwareComponentValueExpressionSupport implements Serializable, I18NAwareValueExpression {
@@ -89,5 +91,15 @@ public class I18NAwareComponentValueExpressionSupport implements Serializable, I
 	@Override
 	public void setValueMessage(Object... expression) {
 		i18NValueExpressionSupport.setValueMessage(expression);
+	}
+
+	@Override
+	public void setDescriptionMessage(String descriptionKey, Object... descriptionParams) {
+		descriptionI18NSupport.setDescriptionMessage(descriptionKey, descriptionParams);
+	}
+
+	@Override
+	public void setValueMessage(String valueKey, Object... valueParams) {
+		i18NValueExpressionSupport.setValueMessage(valueKey, valueParams);
 	}
 }
