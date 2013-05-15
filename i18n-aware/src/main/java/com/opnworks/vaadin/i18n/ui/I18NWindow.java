@@ -9,8 +9,8 @@ import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
-import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.AwareValueContainer;
+import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Window;
@@ -56,7 +56,7 @@ public class I18NWindow extends Window implements I18NAwareComponentExpression, 
 	}
 
 	public I18NWindow(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 		setContent(new I18NVerticalLayout());
 	}
@@ -75,7 +75,7 @@ public class I18NWindow extends Window implements I18NAwareComponentExpression, 
 	}
 
 	public I18NWindow(I18NExpression captionExpression, ComponentContainer content) {
-		super(captionExpression.getStringFinal(), content);		
+		super(captionExpression.getStringFinal(), content);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 

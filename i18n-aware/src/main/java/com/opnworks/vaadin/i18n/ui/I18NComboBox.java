@@ -20,7 +20,7 @@ import com.vaadin.ui.ComboBox;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NComboBox extends ComboBox implements I18NAwareFieldExpression<Object>{
+public class I18NComboBox extends ComboBox implements I18NAwareFieldExpression<Object> {
 
 	private I18NAwareFieldSupport<Object> i18NAwareFieldSupport;
 
@@ -50,20 +50,19 @@ public class I18NComboBox extends ComboBox implements I18NAwareFieldExpression<O
 	}
 
 	public I18NComboBox(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
 	public I18NComboBox(I18NExpression captionExpression, Collection<?> options) {
-		super(captionExpression.getStringFinal(), options);		
+		super(captionExpression.getStringFinal(), options);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
 	public I18NComboBox(I18NExpression captionExpression, Container dataSource) {
-		super(captionExpression.getStringFinal(), dataSource);		
+		super(captionExpression.getStringFinal(), dataSource);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
-
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
@@ -154,7 +153,7 @@ public class I18NComboBox extends ComboBox implements I18NAwareFieldExpression<O
 	public void setDescriptionMessage(Object... expression) {
 		getI18NAwareFieldSupport().setDescriptionMessage(expression);
 	}
-	
+
 	@Override
 	public void setRealValue(Object value) {
 		super.setValue(value);
@@ -167,7 +166,7 @@ public class I18NComboBox extends ComboBox implements I18NAwareFieldExpression<O
 
 	@Override
 	public void setValueMessage(String valueKey, Object... valueParams) {
-		getI18NAwareFieldSupport().setValueMessage(valueKey, valueParams);		
+		getI18NAwareFieldSupport().setValueMessage(valueKey, valueParams);
 	}
 
 }

@@ -40,7 +40,7 @@ public class I18NButton extends Button implements I18NAwareComponentExpression {
 	}
 
 	public I18NButton(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -58,7 +58,7 @@ public class I18NButton extends Button implements I18NAwareComponentExpression {
 	}
 
 	public I18NButton(I18NExpression captionExpression, ClickListener listener) {
-		super(captionExpression.getStringFinal(), listener);		
+		super(captionExpression.getStringFinal(), listener);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -105,14 +105,13 @@ public class I18NButton extends Button implements I18NAwareComponentExpression {
 		super.setDescription(description);
 	}
 
-	/*private I18NAwareComponentCaptionSupport getI18NAwareComponentCaptionSupport() {
-
-		if (i18NAwareComponentCaptionSupport == null) {
-			i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this);
-		}
-
-		return i18NAwareComponentCaptionSupport;
-	}*/
+	/*
+	 * private I18NAwareComponentCaptionSupport getI18NAwareComponentCaptionSupport() {
+	 * 
+	 * if (i18NAwareComponentCaptionSupport == null) { i18NAwareComponentCaptionSupport = new I18NAwareComponentCaptionSupport(this); }
+	 * 
+	 * return i18NAwareComponentCaptionSupport; }
+	 */
 
 	private I18NAwareComponentExpressionSupport getI18NAwareComponentExpressionSupport() {
 

@@ -32,7 +32,7 @@ public class I18NLegacyWindow extends LegacyWindow implements I18NAwareComponent
 	}
 
 	public I18NLegacyWindow(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -42,7 +42,7 @@ public class I18NLegacyWindow extends LegacyWindow implements I18NAwareComponent
 	}
 
 	public I18NLegacyWindow(I18NExpression captionExpression, ComponentContainer componentContainer) {
-		super(captionExpression.getStringFinal(), componentContainer);		
+		super(captionExpression.getStringFinal(), componentContainer);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 

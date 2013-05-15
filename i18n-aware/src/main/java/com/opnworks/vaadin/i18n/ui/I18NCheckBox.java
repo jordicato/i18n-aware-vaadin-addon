@@ -41,7 +41,7 @@ public class I18NCheckBox extends CheckBox implements I18NAwareFieldExpression<B
 	}
 
 	public I18NCheckBox(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -59,7 +59,7 @@ public class I18NCheckBox extends CheckBox implements I18NAwareFieldExpression<B
 	}
 
 	public I18NCheckBox(I18NExpression captionExpression, boolean initialState) {
-		super(captionExpression.getStringFinal(), initialState);		
+		super(captionExpression.getStringFinal(), initialState);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -154,11 +154,9 @@ public class I18NCheckBox extends CheckBox implements I18NAwareFieldExpression<B
 		getI18NAwareFieldSupport().setDescriptionMessage(expression);
 	}
 
-
 	public void setValue(Object... expression) {
 		setValueMessage(expression);
 	}
-	
 
 	@Override
 	public void setValueMessage(Object... expression) {

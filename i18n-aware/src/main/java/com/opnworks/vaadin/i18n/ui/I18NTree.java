@@ -38,7 +38,7 @@ public class I18NTree extends Tree implements I18NAwareFieldExpression<Object> {
 	}
 
 	public I18NTree(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -54,7 +54,7 @@ public class I18NTree extends Tree implements I18NAwareFieldExpression<Object> {
 	}
 
 	public I18NTree(I18NExpression captionExpression, Container dataSource) {
-		super(captionExpression.getStringFinal(), dataSource);		
+		super(captionExpression.getStringFinal(), dataSource);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 

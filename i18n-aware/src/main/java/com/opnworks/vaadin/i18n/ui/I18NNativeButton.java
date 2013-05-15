@@ -29,7 +29,7 @@ public class I18NNativeButton extends NativeButton implements I18NAwareComponent
 	}
 
 	public I18NNativeButton(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -39,7 +39,7 @@ public class I18NNativeButton extends NativeButton implements I18NAwareComponent
 	}
 
 	public I18NNativeButton(I18NExpression captionExpression, ClickListener listener) {
-		super(captionExpression.getStringFinal(), listener);		
+		super(captionExpression.getStringFinal(), listener);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 

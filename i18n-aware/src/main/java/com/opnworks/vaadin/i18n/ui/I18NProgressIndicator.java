@@ -131,13 +131,13 @@ public class I18NProgressIndicator extends ProgressIndicator implements I18NAwar
 	@Override
 	public void setValueMessage(Object... expression) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setValueMessage(String valueKey, Object... valueParams) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

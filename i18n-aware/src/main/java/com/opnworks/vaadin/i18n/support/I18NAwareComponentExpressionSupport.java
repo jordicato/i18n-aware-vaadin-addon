@@ -9,8 +9,9 @@ import com.opnworks.vaadin.i18n.I18NAwareExpression;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.support.I18NAwareExpressionSupport.AwareExpressionContainer;
 import com.opnworks.vaadin.i18n.support.I18NExpressionSupport.ExpressionContainer;
-import com.opnworks.vaadin.i18n.support.I18NValueExpressionSupport;
-import com.opnworks.vaadin.i18n.support.I18NValueExpressionSupport.ValueExpressionContainer;;
+import com.opnworks.vaadin.i18n.support.I18NValueExpressionSupport.ValueExpressionContainer;
+
+;
 
 /**
  * The I18NAwareComponentExpressionSupport
@@ -40,13 +41,13 @@ public class I18NAwareComponentExpressionSupport implements Serializable, I18NAw
 	});
 
 	private I18NValueExpressionSupport valueI18NSupport = new I18NValueExpressionSupport(new ValueExpressionContainer() {
-		
+
 		@Override
 		public void setRealValue(String value) {
 			originalValueComponent.setRealValue(value);
 		}
 	});
-	
+
 	public I18NAwareComponentExpressionSupport(I18NAwareComponentExpression originalComponent) {
 		this.originalComponent = originalComponent;
 	}
@@ -78,11 +79,11 @@ public class I18NAwareComponentExpressionSupport implements Serializable, I18NAw
 	public void setDescriptionMessage(Object... expression) {
 		descriptionI18NSupport.setDescriptionMessage(expression);
 	}
-	
+
 	@Override
 	public void setDescriptionMessage(String descriptionKey, Object... descriptionParams) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

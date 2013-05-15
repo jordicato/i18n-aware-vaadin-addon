@@ -50,7 +50,7 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareFieldExpr
 	}
 
 	public I18NRichTextArea(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -68,7 +68,7 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareFieldExpr
 	}
 
 	public I18NRichTextArea(I18NExpression captionExpression, Property<?> dataSource) {
-		super(captionExpression.getStringFinal(), dataSource);		
+		super(captionExpression.getStringFinal(), dataSource);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -86,7 +86,7 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareFieldExpr
 	}
 
 	public I18NRichTextArea(I18NExpression captionExpression, String value) {
-		super(captionExpression.getStringFinal(), value);		
+		super(captionExpression.getStringFinal(), value);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -163,7 +163,7 @@ public class I18NRichTextArea extends RichTextArea implements I18NAwareFieldExpr
 	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object... requiredErrorParams) {
 		getI18NAwareFieldSupport().setRequiredErrorMessage(requiredErrorKey, requiredErrorParams);
 	}
-	
+
 	private I18NAwareFieldSupport<String> getI18NAwareFieldSupport() {
 
 		if (i18NAwareFieldSupport == null) {

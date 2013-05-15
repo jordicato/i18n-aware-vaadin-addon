@@ -47,7 +47,7 @@ public class I18NTreeTable extends TreeTable implements I18NAwareCaption, I18NAw
 	}
 
 	public I18NTreeTable(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -63,7 +63,7 @@ public class I18NTreeTable extends TreeTable implements I18NAwareCaption, I18NAw
 	}
 
 	public I18NTreeTable(I18NExpression captionExpression, Container dataSource) {
-		super(captionExpression.getStringFinal(), dataSource);		
+		super(captionExpression.getStringFinal(), dataSource);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -82,7 +82,7 @@ public class I18NTreeTable extends TreeTable implements I18NAwareCaption, I18NAw
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 		getI18NAwareFieldSupport().i18NUpdate(i18N);
-		
+
 		updateColumnHeaders(i18N);
 
 		Container items = getContainerDataSource();
@@ -210,13 +210,13 @@ public class I18NTreeTable extends TreeTable implements I18NAwareCaption, I18NAw
 	@Override
 	public void setValueMessage(Object... expression) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setValueMessage(String valueKey, Object... valueParams) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

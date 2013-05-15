@@ -32,7 +32,7 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 	});
 
 	private I18NExpressionSupport buttonCaptionI18NCaptionSupport = new I18NExpressionSupport(new ExpressionContainer() {
-		
+
 		@Override
 		public void setRealCaption(String caption) {
 			setRealCaption(caption);
@@ -59,7 +59,7 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 	}
 
 	public I18NUpload(I18NExpression captionExpression, Receiver receiver) {
-		super(captionExpression.getStringFinal(), receiver);		
+		super(captionExpression.getStringFinal(), receiver);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 

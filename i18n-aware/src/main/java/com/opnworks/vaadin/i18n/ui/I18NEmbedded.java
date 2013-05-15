@@ -42,7 +42,7 @@ public class I18NEmbedded extends Embedded implements I18NAwareComponentExpressi
 	}
 
 	public I18NEmbedded(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -60,7 +60,7 @@ public class I18NEmbedded extends Embedded implements I18NAwareComponentExpressi
 	}
 
 	public I18NEmbedded(I18NExpression captionExpression, Resource resource) {
-		super(captionExpression.getStringFinal(), resource);		
+		super(captionExpression.getStringFinal(), resource);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 

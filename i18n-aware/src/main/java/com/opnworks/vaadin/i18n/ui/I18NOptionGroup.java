@@ -37,7 +37,7 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareFieldExpres
 	}
 
 	public I18NOptionGroup(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -47,7 +47,7 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareFieldExpres
 	}
 
 	public I18NOptionGroup(I18NExpression captionExpression, Collection<?> options) {
-		super(captionExpression.getStringFinal(), options);		
+		super(captionExpression.getStringFinal(), options);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -57,10 +57,10 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareFieldExpres
 	}
 
 	public I18NOptionGroup(I18NExpression captionExpression, Container dataSource) {
-		super(captionExpression.getStringFinal(), dataSource);		
+		super(captionExpression.getStringFinal(), dataSource);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
-	
+
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 		getI18NAwareFieldSupport().i18NUpdate(i18N);
@@ -174,13 +174,13 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareFieldExpres
 	@Override
 	public void setValueMessage(Object... expression) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setValueMessage(String valueKey, Object... valueParams) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
