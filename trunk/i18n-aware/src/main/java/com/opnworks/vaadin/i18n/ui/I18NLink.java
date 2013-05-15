@@ -41,7 +41,7 @@ public class I18NLink extends Link implements I18NAwareComponentExpression, I18N
 	}
 
 	public I18NLink(I18NExpression captionExpression, Resource resource) {
-		super(captionExpression.getStringFinal(), resource);		
+		super(captionExpression.getStringFinal(), resource);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 

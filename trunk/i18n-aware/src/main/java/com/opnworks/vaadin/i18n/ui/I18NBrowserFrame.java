@@ -44,7 +44,7 @@ public class I18NBrowserFrame extends BrowserFrame implements I18NAwareComponent
 	}
 
 	public I18NBrowserFrame(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -62,7 +62,7 @@ public class I18NBrowserFrame extends BrowserFrame implements I18NAwareComponent
 	}
 
 	public I18NBrowserFrame(I18NExpression captionExpression, Resource resource) {
-		super(captionExpression.getStringFinal(), resource);		
+		super(captionExpression.getStringFinal(), resource);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 

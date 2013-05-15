@@ -96,7 +96,7 @@ public class I18NAwareFieldSupport<T> implements Serializable {
 	public void setValueMessage(Object... expression) {
 		i18NAwareComponentValueExpressionSupport.setValueMessage(expression);
 	}
-	
+
 	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object[] requiredErrorParams) {
 		i18NRequiredErrorSupport.setValueMessage(requiredErrorKey, requiredErrorParams);
 	}

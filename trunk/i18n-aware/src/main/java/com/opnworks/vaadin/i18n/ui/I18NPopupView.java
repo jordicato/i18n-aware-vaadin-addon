@@ -127,10 +127,10 @@ public class I18NPopupView extends PopupView implements I18NAwareComponentExpres
 		super(small, large);
 	}
 
-	/*public I18NPopupView(I18NExpression captionExpression, Component large) {
-		super(captionExpression.getStringFinal(), large);		
-		setCaptionMessage(captionExpression.getObjectlist());
-	}*/
+	/*
+	 * public I18NPopupView(I18NExpression captionExpression, Component large) { super(captionExpression.getStringFinal(), large);
+	 * setCaptionMessage(captionExpression.getObjectlist()); }
+	 */
 
 	/**
 	 * Creates a PopupView through the PopupView.Content interface. This allows the creator to dynamically change the contents of the PopupView.

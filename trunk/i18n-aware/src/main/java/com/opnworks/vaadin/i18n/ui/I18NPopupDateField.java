@@ -53,7 +53,7 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 	}
 
 	public I18NPopupDateField(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -70,7 +70,7 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 	}
 
 	public I18NPopupDateField(I18NExpression captionExpression, Date value) {
-		super(captionExpression.getStringFinal(), value);		
+		super(captionExpression.getStringFinal(), value);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -87,7 +87,7 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 	}
 
 	public I18NPopupDateField(I18NExpression captionExpression, Property<?> dataSource) {
-		super(captionExpression.getStringFinal(), dataSource);		
+		super(captionExpression.getStringFinal(), dataSource);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -199,13 +199,13 @@ public class I18NPopupDateField extends PopupDateField implements I18NAwareField
 	@Override
 	public void setValueMessage(Object... expression) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setValueMessage(String valueKey, Object... valueParams) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -57,7 +57,7 @@ public class I18NPanel extends Panel implements I18NAwareComponentExpression, I1
 	}
 
 	public I18NPanel(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 		setContent(new I18NVerticalLayout());
 	}
@@ -77,7 +77,7 @@ public class I18NPanel extends Panel implements I18NAwareComponentExpression, I1
 	}
 
 	public I18NPanel(I18NExpression captionExpression, ComponentContainer content) {
-		super(captionExpression.getStringFinal(), content);		
+		super(captionExpression.getStringFinal(), content);
 		setCaptionMessage(captionExpression.getObjectlist());
 		setContent(new I18NVerticalLayout());
 	}

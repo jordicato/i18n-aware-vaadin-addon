@@ -56,7 +56,7 @@ public class I18NSlider extends Slider implements I18NAwareFieldExpression<Doubl
 	}
 
 	public I18NSlider(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -73,7 +73,7 @@ public class I18NSlider extends Slider implements I18NAwareFieldExpression<Doubl
 	}
 
 	public I18NSlider(I18NExpression captionExpression, int min, int max) {
-		super(captionExpression.getStringFinal(), min, max);		
+		super(captionExpression.getStringFinal(), min, max);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -163,13 +163,13 @@ public class I18NSlider extends Slider implements I18NAwareFieldExpression<Doubl
 	@Override
 	public void setValueMessage(Object... expression) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setValueMessage(String valueKey, Object... valueParams) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

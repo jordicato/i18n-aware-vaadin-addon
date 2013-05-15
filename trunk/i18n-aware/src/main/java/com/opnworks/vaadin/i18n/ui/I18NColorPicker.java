@@ -41,7 +41,7 @@ public class I18NColorPicker extends ColorPicker implements I18NAwareComponentEx
 	}
 
 	public I18NColorPicker(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -59,7 +59,7 @@ public class I18NColorPicker extends ColorPicker implements I18NAwareComponentEx
 	}
 
 	public I18NColorPicker(I18NExpression captionExpression, Color color) {
-		super(captionExpression.getStringFinal(), color);		
+		super(captionExpression.getStringFinal(), color);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 

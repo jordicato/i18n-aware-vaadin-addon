@@ -44,10 +44,10 @@ public class I18NAudio extends Audio implements I18NAwareComponentExpression, I1
 	}
 
 	public I18NAudio(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
-	
+
 	/**
 	 * Creates a new i18n audio with caption message key and click listener.
 	 * 
@@ -62,7 +62,7 @@ public class I18NAudio extends Audio implements I18NAwareComponentExpression, I1
 	}
 
 	public I18NAudio(I18NExpression captionExpression, Resource resource) {
-		super(captionExpression.getStringFinal(), resource);		
+		super(captionExpression.getStringFinal(), resource);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 

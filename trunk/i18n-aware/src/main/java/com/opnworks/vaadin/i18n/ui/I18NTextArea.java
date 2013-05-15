@@ -49,7 +49,7 @@ public class I18NTextArea extends TextArea implements I18NAwareFieldExpression<S
 	}
 
 	public I18NTextArea(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -67,7 +67,7 @@ public class I18NTextArea extends TextArea implements I18NAwareFieldExpression<S
 	}
 
 	public I18NTextArea(I18NExpression captionExpression, Property<?> dataSource) {
-		super(captionExpression.getStringFinal(), dataSource);		
+		super(captionExpression.getStringFinal(), dataSource);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -88,7 +88,7 @@ public class I18NTextArea extends TextArea implements I18NAwareFieldExpression<S
 	}
 
 	public I18NTextArea(I18NExpression captionExpression, String value) {
-		super(captionExpression.getStringFinal(), value);		
+		super(captionExpression.getStringFinal(), value);
 		setCaptionMessage(captionExpression.getObjectlist());
 		if (value != "") {
 			setValueMessage(value);

@@ -49,7 +49,7 @@ public class I18NPasswordField extends PasswordField implements I18NAwareFieldEx
 	}
 
 	public I18NPasswordField(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -67,7 +67,7 @@ public class I18NPasswordField extends PasswordField implements I18NAwareFieldEx
 	}
 
 	public I18NPasswordField(I18NExpression captionExpression, Property<?> dataSource) {
-		super(captionExpression.getStringFinal(), dataSource);		
+		super(captionExpression.getStringFinal(), dataSource);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -85,7 +85,7 @@ public class I18NPasswordField extends PasswordField implements I18NAwareFieldEx
 	}
 
 	public I18NPasswordField(I18NExpression captionExpression, String value) {
-		super(captionExpression.getStringFinal(), value);		
+		super(captionExpression.getStringFinal(), value);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -166,8 +166,9 @@ public class I18NPasswordField extends PasswordField implements I18NAwareFieldEx
 		getI18NAwareFieldSupport().setDescriptionMessage(expression);
 	}
 
-	public void setValue(String value) {
-		setValueMessage(value);
+	@Override
+	public void setValue(@I18NAwareMessage String valueKey) {
+		setValueMessage(valueKey);
 	}
 
 	public void setValue(Object... expression) {

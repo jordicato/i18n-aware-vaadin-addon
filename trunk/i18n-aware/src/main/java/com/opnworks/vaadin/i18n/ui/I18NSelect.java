@@ -33,7 +33,7 @@ public class I18NSelect extends Select implements I18NAwareFieldExpression<Objec
 	}
 
 	public I18NSelect(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -43,7 +43,7 @@ public class I18NSelect extends Select implements I18NAwareFieldExpression<Objec
 	}
 
 	public I18NSelect(I18NExpression captionExpression, Collection<?> options) {
-		super(captionExpression.getStringFinal(), options);		
+		super(captionExpression.getStringFinal(), options);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -53,7 +53,7 @@ public class I18NSelect extends Select implements I18NAwareFieldExpression<Objec
 	}
 
 	public I18NSelect(I18NExpression captionExpression, Container dataSource) {
-		super(captionExpression.getStringFinal(), dataSource);		
+		super(captionExpression.getStringFinal(), dataSource);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -143,13 +143,13 @@ public class I18NSelect extends Select implements I18NAwareFieldExpression<Objec
 	@Override
 	public void setValueMessage(Object... expression) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setValueMessage(String valueKey, Object... valueParams) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

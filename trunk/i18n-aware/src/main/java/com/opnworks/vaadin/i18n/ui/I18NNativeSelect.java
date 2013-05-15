@@ -32,7 +32,7 @@ public class I18NNativeSelect extends NativeSelect implements I18NAwareFieldExpr
 	}
 
 	public I18NNativeSelect(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -42,7 +42,7 @@ public class I18NNativeSelect extends NativeSelect implements I18NAwareFieldExpr
 	}
 
 	public I18NNativeSelect(I18NExpression captionExpression, Collection<?> options) {
-		super(captionExpression.getStringFinal(), options);		
+		super(captionExpression.getStringFinal(), options);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -52,7 +52,7 @@ public class I18NNativeSelect extends NativeSelect implements I18NAwareFieldExpr
 	}
 
 	public I18NNativeSelect(I18NExpression captionExpression, Container dataSource) {
-		super(captionExpression.getStringFinal(), dataSource);		
+		super(captionExpression.getStringFinal(), dataSource);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -142,13 +142,13 @@ public class I18NNativeSelect extends NativeSelect implements I18NAwareFieldExpr
 	@Override
 	public void setValueMessage(Object... expression) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setValueMessage(String valueKey, Object... valueParams) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

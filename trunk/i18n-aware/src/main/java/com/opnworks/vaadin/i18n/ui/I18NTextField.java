@@ -49,18 +49,18 @@ public class I18NTextField extends TextField implements I18NAwareFieldExpression
 	}
 
 	public I18NTextField(I18NExpression captionExpression) {
-		super(captionExpression.getStringFinal());		
+		super(captionExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
 	public I18NTextField(I18NExpression captionExpression, I18NExpression valueExpression) {
-		super(captionExpression.getStringFinal(), valueExpression.getStringFinal());		
+		super(captionExpression.getStringFinal(), valueExpression.getStringFinal());
 		setCaptionMessage(captionExpression.getObjectlist());
 		setValueMessage(valueExpression.getObjectlist());
 	}
 
 	public I18NTextField(I18NExpression captionExpression, Property<?> dataSource) {
-		super(captionExpression.getStringFinal(), dataSource);		
+		super(captionExpression.getStringFinal(), dataSource);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -99,6 +99,7 @@ public class I18NTextField extends TextField implements I18NAwareFieldExpression
 		setValueMessage(expression);
 	}
 
+	@Override
 	public void setValue(@I18NAwareMessage String valueKey) {
 		setValueMessage(valueKey);
 	}

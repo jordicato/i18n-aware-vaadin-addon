@@ -38,7 +38,6 @@ public class I18NHorizontalLayout extends HorizontalLayout implements I18NAwareL
 		setCaptionMessage(expression);
 	}
 
-	
 	public void setDescription(Object... expression) {
 		setDescriptionMessage(expression);
 	}

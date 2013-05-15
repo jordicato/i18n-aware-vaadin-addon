@@ -86,7 +86,7 @@ public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue
 	}
 
 	public I18NLabel(I18NExpression captionExpression, ContentMode contentMode) {
-		super(captionExpression.getStringFinal(), contentMode);		
+		super(captionExpression.getStringFinal(), contentMode);
 		setCaptionMessage(captionExpression.getObjectlist());
 	}
 
@@ -144,7 +144,7 @@ public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue
 	public void setValue(String value) {
 		super.setValue(value);
 	}
-	
+
 	@Override
 	public void setValueMessage(@I18NAwareMessage String textKey, Object... params) {
 
