@@ -42,7 +42,7 @@ public class I18NLink extends Link implements I18NAwareComponentExpression, I18N
 
 	public I18NLink(I18NExpression captionExpression, Resource resource) {
 		super(captionExpression.getStringFinal(), resource);
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class I18NLink extends Link implements I18NAwareComponentExpression, I18N
 
 	public I18NLink(I18NExpression captionExpression, Resource resource, String targetName, int width, int height, BorderStyle border) {
 		super(captionExpression.getStringFinal(), resource, targetName, width, height, border);
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 	}
 
 	@Override
@@ -82,11 +82,11 @@ public class I18NLink extends Link implements I18NAwareComponentExpression, I18N
 		setCaptionMessage(captionKey);
 	}
 
-	public void setCaption(Object... expression) {
+	public void setCaption(I18NExpression expression) {
 		setCaptionMessage(expression);
 	}
 
-	public void setDescription(Object... expression) {
+	public void setDescription(I18NExpression expression) {
 		setDescriptionMessage(expression);
 	}
 
@@ -116,12 +116,12 @@ public class I18NLink extends Link implements I18NAwareComponentExpression, I18N
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
 

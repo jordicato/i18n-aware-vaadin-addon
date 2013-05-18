@@ -52,7 +52,7 @@ public class I18NDateField extends DateField implements I18NAwareFieldExpression
 
 	public I18NDateField(I18NExpression captionExpression) {
 		super(captionExpression.getStringFinal());
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class I18NDateField extends DateField implements I18NAwareFieldExpression
 
 	public I18NDateField(I18NExpression captionExpression, Date value) {
 		super(captionExpression.getStringFinal(), value);
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class I18NDateField extends DateField implements I18NAwareFieldExpression
 
 	public I18NDateField(I18NExpression captionExpression, Property<?> dataSource) {
 		super(captionExpression.getStringFinal(), dataSource);
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 	}
 
 	@Override
@@ -106,7 +106,7 @@ public class I18NDateField extends DateField implements I18NAwareFieldExpression
 		setCaptionMessage(captionKey);
 	}
 
-	public void setCaption(Object... expression) {
+	public void setCaption(I18NExpression expression) {
 		setCaptionMessage(expression);
 	}
 
@@ -120,7 +120,7 @@ public class I18NDateField extends DateField implements I18NAwareFieldExpression
 		setDescriptionMessage(descriptionKey);
 	}
 
-	public void setDescription(Object... expression) {
+	public void setDescription(I18NExpression expression) {
 		setDescriptionMessage(expression);
 	}
 
@@ -164,22 +164,23 @@ public class I18NDateField extends DateField implements I18NAwareFieldExpression
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		getI18NAwareFieldSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		getI18NAwareFieldSupport().setDescriptionMessage(expression);
 	}
 
 	@Override
 	public void setRealValue(Object value) {
-
+		// TODO Auto-generated method stub
+		super.setValue((Date) value);
 	}
 
 	@Override
-	public void setValueMessage(Object... expression) {
+	public void setValueMessage(I18NExpression expression) {
 		// TODO Auto-generated method stub
 
 	}

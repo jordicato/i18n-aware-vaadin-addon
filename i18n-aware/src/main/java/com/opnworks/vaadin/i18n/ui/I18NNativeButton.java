@@ -30,7 +30,7 @@ public class I18NNativeButton extends NativeButton implements I18NAwareComponent
 
 	public I18NNativeButton(I18NExpression captionExpression) {
 		super(captionExpression.getStringFinal());
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 	}
 
 	public I18NNativeButton(@I18NAwareMessage String captionKey, ClickListener listener) {
@@ -40,7 +40,7 @@ public class I18NNativeButton extends NativeButton implements I18NAwareComponent
 
 	public I18NNativeButton(I18NExpression captionExpression, ClickListener listener) {
 		super(captionExpression.getStringFinal(), listener);
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 	}
 
 	@Override
@@ -53,11 +53,11 @@ public class I18NNativeButton extends NativeButton implements I18NAwareComponent
 		setCaptionMessage(captionKey);
 	}
 
-	public void setCaption(Object... expression) {
+	public void setCaption(I18NExpression expression) {
 		setCaptionMessage(expression);
 	}
 
-	public void setDescription(Object... expression) {
+	public void setDescription(I18NExpression expression) {
 		setDescriptionMessage(expression);
 	}
 
@@ -87,12 +87,12 @@ public class I18NNativeButton extends NativeButton implements I18NAwareComponent
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
 

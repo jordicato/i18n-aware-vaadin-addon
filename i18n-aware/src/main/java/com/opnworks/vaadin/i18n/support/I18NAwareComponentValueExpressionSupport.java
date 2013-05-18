@@ -63,11 +63,11 @@ public class I18NAwareComponentValueExpressionSupport implements Serializable, I
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		i18NExpressionSupport.setCaptionMessage(expression);
 	}
 
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		descriptionI18NSupport.setDescriptionMessage(expression);
 	}
 
@@ -87,7 +87,7 @@ public class I18NAwareComponentValueExpressionSupport implements Serializable, I
 	}
 
 	@Override
-	public void setValueMessage(Object... expression) {
+	public void setValueMessage(I18NExpression expression) {
 		i18NValueExpressionSupport.setValueMessage(expression);
 	}
 
@@ -100,4 +100,5 @@ public class I18NAwareComponentValueExpressionSupport implements Serializable, I
 	public void setValueMessage(String valueKey, Object... valueParams) {
 		i18NValueExpressionSupport.setValueMessage(valueKey, valueParams);
 	}
+
 }

@@ -38,7 +38,7 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareFieldExpres
 
 	public I18NOptionGroup(I18NExpression captionExpression) {
 		super(captionExpression.getStringFinal());
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 	}
 
 	public I18NOptionGroup(@I18NAwareMessage String captionKey, Collection<?> options) {
@@ -48,7 +48,7 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareFieldExpres
 
 	public I18NOptionGroup(I18NExpression captionExpression, Collection<?> options) {
 		super(captionExpression.getStringFinal(), options);
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 	}
 
 	public I18NOptionGroup(@I18NAwareMessage String captionKey, Container dataSource) {
@@ -58,7 +58,7 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareFieldExpres
 
 	public I18NOptionGroup(I18NExpression captionExpression, Container dataSource) {
 		super(captionExpression.getStringFinal(), dataSource);
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareFieldExpres
 		setCaptionMessage(captionKey);
 	}
 
-	public void setCaption(Object... expression) {
+	public void setCaption(I18NExpression expression) {
 		setCaptionMessage(expression);
 	}
 
@@ -86,7 +86,7 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareFieldExpres
 		setDescriptionMessage(descriptionKey);
 	}
 
-	public void setDescription(Object... expression) {
+	public void setDescription(I18NExpression expression) {
 		setDescriptionMessage(expression);
 	}
 
@@ -156,12 +156,12 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareFieldExpres
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		getI18NAwareFieldSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		getI18NAwareFieldSupport().setDescriptionMessage(expression);
 	}
 
@@ -172,7 +172,7 @@ public class I18NOptionGroup extends OptionGroup implements I18NAwareFieldExpres
 	}
 
 	@Override
-	public void setValueMessage(Object... expression) {
+	public void setValueMessage(I18NExpression expression) {
 		// TODO Auto-generated method stub
 
 	}

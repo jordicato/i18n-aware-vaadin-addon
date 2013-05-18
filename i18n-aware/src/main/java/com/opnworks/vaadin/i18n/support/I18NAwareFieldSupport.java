@@ -23,6 +23,8 @@ public class I18NAwareFieldSupport<T> implements Serializable {
 
 	private I18NAwareComponentValueExpressionSupport i18NAwareComponentValueExpressionSupport;
 
+	private String captionKey;
+	
 	private I18NAwareValueSupport i18NRequiredErrorSupport = new I18NAwareValueSupport(new AwareValueContainer() {
 		@Override
 		public void setValue(String value) {
@@ -74,6 +76,7 @@ public class I18NAwareFieldSupport<T> implements Serializable {
 	}
 
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
+		this.captionKey = captionKey;
 		i18NAwareComponentValueExpressionSupport.setCaptionMessage(captionKey, params);
 	}
 
@@ -85,19 +88,23 @@ public class I18NAwareFieldSupport<T> implements Serializable {
 		i18NAwareComponentValueExpressionSupport.setValueMessage(valueKey, valueParams);
 	}
 
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		i18NAwareComponentValueExpressionSupport.setCaptionMessage(expression);
 	}
 
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		i18NAwareComponentValueExpressionSupport.setDescriptionMessage(expression);
 	}
 
-	public void setValueMessage(Object... expression) {
+	public void setValueMessage(I18NExpression expression) {
 		i18NAwareComponentValueExpressionSupport.setValueMessage(expression);
 	}
 
 	public void setRequiredErrorMessage(@I18NAwareMessage String requiredErrorKey, Object[] requiredErrorParams) {
 		i18NRequiredErrorSupport.setValueMessage(requiredErrorKey, requiredErrorParams);
+	}
+	
+	public String getCaptionKey() {
+		return captionKey;
 	}
 }

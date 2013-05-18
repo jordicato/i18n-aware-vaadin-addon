@@ -9,6 +9,7 @@ import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareFieldSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareFormFieldFactorySupport;
+import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.vaadin.ui.Form;
 import com.vaadin.ui.FormFieldFactory;
 
@@ -69,7 +70,7 @@ public class I18NForm extends Form implements I18NAwareFieldExpression<Object> {
 		setCaptionMessage(captionKey);
 	}
 
-	public void setCaption(Object... expression) {
+	public void setCaption(I18NExpression expression) {
 		setCaptionMessage(expression);
 	}
 
@@ -83,7 +84,7 @@ public class I18NForm extends Form implements I18NAwareFieldExpression<Object> {
 		setDescriptionMessage(descriptionKey);
 	}
 
-	public void setDescription(Object... expression) {
+	public void setDescription(I18NExpression expression) {
 		setDescriptionMessage(expression);
 	}
 
@@ -127,12 +128,12 @@ public class I18NForm extends Form implements I18NAwareFieldExpression<Object> {
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		i18NAwareFieldSupport.setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		i18NAwareFieldSupport.setDescriptionMessage(expression);
 	}
 
@@ -147,7 +148,7 @@ public class I18NForm extends Form implements I18NAwareFieldExpression<Object> {
 	}
 
 	@Override
-	public void setValueMessage(Object... expression) {
+	public void setValueMessage(I18NExpression expression) {
 		// TODO Auto-generated method stub
 
 	}
@@ -157,4 +158,5 @@ public class I18NForm extends Form implements I18NAwareFieldExpression<Object> {
 		// TODO Auto-generated method stub
 
 	}
+	
 }

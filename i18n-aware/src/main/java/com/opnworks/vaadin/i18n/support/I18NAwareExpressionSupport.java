@@ -22,6 +22,8 @@ public class I18NAwareExpressionSupport implements I18NAwareValueExpression {
 	private Object[] valueParams;
 
 	private Locale locale;
+	
+	static private String lastValueKey;
 
 	public I18NAwareExpressionSupport(AwareExpressionContainer awareExpressionContainer) {
 		this.valueContainer = awareExpressionContainer;
@@ -41,11 +43,11 @@ public class I18NAwareExpressionSupport implements I18NAwareValueExpression {
 	}
 
 	@Override
-	public void i18NUpdate(I18NService i18N) {
+	public void i18NUpdate(I18NService i18N) {		
 		setLocale(i18N.getLocale());
 		if (expressions != null) {
 			valueContainer.setValue(expressions.getStringFinal());
-		}
+		}		
 		else if (valueKey != null) {
 			valueContainer.setValue(i18N.getMessage(valueKey, valueParams));
 		}
@@ -57,8 +59,8 @@ public class I18NAwareExpressionSupport implements I18NAwareValueExpression {
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
-		this.expressions = new I18NExpression(expression);
+	public void setCaptionMessage(I18NExpression expression) {
+		this.expressions = expression;
 
 		if (I18NServiceSingleton.getInstance().getI18NServive() != null) {
 			this.i18NUpdate(I18NServiceSingleton.getInstance().getI18NServive());
@@ -71,8 +73,8 @@ public class I18NAwareExpressionSupport implements I18NAwareValueExpression {
 	}
 
 	@Override
-	public void setDescriptionMessage(Object... expression) {
-		this.expressions = new I18NExpression(expression);
+	public void setDescriptionMessage(I18NExpression expression) {
+		this.expressions = expression;
 
 		if (I18NServiceSingleton.getInstance().getI18NServive() != null) {
 			this.i18NUpdate(I18NServiceSingleton.getInstance().getI18NServive());
@@ -86,7 +88,7 @@ public class I18NAwareExpressionSupport implements I18NAwareValueExpression {
 
 	@Override
 	public void setValueMessage(String valueKey, Object... valueParams) {
-		this.valueKey = valueKey;
+		this.valueKey = valueKey;		
 		this.valueParams = valueParams;
 
 		if (I18NServiceSingleton.getInstance().getI18NServive() != null) {
@@ -95,9 +97,8 @@ public class I18NAwareExpressionSupport implements I18NAwareValueExpression {
 	}
 
 	@Override
-	public void setValueMessage(Object... expression) {
-		this.expressions = new I18NExpression(expression);
-		System.out.println("Value message --- " + new I18NExpression(expression).getStringFinal());
+	public void setValueMessage(I18NExpression expression) {
+		this.expressions = expression;
 		if (I18NServiceSingleton.getInstance().getI18NServive() != null) {
 			this.i18NUpdate(I18NServiceSingleton.getInstance().getI18NServive());
 		}
@@ -115,11 +116,16 @@ public class I18NAwareExpressionSupport implements I18NAwareValueExpression {
 
 	@Override
 	public void setCaptionMessage(String captionKey, Object... params) {
-		this.valueKey = captionKey;
+		I18NAwareExpressionSupport.lastValueKey = captionKey;
+		this.valueKey = captionKey;			
 		this.valueParams = params;
 
 		if (I18NServiceSingleton.getInstance().getI18NServive() != null) {
 			this.i18NUpdate(I18NServiceSingleton.getInstance().getI18NServive());
 		}
+	}
+	
+	static public String getLastValueKey() {
+		return lastValueKey;
 	}
 }

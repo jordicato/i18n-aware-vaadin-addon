@@ -67,8 +67,8 @@ public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue
 	}
 
 	public I18NLabel(I18NExpression expressions) {
-		super(expressions.getStringFinal());
-		setCaptionMessage(expressions.getObjectlist());
+		super();
+		setCaptionMessage(expressions);
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue
 
 	public I18NLabel(I18NExpression captionExpression, ContentMode contentMode) {
 		super(captionExpression.getStringFinal(), contentMode);
-		setCaptionMessage(captionExpression.getObjectlist());
+		//setCaptionMessage(captionExpression.getObjectlist());
 	}
 
 	@Override
@@ -102,11 +102,11 @@ public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue
 		}
 	}
 
-	public void setCaption(Object... expression) {
+	public void setCaption(I18NExpression expression) {
 		setCaptionMessage(expression);
 	}
 
-	public void setDescription(Object... expression) {
+	public void setDescription(I18NExpression expression) {
 		setDescriptionMessage(expression);
 	}
 
@@ -177,12 +177,12 @@ public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
 

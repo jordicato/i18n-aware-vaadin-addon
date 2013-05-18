@@ -143,4 +143,5 @@ public class I18NTab implements Tab, I18NAwareCaption, CaptionContainer {
 	public void setVisible(boolean visible) {
 		delegate.setVisible(visible);
 	}
+	
 }

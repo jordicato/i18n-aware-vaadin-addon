@@ -81,4 +81,5 @@ public class I18NAction extends Action implements I18NAwareCaption, CaptionConta
 	public void setRealCaption(String caption) {
 		super.setCaption(caption);
 	}
+
 }
