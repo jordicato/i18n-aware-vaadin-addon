@@ -8,6 +8,7 @@ import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NCaptionSupport.CaptionContainer;
+import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.vaadin.ui.LoginForm;
 
 /**
@@ -64,11 +65,11 @@ public class I18NLoginForm extends LoginForm implements I18NAwareCaption, I18NAw
 		setCaptionMessage(captionKey);
 	}
 
-	public void setCaption(Object... expression) {
+	public void setCaption(I18NExpression expression) {
 		setCaptionMessage(expression);
 	}
 
-	public void setDescription(Object... expression) {
+	public void setDescription(I18NExpression expression) {
 		setDescriptionMessage(expression);
 	}
 
@@ -122,12 +123,12 @@ public class I18NLoginForm extends LoginForm implements I18NAwareCaption, I18NAw
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
 

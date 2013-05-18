@@ -24,7 +24,7 @@ public class I18NAwareComponentExpressionSupport implements Serializable, I18NAw
 
 	private I18NAwareComponentExpression originalComponent;
 	private I18NAwareComponentValueExpression originalValueComponent;
-
+	
 	private I18NExpressionSupport i18NExpressionSupport = new I18NExpressionSupport(new ExpressionContainer() {
 		@Override
 		public void setRealCaption(String caption) {
@@ -72,18 +72,17 @@ public class I18NAwareComponentExpressionSupport implements Serializable, I18NAw
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		i18NExpressionSupport.setCaptionMessage(expression);
 	}
 
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		descriptionI18NSupport.setDescriptionMessage(expression);
 	}
 
 	@Override
 	public void setDescriptionMessage(String descriptionKey, Object... descriptionParams) {
-		// TODO Auto-generated method stub
-
+		descriptionI18NSupport.setDescriptionMessage(descriptionKey, descriptionParams);
 	}
 
 	@Override

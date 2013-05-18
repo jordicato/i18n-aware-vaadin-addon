@@ -44,9 +44,15 @@ public class I18NAwareValueSupport implements I18NAwareValue {
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
+		
 		setLocale(i18N.getLocale());
 
 		if (valueKey != null) {
+			
+			if ((!I18NExpression.isKey(valueKey)) && (i18N.getMessage(I18NAwareExpressionSupport.getLastValueKey(), valueParams).equals(valueKey))) {
+				valueKey = I18NAwareExpressionSupport.getLastValueKey();
+			}
+			
 			valueContainer.setValue(i18N.getMessage(valueKey, valueParams));
 		}
 	}

@@ -34,4 +34,5 @@ public class I18NCaptionSupport extends I18NAwareValueSupport implements I18NAwa
 	public void setRealCaption(String caption) {
 		valueContainer.setValue(caption);
 	}
+
 }

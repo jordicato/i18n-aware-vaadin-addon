@@ -7,6 +7,7 @@ import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
+import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CssLayout;
 
@@ -49,11 +50,11 @@ public class I18NCssLayout extends CssLayout implements I18NAwareLayout, I18NAwa
 		setCaptionMessage(captionKey);
 	}
 
-	public void setCaption(Object... expression) {
+	public void setCaption(I18NExpression expression) {
 		setCaptionMessage(expression);
 	}
 
-	public void setDescription(Object... expression) {
+	public void setDescription(I18NExpression expression) {
 		setDescriptionMessage(expression);
 	}
 
@@ -83,12 +84,12 @@ public class I18NCssLayout extends CssLayout implements I18NAwareLayout, I18NAwa
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
 
@@ -100,4 +101,5 @@ public class I18NCssLayout extends CssLayout implements I18NAwareLayout, I18NAwa
 
 		return i18NAwareComponentExpressionSupport;
 	}
+	
 }

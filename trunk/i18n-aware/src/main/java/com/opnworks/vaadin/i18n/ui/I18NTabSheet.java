@@ -6,6 +6,7 @@ import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
+import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet;
@@ -57,11 +58,11 @@ public class I18NTabSheet extends TabSheet implements I18NAwareComponentExpressi
 		setCaptionMessage(captionKey);
 	}
 
-	public void setCaption(Object... expression) {
+	public void setCaption(I18NExpression expression) {
 		setCaptionMessage(expression);
 	}
 
-	public void setDescription(Object... expression) {
+	public void setDescription(I18NExpression expression) {
 		setDescriptionMessage(expression);
 	}
 
@@ -106,9 +107,9 @@ public class I18NTabSheet extends TabSheet implements I18NAwareComponentExpressi
 		else {
 			result = new I18NTab(tab);
 		}
-
+		
 		i18NAwareSupport.add(result);
-
+	
 		if (captionKey != null) {
 			result.setCaptionMessage(captionKey, captionParams);
 		}
@@ -117,12 +118,12 @@ public class I18NTabSheet extends TabSheet implements I18NAwareComponentExpressi
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
 

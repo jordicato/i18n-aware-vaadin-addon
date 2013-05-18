@@ -42,7 +42,7 @@ public class I18NColorPickerArea extends ColorPickerArea implements I18NAwareCom
 
 	public I18NColorPickerArea(I18NExpression captionExpression) {
 		super(captionExpression.getStringFinal());
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class I18NColorPickerArea extends ColorPickerArea implements I18NAwareCom
 
 	public I18NColorPickerArea(I18NExpression captionExpression, Color color) {
 		super(captionExpression.getStringFinal(), color);
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 	}
 
 	@Override
@@ -73,11 +73,11 @@ public class I18NColorPickerArea extends ColorPickerArea implements I18NAwareCom
 		setCaptionMessage(captionKey);
 	}
 
-	public void setCaption(Object... expression) {
+	public void setCaption(I18NExpression expression) {
 		setCaptionMessage(expression);
 	}
 
-	public void setDescription(Object... expression) {
+	public void setDescription(I18NExpression expression) {
 		setDescriptionMessage(expression);
 	}
 
@@ -107,12 +107,12 @@ public class I18NColorPickerArea extends ColorPickerArea implements I18NAwareCom
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
 

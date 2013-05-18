@@ -50,18 +50,18 @@ public class I18NTextField extends TextField implements I18NAwareFieldExpression
 
 	public I18NTextField(I18NExpression captionExpression) {
 		super(captionExpression.getStringFinal());
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 	}
 
 	public I18NTextField(I18NExpression captionExpression, I18NExpression valueExpression) {
 		super(captionExpression.getStringFinal(), valueExpression.getStringFinal());
-		setCaptionMessage(captionExpression.getObjectlist());
-		setValueMessage(valueExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
+		setValueMessage(valueExpression);
 	}
 
 	public I18NTextField(I18NExpression captionExpression, Property<?> dataSource) {
 		super(captionExpression.getStringFinal(), dataSource);
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 	}
 
 	/**
@@ -87,15 +87,15 @@ public class I18NTextField extends TextField implements I18NAwareFieldExpression
 		getI18NAwareFieldSupport().i18NUpdate(i18N);
 	}
 
-	public void setCaption(Object... expression) {
+	public void setCaption(I18NExpression expression) {
 		setCaptionMessage(expression);
 	}
 
-	public void setDescription(Object... expression) {
+	public void setDescription(I18NExpression expression) {
 		setDescriptionMessage(expression);
 	}
 
-	public void setValue(Object... expression) {
+	public void setValue(I18NExpression expression) {
 		setValueMessage(expression);
 	}
 
@@ -159,17 +159,17 @@ public class I18NTextField extends TextField implements I18NAwareFieldExpression
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		getI18NAwareFieldSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		getI18NAwareFieldSupport().setDescriptionMessage(expression);
 	}
 
 	@Override
-	public void setValueMessage(Object... expression) {
+	public void setValueMessage(I18NExpression expression) {
 		getI18NAwareFieldSupport().setValueMessage(expression);
 	}
 
@@ -182,4 +182,5 @@ public class I18NTextField extends TextField implements I18NAwareFieldExpression
 	public void setValueMessage(String valueKey, Object... valueParams) {
 		getI18NAwareFieldSupport().setValueMessage(valueKey, valueParams);
 	}
+	
 }

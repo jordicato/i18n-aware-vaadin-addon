@@ -1,5 +1,7 @@
 package com.opnworks.vaadin.i18n;
 
+import com.opnworks.vaadin.i18n.support.I18NExpression;
+
 /**
  * The I18NAwareExpression
  * 
@@ -7,9 +9,9 @@ package com.opnworks.vaadin.i18n;
  */
 public interface I18NAwareExpression extends I18NAwareCaption, I18NAware {
 
-	void setCaptionMessage(Object... expression);
+	void setCaptionMessage(I18NExpression expression);
 
-	void setDescriptionMessage(Object... expression);
+	void setDescriptionMessage(I18NExpression expression);
 
 	void setDescriptionMessage(@I18NAwareMessage String descriptionKey, Object... descriptionParams);
 

@@ -45,7 +45,7 @@ public class I18NImage extends Image implements I18NAwareComponentExpression, I1
 
 	public I18NImage(I18NExpression captionExpression) {
 		super(captionExpression.getStringFinal());
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class I18NImage extends Image implements I18NAwareComponentExpression, I1
 
 	public I18NImage(I18NExpression captionExpression, Resource resource) {
 		super(captionExpression.getStringFinal(), resource);
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 	}
 
 	@Override
@@ -76,11 +76,11 @@ public class I18NImage extends Image implements I18NAwareComponentExpression, I1
 		setCaptionMessage(captionKey);
 	}
 
-	public void setCaption(Object... expression) {
+	public void setCaption(I18NExpression expression) {
 		setCaptionMessage(expression);
 	}
 
-	public void setDescription(Object... expression) {
+	public void setDescription(I18NExpression expression) {
 		setDescriptionMessage(expression);
 	}
 
@@ -134,12 +134,12 @@ public class I18NImage extends Image implements I18NAwareComponentExpression, I1
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
 

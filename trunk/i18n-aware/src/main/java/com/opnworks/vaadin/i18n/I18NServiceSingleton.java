@@ -16,6 +16,8 @@ public class I18NServiceSingleton {
 
 	static I18NServiceSingleton singleton = new I18NServiceSingleton();
 
+	public static String lastValueKey;
+	
 	public static I18NServiceSingleton getInstance() {
 		return singleton;
 	}

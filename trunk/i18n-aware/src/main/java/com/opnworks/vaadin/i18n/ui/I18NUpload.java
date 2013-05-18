@@ -60,12 +60,11 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 
 	public I18NUpload(I18NExpression captionExpression, Receiver receiver) {
 		super(captionExpression.getStringFinal(), receiver);
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 	}
 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
-
 		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
 		buttonCaptionI18NCaptionSupport.i18NUpdate(i18N);
 	}
@@ -75,7 +74,7 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 		setButtonCaptionMessage(buttonCaptionKey);
 	}
 
-	public void setButtonCaption(Object... expression) {
+	public void setButtonCaption(I18NExpression expression) {
 		setButtonCaptionMessage(expression);
 	}
 
@@ -83,7 +82,7 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 		buttonCaptionI18NCaptionSupport.setCaptionMessage(buttonCaptionKey, buttonCaptionParams);
 	}
 
-	public void setButtonCaptionMessage(Object... expressions) {
+	public void setButtonCaptionMessage(I18NExpression expressions) {
 		buttonExpressionCaptionI18NCaptionSupport.setCaptionMessage(expressions);
 	}
 
@@ -96,11 +95,11 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 		setCaptionMessage(captionKey);
 	}
 
-	public void setCaption(Object... expression) {
+	public void setCaption(I18NExpression expression) {
 		setCaptionMessage(expression);
 	}
 
-	public void setDescription(Object... expression) {
+	public void setDescription(I18NExpression expression) {
 		setDescriptionMessage(expression);
 	}
 
@@ -130,12 +129,12 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
 

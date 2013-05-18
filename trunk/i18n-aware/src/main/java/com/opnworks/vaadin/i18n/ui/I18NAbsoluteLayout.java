@@ -7,6 +7,7 @@ import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareSupport;
+import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Component;
 
@@ -46,7 +47,7 @@ public class I18NAbsoluteLayout extends AbsoluteLayout implements I18NAwareLayou
 		setCaptionMessage(captionKey);
 	}
 
-	public void setCaption(Object... expression) {
+	public void setCaption(I18NExpression expression) {
 		setCaptionMessage(expression);
 	}
 
@@ -60,7 +61,7 @@ public class I18NAbsoluteLayout extends AbsoluteLayout implements I18NAwareLayou
 		setDescriptionMessage(descriptionKey);
 	}
 
-	public void setDescription(Object... expression) {
+	public void setDescription(I18NExpression expression) {
 		setDescriptionMessage(expression);
 	}
 
@@ -80,12 +81,12 @@ public class I18NAbsoluteLayout extends AbsoluteLayout implements I18NAwareLayou
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		i18NAwareComponentExpressionSupport.setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		i18NAwareComponentExpressionSupport.setDescriptionMessage(expression);
 	}
 

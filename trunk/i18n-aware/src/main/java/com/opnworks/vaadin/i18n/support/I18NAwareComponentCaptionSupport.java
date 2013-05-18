@@ -20,7 +20,7 @@ public class I18NAwareComponentCaptionSupport implements Serializable, I18NAware
 	private static final long serialVersionUID = 108049770254545236L;
 
 	private I18NAwareComponent originalComponent;
-
+	
 	private I18NCaptionSupport i18NCaptionSupport = new I18NCaptionSupport(new CaptionContainer() {
 		@Override
 		public void setRealCaption(String caption) {
@@ -71,4 +71,5 @@ public class I18NAwareComponentCaptionSupport implements Serializable, I18NAware
 	public void setRealCaption(String caption) {
 		originalComponent.setRealCaption(caption);
 	}
+
 }

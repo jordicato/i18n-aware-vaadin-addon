@@ -26,7 +26,7 @@ public class I18NExpressionSupport extends I18NAwareExpressionSupport implements
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		super.setCaptionMessage(expression);
 	}
 

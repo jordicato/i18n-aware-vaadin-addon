@@ -58,7 +58,7 @@ public class I18NPanel extends Panel implements I18NAwareComponentExpression, I1
 
 	public I18NPanel(I18NExpression captionExpression) {
 		super(captionExpression.getStringFinal());
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 		setContent(new I18NVerticalLayout());
 	}
 
@@ -78,7 +78,7 @@ public class I18NPanel extends Panel implements I18NAwareComponentExpression, I1
 
 	public I18NPanel(I18NExpression captionExpression, ComponentContainer content) {
 		super(captionExpression.getStringFinal(), content);
-		setCaptionMessage(captionExpression.getObjectlist());
+		setCaptionMessage(captionExpression);
 		setContent(new I18NVerticalLayout());
 	}
 
@@ -94,11 +94,11 @@ public class I18NPanel extends Panel implements I18NAwareComponentExpression, I1
 		setCaptionMessage(captionKey);
 	}
 
-	public void setCaption(Object... expression) {
+	public void setCaption(I18NExpression expression) {
 		setCaptionMessage(expression);
 	}
 
-	public void setDescription(Object... expression) {
+	public void setDescription(I18NExpression expression) {
 		setDescriptionMessage(expression);
 	}
 
@@ -141,12 +141,12 @@ public class I18NPanel extends Panel implements I18NAwareComponentExpression, I1
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setCaptionMessage(expression);
 	}
 
 	@Override
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		getI18NAwareComponentExpressionSupport().setDescriptionMessage(expression);
 	}
 

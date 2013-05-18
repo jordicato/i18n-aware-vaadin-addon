@@ -26,7 +26,7 @@ public class I18NValueExpressionSupport extends I18NAwareExpressionSupport imple
 	}
 
 	@Override
-	public void setCaptionMessage(Object... expression) {
+	public void setCaptionMessage(I18NExpression expression) {
 		super.setCaptionMessage(expression);
 	}
 
@@ -41,12 +41,12 @@ public class I18NValueExpressionSupport extends I18NAwareExpressionSupport imple
 	}
 
 	@Override
-	public void setDescriptionMessage(Object... expression) {
+	public void setDescriptionMessage(I18NExpression expression) {
 		super.setDescriptionMessage(expression);
 	}
 
 	@Override
-	public void setValueMessage(Object... expression) {
+	public void setValueMessage(I18NExpression expression) {
 		super.setValueMessage(expression);
 	}
 }
