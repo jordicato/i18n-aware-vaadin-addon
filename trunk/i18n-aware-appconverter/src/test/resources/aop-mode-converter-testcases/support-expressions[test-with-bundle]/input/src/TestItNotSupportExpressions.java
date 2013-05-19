@@ -6,24 +6,26 @@ import com.vaadin.ui.Label;
 
 public class TestItNotSupportExpressions {
 
-    private Button button;
+    private I18NButton button;
 
-    private Button button1;
+    private I18NButton button1;
 
-    private Button button2;
+    private I18NButton button2;
 
-    private Button button3;
+    private I18NButton button3;
 
-    String stringVar = I18NCountLiterals.registerLiteral("button2", "TestItNotSupportExpressions.button2");
+    String stringVar = "TestItNotSupportExpressions.button2";
 
     public TestItNotSupportExpressions() {
-        button = new Button("TestItNotSupportExpressions.Caption");
-        button1 = new Button(I18NSupportExpression.getInstance().registerBinaryExpression("TestItNotSupportExpressions.Caption_1", button.getCaption()));
-        button2 = new Button(I18NSupportExpression.getInstance().registerBinaryExpression("TestItNotSupportExpressions.This_is_the", stringVar, stringVar, "TestItNotSupportExpressions.my_test"));
-        stringVar = I18NCountLiterals.registerLiteral("button3", "TestItNotSupportExpressions.button3");
-        button3 = new Button(I18NSupportExpression.getInstance().registerBinaryExpression("TestItNotSupportExpressions.This_is_the_new", stringVar));
-        Label l = new Label(I18NSupportExpression.getInstance().registerBinaryExpression(df.format(((Date) item.getItemProperty("timestamp").getValue())), "TestItNotSupportExpressions.test", item.getItemProperty("City").getValue().toString(), ", ", item.getItemProperty("Country").getValue().toString()));
-        Button b = new NativeButton(view.substring(0, 1).toUpperCase() + view.substring(1).replace('-', ' '));
-        b.setCaption(I18NSupportExpression.getInstance().registerBinaryExpression("TestItNotSupportExpressions.Unnamed_Report", (df.format(new Date())), " (", movie.duration, ")"));
+        button = new I18NButton("TestItNotSupportExpressions.Caption");
+        button.setCaption(new I18NExpression("TestItNotSupportExpressions.Caption_1", button.getCaption()));
+        button1 = new I18NButton(new I18NExpression("TestItNotSupportExpressions.Caption_2", button.getCaption()));
+        button2 = new I18NButton(new I18NExpression("TestItNotSupportExpressions.This_is_the", stringVar, stringVar, "TestItNotSupportExpressions.my_test"));
+        stringVar = "TestItNotSupportExpressions.button3";
+        button3 = new I18NButton(new I18NExpression("TestItNotSupportExpressions.This_is_the_new", stringVar));
+        I18NLabel l = new I18NLabel(new I18NExpression(df.format(((Date) item.getItemProperty("timestamp").getValue())), "TestItNotSupportExpressions.test", item.getItemProperty("City").getValue().toString(), ", ", item.getItemProperty("Country").getValue().toString()));
+        I18NButton b = new I18NNativeButton(view.substring(0, 1).toUpperCase() + view.substring(1).replace('-', ' '));
+        b.setCaption(new I18NExpression("TestItNotSupportExpressions.Unnamed_Report", (df.format(new Date())), " (", movie.duration, ")"));
+        b.setCaption(l.getCaption());
     }
 }

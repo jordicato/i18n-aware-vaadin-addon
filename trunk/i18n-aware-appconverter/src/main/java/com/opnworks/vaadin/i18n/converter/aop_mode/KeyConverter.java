@@ -45,6 +45,7 @@ import japa.parser.ast.stmt.SynchronizedStmt;
 import japa.parser.ast.stmt.ThrowStmt;
 import japa.parser.ast.stmt.TryStmt;
 import japa.parser.ast.stmt.WhileStmt;
+import japa.parser.ast.type.ClassOrInterfaceType;
 import japa.parser.ast.type.ReferenceType;
 import japa.parser.ast.type.Type;
 
@@ -182,24 +183,124 @@ public class KeyConverter {
 		}
 	}
 
-	class VaadinVars {
-		private String id;
+	class VaadinVars {	
+		private VariableDeclarationExpr variableDeclarationExpr;
+		private FieldDeclaration fieldDeclaration;
+		private List<String> id = new ArrayList<String>();
+		private List<ObjectCreationExpr> objectCreationExprs = new ArrayList<ObjectCreationExpr>();
 		private String type;
+		private boolean chagedToI18N;
 
-		public VaadinVars(String id, String type) {
-			this.id = id;
-			this.type = type;
+		public VaadinVars(VariableDeclarationExpr variableDeclarationExpr) {
+			this.chagedToI18N = false;
+			this.variableDeclarationExpr = variableDeclarationExpr;
+			this.type = variableDeclarationExpr.getType().toString();
+			for (VariableDeclarator vd : variableDeclarationExpr.getVars()) {
+				if (!this.id.contains(vd.getId().toString())) {	
+					this.id.add(vd.getId().toString());
+				}
+			}
 		}
 
-		public String getId() {
+		public VaadinVars(FieldDeclaration fieldDeclaration) {
+			this.fieldDeclaration = fieldDeclaration;
+			this.type = fieldDeclaration.getType().toString();
+			for (VariableDeclarator vd : fieldDeclaration.getVariables()) {
+				if (!this.id.contains(vd.getId().toString())) {	
+					this.id.add(vd.getId().toString());
+				}
+			}
+		}
+		
+		public VariableDeclarationExpr getVariableDeclarationExpr() {
+			return this.variableDeclarationExpr;
+		}
+		
+		public FieldDeclaration getFieldDeclaration() {
+			return this.fieldDeclaration;
+		}
+
+		public List<String> getId() {			
 			return this.id;
 		}
 
 		public String getType() {
 			return this.type;
 		}
-	}
+		
+		public void setChangeI18N(boolean change) {
+			this.chagedToI18N = change;
+		}
+		
+		public boolean getChangeI18N() {
+			return this.chagedToI18N;
+		}
+		
+		public void addObjectCreationExpr(ObjectCreationExpr oce) {
+			this.objectCreationExprs.add(oce);			
+		}
+		
+		public void setI18NToVarType() {
+			if (getVariableDeclarationExpr() != null) {
+				if (!getVariableDeclarationExpr().getType().toString().startsWith("I18N")) {
+					ClassOrInterfaceType type = new ClassOrInterfaceType("I18N" + getVariableDeclarationExpr().getType());			
+					getVariableDeclarationExpr().setType(type);
+				}
+				setChangeI18N(true);				
+			} else {
+				if (!getFieldDeclaration().getType().toString().startsWith("I18N")) {
+					ClassOrInterfaceType type = new ClassOrInterfaceType("I18N" + getFieldDeclaration().getType());
+					getFieldDeclaration().setType(type);
+				}
+				setChangeI18N(true);
+			}
+		}
 
+		public void deleteI18NToVarType() {
+			if (getVariableDeclarationExpr() != null) {
+				if (getVariableDeclarationExpr().getType().toString().startsWith("I18N")) {
+					ClassOrInterfaceType type = new ClassOrInterfaceType(getVariableDeclarationExpr().getType().toString().replaceAll("I18N", ""));			
+					getVariableDeclarationExpr().setType(type);
+				}
+				setChangeI18N(true);				
+			} else {
+				if (getFieldDeclaration().getType().toString().startsWith("I18N")) {
+					ClassOrInterfaceType type = new ClassOrInterfaceType(getFieldDeclaration().getType().toString().replaceAll("I18N", ""));
+					getFieldDeclaration().setType(type);
+				}
+				setChangeI18N(true);
+			}
+		}
+
+		public void setI18NToObjectCreationExprType() {
+			for (ObjectCreationExpr oce : objectCreationExprs) {
+				if (!oce.getType().toString().startsWith("I18N")) {
+					ClassOrInterfaceType type = new ClassOrInterfaceType("I18N" + oce.getType());
+					oce.setType(type);
+				}
+			}
+		}
+
+		public void deleteI18NToObjectCreationExprType() {
+			for (ObjectCreationExpr oce : objectCreationExprs) {
+				if (oce.getType().toString().startsWith("I18N")) {
+					ClassOrInterfaceType type = new ClassOrInterfaceType(oce.getType().toString().replaceAll("I18N", ""));
+					oce.setType(type);
+				}
+			}
+		}
+
+		public void setI18N() {
+			this.setI18NToVarType();
+			this.setI18NToObjectCreationExprType();
+		}
+		
+		public void deleteI18N() {
+			this.deleteI18NToVarType();
+			this.deleteI18NToObjectCreationExprType();
+		}
+	}
+	
 	private static String PREFIX_I18NAWARE_CLASS = "com.opnworks.vaadin.i18n.ui.I18N";
 	private CommandLineOutput commandLineOutput = new CommandLineOutput();
 	private boolean optionChangeKey;
@@ -213,6 +314,7 @@ public class KeyConverter {
 	private List<ImportDeclaration> lidtarget;
 	private ResourceBundle bundle = null;
 	private String defaultLang;
+	private String varName;
 
 	public KeyConverter() {
 		listKey = new ArrayList<Key>();
@@ -237,7 +339,7 @@ public class KeyConverter {
 	private VaadinVars getVaadinVar(String id) {
 		if (!id.equals("")) {
 			for (VaadinVars vaadinVar : listVaadinVars ) {
-				if (vaadinVar.getId().equals(id.toString())) {
+				if (vaadinVar.getId().contains(id.toString())) {
 					return vaadinVar;
 				}
 			}
@@ -255,7 +357,7 @@ public class KeyConverter {
 					classNameAux = "com.opnworks.vaadin.i18n.ui.I18NMenuBar";
 				} else {
 					classNameAux = PREFIX_I18NAWARE_CLASS.endsWith(".") ? PREFIX_I18NAWARE_CLASS.substring(0, PREFIX_I18NAWARE_CLASS.length() - 1)
-							+ className : (PREFIX_I18NAWARE_CLASS + className);
+							+ className : (PREFIX_I18NAWARE_CLASS + className.replaceAll("I18N", ""));
 				}
 			} else {
 				classNameAux = "com.opnworks.vaadin.i18n.I18NService";
@@ -582,13 +684,18 @@ public class KeyConverter {
 	private Expression addStringVarValue(String id, Expression expression) {		
 	
 		if (optionChangeKey) {
-			if (expression instanceof MethodCallExpr) {
+			StringLiteralExpr value = getExpressionValue(expression);
+			if (value != null) {
+				return new StringLiteralExpr(returnValueFromKey(value));
+			}
+			/*if (expression instanceof MethodCallExpr) {
+				varName = ((MethodCallExpr) expression).getScope().toString();
 				MethodCallExpr mce = (MethodCallExpr) expression;
 				if (mce.getName().equals("registerLiteral")) {
 					StringLiteralExpr sle = (StringLiteralExpr) mce.getArgs().get(0);
 					return sle;
 				}
-			}
+			}*/
 		} else {
 		
 			if (!listStringVar.isEmpty()) {
@@ -601,8 +708,9 @@ public class KeyConverter {
 						//stringV.setValue(key);
 						stringV.setValue(value.getValue());
 						listStringVar.add(stringV);
-						return setExpressionStringCount("I18NCountLiterals.registerLiteral", 
-								value.getValue(), key);
+						//return setExpressionStringCount("I18NCountLiterals.registerLiteral", 
+								//value.getValue(), key);
+						return new StringLiteralExpr(key);
 					}
 				}					
 			} else {
@@ -615,8 +723,9 @@ public class KeyConverter {
 						//stringV.setValue(key);
 						stringV.setValue(value.getValue());
 						listStringVar.add(stringV);
-						return setExpressionStringCount("I18NCountLiterals.registerLiteral", 
-								value.getValue(), key);
+						//return setExpressionStringCount("I18NCountLiterals.registerLiteral", 
+								//value.getValue(), key);
+						return new StringLiteralExpr(key);
 					}
 				}
 			}
@@ -624,32 +733,52 @@ public class KeyConverter {
 		return null;
 	}
 
-	public List<StringVar> getStringVar() {
-		
-		return listStringVar;
-		
+	public List<StringVar> getStringVar() {		
+		return listStringVar;		
 	}
 
 	// Its determine if exist a va in listVaadinVars with id equal name param
-	private boolean isVarInVaadinVarsList(String name) {
+	private boolean isVarInVaadinVarsList(VariableDeclarationExpr variableDeclarationExpr) {
 		for (VaadinVars v : listVaadinVars ) {
-			if (v.getId().equals(name)) {
-				return true;
+			if (v.getVariableDeclarationExpr() != null) {
+				if (v.getVariableDeclarationExpr() == variableDeclarationExpr) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private boolean isVarInVaadinVarsList(FieldDeclaration fieldDeclaration) {
+		for (VaadinVars v : listVaadinVars ) {
+			if (v.getFieldDeclaration() != null) {
+				if (v.getFieldDeclaration() == fieldDeclaration) {
+					return true;
+				}
 			}
 		}
 		return false;
 	}
 
 	// Its add the vaadin vars in source to listVaadinVars
-	private void addVaadinVars(String id, String type) {
-		if (isVaadinComponent(type)) {
-			if (!isVarInVaadinVarsList(id)) {
-				VaadinVars newVar = new VaadinVars(id, type);
+	private void addVaadinVars(VariableDeclarationExpr variableDeclarationExpr) {
+		if (isVaadinComponent(variableDeclarationExpr.getType().toString())) {
+			if (!isVarInVaadinVarsList(variableDeclarationExpr)) {
+				VaadinVars newVar = new VaadinVars(variableDeclarationExpr);
 				listVaadinVars.add(newVar);
 			}
 		}
 	}
 
+	private void addVaadinVars(FieldDeclaration fieldDeclaration) {
+		if (isVaadinComponent(fieldDeclaration.getType().toString())) {
+			if (!isVarInVaadinVarsList(fieldDeclaration)) {
+				VaadinVars newVar = new VaadinVars(fieldDeclaration);
+				listVaadinVars.add(newVar);
+			}
+		}
+	}
+	
 	//Add a certain key to listKey from bundle
 	private void addKeyFromBundle(String key, String value) {
 		int suffix = getSuffix(key);
@@ -951,13 +1080,15 @@ public class KeyConverter {
 
 		return newCaption;
 	}
-
+	
 	/**
 	 * Process method arguments
 	 * 
 	 * @param largs
 	 */
 	private void processLiteralExprParam(ObjectCreationExpr exp) {
+		//setI18NToObjectCreationExprType(exp, varName);
+				
 		if (optionChangeKey) {
 			exp.setArgs(returnBinaryExpr(exp.getArgs()));
 		}
@@ -968,12 +1099,21 @@ public class KeyConverter {
 					processLiteral((StringLiteralExpr) exp.getArgs().get(pos));
 				} else if(exp.getArgs().get(pos) instanceof BinaryExpr) {
 					if (!optionChangeKey) {
+						
+						/*if (varName != null) {
+							VaadinVars vaadinVar = getVaadinVar(varName);
+							if (vaadinVar != null) {
+								vaadinVar.setI18N();
+							}
+						}*/
+
 						exp.getArgs().set(pos, processBinaryExpr((BinaryExpr) exp.getArgs().get(pos)));
 					}
-				} else if (exp.getArgs().get(pos) instanceof MethodCallExpr) {
-					MethodCallExpr mce = (MethodCallExpr) exp.getArgs().get(pos);
-						if (mce.getName().equals("registerBinaryExpression")) {
-							List<Expression> largs = mce.getArgs();
+				} else if (exp.getArgs().get(pos) instanceof ObjectCreationExpr) {
+					ObjectCreationExpr oce = (ObjectCreationExpr) exp.getArgs().get(pos);
+					
+						if (oce.getType().toString().equals("I18NExpression")) {
+							List<Expression> largs = oce.getArgs();
 							if (largs != null) {
 								for (Expression expArg : largs) {
 									if (expArg instanceof StringLiteralExpr) {
@@ -981,12 +1121,7 @@ public class KeyConverter {
 									}
 								}
 							}
-						} else if (mce.getName().equals("registerLiteral")) {
-							List<Expression> largs = mce.getArgs();
-							if (largs != null) {
-								processLiteral((StringLiteralExpr) largs.get(1));
-							}
-						}
+						}					
 				}			
 			}
 		}
@@ -1017,7 +1152,7 @@ public class KeyConverter {
 
 	// Process arguments for all methods called in source
 	private void processArgs(MethodCallExpr methodCallE) {
-		if (methodCallE.getName().equals("registerBinaryExpression")) {
+		/*if (methodCallE.getName().equals("registerBinaryExpression")) {
 			List<Expression> largs = methodCallE.getArgs();
 			if (largs != null) {
 				for (Expression expArg : largs) {
@@ -1031,12 +1166,13 @@ public class KeyConverter {
 			if (largs != null) {
 				processLiteral((StringLiteralExpr) largs.get(1));
 			}
-		} else {
+		} else {*/
 			List<Expression> largs = methodCallE.getArgs();
 			if (largs != null) {
 				for (Expression expArg : largs) {
 					if (expArg instanceof ObjectCreationExpr) {
 						ObjectCreationExpr exp = (ObjectCreationExpr) expArg;
+
 						List<BodyDeclaration> anonymousClassBody = exp.getAnonymousClassBody();
 						if (anonymousClassBody != null) {
 							for (BodyDeclaration member1 : anonymousClassBody ) {
@@ -1044,6 +1180,7 @@ public class KeyConverter {
 							}
 						}
 					} else if (expArg instanceof MethodCallExpr) {
+						varName = ((MethodCallExpr) expArg).getScope().toString();
 						processArgs((MethodCallExpr) expArg);
 					}
 				}		
@@ -1067,16 +1204,18 @@ public class KeyConverter {
 				if (largs.size() > paramsPositions.size()) {
 					for (int i = 0; (i < largs.size()) && !(paramsPositions.contains(i)); i++ ) {
 						if (largs.get(i) instanceof ObjectCreationExpr) {
+						
 							ObjectCreationExpr exp = (ObjectCreationExpr) largs.get(i);
 							processLiteralExprParam(exp);
 						}
 						else if (largs.get(i) instanceof MethodCallExpr) {
+							varName = ((MethodCallExpr) largs.get(i)).getScope().toString();
 							processArgs((MethodCallExpr) largs.get(i));
 						}
 					}
 				}
 			}
-		}
+		//}
 	}
 
 	//It substitutes the literal value of a String var by the corresponding methodName with stringParam and the corresponding key
@@ -1105,13 +1244,13 @@ public class KeyConverter {
 	}
 	
 	//Its substitutes a BinaryExpr by the corresponding methodName
-	private Expression setExpressionBinaryOfString(String methodName) {
+	private Expression setExpressionBinaryOfString(ClassOrInterfaceType type) {
 		if (!createBinaryExpression()) {
 			return null;
 		}
 		
-		MethodCallExpr mce = new MethodCallExpr();
-		mce.setName(methodName);
+		ObjectCreationExpr oce = new ObjectCreationExpr();
+		oce.setType(type);
 
 		List<Expression> lexp = new ArrayList<Expression>();
 		
@@ -1125,11 +1264,11 @@ public class KeyConverter {
 			}
 		}
 		
-		mce.setArgs(lexp);
+		oce.setArgs(lexp);
 		
-		return mce;				
+		return oce;				
 	}
-	
+
 	//Create a BinaryExpr with exp params
 	private Expression createBinaryExpr(List<Expression> exp) {
 		for (Expression expr : exp) {
@@ -1154,10 +1293,11 @@ public class KeyConverter {
 			return null;
 		}
 		for (Expression ex : exp) {
-			if (ex instanceof MethodCallExpr) {
-				MethodCallExpr mce = (MethodCallExpr) ex;
-				if (mce.getName().equals("registerBinaryExpression")) {					
-					listExpr.add(createBinaryExpr(mce.getArgs()));
+			if (ex instanceof ObjectCreationExpr) {
+				ObjectCreationExpr oce = (ObjectCreationExpr) ex;
+				if (oce.getType().toString().equals("I18NExpression")) {
+					getVaadinVar(varName).deleteI18N();
+					listExpr.add(createBinaryExpr(oce.getArgs()));
 				} else {
 					listExpr.add(ex);
 				}
@@ -1186,13 +1326,18 @@ public class KeyConverter {
 				ae.setValue(expr);
 			}			
 			if (ae.getTarget() instanceof NameExpr) {
-				if (ae.getValue() instanceof ObjectCreationExpr) {
-					// varName = ae.getTarget().toString();
+				if (ae.getValue() instanceof ObjectCreationExpr) {					
+					varName = ae.getTarget().toString();									
+					VaadinVars vaadinVar = getVaadinVar(varName);
+					if (vaadinVar != null) {
+						vaadinVar.addObjectCreationExpr((ObjectCreationExpr) ae.getValue());
+					}						
+					
 					ObjectCreationExpr exp = (ObjectCreationExpr) ae.getValue();
 					processLiteralExprParam(exp);
 				}
 				else if (ae.getValue() instanceof MethodCallExpr) {
-					// varName = ae.getTarget().toString();
+					varName = ae.getTarget().toString();
 					processArgs((MethodCallExpr) ae.getValue());
 				}
 			}
@@ -1203,7 +1348,7 @@ public class KeyConverter {
 			
 			if (vde.getType() instanceof ReferenceType) {
 				for (VariableDeclarator vd : vde.getVars() ) {
-					// varName = vd.getId().getName();
+					varName = vd.getId().getName();
 					if (varType.toString().equals("String")) {
 						//System.out.println("vars --- " + vd.getId().getName());
 						Expression expr = addStringVarValue(vd.getId().getName(), vd.getInit());
@@ -1211,15 +1356,19 @@ public class KeyConverter {
 							vd.setInit(expr);
 						}
 					}
-					if (vd.getInit() != null) {	
-						addVaadinVars(vd.getId().getName(), varType.toString());						
-						//addStringVarValue(vd.getId().getName(), vd.getInit().toString());
-					}
+					
 					if (vd.getInit() != null) {
+						addVaadinVars(vde);
 						if (vd.getInit() instanceof MethodCallExpr) {
+							varName = ((MethodCallExpr) vd.getInit()).getScope().toString();
 							processArgs((MethodCallExpr) vd.getInit());
 						}
-						else if (vd.getInit() instanceof ObjectCreationExpr) {
+						else if (vd.getInit() instanceof ObjectCreationExpr) {							
+							varName = vd.getId().toString();							
+							VaadinVars vaadinVar = getVaadinVar(varName);
+							if (vaadinVar != null) {
+								vaadinVar.addObjectCreationExpr((ObjectCreationExpr) vd.getInit());
+							}							
 							ObjectCreationExpr exp = (ObjectCreationExpr) vd.getInit();
 							processLiteralExprParam(exp);
 						}
@@ -1228,12 +1377,13 @@ public class KeyConverter {
 			}
 		}
 		else if (expression instanceof MethodCallExpr) {
-			// varName = expression.toString().split(((MethodCallExpr) expression).getName())[0].replace(".", "");
+			varName = expression.toString().split(((MethodCallExpr) expression).getName())[0].replace(".", "");
 			processArgs((MethodCallExpr) expression);
 		}
 		else if (expression instanceof CastExpr) {
 			CastExpr ce = (CastExpr) expression;
-			if (ce.getExpr() instanceof ObjectCreationExpr) {
+			if (ce.getExpr() instanceof ObjectCreationExpr) {				
+				
 				ObjectCreationExpr exp = (ObjectCreationExpr) ce.getExpr();
 				processLiteralExprParam(exp);
 			}
@@ -1257,7 +1407,9 @@ public class KeyConverter {
 			}
 		}
 		else if (expression instanceof ObjectCreationExpr) {
+			
 			ObjectCreationExpr exp = (ObjectCreationExpr) expression;
+			
 			processLiteralExprParam(exp);
 		}
 		else if (expression instanceof ClassExpr) {
@@ -1335,10 +1487,14 @@ public class KeyConverter {
 	}
 
 	private Expression processBinaryExpr(BinaryExpr exp) {
+		//setI18NToVarType(varName);
+		
+		getVaadinVar(varName).setI18N();
+		
 		createExpressionBinaryObjectList.clear();
 		processBinary(exp);
 		 
-		Expression resultExpression = setExpressionBinaryOfString("I18NSupportExpression.getInstance().registerBinaryExpression");
+		Expression resultExpression = setExpressionBinaryOfString(new ClassOrInterfaceType("I18NExpression"));
 		
 		if (resultExpression != null) {
 			return resultExpression;
@@ -1403,9 +1559,15 @@ public class KeyConverter {
 				}
 				else {
 					for (VariableDeclarator vd : fd.getVariables() ) {
-						addVaadinVars(vd.getId().toString(), fd.getType().toString());
+						addVaadinVars(fd);
 						if (vd.getInit() != null) {
-							if (vd.getInit() instanceof ObjectCreationExpr) {
+							if (vd.getInit() instanceof ObjectCreationExpr) {								
+								varName = vd.getId().toString();								
+								VaadinVars vaadinVar = getVaadinVar(varName);
+								if (vaadinVar != null) {
+									vaadinVar.addObjectCreationExpr((ObjectCreationExpr) vd.getInit());
+								}
+								
 								ObjectCreationExpr exp = (ObjectCreationExpr) vd.getInit();
 								List<BodyDeclaration> anonymousClassBody = exp.getAnonymousClassBody();
 								if (anonymousClassBody != null) {
