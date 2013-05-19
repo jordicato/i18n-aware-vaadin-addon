@@ -17,13 +17,15 @@ public class TestItNotSupportExpressions {
     String stringVar = "button2";
 
     public TestItNotSupportExpressions() {
-        button = new Button("Caption");
-        button1 = new Button("Caption" + button.getCaption());
+        button = new Button("TestItNotSupportExpressions.Caption");
+        button.setCaption("Caption" + button.getCaption());
+        button1 = new Button("TestItNotSupportExpressions.Caption_2" + button.getCaption());
         button2 = new Button("This is the " + stringVar + stringVar + "my test");
         stringVar = "button3";
         button3 = new Button("This is the new " + stringVar);
         Label l = new Label(df.format(((Date) item.getItemProperty("timestamp").getValue())) + "test" + item.getItemProperty("City").getValue().toString() + ", " + item.getItemProperty("Country").getValue().toString());
         Button b = new NativeButton(view.substring(0, 1).toUpperCase() + view.substring(1).replace('-', ' '));
         b.setCaption("Unnamed Report " + (df.format(new Date())) + " (" + movie.duration + ")");
+        b.setCaption(l.getCaption());
     }
 }

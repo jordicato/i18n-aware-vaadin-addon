@@ -16,6 +16,7 @@ public class TestItNotSupportExpressions {
     
     public TestItNotSupportExpressions() {
         button = new Button("Caption");
+        button.setCaption("Caption" + button.getCaption());
         button1 = new Button("Caption" + button.getCaption());        
         button2 = new Button("This is the " + stringVar + stringVar + " my test");
         stringVar = "button3";
@@ -29,5 +30,6 @@ public class TestItNotSupportExpressions {
         Button b = new NativeButton(view.substring(0, 1).toUpperCase()
                 + view.substring(1).replace('-', ' '));
         b.setCaption("Unnamed Report " + (df.format(new Date())) + " (" + movie.duration + ")");
+        b.setCaption(l.getCaption());
     }
 }
