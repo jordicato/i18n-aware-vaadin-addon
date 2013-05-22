@@ -306,7 +306,7 @@ public class KeyConverter {
 	private boolean optionChangeKey;
 	private String javaFileName;
 	private String javaFileFullClassName;
-	private String[] stringToDiscard = { "<a href=", "alert(", "../", "http://" };
+	private String[] stringToDiscard = { "<a href=", "alert(", "../", "http://", "<div", "</div", "<span" };
 	private List<Key> listKey;
 	private List<StringVar> listStringVar = new ArrayList<StringVar>();
 	private List<VaadinVars> listVaadinVars = new ArrayList<VaadinVars>();
@@ -562,7 +562,7 @@ public class KeyConverter {
 	 * @return the converted i18n-aware class
 	 * @throws Exception
 	 */
-	public String proccessJavaFile(String filename) throws Exception {
+	public String proccessJavaFile(String filename) throws Exception {		
 		lidtarget = new ArrayList<ImportDeclaration>();
 		// creates an input stream for the file to be parsed
 		FileInputStream in = new FileInputStream(filename);
@@ -599,7 +599,7 @@ public class KeyConverter {
 		for (TypeDeclaration type : types ) {
 			processType(type);
 		}
-
+		listVaadinVars.clear();
 		return cutarget.toString();
 	}
 
@@ -672,7 +672,7 @@ public class KeyConverter {
 	private StringLiteralExpr getExpressionValue(Expression expression) {
 		if (expression != null) {			
 			if (expression instanceof StringLiteralExpr) {
-				if (!isNumberParameter(((StringLiteralExpr) expression).getValue())) {
+				if (!isNumberParameter(((StringLiteralExpr) expression).getValue()) && isTranslatable((StringLiteralExpr) expression)) {
 					return (StringLiteralExpr) expression;					
 				}
 			}
@@ -870,6 +870,9 @@ public class KeyConverter {
 	// Its determine if a String param is translatable
 	public boolean isTranslatable(StringLiteralExpr key) {
 		if (!(key instanceof StringLiteralExpr) && (isStringToDiscard(key.getValue()))) {
+			return false;
+		}
+		if (key.getValue().startsWith("#")) {
 			return false;
 		}
 		int count = 0;
@@ -1099,29 +1102,21 @@ public class KeyConverter {
 					processLiteral((StringLiteralExpr) exp.getArgs().get(pos));
 				} else if(exp.getArgs().get(pos) instanceof BinaryExpr) {
 					if (!optionChangeKey) {
-						
-						/*if (varName != null) {
-							VaadinVars vaadinVar = getVaadinVar(varName);
-							if (vaadinVar != null) {
-								vaadinVar.setI18N();
-							}
-						}*/
-
+						exp.setType(new ClassOrInterfaceType("I18N" + exp.getType().toString().replaceAll("I18N", "")));
 						exp.getArgs().set(pos, processBinaryExpr((BinaryExpr) exp.getArgs().get(pos)));
 					}
 				} else if (exp.getArgs().get(pos) instanceof ObjectCreationExpr) {
-					ObjectCreationExpr oce = (ObjectCreationExpr) exp.getArgs().get(pos);
-					
-						if (oce.getType().toString().equals("I18NExpression")) {
-							List<Expression> largs = oce.getArgs();
-							if (largs != null) {
-								for (Expression expArg : largs) {
-									if (expArg instanceof StringLiteralExpr) {
-										processLiteral((StringLiteralExpr) expArg);
-									}
+					ObjectCreationExpr oce = (ObjectCreationExpr) exp.getArgs().get(pos);					
+					if (oce.getType().toString().equals("I18NExpression")) {
+						List<Expression> largs = oce.getArgs();
+						if (largs != null) {
+							for (Expression expArg : largs) {
+								if (expArg instanceof StringLiteralExpr) {
+									processLiteral((StringLiteralExpr) expArg);
 								}
 							}
-						}					
+						}
+					}					
 				}			
 			}
 		}
@@ -1180,7 +1175,6 @@ public class KeyConverter {
 							}
 						}
 					} else if (expArg instanceof MethodCallExpr) {
-						varName = ((MethodCallExpr) expArg).getScope().toString();
 						processArgs((MethodCallExpr) expArg);
 					}
 				}		
@@ -1195,7 +1189,7 @@ public class KeyConverter {
 						if (largs.get(pos) instanceof StringLiteralExpr) {
 							processLiteral((StringLiteralExpr) largs.get(pos));
 						} else if(largs.get(pos) instanceof BinaryExpr) {
-							if (!optionChangeKey) {
+							if (!optionChangeKey) {								
 								methodCallE.getArgs().set(pos, processBinaryExpr((BinaryExpr) largs.get(pos)));
 							}
 						}
@@ -1203,13 +1197,11 @@ public class KeyConverter {
 				}
 				if (largs.size() > paramsPositions.size()) {
 					for (int i = 0; (i < largs.size()) && !(paramsPositions.contains(i)); i++ ) {
-						if (largs.get(i) instanceof ObjectCreationExpr) {
-						
+						if (largs.get(i) instanceof ObjectCreationExpr) {						
 							ObjectCreationExpr exp = (ObjectCreationExpr) largs.get(i);
 							processLiteralExprParam(exp);
 						}
 						else if (largs.get(i) instanceof MethodCallExpr) {
-							varName = ((MethodCallExpr) largs.get(i)).getScope().toString();
 							processArgs((MethodCallExpr) largs.get(i));
 						}
 					}
@@ -1219,6 +1211,7 @@ public class KeyConverter {
 	}
 
 	//It substitutes the literal value of a String var by the corresponding methodName with stringParam and the corresponding key
+	@SuppressWarnings("unused")
 	private Expression setExpressionStringCount(String methodName, String stringParam, String key) {		
 		MethodCallExpr mce = new MethodCallExpr();
 		mce.setName(methodName);
@@ -1356,11 +1349,9 @@ public class KeyConverter {
 							vd.setInit(expr);
 						}
 					}
-					
+					addVaadinVars(vde);
 					if (vd.getInit() != null) {
-						addVaadinVars(vde);
-						if (vd.getInit() instanceof MethodCallExpr) {
-							varName = ((MethodCallExpr) vd.getInit()).getScope().toString();
+						if (vd.getInit() instanceof MethodCallExpr) {							
 							processArgs((MethodCallExpr) vd.getInit());
 						}
 						else if (vd.getInit() instanceof ObjectCreationExpr) {							
@@ -1486,9 +1477,7 @@ public class KeyConverter {
 		return false;
 	}
 
-	private Expression processBinaryExpr(BinaryExpr exp) {
-		//setI18NToVarType(varName);
-		
+	private Expression processBinaryExpr(BinaryExpr exp) {		
 		getVaadinVar(varName).setI18N();
 		
 		createExpressionBinaryObjectList.clear();
@@ -1531,11 +1520,8 @@ public class KeyConverter {
 	 *            member to process
 	 */
 	private void processMember(BodyDeclaration member) {
-
 		if (member instanceof FieldDeclaration) {
-
 			FieldDeclaration fd = (FieldDeclaration) member;
-
 			if (!(fd.getType() instanceof PrimitiveType)) {
 				if (fd.getType().toString().equals("String")) {
 					for (VariableDeclarator vd : fd.getVariables() ) {
@@ -1564,6 +1550,7 @@ public class KeyConverter {
 							if (vd.getInit() instanceof ObjectCreationExpr) {								
 								varName = vd.getId().toString();								
 								VaadinVars vaadinVar = getVaadinVar(varName);
+								
 								if (vaadinVar != null) {
 									vaadinVar.addObjectCreationExpr((ObjectCreationExpr) vd.getInit());
 								}

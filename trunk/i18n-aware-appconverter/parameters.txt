@@ -1,1 +1,1 @@
--sourceDir C:\SVN-i18n-aware-vaadin-addon\i18n-aware-dashboard-demo-master\src -resourcesDir C:\SVN-i18n-aware-vaadin-addon\i18n-aware-dashboard-demo-master\src\main\resources -resourceBaseName messages -defaultLanguage en -method aop_mode false
+-sourceDir C:\SVN-i18n-aware-vaadin-addon\i18n-aware-dashboard-demo-master\src -resourcesDir C:\SVN-i18n-aware-vaadin-addon\i18n-aware-dashboard-demo-master\src\main\resources -resourceBaseName messages -defaultLanguage en -targetLanguages fr,es -method aop_mode false
