@@ -10,5 +10,6 @@ public class TestAssignExpr {
     public TestAssignExpr() {
         Caption = "TestAssignExpr.Caption";
         Caption = "TestAssignExpr.Caption_1";
+        Caption = "#FFH000F";
     }
 }
