@@ -53,7 +53,7 @@ import com.vaadin.ui.VerticalLayout;
 @Title("QuickTickets Dashboard")
 public class DashboardUI extends UI {
 
-    AuthenticateProxy auth = new AuthenticateProxy();
+    //AuthenticateProxy auth = new AuthenticateProxy();
 
     I18NService i18NService = I18NServiceSingleton.getInstance().setInitParams("messages", Locale.ENGLISH);
 
