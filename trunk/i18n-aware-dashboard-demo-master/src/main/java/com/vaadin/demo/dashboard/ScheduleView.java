@@ -3,9 +3,9 @@ package com.vaadin.demo.dashboard;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.vaadin.cssinject.CSSInject;
-
+import com.opnworks.vaadin.i18n.ui.I18NButton;
+import com.opnworks.vaadin.i18n.ui.I18NCssLayout;
 import com.vaadin.addon.calendar.event.CalendarEvent;
 import com.vaadin.addon.calendar.event.CalendarEventProvider;
 import com.vaadin.addon.calendar.ui.Calendar;
@@ -69,9 +69,9 @@ public class ScheduleView extends CssLayout implements View {
         addComponent(tabs);
         tabs.addComponent(buildCalendarView());
         catalog = new CssLayout();
-        catalog.setCaption("com.vaadin.demo.dashboard.ScheduleView.Catalog");
         catalog.addStyleName("catalog");
         tabs.addComponent(catalog);
+        catalog.setCaption("com.vaadin.demo.dashboard.ScheduleView.Catalog");
         for (final Movie movie : DataProvider.getMovies()) {
             Image poster = new Image(movie.title, new ExternalResource(movie.thumbUrl));
             CssLayout frame = new CssLayout();

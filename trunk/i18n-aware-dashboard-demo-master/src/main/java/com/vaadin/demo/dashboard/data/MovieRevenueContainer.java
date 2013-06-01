@@ -1,7 +1,6 @@
 package com.vaadin.demo.dashboard.data;
 
 import java.util.Date;
-
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 
