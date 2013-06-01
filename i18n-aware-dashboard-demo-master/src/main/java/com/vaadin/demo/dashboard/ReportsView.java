@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
-
+import com.opnworks.vaadin.i18n.support.I18NExpression;
 import com.opnworks.vaadin.i18n.ui.I18NHorizontalLayout;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
@@ -237,7 +237,7 @@ public class ReportsView extends HorizontalLayout implements View {
         } else {
             SimpleDateFormat df = new SimpleDateFormat();
             df.applyPattern("M/dd/yyyy");
-            editor.setCaption("com.vaadin.demo.dashboard.ReportsView.Unnamed_Report", " (", draftCount, ")");
+            editor.setCaption(new I18NExpression("com.vaadin.demo.dashboard.ReportsView.Unnamed_Report", " (", draftCount, ")"));
         }
         ((DashboardUI) UI.getCurrent()).updateReportsButtonBadge(draftCount + "");
         draftCount++;

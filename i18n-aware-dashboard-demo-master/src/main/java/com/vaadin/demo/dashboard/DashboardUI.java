@@ -3,7 +3,6 @@ package com.vaadin.demo.dashboard;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
-
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.I18NServiceSingleton;
 import com.vaadin.annotations.Theme;
@@ -54,10 +53,10 @@ import com.vaadin.ui.VerticalLayout;
 @Title("QuickTickets Dashboard")
 public class DashboardUI extends UI {
 
-    //AuthenticateProxy auth = new AuthenticateProxy();
+    AuthenticateProxy auth = new AuthenticateProxy();
 
     I18NService i18NService = I18NServiceSingleton.getInstance().setInitParams("messages", Locale.ENGLISH);
-    
+
     DataProvider dataProvider = new DataProvider();
 
     private static final long serialVersionUID = 1L;
@@ -122,13 +121,10 @@ public class DashboardUI extends UI {
         labels.setMargin(true);
         labels.addStyleName("labels");
         loginPanel.addComponent(labels);
-        //String LB = I18NSupportExpression.getInstance().registerLiteral("Welcome", "com.vaadin.demo.dashboard.DashboardUI.Welcome");
         Label welcome = new Label("com.vaadin.demo.dashboard.DashboardUI.Welcome");
         welcome.setSizeUndefined();
         welcome.addStyleName("h4");
-        //LB = I18NSupportExpression.getInstance().registerLiteral("Welcome", "com.vaadin.demo.dashboard.DashboardUI.Welcome_1");
         labels.addComponent(welcome);
-        //LB = I18NSupportExpression.getInstance().registerLiteral("QuickTickets Dashboard", "com.vaadin.demo.dashboard.DashboardUI.QuickTickets_Dashboard");
         Label title = new Label("com.vaadin.demo.dashboard.DashboardUI.QuickTickets_Dashboard");
         title.setSizeUndefined();
         title.addStyleName("h2");
@@ -139,7 +135,6 @@ public class DashboardUI extends UI {
         fields.setSpacing(true);
         fields.setMargin(true);
         fields.addStyleName("fields");
-        //LB = I18NSupportExpression.getInstance().registerLiteral("Username", "com.vaadin.demo.dashboard.DashboardUI.Username");
         final TextField username = new TextField("com.vaadin.demo.dashboard.DashboardUI.Username");
         username.focus();
         fields.addComponent(username);

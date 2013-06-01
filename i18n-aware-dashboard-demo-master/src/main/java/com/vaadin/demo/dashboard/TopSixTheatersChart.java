@@ -1,7 +1,6 @@
 package com.vaadin.demo.dashboard;
 
 import java.util.ArrayList;
-
 import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.model.ChartType;
 import com.vaadin.addon.charts.model.DataSeries;

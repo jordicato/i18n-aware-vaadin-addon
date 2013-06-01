@@ -2,7 +2,6 @@ package com.vaadin.demo.dashboard;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import com.google.gwt.core.ext.typeinfo.JClassType;
 import com.vaadin.client.ui.button.ButtonConnector;
 import com.vaadin.client.ui.csslayout.CssLayoutConnector;
