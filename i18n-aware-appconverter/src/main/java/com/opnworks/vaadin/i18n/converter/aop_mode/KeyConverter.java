@@ -306,7 +306,7 @@ public class KeyConverter {
 	private boolean optionChangeKey;
 	private String javaFileName;
 	private String javaFileFullClassName;
-	private String[] stringToDiscard = { "<a href=", "alert(", "../", "http://", "<div", "</div", "<span" };
+	private String[] stringToDiscard = { "<a href=", "</a", "alert(", "../", "http://", "<div", "</div", "<span", "</span", "font-" };
 	private List<Key> listKey;
 	private List<StringVar> listStringVar = new ArrayList<StringVar>();
 	private List<VaadinVars> listVaadinVars = new ArrayList<VaadinVars>();
@@ -397,11 +397,6 @@ public class KeyConverter {
 					return true;
 				} else if(expr instanceof BinaryExpr) {
 					return isBinaryExprOfLiterals((BinaryExpr) expr);
-				} else if (expr instanceof MethodCallExpr) {
-					MethodCallExpr mce = (MethodCallExpr) expr;
-					if (mce.getName().equals("registerLiteral") || mce.getName().equals("registerBinaryExpression")) {
-						return true;
-					}
 				}
 			}
 		}
@@ -480,7 +475,6 @@ public class KeyConverter {
 
 	// Its keeps in listKey only the keys that are used in source
 	public void restructurelistKey() {
-		// It was necessary to make it of this way because eliminating directly from the listKey doesn't work well
 		List<Key> auxlistKey = new ArrayList<Key>();
 		for (int i = 0; i < listKey.size(); i++ ) {
 			if (listKey.get(i).getKeep()) {
@@ -656,23 +650,12 @@ public class KeyConverter {
 	public boolean getChangeOptionKey() {
 		return this.optionChangeKey;
 	}
-
-	// Get a String var from list if exist this exist
-	@SuppressWarnings("unused")
-	private StringVar getStringVarList(String id) {
-		for (StringVar s : listStringVar ) {
-			if (s.getId().equals(id)) {
-				return s;
-			}
-		}
-		return null;
-	}
 		
 	//Return the Srting value from a StringLiteralExpr Expression
 	private StringLiteralExpr getExpressionValue(Expression expression) {
 		if (expression != null) {			
 			if (expression instanceof StringLiteralExpr) {
-				if (!isNumberParameter(((StringLiteralExpr) expression).getValue()) && isTranslatable((StringLiteralExpr) expression)) {
+				if (!isNumberParameter(((StringLiteralExpr) expression).getValue())) {
 					return (StringLiteralExpr) expression;					
 				}
 			}
@@ -683,7 +666,7 @@ public class KeyConverter {
 	// Stores values of all String variables in each class
 	private Expression addStringVarValue(String id, Expression expression) {		
 	
-		if (optionChangeKey) {
+		if (getChangeOptionKey()) {
 			StringLiteralExpr value = getExpressionValue(expression);
 			if (value != null) {
 				return new StringLiteralExpr(returnValueFromKey(value));
@@ -704,7 +687,8 @@ public class KeyConverter {
 				StringLiteralExpr value = getExpressionValue(expression);
 				if (value != null) {
 					if (!value.getValue().equals("") && !value.getValue().equals(" ") && !value.getValue().equals("  ") && !value.getValue().equals("   ")) {
-						String key = processKey(value, false);
+						//String key = processKey(value, false);
+						String key = processLiteral(value, false);
 						//stringV.setValue(key);
 						stringV.setValue(value.getValue());
 						listStringVar.add(stringV);
@@ -719,7 +703,7 @@ public class KeyConverter {
 				StringLiteralExpr value = getExpressionValue(expression);
 				if (value != null) {
 					if (!value.getValue().equals("") && !value.getValue().equals(" ") && !value.getValue().equals("  ") && !value.getValue().equals("   ")) {
-						String key = processKey(value, false);
+						String key = processLiteral(value, false);
 						//stringV.setValue(key);
 						stringV.setValue(value.getValue());
 						listStringVar.add(stringV);
@@ -733,7 +717,7 @@ public class KeyConverter {
 		return null;
 	}
 
-	public List<StringVar> getStringVar() {		
+	public List<StringVar> getStringVarList() {		
 		return listStringVar;		
 	}
 
@@ -869,11 +853,11 @@ public class KeyConverter {
 
 	// Its determine if a String param is translatable
 	public boolean isTranslatable(StringLiteralExpr key) {
-		if (!(key instanceof StringLiteralExpr) && (isStringToDiscard(key.getValue()))) {
+		if (isStringToDiscard(key.getValue())) {
 			return false;
 		}
-		if (key.getValue().startsWith("#")) {
-			return false;
+		if (key.getValue().startsWith("#")) {			
+			return isNumberParameter(key.getValue().replaceFirst("#", "0x"));
 		}
 		int count = 0;
 		for (int i = 0; i < key.getValue().length(); i++ ) {
@@ -1020,10 +1004,10 @@ public class KeyConverter {
 	}
 
 	// Its add the corresponding key to a literal to listKey, if the literal already is a key, return the corresponding text to source
-	private String processLiteral(StringLiteralExpr key) {
+	private String processLiteral(StringLiteralExpr key, boolean overrideSource) {
 		if ((key.getValue().length() > 0) ? (isTranslatable(key)) : false) {
 			if (!getChangeOptionKey()) {
-				return processKey(key, true);
+				return processKey(key, overrideSource);
 			}
 			else {
 				returnValueFromKey(key);
@@ -1092,27 +1076,28 @@ public class KeyConverter {
 	private void processLiteralExprParam(ObjectCreationExpr exp) {
 		//setI18NToObjectCreationExprType(exp, varName);
 				
-		if (optionChangeKey) {
+		if (getChangeOptionKey()) {
 			exp.setArgs(returnBinaryExpr(exp.getArgs()));
 		}
 		List<Integer> paramsPositions = getI18NAwareMessageParamsPositions(exp);
 		if (!paramsPositions.isEmpty()) {
 			for (Integer pos : paramsPositions ) {
 				if (exp.getArgs().get(pos) instanceof StringLiteralExpr) {
-					processLiteral((StringLiteralExpr) exp.getArgs().get(pos));
+					processLiteral((StringLiteralExpr) exp.getArgs().get(pos), true);
 				} else if(exp.getArgs().get(pos) instanceof BinaryExpr) {
-					if (!optionChangeKey) {
+					if (!getChangeOptionKey()) {
 						exp.setType(new ClassOrInterfaceType("I18N" + exp.getType().toString().replaceAll("I18N", "")));
 						exp.getArgs().set(pos, processBinaryExpr((BinaryExpr) exp.getArgs().get(pos)));
 					}
 				} else if (exp.getArgs().get(pos) instanceof ObjectCreationExpr) {
 					ObjectCreationExpr oce = (ObjectCreationExpr) exp.getArgs().get(pos);					
 					if (oce.getType().toString().equals("I18NExpression")) {
+						oce.setType(new ClassOrInterfaceType(exp.getType().toString().replaceAll("I18N", "")));
 						List<Expression> largs = oce.getArgs();
 						if (largs != null) {
 							for (Expression expArg : largs) {
 								if (expArg instanceof StringLiteralExpr) {
-									processLiteral((StringLiteralExpr) expArg);
+									processLiteral((StringLiteralExpr) expArg, true);
 								}
 							}
 						}
@@ -1124,7 +1109,6 @@ public class KeyConverter {
 
 	// Its determine if listKey contains a Key with name "key"
 	private boolean isInKeyList(String key) {
-		// listKey.contains(k);
 		for (Key k : listKey ) {
 			if (k.getCompleteKey().equals(key)) {
 				return true;
@@ -1179,7 +1163,7 @@ public class KeyConverter {
 					}
 				}		
 				
-				if (optionChangeKey) {
+				if (getChangeOptionKey()) {
 					methodCallE.setArgs(returnBinaryExpr(methodCallE.getArgs()));
 				}
 				
@@ -1187,9 +1171,9 @@ public class KeyConverter {
 				if (!paramsPositions.isEmpty()) {
 					for (Integer pos : paramsPositions ) {
 						if (largs.get(pos) instanceof StringLiteralExpr) {
-							processLiteral((StringLiteralExpr) largs.get(pos));
+							processLiteral((StringLiteralExpr) largs.get(pos), true);
 						} else if(largs.get(pos) instanceof BinaryExpr) {
-							if (!optionChangeKey) {								
+							if (!getChangeOptionKey()) {								
 								methodCallE.getArgs().set(pos, processBinaryExpr((BinaryExpr) largs.get(pos)));
 							}
 						}
@@ -1244,7 +1228,7 @@ public class KeyConverter {
 		
 		ObjectCreationExpr oce = new ObjectCreationExpr();
 		oce.setType(type);
-
+		
 		List<Expression> lexp = new ArrayList<Expression>();
 		
 		for (Object obj : createExpressionBinaryObjectList) {			
@@ -1267,7 +1251,7 @@ public class KeyConverter {
 		for (Expression expr : exp) {
 			if (expr instanceof StringLiteralExpr) {
 				StringLiteralExpr sle = (StringLiteralExpr) expr;
-				processLiteral(sle);
+				processLiteral(sle, true);
 			}
 		}
 		
@@ -1342,14 +1326,13 @@ public class KeyConverter {
 			if (vde.getType() instanceof ReferenceType) {
 				for (VariableDeclarator vd : vde.getVars() ) {
 					varName = vd.getId().getName();
+					addVaadinVars(vde);
 					if (varType.toString().equals("String")) {
-						//System.out.println("vars --- " + vd.getId().getName());
 						Expression expr = addStringVarValue(vd.getId().getName(), vd.getInit());
 						if (expr != null) {
 							vd.setInit(expr);
 						}
 					}
-					addVaadinVars(vde);
 					if (vd.getInit() != null) {
 						if (vd.getInit() instanceof MethodCallExpr) {							
 							processArgs((MethodCallExpr) vd.getInit());
@@ -1441,7 +1424,7 @@ public class KeyConverter {
 			// return expression;
 		}
 		else if (expression instanceof StringLiteralExpr) {
-			processLiteral((StringLiteralExpr) expression);
+			processLiteral((StringLiteralExpr) expression, true);
 		}
 		else {
 			throw new RuntimeException("Expression not supported " + expression.getClass());
@@ -1499,13 +1482,13 @@ public class KeyConverter {
 			processBinary((BinaryExpr) expLeft);
 		}
 		else if (expLeft instanceof StringLiteralExpr) {
-			createExpressionBinaryObjectList.add(new StringLiteralExpr(processLiteral((StringLiteralExpr) expLeft)));
+			createExpressionBinaryObjectList.add(new StringLiteralExpr(processLiteral((StringLiteralExpr) expLeft, true)));
 		} else {
 			createExpressionBinaryObjectList.add(expLeft);
 		}
 
 		if (expRight instanceof StringLiteralExpr) {
-			createExpressionBinaryObjectList.add(new StringLiteralExpr(processLiteral((StringLiteralExpr) expRight)));
+			createExpressionBinaryObjectList.add(new StringLiteralExpr(processLiteral((StringLiteralExpr) expRight, true)));
 		} else {
 			createExpressionBinaryObjectList.add(expRight);
 		}
@@ -1550,7 +1533,7 @@ public class KeyConverter {
 							if (vd.getInit() instanceof ObjectCreationExpr) {								
 								varName = vd.getId().toString();								
 								VaadinVars vaadinVar = getVaadinVar(varName);
-								
+
 								if (vaadinVar != null) {
 									vaadinVar.addObjectCreationExpr((ObjectCreationExpr) vd.getInit());
 								}

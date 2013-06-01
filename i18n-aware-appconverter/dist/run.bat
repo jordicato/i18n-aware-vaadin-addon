@@ -1,1 +1,1 @@
-java -Dlog4jConfigurationPath=file:config/log4j.xml -cp config;${classpath};lib\${build.finalName}.jar com.opnworks.vaadin.i18n.converter.main.I18NAwareProjectConverter -sourceDir %1 -resourcesDir %2 -resourceBaseName %3 -defaultLanguage %4 -method %5
+java -Dlog4jConfigurationPath=file:config/log4j.xml -cp config;${classpath};lib\${build.finalName}.jar com.opnworks.vaadin.i18n.converter.main.I18NAwareProjectConverter -sourceDir %1 -resourcesDir %2 -resourceBaseName %3 -defaultLanguage %4 -defaultLanguage %5 -method %6
