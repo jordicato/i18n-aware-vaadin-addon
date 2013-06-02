@@ -584,7 +584,7 @@
 	<modules>
 		<module>i18n-aware</module>
 		<module>i18n-aware-appconverter</module>
-		<module>i18n-aware-demo</module>
+		<!-- <module>i18n-aware-demo</module> -->
 		<module>i18n-aware-aspects</module>
 		<module>i18n-aware-dashboard-demo-master</module>		
 		<module>i18n-aware-noticeboard</module>
