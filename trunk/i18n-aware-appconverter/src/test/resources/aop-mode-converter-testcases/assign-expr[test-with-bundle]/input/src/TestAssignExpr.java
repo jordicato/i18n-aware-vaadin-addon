@@ -11,7 +11,7 @@ public class TestAssignExpr {
     private String Caption;
 
     public TestAssignExpr() {        
-        Caption = "TestAssignExpr.Caption";
-        Caption = "TestAssignExpr.Caption_1";
+        Caption = "Caption";
+        Caption = "Caption";
     }
 }

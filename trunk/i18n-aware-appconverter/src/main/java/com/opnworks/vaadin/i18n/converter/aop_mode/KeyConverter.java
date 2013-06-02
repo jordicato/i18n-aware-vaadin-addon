@@ -664,56 +664,19 @@ public class KeyConverter {
 	}
 		
 	// Stores values of all String variables in each class
-	private Expression addStringVarValue(String id, Expression expression) {		
+	private Expression addStringVarValue(String id, Expression expression) {
+		StringVar stringV = new StringVar(javaFileFullClassName + id, "");				
+		StringLiteralExpr value = getExpressionValue(expression);
+		if (value != null) {
+			if (!value.getValue().equals("") && !value.getValue().equals(" ") && !value.getValue().equals("  ") && !value.getValue().equals("   ")) {
 	
-		if (getChangeOptionKey()) {
-			StringLiteralExpr value = getExpressionValue(expression);
-			if (value != null) {
-				return new StringLiteralExpr(returnValueFromKey(value));
+				stringV.setValue(value.getValue());
+				listStringVar.add(stringV);
+
+				return value;
 			}
-			/*if (expression instanceof MethodCallExpr) {
-				varName = ((MethodCallExpr) expression).getScope().toString();
-				MethodCallExpr mce = (MethodCallExpr) expression;
-				if (mce.getName().equals("registerLiteral")) {
-					StringLiteralExpr sle = (StringLiteralExpr) mce.getArgs().get(0);
-					return sle;
-				}
-			}*/
-		} else {
+		}					
 		
-			if (!listStringVar.isEmpty()) {
-				StringVar stringV = new StringVar(javaFileFullClassName + id, "");
-				
-				StringLiteralExpr value = getExpressionValue(expression);
-				if (value != null) {
-					if (!value.getValue().equals("") && !value.getValue().equals(" ") && !value.getValue().equals("  ") && !value.getValue().equals("   ")) {
-						//String key = processKey(value, false);
-						String key = processLiteral(value, false);
-						//stringV.setValue(key);
-						stringV.setValue(value.getValue());
-						listStringVar.add(stringV);
-						//return setExpressionStringCount("I18NCountLiterals.registerLiteral", 
-								//value.getValue(), key);
-						return new StringLiteralExpr(key);
-					}
-				}					
-			} else {
-				StringVar stringV = new StringVar(javaFileFullClassName + id, "");
-				
-				StringLiteralExpr value = getExpressionValue(expression);
-				if (value != null) {
-					if (!value.getValue().equals("") && !value.getValue().equals(" ") && !value.getValue().equals("  ") && !value.getValue().equals("   ")) {
-						String key = processLiteral(value, false);
-						//stringV.setValue(key);
-						stringV.setValue(value.getValue());
-						listStringVar.add(stringV);
-						//return setExpressionStringCount("I18NCountLiterals.registerLiteral", 
-								//value.getValue(), key);
-						return new StringLiteralExpr(key);
-					}
-				}
-			}
-		}		
 		return null;
 	}
 
