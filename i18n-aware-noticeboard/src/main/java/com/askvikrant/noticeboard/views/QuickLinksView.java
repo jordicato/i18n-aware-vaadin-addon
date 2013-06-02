@@ -1,6 +1,7 @@
 package com.askvikrant.noticeboard.views;
 
 import java.util.ArrayList;
+
 import com.askvikrant.noticeboard.NoticeboardUI;
 import com.askvikrant.noticeboard.business.BusinessLogic;
 import com.askvikrant.noticeboard.events.RefreshQuickLinks_Event;
@@ -14,9 +15,9 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;

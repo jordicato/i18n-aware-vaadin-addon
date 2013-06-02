@@ -6,15 +6,15 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public static final String ROOT_USER_ID = "com.askvikrant.noticeboard.model.User.root";
+    public static final String ROOT_USER_ID = "root";
 
-    public static final String ROOT_USER_NAME = "com.askvikrant.noticeboard.model.User.Root";
+    public static final String ROOT_USER_NAME = "Root";
 
-    public static final String ROLE_GUEST = "com.askvikrant.noticeboard.model.User.GUEST";
+    public static final String ROLE_GUEST = "GUEST";
 
-    public static final String ROLE_EXECUTIVE = "com.askvikrant.noticeboard.model.User.EXECUTIVE";
+    public static final String ROLE_EXECUTIVE = "EXECUTIVE";
 
-    public static final String ROLE_ROOT = "com.askvikrant.noticeboard.model.User.ROOT";
+    public static final String ROLE_ROOT = "ROOT";
 
     private String userId = null;
 

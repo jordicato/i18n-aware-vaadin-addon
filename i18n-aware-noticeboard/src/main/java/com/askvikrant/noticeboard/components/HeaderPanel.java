@@ -33,7 +33,7 @@ public class HeaderPanel extends Panel {
     public HeaderPanel() {
         VerticalLayout vLayout = new VerticalLayout();
         setContent(vLayout);
-        logoHLayout.setHeight(80, Unit.PIXELS);
+        logoHLayout.setHeight(60, Unit.PIXELS);
         linksHLayout.setHeight(20, Unit.PIXELS);
         linksHLayout.setSpacing(true);
         Label nbLabel = new Label("<div align=\"center\" style=\"font-size:14pt;\">Notice Board</div>");
@@ -43,15 +43,13 @@ public class HeaderPanel extends Panel {
         emptyLabel.setHeight(5, Unit.PIXELS);
         DigitalClock clock = new DigitalClock();
         clock.setWidth(100, Unit.PERCENTAGE);
+        NativeSelect languageSelector = createLanguageSelector();
+        vLayout.addComponent(languageSelector);
         vLayout.addComponent(logoHLayout);
         vLayout.addComponent(clock);
         vLayout.addComponent(emptyLabel);
         vLayout.addComponent(linksHLayout);
-        vLayout.addComponent(nbLabel);
-        
-        NativeSelect languageSelector = createLanguageSelector();
-        vLayout.addComponent(languageSelector);
-        
+        vLayout.addComponent(nbLabel);        
         vLayout.setComponentAlignment(logoHLayout, Alignment.MIDDLE_CENTER);
         vLayout.setComponentAlignment(linksHLayout, Alignment.MIDDLE_CENTER);
         refreshLogo();
