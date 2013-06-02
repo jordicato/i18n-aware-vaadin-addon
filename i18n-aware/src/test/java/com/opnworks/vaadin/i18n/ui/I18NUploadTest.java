@@ -15,7 +15,7 @@ public class I18NUploadTest extends AbstractI18NTest {
 	public void testConstructorCaptionKey() {
 
 		final I18NUpload i18NUpload = new I18NUpload(TEST_KEY_1, null);
-
+		
 		performTest(i18NUpload, new I18NAwareTest() {
 
 			@Override

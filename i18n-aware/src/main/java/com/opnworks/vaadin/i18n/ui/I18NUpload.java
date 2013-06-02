@@ -24,20 +24,20 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 
 	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 
-	/*private I18NAwareExpressionSupport buttonExpressionCaptionI18NCaptionSupport = new I18NAwareExpressionSupport(new AwareExpressionContainer() {
+	private I18NAwareExpressionSupport buttonExpressionCaptionI18NCaptionSupport = new I18NAwareExpressionSupport(new AwareExpressionContainer() {
 		@Override
 		public void setValue(String value) {
-			setButtonRealCaption(value);
+			I18NUpload.this.setButtonRealCaption(value);
 		}
-	});*/
+	});
 
-	/*private I18NExpressionSupport buttonCaptionI18NCaptionSupport = new I18NExpressionSupport(new ExpressionContainer() {
+	private I18NExpressionSupport buttonCaptionI18NCaptionSupport = new I18NExpressionSupport(new ExpressionContainer() {
 
 		@Override
 		public void setRealCaption(String caption) {
-			setRealCaption(caption);
+			I18NUpload.this.setButtonRealCaption(caption);			
 		}
-	});*/
+	});
 
 	/**
 	 * Creates a new i18n Upload.
@@ -66,7 +66,8 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
-		//buttonCaptionI18NCaptionSupport.i18NUpdate(i18N);
+		buttonCaptionI18NCaptionSupport.i18NUpdate(i18N);
+		buttonExpressionCaptionI18NCaptionSupport.i18NUpdate(i18N);
 	}
 
 	@Override
@@ -79,13 +80,11 @@ public class I18NUpload extends Upload implements I18NAwareComponentExpression, 
 	}
 
 	public void setButtonCaptionMessage(@I18NAwareMessage String buttonCaptionKey, Object... buttonCaptionParams) {
-		//buttonCaptionI18NCaptionSupport.setCaptionMessage(buttonCaptionKey, buttonCaptionParams);
-		super.setButtonCaption(buttonCaptionKey);
+		buttonCaptionI18NCaptionSupport.setCaptionMessage(buttonCaptionKey, buttonCaptionParams);
 	}
 
 	public void setButtonCaptionMessage(I18NExpression expressions) {
-		//buttonExpressionCaptionI18NCaptionSupport.setCaptionMessage(expressions);
-		super.setButtonCaption(expressions.getStringFinal());
+		buttonExpressionCaptionI18NCaptionSupport.setCaptionMessage(expressions);
 	}
 
 	public void setButtonRealCaption(String buttonCaption) {
