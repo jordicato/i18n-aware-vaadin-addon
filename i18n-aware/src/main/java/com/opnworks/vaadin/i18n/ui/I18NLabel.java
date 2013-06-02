@@ -6,7 +6,6 @@ import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NAwareValue;
 import com.opnworks.vaadin.i18n.I18NService;
 import com.opnworks.vaadin.i18n.processor.GenerateInstantiateSubclassAspect;
-import com.opnworks.vaadin.i18n.support.I18NAwareComponentCaptionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareComponentExpressionSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport;
 import com.opnworks.vaadin.i18n.support.I18NAwareValueSupport.AwareValueContainer;
@@ -22,11 +21,11 @@ import com.vaadin.ui.Label;
  */
 @GenerateInstantiateSubclassAspect
 @SuppressWarnings("serial")
-public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue, AwareValueContainer, I18NAwareComponentExpression {
+public class I18NLabel extends Label implements I18NAwareValue, AwareValueContainer, I18NAwareComponentExpression {
 
 	private I18NAwareComponentExpressionSupport i18NAwareComponentExpressionSupport;
 
-	private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(this);
+	//private I18NAwareComponentCaptionSupport captionSupport = new I18NAwareComponentCaptionSupport(this);
 
 	private I18NAwareValueSupport i18NAwareValueSupport;
 
@@ -63,12 +62,12 @@ public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue
 	 */
 	public I18NLabel(@I18NAwareMessage String contentKey) {
 		super();
-		setCaptionMessage(contentKey);
+		setValueMessage(contentKey);
 	}
 
 	public I18NLabel(I18NExpression expressions) {
 		super();
-		setCaptionMessage(expressions);
+		setCaptionMessage(expressions);		
 	}
 
 	/**
@@ -93,8 +92,8 @@ public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue
 	@Override
 	public void i18NUpdate(I18NService i18N) {
 
-		captionSupport.i18NUpdate(i18N);
-
+		//captionSupport.i18NUpdate(i18N);
+	
 		getI18NAwareComponentExpressionSupport().i18NUpdate(i18N);
 
 		if (i18NAwareValueSupport != null) {
@@ -117,7 +116,7 @@ public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue
 
 	@Override
 	public void setCaptionMessage(@I18NAwareMessage String captionKey, Object... params) {
-		captionSupport.setCaptionMessage(captionKey, params);
+		getI18NAwareComponentExpressionSupport().setCaptionMessage(captionKey, params);
 	}
 
 	@Override
@@ -152,7 +151,6 @@ public class I18NLabel extends Label implements I18NAwareCaption, I18NAwareValue
 
 		i18NAwareValueSupport.setValueMessage(textKey, params);
 
-		setValue(textKey);
 	}
 
 	private void createValueSupport() {
