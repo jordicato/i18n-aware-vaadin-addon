@@ -120,11 +120,11 @@
 			<artifactId>refresher</artifactId>
 			<version>1.2.1.7</version>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 			<groupId>com.askvikrant</groupId>
 			<artifactId>digitalclock</artifactId>
 			<version>1.0.0</version>
-		</dependency> -->
+		</dependency>
 
 
 		<!-- <dependency> -->

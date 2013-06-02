@@ -2,6 +2,7 @@ package com.askvikrant.noticeboard.components;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
 import com.askvikrant.noticeboard.model.Attachment;
 import com.askvikrant.noticeboard.model.Notice;
 import com.vaadin.shared.ui.label.ContentMode;

@@ -13,9 +13,11 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
 import com.askvikrant.noticeboard.model.Attachment;
 import com.askvikrant.noticeboard.model.Department;
 import com.askvikrant.noticeboard.model.Notice;

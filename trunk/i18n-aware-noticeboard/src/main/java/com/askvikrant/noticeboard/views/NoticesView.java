@@ -1,6 +1,7 @@
 package com.askvikrant.noticeboard.views;
 
 import java.util.ArrayList;
+
 import com.askvikrant.noticeboard.NoticeboardUI;
 import com.askvikrant.noticeboard.business.BusinessLogic;
 import com.askvikrant.noticeboard.components.NoticeSummaryPanel;
@@ -127,6 +128,7 @@ public class NoticesView extends VerticalLayout implements View {
                 load();
             }
         });
+
         searchHLayout.addComponent(tfSearchText);
         searchHLayout.addComponent(btnSearch);
         lblSearchType.setContentMode(ContentMode.HTML);
@@ -148,7 +150,7 @@ public class NoticesView extends VerticalLayout implements View {
         refresher.addListener(new NoticesRefreshListener());
         addExtension(refresher);
     }
-
+    
     private void load() {
         BusinessLogic bl = ((NoticeboardUI) getUI()).getBusinessLogic();
         ArrayList<Notice> notices = bl.getNotices(searchParams);

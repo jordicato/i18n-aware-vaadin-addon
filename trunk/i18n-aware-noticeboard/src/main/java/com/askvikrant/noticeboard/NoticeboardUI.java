@@ -1,6 +1,7 @@
 package com.askvikrant.noticeboard;
 
 import java.util.Locale;
+
 import com.askvikrant.noticeboard.business.BusinessLogic;
 import com.askvikrant.noticeboard.components.FooterPanel;
 import com.askvikrant.noticeboard.components.HeaderPanel;
@@ -92,11 +93,12 @@ public class NoticeboardUI extends UI implements SwitchView_Listener, RefreshQui
         rootGridLayout.setWidth(100, Unit.PERCENTAGE);
         rootGridLayout.setHeight(98, Unit.PERCENTAGE);
         setContent(rootGridLayout);
-        appGridLayout.setWidth(250, Unit.PIXELS);
+        appGridLayout.setWidth(300, Unit.PIXELS);
         appGridLayout.setHeight(100, Unit.PERCENTAGE);
+        
         rootGridLayout.addComponent(appGridLayout, 0, 0);
         rootGridLayout.setComponentAlignment(appGridLayout, Alignment.TOP_CENTER);
-        headerPanel.setHeight("170px");
+        headerPanel.setHeight("210px");
         userPanel.setHeight("50px");
         contentPanel.setHeight("100%");
         footerPanel.setHeight("22px");

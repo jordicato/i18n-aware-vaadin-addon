@@ -1,6 +1,7 @@
 package com.askvikrant.noticeboard.components;
 
 import java.util.ArrayList;
+
 import com.askvikrant.noticeboard.model.QuickLink;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.Alignment;

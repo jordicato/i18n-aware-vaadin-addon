@@ -3,6 +3,7 @@ package com.askvikrant.noticeboard.business;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import com.askvikrant.noticeboard.model.Attachment;
 import com.askvikrant.noticeboard.model.Department;
 import com.askvikrant.noticeboard.model.Notice;
@@ -44,6 +45,7 @@ public class BusinessLogic {
             databaseManager.resetDbMessage();
             if (!databaseManager.getConnection()) {
                 databaseManager.setDbMessage("Error connecting Database");
+                System.out.println("No Conexion");
                 return null;
             }
             if (userId.equalsIgnoreCase(User.ROOT_USER_ID)) {
