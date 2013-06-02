@@ -1,6 +1,5 @@
 package com.opnworks.vaadin.i18n.ui;
 
-import com.opnworks.vaadin.i18n.I18NAwareCaption;
 import com.opnworks.vaadin.i18n.I18NAwareComponentExpression;
 import com.opnworks.vaadin.i18n.I18NAwareMessage;
 import com.opnworks.vaadin.i18n.I18NAwareValue;
@@ -67,7 +66,7 @@ public class I18NLabel extends Label implements I18NAwareValue, AwareValueContai
 
 	public I18NLabel(I18NExpression expressions) {
 		super();
-		setCaptionMessage(expressions);		
+		setValueMessage(expressions.getStringFinal());		
 	}
 
 	/**
@@ -77,16 +76,15 @@ public class I18NLabel extends Label implements I18NAwareValue, AwareValueContai
 	 * @param contentMode
 	 */
 	public I18NLabel(String contentKey, ContentMode contentMode) {
-		// super();
-		// super.setCaption(contentKey);
-		// super.setContentMode(contentMode);
-		super(contentKey, contentMode);
-		// setCaptionMessage(contentKey);
+		super();
+		super.setContentMode(contentMode);
+		setValueMessage(contentKey);
 	}
 
 	public I18NLabel(I18NExpression captionExpression, ContentMode contentMode) {
-		super(captionExpression.getStringFinal(), contentMode);
-		//setCaptionMessage(captionExpression.getObjectlist());
+		super();
+		super.setContentMode(contentMode);
+		setValueMessage(captionExpression.getStringFinal());
 	}
 
 	@Override
