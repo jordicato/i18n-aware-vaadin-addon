@@ -15,15 +15,15 @@
 
 	<distributionManagement>
 		<repository>
-			<id>public-releases</id>
 			<name>OpnWorks Public Releases</name>
 			<url>http://server01.opnworks.com/nexus/content/repositories/public-releases</url>
+			<id>public-releases</id>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
 			<name>OpnWorks Snapshots</name>
 			<url>http://server01.opnworks.com/nexus/content/repositories/snapshots/</url>
-			<uniqueVersion>false</uniqueVersion>
+			<!-- <uniqueVersion>false</uniqueVersion> -->
 		</snapshotRepository>
 	</distributionManagement>
 
