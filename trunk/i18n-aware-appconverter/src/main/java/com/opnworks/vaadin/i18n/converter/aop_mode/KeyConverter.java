@@ -597,6 +597,7 @@ public class KeyConverter {
 		return cutarget.toString();
 	}
 
+	//Root method, process all project
 	public void proccessProject(File dirBaseSrc, String projectPath, String pathBundle, String bundleName, String defaultLanguage) {
 		this.defaultLang = defaultLanguage;
 		
@@ -647,6 +648,7 @@ public class KeyConverter {
 		this.optionChangeKey = opt;
 	}
 
+	//Get status of converted keys, (true) Return keys to source from bundle, (false) to convert literals to keys
 	public boolean getChangeOptionKey() {
 		return this.optionChangeKey;
 	}
@@ -680,6 +682,7 @@ public class KeyConverter {
 		return null;
 	}
 
+	//Get the list of String vars in project
 	public List<StringVar> getStringVarList() {		
 		return listStringVar;		
 	}
@@ -696,6 +699,7 @@ public class KeyConverter {
 		return false;
 	}
 
+	//Determine if a var is contained in vaadin vars list
 	private boolean isVarInVaadinVarsList(FieldDeclaration fieldDeclaration) {
 		for (VaadinVars v : listVaadinVars ) {
 			if (v.getFieldDeclaration() != null) {
@@ -717,6 +721,7 @@ public class KeyConverter {
 		}
 	}
 
+	//It add vaadin var to the vaadin var list
 	private void addVaadinVars(FieldDeclaration fieldDeclaration) {
 		if (isVaadinComponent(fieldDeclaration.getType().toString())) {
 			if (!isVarInVaadinVarsList(fieldDeclaration)) {
@@ -744,6 +749,7 @@ public class KeyConverter {
 		updateSuffixMax(auxKey, listKey);
 	}
 
+	//It update/upload the key bundle to a listKey in project
 	public void updatelistKeyWithBundle(ResourceBundle resourceBundle) {
 		Enumeration<String> bundleKeys = resourceBundle.getKeys();
 
@@ -771,6 +777,7 @@ public class KeyConverter {
 		return key;
 	}
 
+	//Complementary, sum the suffix of a repeated key in source
 	private void sumSuffix(String key, int count, List<Key> list) {
 		for (Key k : list ) {
 			if (k.getKey().equals(key)) {
@@ -1031,18 +1038,36 @@ public class KeyConverter {
 		return newCaption;
 	}
 	
-	/**
-	 * Process method arguments
-	 * 
-	 * @param largs
-	 */
-	private void processLiteralExprParam(ObjectCreationExpr exp) {
-		//setI18NToObjectCreationExprType(exp, varName);
-				
+	//Process a literal param, it converts literal to key, registers the literal or returns the associate literal from bundle in corresponding case
+	private void processLiteralExprParam(ObjectCreationExpr exp) {				
 		if (getChangeOptionKey()) {
-			exp.setArgs(returnBinaryExpr(exp.getArgs()));
+			exp.setArgs(returnBinaryExpr(exp));
 		}
-		List<Integer> paramsPositions = getI18NAwareMessageParamsPositions(exp);
+		List<Integer> paramsPositions = getI18NAwareMessageParamsPositions(exp);		
+		
+		if (exp.getArgs() != null) {
+			for (Expression ex : exp.getArgs()) {
+				if (ex instanceof ObjectCreationExpr) {
+					ObjectCreationExpr oce = (ObjectCreationExpr) ex;
+					if (oce.getType().toString().equals("I18NExpression")) {
+						List<Expression> largs = oce.getArgs();
+						if (largs != null) {
+							for (Expression expArg : largs) {
+								if (expArg instanceof StringLiteralExpr) {
+									if (isKey(((StringLiteralExpr) expArg).getValue())) {
+										Key k = getCompleteKey(((StringLiteralExpr) expArg).getValue());
+										if (k != null) {
+											k.setKeep(true);
+										}
+									}
+								}
+							}
+						}
+					}					
+				}			
+			}
+		}
+		
 		if (!paramsPositions.isEmpty()) {
 			for (Integer pos : paramsPositions ) {
 				if (exp.getArgs().get(pos) instanceof StringLiteralExpr) {
@@ -1053,13 +1078,13 @@ public class KeyConverter {
 						exp.getArgs().set(pos, processBinaryExpr((BinaryExpr) exp.getArgs().get(pos)));
 					}
 				} else if (exp.getArgs().get(pos) instanceof ObjectCreationExpr) {
-					ObjectCreationExpr oce = (ObjectCreationExpr) exp.getArgs().get(pos);					
+					ObjectCreationExpr oce = (ObjectCreationExpr) exp.getArgs().get(pos);
 					if (oce.getType().toString().equals("I18NExpression")) {
 						oce.setType(new ClassOrInterfaceType(exp.getType().toString().replaceAll("I18N", "")));
 						List<Expression> largs = oce.getArgs();
 						if (largs != null) {
 							for (Expression expArg : largs) {
-								if (expArg instanceof StringLiteralExpr) {
+								if (expArg instanceof StringLiteralExpr) {									
 									processLiteral((StringLiteralExpr) expArg, true);
 								}
 							}
@@ -1121,13 +1146,20 @@ public class KeyConverter {
 								processMember(member1);
 							}
 						}
+		
+						if ((exp.getArgs() != null) && !getChangeOptionKey()) {
+							for (Expression ex : exp.getArgs()) {
+								processExpression(ex);
+							}
+						}
+						
 					} else if (expArg instanceof MethodCallExpr) {
 						processArgs((MethodCallExpr) expArg);
 					}
 				}		
 				
 				if (getChangeOptionKey()) {
-					methodCallE.setArgs(returnBinaryExpr(methodCallE.getArgs()));
+					methodCallE.setArgs(returnBinaryExpr(methodCallE));
 				}
 				
 				List<Integer> paramsPositions = getI18NAwareMessageParamsPositions(methodCallE);
@@ -1172,6 +1204,7 @@ public class KeyConverter {
 		return mce;				
 	}
 	
+	//Create a binary expression from expression contained in "createExpressionBinaryObjectList" list
 	private boolean createBinaryExpression() {
 		for (Object obj : createExpressionBinaryObjectList) {
 			if (obj instanceof StringLiteralExpr) {
@@ -1227,17 +1260,22 @@ public class KeyConverter {
 		return be;		
 	}
 	
-	private List<Expression> returnBinaryExpr(List<Expression> exp) {
+	//Return the binary expression from the method call param
+	private List<Expression> returnBinaryExpr(MethodCallExpr methodCallExpr) {		
 		List<Expression> listExpr = new ArrayList<Expression>();
-		if (exp == null) {
+		if (methodCallExpr.getArgs() == null) {
 			return null;
 		}
-		for (Expression ex : exp) {
+		for (Expression ex : methodCallExpr.getArgs()) {
 			if (ex instanceof ObjectCreationExpr) {
 				ObjectCreationExpr oce = (ObjectCreationExpr) ex;
 				if (oce.getType().toString().equals("I18NExpression")) {
-					getVaadinVar(varName).deleteI18N();
+					getVaadinVar(varName).deleteI18N();		
 					listExpr.add(createBinaryExpr(oce.getArgs()));
+				} else if (oce.getType().getName().startsWith("I18N")) {
+					ClassOrInterfaceType type = new ClassOrInterfaceType(oce.getType().toString().replaceAll("I18N", ""));			
+					oce.setType(type);
+					listExpr.add(ex);
 				} else {
 					listExpr.add(ex);
 				}
@@ -1247,14 +1285,33 @@ public class KeyConverter {
 		}
 		return listExpr;		
 	}
+
+	private List<Expression> returnBinaryExpr(ObjectCreationExpr objectCreationExpr) {		
+		List<Expression> listExpr = new ArrayList<Expression>();
+		if (objectCreationExpr.getArgs() == null) {
+			return null;
+		}
+		for (Expression ex : objectCreationExpr.getArgs()) {
+			if (ex instanceof ObjectCreationExpr) {
+				ObjectCreationExpr oce = (ObjectCreationExpr) ex;
+				if (oce.getType().toString().equals("I18NExpression")) {
+					getVaadinVar(varName).deleteI18N();		
+					listExpr.add(createBinaryExpr(oce.getArgs()));
+				} else if (oce.getType().getName().startsWith("I18N")) {
+					ClassOrInterfaceType type = new ClassOrInterfaceType(oce.getType().toString().replaceAll("I18N", ""));			
+					oce.setType(type);
+					listExpr.add(ex);
+				} else {
+					listExpr.add(ex);
+				}
+			} else {
+				listExpr.add(ex);
+			}
+		}
+		return listExpr;		
+	}	
 	
-	/**
-	 * Process every expression
-	 * 
-	 * @param expression
-	 *            expression
-	 * @return
-	 */
+	//Process every expression in source
 	private Expression processExpression(Expression expression) {
 		if (expression == null) {
 			return null;
@@ -1395,6 +1452,7 @@ public class KeyConverter {
 		return expression;
 	}
 
+	//Determine if is a Binary expression of literals
 	private boolean isBinaryExprOfLiterals(BinaryExpr exp) {
 		Expression expLeft = ((BinaryExpr) exp).getLeft();
 		Expression expRight = ((BinaryExpr) exp).getRight();
@@ -1423,6 +1481,7 @@ public class KeyConverter {
 		return false;
 	}
 
+	//Process a Binary Expression
 	private Expression processBinaryExpr(BinaryExpr exp) {		
 		getVaadinVar(varName).setI18N();
 		
@@ -1459,12 +1518,7 @@ public class KeyConverter {
 		return exp;
 	}
 
-	/**
-	 * Process every member
-	 * 
-	 * @param member
-	 *            member to process
-	 */
+	//Process every body declarations members in source
 	private void processMember(BodyDeclaration member) {
 		if (member instanceof FieldDeclaration) {
 			FieldDeclaration fd = (FieldDeclaration) member;
@@ -1545,12 +1599,7 @@ public class KeyConverter {
 		}
 	}
 
-	/**
-	 * Process every statement. Maybe not all Java statements be supported
-	 * 
-	 * @param statement
-	 *            statement to process
-	 */
+	//Process every statement. Maybe not all Java statements be supported
 	private void processStmt(Statement statement) {
 		if (statement instanceof ExpressionStmt) {
 			ExpressionStmt es = (ExpressionStmt) statement;
@@ -1642,11 +1691,7 @@ public class KeyConverter {
 		}
 	}
 
-	/**
-	 * Process every type
-	 * 
-	 * @param type
-	 */
+	//Process every type
 	private void processType(TypeDeclaration type) {
 		List<BodyDeclaration> members = type.getMembers();
 		for (BodyDeclaration member : members ) {
@@ -1654,11 +1699,7 @@ public class KeyConverter {
 		}
 	}
 
-	/**
-	 * proccess a block statement
-	 * 
-	 * @param blockStmt
-	 */
+	//process a block statement
 	void processBlockStmt(BlockStmt blockStmt) {
 		if (blockStmt != null && blockStmt.getStmts() != null) {
 			for (Statement s : blockStmt.getStmts() ) {
